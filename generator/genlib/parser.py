@@ -36,13 +36,24 @@ class CContext:
             for case in enum.findall('./enum[@value]'):  # TODO: Handle aliases
                 c_enum.cases.append(CEnum.Case(name=case.attrib['name'], value=case.attrib['value']))
 
+            case_names = []
             for extension in tree.findall(f'./extensions/extension'):
-                extension_number = int(extension.attrib['number'])
+                ext_number = int(extension.attrib['number'])
                 for case in extension.findall(f'./require/enum[@extends="{c_enum.name}"][@offset]'):
-                    value = 1000000000 + (extension_number - 1) * 1000 + int(case.attrib['offset'])
+                    case_name = case.attrib['name']
+                    if case_name in case_names:
+                        continue
+
+                    case_ext_number = ext_number
+                    if 'extnumber' in case.attrib:
+                        case_ext_number = int(case.attrib['extnumber'])
+
+                    value = 1000000000 + (case_ext_number - 1) * 1000 + int(case.attrib['offset'])
                     signed_value = case.get('dir', '') + str(value)
+
+                    case_names.append(case_name)
                     c_enum.cases.append(
-                        CEnum.Case(name=case.attrib['name'], value=signed_value)
+                        CEnum.Case(name=case_name, value=signed_value)
                     )
 
             self.enums.append(c_enum)

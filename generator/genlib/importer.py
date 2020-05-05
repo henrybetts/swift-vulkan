@@ -3,9 +3,10 @@ from typing import Optional, Tuple, List
 
 
 class SwiftEnum(CEnum):
-    def __init__(self, c_enum: CEnum, **kwargs):
+    def __init__(self, c_enum: CEnum, raw_type: str, **kwargs):
         super().__init__(**kwargs)
         self.c_enum = c_enum
+        self.raw_type = raw_type
 
 
 class SwiftContext:
@@ -26,7 +27,8 @@ class Importer:
         swift_enum = SwiftEnum(
             name=remove_vk_prefix(c_enum.name),
             cases=[],
-            c_enum=c_enum
+            c_enum=c_enum,
+            raw_type='UInt32'
         )
 
         prefix, enum_tag = self.pop_extension_tag(swift_enum.name)
@@ -49,6 +51,12 @@ class Importer:
 
             if name[0].isdigit():
                 starts_with_digit = True
+
+            try:
+                if int(case.value) < 0:
+                    swift_enum.raw_type = 'Int32'
+            except ValueError:
+                pass
 
             swift_enum.cases.append(SwiftEnum.Case(name=name, value=case.value))
 

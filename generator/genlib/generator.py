@@ -37,7 +37,7 @@ class Generator(BaseGenerator):
             self.generate_enum(enum)
 
     def generate_enum(self, enum: SwiftEnum):
-        with self.indent(f'enum {enum.name}: UInt32 {{', '}'):
+        with self.indent(f'enum {enum.name}: {enum.raw_type} {{', '}'):
             for case in enum.cases:
                 self << f'case {safe_name(case.name)} = {case.value}'
         self.linebreak()
