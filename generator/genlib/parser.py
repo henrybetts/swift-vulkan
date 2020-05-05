@@ -84,7 +84,7 @@ class CContext:
                         continue
 
                     if 'bitpos' in case.attrib:
-                        value = 2 ** int(case.attrib['bitpos'])
+                        value = str(2 ** int(case.attrib['bitpos']))
                     else:
                         value = case.attrib['value']
 
