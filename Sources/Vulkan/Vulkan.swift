@@ -82,8 +82,6 @@ enum QueryType: UInt32 {
     case occlusion = 0
     case pipelineStatistics = 1
     case timestamp = 2
-    case reserved8 = 1000023008
-    case reserved4 = 1000024004
     case transformFeedbackStreamEXT = 1000028004
     case performanceQueryKHR = 1000116000
     case accelerationStructureCompactedSizeKHR = 1000165000
@@ -584,9 +582,6 @@ enum StructureType: UInt32 {
     case waylandSurfaceCreateInfoKHR = 1000006000
     case androidSurfaceCreateInfoKHR = 1000008000
     case win32SurfaceCreateInfoKHR = 1000009000
-    case nativeBufferANDROID = 1000010000
-    case swapchainImageCreateInfoANDROID = 1000010001
-    case physicalDevicePresentationPropertiesANDROID = 1000010002
     case debugReportCallbackCreateInfoEXT = 1000011000
     case pipelineRasterizationStateRasterizationOrderAMD = 1000018000
     case debugMarkerObjectNameInfoEXT = 1000022000
@@ -835,7 +830,6 @@ enum StructureType: UInt32 {
     case physicalDevicePipelineCreationCacheControlFeaturesEXT = 1000297000
     case physicalDeviceDiagnosticsConfigFeaturesNV = 1000300000
     case deviceDiagnosticsConfigCreateInfoNV = 1000300001
-    case reservedQCOM = 1000309000
 }
 
 enum SubpassContents: UInt32 {
@@ -1364,7 +1358,6 @@ struct QueryPoolCreateFlags: OptionSet {
 
 struct RenderPassCreateFlags: OptionSet {
     let rawValue: UInt32
-    static let reserved0KHR = RenderPassCreateFlags(rawValue: 1)
     static let transformQCOM = RenderPassCreateFlags(rawValue: 2)
 }
 
@@ -1421,10 +1414,8 @@ struct PipelineVertexInputStateCreateFlags: OptionSet {
 
 struct PipelineShaderStageCreateFlags: OptionSet {
     let rawValue: UInt32
-    static let reserved2NV = PipelineShaderStageCreateFlags(rawValue: 4)
     static let allowVaryingSubgroupSizeEXT = PipelineShaderStageCreateFlags(rawValue: 1)
     static let requireFullSubgroupsEXT = PipelineShaderStageCreateFlags(rawValue: 2)
-    static let reserved3KHR = PipelineShaderStageCreateFlags(rawValue: 8)
 }
 
 struct DescriptorSetLayoutCreateFlags: OptionSet {
@@ -1454,8 +1445,6 @@ struct QueueFlags: OptionSet {
     static let compute = QueueFlags(rawValue: 2)
     static let transfer = QueueFlags(rawValue: 4)
     static let sparseBinding = QueueFlags(rawValue: 8)
-    static let reserved6KHR = QueueFlags(rawValue: 64)
-    static let reserved5KHR = QueueFlags(rawValue: 32)
 }
 
 struct MemoryPropertyFlags: OptionSet {
@@ -1472,7 +1461,6 @@ struct MemoryPropertyFlags: OptionSet {
 struct MemoryHeapFlags: OptionSet {
     let rawValue: UInt32
     static let deviceLocal = MemoryHeapFlags(rawValue: 1)
-    static let reserved2KHR = MemoryHeapFlags(rawValue: 4)
 }
 
 struct AccessFlags: OptionSet {
@@ -1494,10 +1482,6 @@ struct AccessFlags: OptionSet {
     static let hostWrite = AccessFlags(rawValue: 16384)
     static let memoryRead = AccessFlags(rawValue: 32768)
     static let memoryWrite = AccessFlags(rawValue: 65536)
-    static let reserved30KHR = AccessFlags(rawValue: 1073741824)
-    static let reserved31KHR = AccessFlags(rawValue: 2147483648)
-    static let reserved28KHR = AccessFlags(rawValue: 268435456)
-    static let reserved29KHR = AccessFlags(rawValue: 536870912)
     static let transformFeedbackWriteEXT = AccessFlags(rawValue: 33554432)
     static let transformFeedbackCounterReadEXT = AccessFlags(rawValue: 67108864)
     static let transformFeedbackCounterWriteEXT = AccessFlags(rawValue: 134217728)
@@ -1522,15 +1506,10 @@ struct BufferUsageFlags: OptionSet {
     static let indexBuffer = BufferUsageFlags(rawValue: 64)
     static let vertexBuffer = BufferUsageFlags(rawValue: 128)
     static let indirectBuffer = BufferUsageFlags(rawValue: 256)
-    static let reserved15KHR = BufferUsageFlags(rawValue: 32768)
-    static let reserved16KHR = BufferUsageFlags(rawValue: 65536)
-    static let reserved13KHR = BufferUsageFlags(rawValue: 8192)
-    static let reserved14KHR = BufferUsageFlags(rawValue: 16384)
     static let transformFeedbackBufferEXT = BufferUsageFlags(rawValue: 2048)
     static let transformFeedbackCounterBufferEXT = BufferUsageFlags(rawValue: 4096)
     static let conditionalRenderingEXT = BufferUsageFlags(rawValue: 512)
     static let rayTracingKHR = BufferUsageFlags(rawValue: 1024)
-    static let reserved18QCOM = BufferUsageFlags(rawValue: 262144)
 }
 
 struct BufferCreateFlags: OptionSet {
@@ -1570,15 +1549,7 @@ struct ImageUsageFlags: OptionSet {
     static let depthStencilAttachment = ImageUsageFlags(rawValue: 32)
     static let transientAttachment = ImageUsageFlags(rawValue: 64)
     static let inputAttachment = ImageUsageFlags(rawValue: 128)
-    static let reserved13KHR = ImageUsageFlags(rawValue: 8192)
-    static let reserved14KHR = ImageUsageFlags(rawValue: 16384)
-    static let reserved15KHR = ImageUsageFlags(rawValue: 32768)
-    static let reserved10KHR = ImageUsageFlags(rawValue: 1024)
-    static let reserved11KHR = ImageUsageFlags(rawValue: 2048)
-    static let reserved12KHR = ImageUsageFlags(rawValue: 4096)
     static let shadingRateImageNV = ImageUsageFlags(rawValue: 256)
-    static let reserved16QCOM = ImageUsageFlags(rawValue: 65536)
-    static let reserved17QCOM = ImageUsageFlags(rawValue: 131072)
     static let fragmentDensityMapEXT = ImageUsageFlags(rawValue: 512)
 }
 
@@ -1652,10 +1623,6 @@ struct FormatFeatureFlags: OptionSet {
     static let blitDst = FormatFeatureFlags(rawValue: 2048)
     static let sampledImageFilterLinear = FormatFeatureFlags(rawValue: 4096)
     static let sampledImageFilterCubicIMG = FormatFeatureFlags(rawValue: 8192)
-    static let reserved27KHR = FormatFeatureFlags(rawValue: 134217728)
-    static let reserved28KHR = FormatFeatureFlags(rawValue: 268435456)
-    static let reserved25KHR = FormatFeatureFlags(rawValue: 33554432)
-    static let reserved26KHR = FormatFeatureFlags(rawValue: 67108864)
     static let accelerationStructureVertexBufferKHR = FormatFeatureFlags(rawValue: 536870912)
     static let fragmentDensityMapEXT = FormatFeatureFlags(rawValue: 16777216)
 }
@@ -1675,7 +1642,6 @@ struct QueryResultFlags: OptionSet {
 
 struct ShaderModuleCreateFlags: OptionSet {
     let rawValue: UInt32
-    static let reserved0NV = ShaderModuleCreateFlags(rawValue: 1)
 }
 
 struct EventCreateFlags: OptionSet {
@@ -1752,8 +1718,6 @@ struct SubpassDescriptionFlags: OptionSet {
     let rawValue: UInt32
     static let perViewAttributesNVX = SubpassDescriptionFlags(rawValue: 1)
     static let perViewPositionXOnlyNVX = SubpassDescriptionFlags(rawValue: 2)
-    static let reserved2QCOM = SubpassDescriptionFlags(rawValue: 4)
-    static let reserved3QCOM = SubpassDescriptionFlags(rawValue: 8)
 }
 
 struct PipelineStageFlags: OptionSet {
@@ -1775,8 +1739,6 @@ struct PipelineStageFlags: OptionSet {
     static let host = PipelineStageFlags(rawValue: 16384)
     static let allGraphics = PipelineStageFlags(rawValue: 32768)
     static let allCommands = PipelineStageFlags(rawValue: 65536)
-    static let reserved27KHR = PipelineStageFlags(rawValue: 134217728)
-    static let reserved26KHR = PipelineStageFlags(rawValue: 67108864)
     static let transformFeedbackEXT = PipelineStageFlags(rawValue: 16777216)
     static let conditionalRenderingEXT = PipelineStageFlags(rawValue: 262144)
     static let rayTracingShaderKHR = PipelineStageFlags(rawValue: 2097152)

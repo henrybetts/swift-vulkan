@@ -46,6 +46,9 @@ class CContext:
 
             case_names = []
             for extension in tree.findall(f'./extensions/extension'):
+                if extension.get('supported') == 'disabled':
+                    continue
+
                 ext_number = int(extension.attrib['number'])
                 for case in extension.findall(f'./require/enum[@extends="{c_enum.name}"][@offset]'):
                     case_name = case.attrib['name']
@@ -91,20 +94,24 @@ class CContext:
                     c_enum.cases.append(CEnum.Case(name=case.attrib['name'], value=value))
 
                 case_names = []
-                for case in tree.findall(f'.extensions/extension/require/enum[@extends="{c_enum.name}"][@bitpos]'):
-                    case_name = case.attrib['name']
-                    if case_name in case_names:
+                for extension in tree.findall(f'./extensions/extension'):
+                    if extension.get('supported') == 'disabled':
                         continue
 
-                    if 'bitpos' in case.attrib:
-                        value = 2 ** int(case.attrib['bitpos'])
-                    else:
-                        value = case.attrib['value']
+                    for case in extension.findall(f'./require/enum[@extends="{c_enum.name}"][@bitpos]'):
+                        case_name = case.attrib['name']
+                        if case_name in case_names:
+                            continue
 
-                    case_names.append(case_name)
-                    c_enum.cases.append(
-                        CEnum.Case(name=case_name, value=value)
-                    )
+                        if 'bitpos' in case.attrib:
+                            value = 2 ** int(case.attrib['bitpos'])
+                        else:
+                            value = case.attrib['value']
+
+                        case_names.append(case_name)
+                        c_enum.cases.append(
+                            CEnum.Case(name=case_name, value=value)
+                        )
 
                 c_bitmask.enum = c_enum
 
