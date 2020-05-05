@@ -13,10 +13,17 @@ class CEnum:
         self.cases = cases
 
 
+class CBitmask:
+    def __init__(self, name: str, enum: CEnum = None):
+        self.name = name
+        self.enum = enum
+
+
 class CContext:
-    def __init__(self, extension_tags: List[str] = None, enums: List[CEnum] = None):
-        self.extension_tags = extension_tags or []
-        self.enums = enums or []
+    def __init__(self):
+        self.extension_tags: List[str] = []
+        self.enums: List[CEnum] = []
+        self.bitmasks: List[CBitmask] = []
 
     def parse(self, source):
         tree = ElementTree.parse(source)
@@ -25,6 +32,7 @@ class CContext:
     def parse_tree(self, tree: ElementTree):
         self.parse_extension_tags(tree),
         self.parse_enums(tree)
+        self.parse_bitmasks(tree)
 
     def parse_extension_tags(self, tree: ElementTree):
         for tag in tree.findall('./tags/tag'):
@@ -57,3 +65,47 @@ class CContext:
                     )
 
             self.enums.append(c_enum)
+
+    def parse_bitmasks(self, tree: ElementTree):
+        for bitmask in tree.findall('./types/type[@category="bitmask"]'):
+            if 'alias' in bitmask.attrib:
+                continue
+
+            name = bitmask.find('./name').text
+            c_bitmask = CBitmask(name)
+
+            requires = bitmask.get('requires')
+            if requires:
+                c_enum = CEnum(requires, [])
+                enum = tree.find(f'./enums[@name="{requires}"]')
+
+                for case in enum.findall('./enum'):
+                    if 'alias' in case.attrib:
+                        continue
+
+                    if 'bitpos' in case.attrib:
+                        value = 2 ** int(case.attrib['bitpos'])
+                    else:
+                        value = case.attrib['value']
+
+                    c_enum.cases.append(CEnum.Case(name=case.attrib['name'], value=value))
+
+                case_names = []
+                for case in tree.findall(f'.extensions/extension/require/enum[@extends="{c_enum.name}"][@bitpos]'):
+                    case_name = case.attrib['name']
+                    if case_name in case_names:
+                        continue
+
+                    if 'bitpos' in case.attrib:
+                        value = 2 ** int(case.attrib['bitpos'])
+                    else:
+                        value = case.attrib['value']
+
+                    case_names.append(case_name)
+                    c_enum.cases.append(
+                        CEnum.Case(name=case_name, value=value)
+                    )
+
+                c_bitmask.enum = c_enum
+
+            self.bitmasks.append(c_bitmask)

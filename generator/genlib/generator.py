@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftContext
+from .importer import SwiftEnum, SwiftContext, SwiftOptionSet
 from typing import TextIO
 
 
@@ -35,11 +35,20 @@ class Generator(BaseGenerator):
     def generate_all(self, context: SwiftContext):
         for enum in context.enums:
             self.generate_enum(enum)
+        for option_set in context.option_sets:
+            self.generate_option_set(option_set)
 
     def generate_enum(self, enum: SwiftEnum):
         with self.indent(f'enum {enum.name}: {enum.raw_type} {{', '}'):
             for case in enum.cases:
                 self << f'case {safe_name(case.name)} = {case.value}'
+        self.linebreak()
+
+    def generate_option_set(self, option_set: SwiftOptionSet):
+        with self.indent(f'struct {option_set.name}: OptionSet {{', '}'):
+            self << f'let rawValue: {option_set.raw_type}'
+            for case in option_set.cases:
+                self << f'static let {case.name} = {option_set.name}(rawValue: {case.value})'
         self.linebreak()
 
 

@@ -1,4 +1,4 @@
-from .parser import CContext, CEnum
+from .parser import CContext, CEnum, CBitmask
 from typing import Optional, Tuple, List
 
 
@@ -9,9 +9,17 @@ class SwiftEnum(CEnum):
         self.raw_type = raw_type
 
 
+class SwiftOptionSet(CEnum):
+    def __init__(self, c_bitmask: CBitmask, raw_type: str, **kwargs):
+        super().__init__(**kwargs)
+        self.c_bitmask = c_bitmask
+        self.raw_type = raw_type
+
+
 class SwiftContext:
-    def __init__(self, enums: List[SwiftEnum] = None):
-        self.enums = enums or []
+    def __init__(self):
+        self.enums: List[SwiftEnum] = []
+        self.option_sets: List[SwiftOptionSet] = []
 
 
 class Importer:
@@ -19,9 +27,10 @@ class Importer:
         self.c_context = c_context
 
     def import_all(self) -> SwiftContext:
-        return SwiftContext(
-            enums=[self.import_enum(enum) for enum in self.c_context.enums]
-        )
+        context = SwiftContext()
+        context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
+        context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
+        return context
 
     def import_enum(self, c_enum: CEnum) -> SwiftEnum:
         swift_enum = SwiftEnum(
@@ -47,7 +56,7 @@ class Importer:
             elif tag and tag != enum_tag:
                 name += tag
 
-            name = name[0:1].lower() + name[1:]
+            name = name[0].lower() + name[1:]
 
             if name[0].isdigit():
                 starts_with_digit = True
@@ -65,6 +74,49 @@ class Importer:
                 case.name = 'type' + case.name[0].upper() + case.name[1:]
 
         return swift_enum
+
+    def import_bitmask(self, c_bitmask: CBitmask) -> SwiftOptionSet:
+        option_set = SwiftOptionSet(
+            name=remove_vk_prefix(c_bitmask.name),
+            cases=[],
+            c_bitmask=c_bitmask,
+            raw_type='UInt32'
+        )
+
+        if c_bitmask.enum:
+            prefix, enum_tag = self.pop_extension_tag(option_set.name)
+            if prefix.endswith('Flags'):
+                prefix = prefix[:-5]
+
+            starts_with_digit = False
+            for case in c_bitmask.enum.cases:
+                name = remove_vk_prefix(case.name)
+                name, tag = self.pop_extension_tag(name)
+                name = snake_to_pascal(name)
+
+                if name.startswith(prefix):
+                    name = name[len(prefix):]
+
+                if name.endswith('Bit'):
+                    name = name[:-3]
+
+                if not name:
+                    name = tag.lower()
+                elif tag and tag != enum_tag:
+                    name += tag
+
+                name = name[0].lower() + name[1:]
+
+                if name[0].isdigit():
+                    starts_with_digit = True
+
+                option_set.cases.append(SwiftOptionSet.Case(name=name, value=case.value))
+
+            if starts_with_digit:
+                for case in option_set.cases:
+                    case.name = 'type' + case.name[0].upper() + case.name[1:]
+
+        return option_set
 
     def pop_extension_tag(self, string: str) -> Tuple[str, Optional[str]]:
         for tag in self.c_context.extension_tags:
