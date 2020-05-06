@@ -1,3 +1,5 @@
+import CVulkan
+
 enum ImageLayout: UInt32 {
     case undefined = 0
     case general = 1
