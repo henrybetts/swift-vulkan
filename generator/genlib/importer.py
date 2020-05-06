@@ -1,4 +1,4 @@
-from .parser import CContext, CEnum, CBitmask
+from .parser import CContext, CEnum, CBitmask, CStruct
 from typing import Optional, Tuple, List
 
 
@@ -16,10 +16,17 @@ class SwiftOptionSet(CEnum):
         self.raw_type = raw_type
 
 
+class SwiftStruct:
+    def __init__(self, name: str, c_struct: CStruct):
+        self.name = name
+        self.c_struct = c_struct
+
+
 class SwiftContext:
     def __init__(self):
         self.enums: List[SwiftEnum] = []
         self.option_sets: List[SwiftOptionSet] = []
+        self.structs: List[SwiftStruct] = []
 
 
 class Importer:
@@ -30,6 +37,7 @@ class Importer:
         context = SwiftContext()
         context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
         context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
+        context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
         return context
 
     def import_enum(self, c_enum: CEnum) -> SwiftEnum:
@@ -117,6 +125,13 @@ class Importer:
                     case.name = 'type' + case.name[0].upper() + case.name[1:]
 
         return option_set
+
+    def import_struct(self, c_struct: CStruct) -> SwiftStruct:
+        struct = SwiftStruct(
+            name=remove_vk_prefix(c_struct.name),
+            c_struct=c_struct
+        )
+        return struct
 
     def pop_extension_tag(self, string: str) -> Tuple[str, Optional[str]]:
         for tag in self.c_context.extension_tags:

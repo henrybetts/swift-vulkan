@@ -1,5 +1,7 @@
 from xml.etree import ElementTree
-from typing import List
+from typing import List, Union
+import re
+from itertools import zip_longest
 
 
 class CEnum:
@@ -8,9 +10,9 @@ class CEnum:
             self.name = name
             self.value = value
 
-    def __init__(self, name: str, cases: List[Case]):
+    def __init__(self, name: str, cases: List[Case] = None):
         self.name = name
-        self.cases = cases
+        self.cases = cases or []
 
 
 class CBitmask:
@@ -19,11 +21,35 @@ class CBitmask:
         self.enum = enum
 
 
+class CType:
+    def __init__(self, name: str = None, pointer_to: 'CType' = None, array_of: 'CType' = None,
+                 const: bool = False, length: Union[str, int] = None, optional: bool = False, values: List[str] = None):
+        self.name = name
+        self.pointer_to = pointer_to
+        self.array_of = array_of
+        self.const = const
+        self.length = length
+        self.optional = optional
+        self.values = values or []
+
+
+class CStruct:
+    class Member:
+        def __init__(self, name: str, type_: CType):
+            self.name = name
+            self.type = type_
+
+    def __init__(self, name: str, members: List[Member] = None):
+        self.name = name
+        self.members = members or []
+
+
 class CContext:
     def __init__(self):
         self.extension_tags: List[str] = []
         self.enums: List[CEnum] = []
         self.bitmasks: List[CBitmask] = []
+        self.structs: List[CStruct] = []
 
     def parse(self, source):
         tree = ElementTree.parse(source)
@@ -33,6 +59,7 @@ class CContext:
         self.parse_extension_tags(tree),
         self.parse_enums(tree)
         self.parse_bitmasks(tree)
+        self.parse_structs(tree)
 
     def parse_extension_tags(self, tree: ElementTree):
         for tag in tree.findall('./tags/tag'):
@@ -116,3 +143,58 @@ class CContext:
                 c_bitmask.enum = c_enum
 
             self.bitmasks.append(c_bitmask)
+
+    def parse_structs(self, tree: ElementTree):
+        for struct in tree.findall('./types/type[@category="struct"]'):
+            if 'alias' in struct.attrib:
+                continue
+
+            c_struct = CStruct(struct.attrib['name'])
+
+            for member in struct.findall('./member'):
+                e_type = member.find('./type')
+                type_string = (member.text or '') + e_type.text + (e_type.tail or '')
+
+                e_name = member.find('./name')
+                name = e_name.text
+
+                array_size: int = None
+                if e_name.tail and e_name.tail.startswith('['):
+                    match = re.match('\[\s*(\d+)\s*\]', e_name.tail)
+                    if match:
+                        array_size = int(match.group(1))
+                    else:
+                        e_enum = member.find('./enum')
+                        array_size = int(tree.find(f'./enums/enum[@name="{e_enum.text}"]').attrib['value'])
+
+                type_strings = type_string.split('*')
+
+                first_type = type_strings[0].split()
+                is_const = False
+                if 'const' in first_type:
+                    first_type.remove('const')
+                    is_const = True
+                if 'struct' in first_type:
+                    first_type.remove('struct')
+                c_type = CType(name=' '.join(first_type), const=is_const)
+
+                pointers = type_strings[1:]
+                lengths = member.attrib['len'].split(',') if 'len' in member.attrib else []
+                optionals = member.attrib['optional'].split(',') if 'optional' in member.attrib else []
+
+                if len(optionals) > len(pointers):
+                    c_type.optional = optionals.pop(-1) == 'true'
+
+                lengths = lengths[:len(pointers)]
+                optionals = optionals[:len(pointers)]
+
+                for pointer, length, optional in zip_longest(reversed(pointers), lengths, optionals):
+                    c_type = CType(pointer_to=c_type, length=length, const='const' in pointer,
+                                   optional=optional == 'true')
+
+                if array_size is not None:
+                    c_type = CType(array_of=c_type, length=array_size)
+
+                c_struct.members.append(CStruct.Member(name, c_type))
+
+            self.structs.append(c_struct)

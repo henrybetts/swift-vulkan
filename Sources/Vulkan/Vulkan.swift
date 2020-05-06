@@ -2188,3 +2188,2135 @@ struct ToolPurposeFlagsEXT: OptionSet {
     static let debugMarkers = ToolPurposeFlagsEXT(rawValue: 64)
 }
 
+struct BaseOutStructure {
+    var cStruct: VkBaseOutStructure
+}
+
+struct BaseInStructure {
+    var cStruct: VkBaseInStructure
+}
+
+struct Offset2D {
+    var cStruct: VkOffset2D
+}
+
+struct Offset3D {
+    var cStruct: VkOffset3D
+}
+
+struct Extent2D {
+    var cStruct: VkExtent2D
+}
+
+struct Extent3D {
+    var cStruct: VkExtent3D
+}
+
+struct Viewport {
+    var cStruct: VkViewport
+}
+
+struct Rect2D {
+    var cStruct: VkRect2D
+}
+
+struct ClearRect {
+    var cStruct: VkClearRect
+}
+
+struct ComponentMapping {
+    var cStruct: VkComponentMapping
+}
+
+struct PhysicalDeviceProperties {
+    var cStruct: VkPhysicalDeviceProperties
+}
+
+struct ExtensionProperties {
+    var cStruct: VkExtensionProperties
+}
+
+struct LayerProperties {
+    var cStruct: VkLayerProperties
+}
+
+struct ApplicationInfo {
+    var cStruct: VkApplicationInfo
+}
+
+struct AllocationCallbacks {
+    var cStruct: VkAllocationCallbacks
+}
+
+struct DeviceQueueCreateInfo {
+    var cStruct: VkDeviceQueueCreateInfo
+}
+
+struct DeviceCreateInfo {
+    var cStruct: VkDeviceCreateInfo
+}
+
+struct InstanceCreateInfo {
+    var cStruct: VkInstanceCreateInfo
+}
+
+struct QueueFamilyProperties {
+    var cStruct: VkQueueFamilyProperties
+}
+
+struct PhysicalDeviceMemoryProperties {
+    var cStruct: VkPhysicalDeviceMemoryProperties
+}
+
+struct MemoryAllocateInfo {
+    var cStruct: VkMemoryAllocateInfo
+}
+
+struct MemoryRequirements {
+    var cStruct: VkMemoryRequirements
+}
+
+struct SparseImageFormatProperties {
+    var cStruct: VkSparseImageFormatProperties
+}
+
+struct SparseImageMemoryRequirements {
+    var cStruct: VkSparseImageMemoryRequirements
+}
+
+struct MemoryType {
+    var cStruct: VkMemoryType
+}
+
+struct MemoryHeap {
+    var cStruct: VkMemoryHeap
+}
+
+struct MappedMemoryRange {
+    var cStruct: VkMappedMemoryRange
+}
+
+struct FormatProperties {
+    var cStruct: VkFormatProperties
+}
+
+struct ImageFormatProperties {
+    var cStruct: VkImageFormatProperties
+}
+
+struct DescriptorBufferInfo {
+    var cStruct: VkDescriptorBufferInfo
+}
+
+struct DescriptorImageInfo {
+    var cStruct: VkDescriptorImageInfo
+}
+
+struct WriteDescriptorSet {
+    var cStruct: VkWriteDescriptorSet
+}
+
+struct CopyDescriptorSet {
+    var cStruct: VkCopyDescriptorSet
+}
+
+struct BufferCreateInfo {
+    var cStruct: VkBufferCreateInfo
+}
+
+struct BufferViewCreateInfo {
+    var cStruct: VkBufferViewCreateInfo
+}
+
+struct ImageSubresource {
+    var cStruct: VkImageSubresource
+}
+
+struct ImageSubresourceLayers {
+    var cStruct: VkImageSubresourceLayers
+}
+
+struct ImageSubresourceRange {
+    var cStruct: VkImageSubresourceRange
+}
+
+struct MemoryBarrier {
+    var cStruct: VkMemoryBarrier
+}
+
+struct BufferMemoryBarrier {
+    var cStruct: VkBufferMemoryBarrier
+}
+
+struct ImageMemoryBarrier {
+    var cStruct: VkImageMemoryBarrier
+}
+
+struct ImageCreateInfo {
+    var cStruct: VkImageCreateInfo
+}
+
+struct SubresourceLayout {
+    var cStruct: VkSubresourceLayout
+}
+
+struct ImageViewCreateInfo {
+    var cStruct: VkImageViewCreateInfo
+}
+
+struct BufferCopy {
+    var cStruct: VkBufferCopy
+}
+
+struct SparseMemoryBind {
+    var cStruct: VkSparseMemoryBind
+}
+
+struct SparseImageMemoryBind {
+    var cStruct: VkSparseImageMemoryBind
+}
+
+struct SparseBufferMemoryBindInfo {
+    var cStruct: VkSparseBufferMemoryBindInfo
+}
+
+struct SparseImageOpaqueMemoryBindInfo {
+    var cStruct: VkSparseImageOpaqueMemoryBindInfo
+}
+
+struct SparseImageMemoryBindInfo {
+    var cStruct: VkSparseImageMemoryBindInfo
+}
+
+struct BindSparseInfo {
+    var cStruct: VkBindSparseInfo
+}
+
+struct ImageCopy {
+    var cStruct: VkImageCopy
+}
+
+struct ImageBlit {
+    var cStruct: VkImageBlit
+}
+
+struct BufferImageCopy {
+    var cStruct: VkBufferImageCopy
+}
+
+struct ImageResolve {
+    var cStruct: VkImageResolve
+}
+
+struct ShaderModuleCreateInfo {
+    var cStruct: VkShaderModuleCreateInfo
+}
+
+struct DescriptorSetLayoutBinding {
+    var cStruct: VkDescriptorSetLayoutBinding
+}
+
+struct DescriptorSetLayoutCreateInfo {
+    var cStruct: VkDescriptorSetLayoutCreateInfo
+}
+
+struct DescriptorPoolSize {
+    var cStruct: VkDescriptorPoolSize
+}
+
+struct DescriptorPoolCreateInfo {
+    var cStruct: VkDescriptorPoolCreateInfo
+}
+
+struct DescriptorSetAllocateInfo {
+    var cStruct: VkDescriptorSetAllocateInfo
+}
+
+struct SpecializationMapEntry {
+    var cStruct: VkSpecializationMapEntry
+}
+
+struct SpecializationInfo {
+    var cStruct: VkSpecializationInfo
+}
+
+struct PipelineShaderStageCreateInfo {
+    var cStruct: VkPipelineShaderStageCreateInfo
+}
+
+struct ComputePipelineCreateInfo {
+    var cStruct: VkComputePipelineCreateInfo
+}
+
+struct VertexInputBindingDescription {
+    var cStruct: VkVertexInputBindingDescription
+}
+
+struct VertexInputAttributeDescription {
+    var cStruct: VkVertexInputAttributeDescription
+}
+
+struct PipelineVertexInputStateCreateInfo {
+    var cStruct: VkPipelineVertexInputStateCreateInfo
+}
+
+struct PipelineInputAssemblyStateCreateInfo {
+    var cStruct: VkPipelineInputAssemblyStateCreateInfo
+}
+
+struct PipelineTessellationStateCreateInfo {
+    var cStruct: VkPipelineTessellationStateCreateInfo
+}
+
+struct PipelineViewportStateCreateInfo {
+    var cStruct: VkPipelineViewportStateCreateInfo
+}
+
+struct PipelineRasterizationStateCreateInfo {
+    var cStruct: VkPipelineRasterizationStateCreateInfo
+}
+
+struct PipelineMultisampleStateCreateInfo {
+    var cStruct: VkPipelineMultisampleStateCreateInfo
+}
+
+struct PipelineColorBlendAttachmentState {
+    var cStruct: VkPipelineColorBlendAttachmentState
+}
+
+struct PipelineColorBlendStateCreateInfo {
+    var cStruct: VkPipelineColorBlendStateCreateInfo
+}
+
+struct PipelineDynamicStateCreateInfo {
+    var cStruct: VkPipelineDynamicStateCreateInfo
+}
+
+struct StencilOpState {
+    var cStruct: VkStencilOpState
+}
+
+struct PipelineDepthStencilStateCreateInfo {
+    var cStruct: VkPipelineDepthStencilStateCreateInfo
+}
+
+struct GraphicsPipelineCreateInfo {
+    var cStruct: VkGraphicsPipelineCreateInfo
+}
+
+struct PipelineCacheCreateInfo {
+    var cStruct: VkPipelineCacheCreateInfo
+}
+
+struct PushConstantRange {
+    var cStruct: VkPushConstantRange
+}
+
+struct PipelineLayoutCreateInfo {
+    var cStruct: VkPipelineLayoutCreateInfo
+}
+
+struct SamplerCreateInfo {
+    var cStruct: VkSamplerCreateInfo
+}
+
+struct CommandPoolCreateInfo {
+    var cStruct: VkCommandPoolCreateInfo
+}
+
+struct CommandBufferAllocateInfo {
+    var cStruct: VkCommandBufferAllocateInfo
+}
+
+struct CommandBufferInheritanceInfo {
+    var cStruct: VkCommandBufferInheritanceInfo
+}
+
+struct CommandBufferBeginInfo {
+    var cStruct: VkCommandBufferBeginInfo
+}
+
+struct RenderPassBeginInfo {
+    var cStruct: VkRenderPassBeginInfo
+}
+
+struct ClearDepthStencilValue {
+    var cStruct: VkClearDepthStencilValue
+}
+
+struct ClearAttachment {
+    var cStruct: VkClearAttachment
+}
+
+struct AttachmentDescription {
+    var cStruct: VkAttachmentDescription
+}
+
+struct AttachmentReference {
+    var cStruct: VkAttachmentReference
+}
+
+struct SubpassDescription {
+    var cStruct: VkSubpassDescription
+}
+
+struct SubpassDependency {
+    var cStruct: VkSubpassDependency
+}
+
+struct RenderPassCreateInfo {
+    var cStruct: VkRenderPassCreateInfo
+}
+
+struct EventCreateInfo {
+    var cStruct: VkEventCreateInfo
+}
+
+struct FenceCreateInfo {
+    var cStruct: VkFenceCreateInfo
+}
+
+struct PhysicalDeviceFeatures {
+    var cStruct: VkPhysicalDeviceFeatures
+}
+
+struct PhysicalDeviceSparseProperties {
+    var cStruct: VkPhysicalDeviceSparseProperties
+}
+
+struct PhysicalDeviceLimits {
+    var cStruct: VkPhysicalDeviceLimits
+}
+
+struct SemaphoreCreateInfo {
+    var cStruct: VkSemaphoreCreateInfo
+}
+
+struct QueryPoolCreateInfo {
+    var cStruct: VkQueryPoolCreateInfo
+}
+
+struct FramebufferCreateInfo {
+    var cStruct: VkFramebufferCreateInfo
+}
+
+struct DrawIndirectCommand {
+    var cStruct: VkDrawIndirectCommand
+}
+
+struct DrawIndexedIndirectCommand {
+    var cStruct: VkDrawIndexedIndirectCommand
+}
+
+struct DispatchIndirectCommand {
+    var cStruct: VkDispatchIndirectCommand
+}
+
+struct SubmitInfo {
+    var cStruct: VkSubmitInfo
+}
+
+struct DisplayPropertiesKHR {
+    var cStruct: VkDisplayPropertiesKHR
+}
+
+struct DisplayPlanePropertiesKHR {
+    var cStruct: VkDisplayPlanePropertiesKHR
+}
+
+struct DisplayModeParametersKHR {
+    var cStruct: VkDisplayModeParametersKHR
+}
+
+struct DisplayModePropertiesKHR {
+    var cStruct: VkDisplayModePropertiesKHR
+}
+
+struct DisplayModeCreateInfoKHR {
+    var cStruct: VkDisplayModeCreateInfoKHR
+}
+
+struct DisplayPlaneCapabilitiesKHR {
+    var cStruct: VkDisplayPlaneCapabilitiesKHR
+}
+
+struct DisplaySurfaceCreateInfoKHR {
+    var cStruct: VkDisplaySurfaceCreateInfoKHR
+}
+
+struct DisplayPresentInfoKHR {
+    var cStruct: VkDisplayPresentInfoKHR
+}
+
+struct SurfaceCapabilitiesKHR {
+    var cStruct: VkSurfaceCapabilitiesKHR
+}
+
+struct AndroidSurfaceCreateInfoKHR {
+    var cStruct: VkAndroidSurfaceCreateInfoKHR
+}
+
+struct ViSurfaceCreateInfoNN {
+    var cStruct: VkViSurfaceCreateInfoNN
+}
+
+struct WaylandSurfaceCreateInfoKHR {
+    var cStruct: VkWaylandSurfaceCreateInfoKHR
+}
+
+struct Win32SurfaceCreateInfoKHR {
+    var cStruct: VkWin32SurfaceCreateInfoKHR
+}
+
+struct XlibSurfaceCreateInfoKHR {
+    var cStruct: VkXlibSurfaceCreateInfoKHR
+}
+
+struct XcbSurfaceCreateInfoKHR {
+    var cStruct: VkXcbSurfaceCreateInfoKHR
+}
+
+struct ImagePipeSurfaceCreateInfoFUCHSIA {
+    var cStruct: VkImagePipeSurfaceCreateInfoFUCHSIA
+}
+
+struct StreamDescriptorSurfaceCreateInfoGGP {
+    var cStruct: VkStreamDescriptorSurfaceCreateInfoGGP
+}
+
+struct SurfaceFormatKHR {
+    var cStruct: VkSurfaceFormatKHR
+}
+
+struct SwapchainCreateInfoKHR {
+    var cStruct: VkSwapchainCreateInfoKHR
+}
+
+struct PresentInfoKHR {
+    var cStruct: VkPresentInfoKHR
+}
+
+struct DebugReportCallbackCreateInfoEXT {
+    var cStruct: VkDebugReportCallbackCreateInfoEXT
+}
+
+struct ValidationFlagsEXT {
+    var cStruct: VkValidationFlagsEXT
+}
+
+struct ValidationFeaturesEXT {
+    var cStruct: VkValidationFeaturesEXT
+}
+
+struct PipelineRasterizationStateRasterizationOrderAMD {
+    var cStruct: VkPipelineRasterizationStateRasterizationOrderAMD
+}
+
+struct DebugMarkerObjectNameInfoEXT {
+    var cStruct: VkDebugMarkerObjectNameInfoEXT
+}
+
+struct DebugMarkerObjectTagInfoEXT {
+    var cStruct: VkDebugMarkerObjectTagInfoEXT
+}
+
+struct DebugMarkerMarkerInfoEXT {
+    var cStruct: VkDebugMarkerMarkerInfoEXT
+}
+
+struct DedicatedAllocationImageCreateInfoNV {
+    var cStruct: VkDedicatedAllocationImageCreateInfoNV
+}
+
+struct DedicatedAllocationBufferCreateInfoNV {
+    var cStruct: VkDedicatedAllocationBufferCreateInfoNV
+}
+
+struct DedicatedAllocationMemoryAllocateInfoNV {
+    var cStruct: VkDedicatedAllocationMemoryAllocateInfoNV
+}
+
+struct ExternalImageFormatPropertiesNV {
+    var cStruct: VkExternalImageFormatPropertiesNV
+}
+
+struct ExternalMemoryImageCreateInfoNV {
+    var cStruct: VkExternalMemoryImageCreateInfoNV
+}
+
+struct ExportMemoryAllocateInfoNV {
+    var cStruct: VkExportMemoryAllocateInfoNV
+}
+
+struct ImportMemoryWin32HandleInfoNV {
+    var cStruct: VkImportMemoryWin32HandleInfoNV
+}
+
+struct ExportMemoryWin32HandleInfoNV {
+    var cStruct: VkExportMemoryWin32HandleInfoNV
+}
+
+struct Win32KeyedMutexAcquireReleaseInfoNV {
+    var cStruct: VkWin32KeyedMutexAcquireReleaseInfoNV
+}
+
+struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV {
+    var cStruct: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+}
+
+struct PhysicalDeviceDeviceGeneratedCommandsPropertiesNV {
+    var cStruct: VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV
+}
+
+struct GraphicsShaderGroupCreateInfoNV {
+    var cStruct: VkGraphicsShaderGroupCreateInfoNV
+}
+
+struct GraphicsPipelineShaderGroupsCreateInfoNV {
+    var cStruct: VkGraphicsPipelineShaderGroupsCreateInfoNV
+}
+
+struct BindShaderGroupIndirectCommandNV {
+    var cStruct: VkBindShaderGroupIndirectCommandNV
+}
+
+struct BindIndexBufferIndirectCommandNV {
+    var cStruct: VkBindIndexBufferIndirectCommandNV
+}
+
+struct BindVertexBufferIndirectCommandNV {
+    var cStruct: VkBindVertexBufferIndirectCommandNV
+}
+
+struct SetStateFlagsIndirectCommandNV {
+    var cStruct: VkSetStateFlagsIndirectCommandNV
+}
+
+struct IndirectCommandsStreamNV {
+    var cStruct: VkIndirectCommandsStreamNV
+}
+
+struct IndirectCommandsLayoutTokenNV {
+    var cStruct: VkIndirectCommandsLayoutTokenNV
+}
+
+struct IndirectCommandsLayoutCreateInfoNV {
+    var cStruct: VkIndirectCommandsLayoutCreateInfoNV
+}
+
+struct GeneratedCommandsInfoNV {
+    var cStruct: VkGeneratedCommandsInfoNV
+}
+
+struct GeneratedCommandsMemoryRequirementsInfoNV {
+    var cStruct: VkGeneratedCommandsMemoryRequirementsInfoNV
+}
+
+struct PhysicalDeviceFeatures2 {
+    var cStruct: VkPhysicalDeviceFeatures2
+}
+
+struct PhysicalDeviceProperties2 {
+    var cStruct: VkPhysicalDeviceProperties2
+}
+
+struct FormatProperties2 {
+    var cStruct: VkFormatProperties2
+}
+
+struct ImageFormatProperties2 {
+    var cStruct: VkImageFormatProperties2
+}
+
+struct PhysicalDeviceImageFormatInfo2 {
+    var cStruct: VkPhysicalDeviceImageFormatInfo2
+}
+
+struct QueueFamilyProperties2 {
+    var cStruct: VkQueueFamilyProperties2
+}
+
+struct PhysicalDeviceMemoryProperties2 {
+    var cStruct: VkPhysicalDeviceMemoryProperties2
+}
+
+struct SparseImageFormatProperties2 {
+    var cStruct: VkSparseImageFormatProperties2
+}
+
+struct PhysicalDeviceSparseImageFormatInfo2 {
+    var cStruct: VkPhysicalDeviceSparseImageFormatInfo2
+}
+
+struct PhysicalDevicePushDescriptorPropertiesKHR {
+    var cStruct: VkPhysicalDevicePushDescriptorPropertiesKHR
+}
+
+struct ConformanceVersion {
+    var cStruct: VkConformanceVersion
+}
+
+struct PhysicalDeviceDriverProperties {
+    var cStruct: VkPhysicalDeviceDriverProperties
+}
+
+struct PresentRegionsKHR {
+    var cStruct: VkPresentRegionsKHR
+}
+
+struct PresentRegionKHR {
+    var cStruct: VkPresentRegionKHR
+}
+
+struct RectLayerKHR {
+    var cStruct: VkRectLayerKHR
+}
+
+struct PhysicalDeviceVariablePointersFeatures {
+    var cStruct: VkPhysicalDeviceVariablePointersFeatures
+}
+
+struct ExternalMemoryProperties {
+    var cStruct: VkExternalMemoryProperties
+}
+
+struct PhysicalDeviceExternalImageFormatInfo {
+    var cStruct: VkPhysicalDeviceExternalImageFormatInfo
+}
+
+struct ExternalImageFormatProperties {
+    var cStruct: VkExternalImageFormatProperties
+}
+
+struct PhysicalDeviceExternalBufferInfo {
+    var cStruct: VkPhysicalDeviceExternalBufferInfo
+}
+
+struct ExternalBufferProperties {
+    var cStruct: VkExternalBufferProperties
+}
+
+struct PhysicalDeviceIDProperties {
+    var cStruct: VkPhysicalDeviceIDProperties
+}
+
+struct ExternalMemoryImageCreateInfo {
+    var cStruct: VkExternalMemoryImageCreateInfo
+}
+
+struct ExternalMemoryBufferCreateInfo {
+    var cStruct: VkExternalMemoryBufferCreateInfo
+}
+
+struct ExportMemoryAllocateInfo {
+    var cStruct: VkExportMemoryAllocateInfo
+}
+
+struct ImportMemoryWin32HandleInfoKHR {
+    var cStruct: VkImportMemoryWin32HandleInfoKHR
+}
+
+struct ExportMemoryWin32HandleInfoKHR {
+    var cStruct: VkExportMemoryWin32HandleInfoKHR
+}
+
+struct MemoryWin32HandlePropertiesKHR {
+    var cStruct: VkMemoryWin32HandlePropertiesKHR
+}
+
+struct MemoryGetWin32HandleInfoKHR {
+    var cStruct: VkMemoryGetWin32HandleInfoKHR
+}
+
+struct ImportMemoryFdInfoKHR {
+    var cStruct: VkImportMemoryFdInfoKHR
+}
+
+struct MemoryFdPropertiesKHR {
+    var cStruct: VkMemoryFdPropertiesKHR
+}
+
+struct MemoryGetFdInfoKHR {
+    var cStruct: VkMemoryGetFdInfoKHR
+}
+
+struct Win32KeyedMutexAcquireReleaseInfoKHR {
+    var cStruct: VkWin32KeyedMutexAcquireReleaseInfoKHR
+}
+
+struct PhysicalDeviceExternalSemaphoreInfo {
+    var cStruct: VkPhysicalDeviceExternalSemaphoreInfo
+}
+
+struct ExternalSemaphoreProperties {
+    var cStruct: VkExternalSemaphoreProperties
+}
+
+struct ExportSemaphoreCreateInfo {
+    var cStruct: VkExportSemaphoreCreateInfo
+}
+
+struct ImportSemaphoreWin32HandleInfoKHR {
+    var cStruct: VkImportSemaphoreWin32HandleInfoKHR
+}
+
+struct ExportSemaphoreWin32HandleInfoKHR {
+    var cStruct: VkExportSemaphoreWin32HandleInfoKHR
+}
+
+struct D3D12FenceSubmitInfoKHR {
+    var cStruct: VkD3D12FenceSubmitInfoKHR
+}
+
+struct SemaphoreGetWin32HandleInfoKHR {
+    var cStruct: VkSemaphoreGetWin32HandleInfoKHR
+}
+
+struct ImportSemaphoreFdInfoKHR {
+    var cStruct: VkImportSemaphoreFdInfoKHR
+}
+
+struct SemaphoreGetFdInfoKHR {
+    var cStruct: VkSemaphoreGetFdInfoKHR
+}
+
+struct PhysicalDeviceExternalFenceInfo {
+    var cStruct: VkPhysicalDeviceExternalFenceInfo
+}
+
+struct ExternalFenceProperties {
+    var cStruct: VkExternalFenceProperties
+}
+
+struct ExportFenceCreateInfo {
+    var cStruct: VkExportFenceCreateInfo
+}
+
+struct ImportFenceWin32HandleInfoKHR {
+    var cStruct: VkImportFenceWin32HandleInfoKHR
+}
+
+struct ExportFenceWin32HandleInfoKHR {
+    var cStruct: VkExportFenceWin32HandleInfoKHR
+}
+
+struct FenceGetWin32HandleInfoKHR {
+    var cStruct: VkFenceGetWin32HandleInfoKHR
+}
+
+struct ImportFenceFdInfoKHR {
+    var cStruct: VkImportFenceFdInfoKHR
+}
+
+struct FenceGetFdInfoKHR {
+    var cStruct: VkFenceGetFdInfoKHR
+}
+
+struct PhysicalDeviceMultiviewFeatures {
+    var cStruct: VkPhysicalDeviceMultiviewFeatures
+}
+
+struct PhysicalDeviceMultiviewProperties {
+    var cStruct: VkPhysicalDeviceMultiviewProperties
+}
+
+struct RenderPassMultiviewCreateInfo {
+    var cStruct: VkRenderPassMultiviewCreateInfo
+}
+
+struct SurfaceCapabilities2EXT {
+    var cStruct: VkSurfaceCapabilities2EXT
+}
+
+struct DisplayPowerInfoEXT {
+    var cStruct: VkDisplayPowerInfoEXT
+}
+
+struct DeviceEventInfoEXT {
+    var cStruct: VkDeviceEventInfoEXT
+}
+
+struct DisplayEventInfoEXT {
+    var cStruct: VkDisplayEventInfoEXT
+}
+
+struct SwapchainCounterCreateInfoEXT {
+    var cStruct: VkSwapchainCounterCreateInfoEXT
+}
+
+struct PhysicalDeviceGroupProperties {
+    var cStruct: VkPhysicalDeviceGroupProperties
+}
+
+struct MemoryAllocateFlagsInfo {
+    var cStruct: VkMemoryAllocateFlagsInfo
+}
+
+struct BindBufferMemoryInfo {
+    var cStruct: VkBindBufferMemoryInfo
+}
+
+struct BindBufferMemoryDeviceGroupInfo {
+    var cStruct: VkBindBufferMemoryDeviceGroupInfo
+}
+
+struct BindImageMemoryInfo {
+    var cStruct: VkBindImageMemoryInfo
+}
+
+struct BindImageMemoryDeviceGroupInfo {
+    var cStruct: VkBindImageMemoryDeviceGroupInfo
+}
+
+struct DeviceGroupRenderPassBeginInfo {
+    var cStruct: VkDeviceGroupRenderPassBeginInfo
+}
+
+struct DeviceGroupCommandBufferBeginInfo {
+    var cStruct: VkDeviceGroupCommandBufferBeginInfo
+}
+
+struct DeviceGroupSubmitInfo {
+    var cStruct: VkDeviceGroupSubmitInfo
+}
+
+struct DeviceGroupBindSparseInfo {
+    var cStruct: VkDeviceGroupBindSparseInfo
+}
+
+struct DeviceGroupPresentCapabilitiesKHR {
+    var cStruct: VkDeviceGroupPresentCapabilitiesKHR
+}
+
+struct ImageSwapchainCreateInfoKHR {
+    var cStruct: VkImageSwapchainCreateInfoKHR
+}
+
+struct BindImageMemorySwapchainInfoKHR {
+    var cStruct: VkBindImageMemorySwapchainInfoKHR
+}
+
+struct AcquireNextImageInfoKHR {
+    var cStruct: VkAcquireNextImageInfoKHR
+}
+
+struct DeviceGroupPresentInfoKHR {
+    var cStruct: VkDeviceGroupPresentInfoKHR
+}
+
+struct DeviceGroupDeviceCreateInfo {
+    var cStruct: VkDeviceGroupDeviceCreateInfo
+}
+
+struct DeviceGroupSwapchainCreateInfoKHR {
+    var cStruct: VkDeviceGroupSwapchainCreateInfoKHR
+}
+
+struct DescriptorUpdateTemplateEntry {
+    var cStruct: VkDescriptorUpdateTemplateEntry
+}
+
+struct DescriptorUpdateTemplateCreateInfo {
+    var cStruct: VkDescriptorUpdateTemplateCreateInfo
+}
+
+struct XYColorEXT {
+    var cStruct: VkXYColorEXT
+}
+
+struct HdrMetadataEXT {
+    var cStruct: VkHdrMetadataEXT
+}
+
+struct DisplayNativeHdrSurfaceCapabilitiesAMD {
+    var cStruct: VkDisplayNativeHdrSurfaceCapabilitiesAMD
+}
+
+struct SwapchainDisplayNativeHdrCreateInfoAMD {
+    var cStruct: VkSwapchainDisplayNativeHdrCreateInfoAMD
+}
+
+struct RefreshCycleDurationGOOGLE {
+    var cStruct: VkRefreshCycleDurationGOOGLE
+}
+
+struct PastPresentationTimingGOOGLE {
+    var cStruct: VkPastPresentationTimingGOOGLE
+}
+
+struct PresentTimesInfoGOOGLE {
+    var cStruct: VkPresentTimesInfoGOOGLE
+}
+
+struct PresentTimeGOOGLE {
+    var cStruct: VkPresentTimeGOOGLE
+}
+
+struct IOSSurfaceCreateInfoMVK {
+    var cStruct: VkIOSSurfaceCreateInfoMVK
+}
+
+struct MacOSSurfaceCreateInfoMVK {
+    var cStruct: VkMacOSSurfaceCreateInfoMVK
+}
+
+struct MetalSurfaceCreateInfoEXT {
+    var cStruct: VkMetalSurfaceCreateInfoEXT
+}
+
+struct ViewportWScalingNV {
+    var cStruct: VkViewportWScalingNV
+}
+
+struct PipelineViewportWScalingStateCreateInfoNV {
+    var cStruct: VkPipelineViewportWScalingStateCreateInfoNV
+}
+
+struct ViewportSwizzleNV {
+    var cStruct: VkViewportSwizzleNV
+}
+
+struct PipelineViewportSwizzleStateCreateInfoNV {
+    var cStruct: VkPipelineViewportSwizzleStateCreateInfoNV
+}
+
+struct PhysicalDeviceDiscardRectanglePropertiesEXT {
+    var cStruct: VkPhysicalDeviceDiscardRectanglePropertiesEXT
+}
+
+struct PipelineDiscardRectangleStateCreateInfoEXT {
+    var cStruct: VkPipelineDiscardRectangleStateCreateInfoEXT
+}
+
+struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX {
+    var cStruct: VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX
+}
+
+struct InputAttachmentAspectReference {
+    var cStruct: VkInputAttachmentAspectReference
+}
+
+struct RenderPassInputAttachmentAspectCreateInfo {
+    var cStruct: VkRenderPassInputAttachmentAspectCreateInfo
+}
+
+struct PhysicalDeviceSurfaceInfo2KHR {
+    var cStruct: VkPhysicalDeviceSurfaceInfo2KHR
+}
+
+struct SurfaceCapabilities2KHR {
+    var cStruct: VkSurfaceCapabilities2KHR
+}
+
+struct SurfaceFormat2KHR {
+    var cStruct: VkSurfaceFormat2KHR
+}
+
+struct DisplayProperties2KHR {
+    var cStruct: VkDisplayProperties2KHR
+}
+
+struct DisplayPlaneProperties2KHR {
+    var cStruct: VkDisplayPlaneProperties2KHR
+}
+
+struct DisplayModeProperties2KHR {
+    var cStruct: VkDisplayModeProperties2KHR
+}
+
+struct DisplayPlaneInfo2KHR {
+    var cStruct: VkDisplayPlaneInfo2KHR
+}
+
+struct DisplayPlaneCapabilities2KHR {
+    var cStruct: VkDisplayPlaneCapabilities2KHR
+}
+
+struct SharedPresentSurfaceCapabilitiesKHR {
+    var cStruct: VkSharedPresentSurfaceCapabilitiesKHR
+}
+
+struct PhysicalDevice16BitStorageFeatures {
+    var cStruct: VkPhysicalDevice16BitStorageFeatures
+}
+
+struct PhysicalDeviceSubgroupProperties {
+    var cStruct: VkPhysicalDeviceSubgroupProperties
+}
+
+struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures {
+    var cStruct: VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures
+}
+
+struct BufferMemoryRequirementsInfo2 {
+    var cStruct: VkBufferMemoryRequirementsInfo2
+}
+
+struct ImageMemoryRequirementsInfo2 {
+    var cStruct: VkImageMemoryRequirementsInfo2
+}
+
+struct ImageSparseMemoryRequirementsInfo2 {
+    var cStruct: VkImageSparseMemoryRequirementsInfo2
+}
+
+struct MemoryRequirements2 {
+    var cStruct: VkMemoryRequirements2
+}
+
+struct SparseImageMemoryRequirements2 {
+    var cStruct: VkSparseImageMemoryRequirements2
+}
+
+struct PhysicalDevicePointClippingProperties {
+    var cStruct: VkPhysicalDevicePointClippingProperties
+}
+
+struct MemoryDedicatedRequirements {
+    var cStruct: VkMemoryDedicatedRequirements
+}
+
+struct MemoryDedicatedAllocateInfo {
+    var cStruct: VkMemoryDedicatedAllocateInfo
+}
+
+struct ImageViewUsageCreateInfo {
+    var cStruct: VkImageViewUsageCreateInfo
+}
+
+struct PipelineTessellationDomainOriginStateCreateInfo {
+    var cStruct: VkPipelineTessellationDomainOriginStateCreateInfo
+}
+
+struct SamplerYcbcrConversionInfo {
+    var cStruct: VkSamplerYcbcrConversionInfo
+}
+
+struct SamplerYcbcrConversionCreateInfo {
+    var cStruct: VkSamplerYcbcrConversionCreateInfo
+}
+
+struct BindImagePlaneMemoryInfo {
+    var cStruct: VkBindImagePlaneMemoryInfo
+}
+
+struct ImagePlaneMemoryRequirementsInfo {
+    var cStruct: VkImagePlaneMemoryRequirementsInfo
+}
+
+struct PhysicalDeviceSamplerYcbcrConversionFeatures {
+    var cStruct: VkPhysicalDeviceSamplerYcbcrConversionFeatures
+}
+
+struct SamplerYcbcrConversionImageFormatProperties {
+    var cStruct: VkSamplerYcbcrConversionImageFormatProperties
+}
+
+struct TextureLODGatherFormatPropertiesAMD {
+    var cStruct: VkTextureLODGatherFormatPropertiesAMD
+}
+
+struct ConditionalRenderingBeginInfoEXT {
+    var cStruct: VkConditionalRenderingBeginInfoEXT
+}
+
+struct ProtectedSubmitInfo {
+    var cStruct: VkProtectedSubmitInfo
+}
+
+struct PhysicalDeviceProtectedMemoryFeatures {
+    var cStruct: VkPhysicalDeviceProtectedMemoryFeatures
+}
+
+struct PhysicalDeviceProtectedMemoryProperties {
+    var cStruct: VkPhysicalDeviceProtectedMemoryProperties
+}
+
+struct DeviceQueueInfo2 {
+    var cStruct: VkDeviceQueueInfo2
+}
+
+struct PipelineCoverageToColorStateCreateInfoNV {
+    var cStruct: VkPipelineCoverageToColorStateCreateInfoNV
+}
+
+struct PhysicalDeviceSamplerFilterMinmaxProperties {
+    var cStruct: VkPhysicalDeviceSamplerFilterMinmaxProperties
+}
+
+struct SampleLocationEXT {
+    var cStruct: VkSampleLocationEXT
+}
+
+struct SampleLocationsInfoEXT {
+    var cStruct: VkSampleLocationsInfoEXT
+}
+
+struct AttachmentSampleLocationsEXT {
+    var cStruct: VkAttachmentSampleLocationsEXT
+}
+
+struct SubpassSampleLocationsEXT {
+    var cStruct: VkSubpassSampleLocationsEXT
+}
+
+struct RenderPassSampleLocationsBeginInfoEXT {
+    var cStruct: VkRenderPassSampleLocationsBeginInfoEXT
+}
+
+struct PipelineSampleLocationsStateCreateInfoEXT {
+    var cStruct: VkPipelineSampleLocationsStateCreateInfoEXT
+}
+
+struct PhysicalDeviceSampleLocationsPropertiesEXT {
+    var cStruct: VkPhysicalDeviceSampleLocationsPropertiesEXT
+}
+
+struct MultisamplePropertiesEXT {
+    var cStruct: VkMultisamplePropertiesEXT
+}
+
+struct SamplerReductionModeCreateInfo {
+    var cStruct: VkSamplerReductionModeCreateInfo
+}
+
+struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT {
+    var cStruct: VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT
+}
+
+struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT {
+    var cStruct: VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT
+}
+
+struct PipelineColorBlendAdvancedStateCreateInfoEXT {
+    var cStruct: VkPipelineColorBlendAdvancedStateCreateInfoEXT
+}
+
+struct PhysicalDeviceInlineUniformBlockFeaturesEXT {
+    var cStruct: VkPhysicalDeviceInlineUniformBlockFeaturesEXT
+}
+
+struct PhysicalDeviceInlineUniformBlockPropertiesEXT {
+    var cStruct: VkPhysicalDeviceInlineUniformBlockPropertiesEXT
+}
+
+struct WriteDescriptorSetInlineUniformBlockEXT {
+    var cStruct: VkWriteDescriptorSetInlineUniformBlockEXT
+}
+
+struct DescriptorPoolInlineUniformBlockCreateInfoEXT {
+    var cStruct: VkDescriptorPoolInlineUniformBlockCreateInfoEXT
+}
+
+struct PipelineCoverageModulationStateCreateInfoNV {
+    var cStruct: VkPipelineCoverageModulationStateCreateInfoNV
+}
+
+struct ImageFormatListCreateInfo {
+    var cStruct: VkImageFormatListCreateInfo
+}
+
+struct ValidationCacheCreateInfoEXT {
+    var cStruct: VkValidationCacheCreateInfoEXT
+}
+
+struct ShaderModuleValidationCacheCreateInfoEXT {
+    var cStruct: VkShaderModuleValidationCacheCreateInfoEXT
+}
+
+struct PhysicalDeviceMaintenance3Properties {
+    var cStruct: VkPhysicalDeviceMaintenance3Properties
+}
+
+struct DescriptorSetLayoutSupport {
+    var cStruct: VkDescriptorSetLayoutSupport
+}
+
+struct PhysicalDeviceShaderDrawParametersFeatures {
+    var cStruct: VkPhysicalDeviceShaderDrawParametersFeatures
+}
+
+struct PhysicalDeviceShaderFloat16Int8Features {
+    var cStruct: VkPhysicalDeviceShaderFloat16Int8Features
+}
+
+struct PhysicalDeviceFloatControlsProperties {
+    var cStruct: VkPhysicalDeviceFloatControlsProperties
+}
+
+struct PhysicalDeviceHostQueryResetFeatures {
+    var cStruct: VkPhysicalDeviceHostQueryResetFeatures
+}
+
+struct NativeBufferUsage2ANDROID {
+    var cStruct: VkNativeBufferUsage2ANDROID
+}
+
+struct NativeBufferANDROID {
+    var cStruct: VkNativeBufferANDROID
+}
+
+struct SwapchainImageCreateInfoANDROID {
+    var cStruct: VkSwapchainImageCreateInfoANDROID
+}
+
+struct PhysicalDevicePresentationPropertiesANDROID {
+    var cStruct: VkPhysicalDevicePresentationPropertiesANDROID
+}
+
+struct ShaderResourceUsageAMD {
+    var cStruct: VkShaderResourceUsageAMD
+}
+
+struct ShaderStatisticsInfoAMD {
+    var cStruct: VkShaderStatisticsInfoAMD
+}
+
+struct DeviceQueueGlobalPriorityCreateInfoEXT {
+    var cStruct: VkDeviceQueueGlobalPriorityCreateInfoEXT
+}
+
+struct DebugUtilsObjectNameInfoEXT {
+    var cStruct: VkDebugUtilsObjectNameInfoEXT
+}
+
+struct DebugUtilsObjectTagInfoEXT {
+    var cStruct: VkDebugUtilsObjectTagInfoEXT
+}
+
+struct DebugUtilsLabelEXT {
+    var cStruct: VkDebugUtilsLabelEXT
+}
+
+struct DebugUtilsMessengerCreateInfoEXT {
+    var cStruct: VkDebugUtilsMessengerCreateInfoEXT
+}
+
+struct DebugUtilsMessengerCallbackDataEXT {
+    var cStruct: VkDebugUtilsMessengerCallbackDataEXT
+}
+
+struct ImportMemoryHostPointerInfoEXT {
+    var cStruct: VkImportMemoryHostPointerInfoEXT
+}
+
+struct MemoryHostPointerPropertiesEXT {
+    var cStruct: VkMemoryHostPointerPropertiesEXT
+}
+
+struct PhysicalDeviceExternalMemoryHostPropertiesEXT {
+    var cStruct: VkPhysicalDeviceExternalMemoryHostPropertiesEXT
+}
+
+struct PhysicalDeviceConservativeRasterizationPropertiesEXT {
+    var cStruct: VkPhysicalDeviceConservativeRasterizationPropertiesEXT
+}
+
+struct CalibratedTimestampInfoEXT {
+    var cStruct: VkCalibratedTimestampInfoEXT
+}
+
+struct PhysicalDeviceShaderCorePropertiesAMD {
+    var cStruct: VkPhysicalDeviceShaderCorePropertiesAMD
+}
+
+struct PhysicalDeviceShaderCoreProperties2AMD {
+    var cStruct: VkPhysicalDeviceShaderCoreProperties2AMD
+}
+
+struct PipelineRasterizationConservativeStateCreateInfoEXT {
+    var cStruct: VkPipelineRasterizationConservativeStateCreateInfoEXT
+}
+
+struct PhysicalDeviceDescriptorIndexingFeatures {
+    var cStruct: VkPhysicalDeviceDescriptorIndexingFeatures
+}
+
+struct PhysicalDeviceDescriptorIndexingProperties {
+    var cStruct: VkPhysicalDeviceDescriptorIndexingProperties
+}
+
+struct DescriptorSetLayoutBindingFlagsCreateInfo {
+    var cStruct: VkDescriptorSetLayoutBindingFlagsCreateInfo
+}
+
+struct DescriptorSetVariableDescriptorCountAllocateInfo {
+    var cStruct: VkDescriptorSetVariableDescriptorCountAllocateInfo
+}
+
+struct DescriptorSetVariableDescriptorCountLayoutSupport {
+    var cStruct: VkDescriptorSetVariableDescriptorCountLayoutSupport
+}
+
+struct AttachmentDescription2 {
+    var cStruct: VkAttachmentDescription2
+}
+
+struct AttachmentReference2 {
+    var cStruct: VkAttachmentReference2
+}
+
+struct SubpassDescription2 {
+    var cStruct: VkSubpassDescription2
+}
+
+struct SubpassDependency2 {
+    var cStruct: VkSubpassDependency2
+}
+
+struct RenderPassCreateInfo2 {
+    var cStruct: VkRenderPassCreateInfo2
+}
+
+struct SubpassBeginInfo {
+    var cStruct: VkSubpassBeginInfo
+}
+
+struct SubpassEndInfo {
+    var cStruct: VkSubpassEndInfo
+}
+
+struct PhysicalDeviceTimelineSemaphoreFeatures {
+    var cStruct: VkPhysicalDeviceTimelineSemaphoreFeatures
+}
+
+struct PhysicalDeviceTimelineSemaphoreProperties {
+    var cStruct: VkPhysicalDeviceTimelineSemaphoreProperties
+}
+
+struct SemaphoreTypeCreateInfo {
+    var cStruct: VkSemaphoreTypeCreateInfo
+}
+
+struct TimelineSemaphoreSubmitInfo {
+    var cStruct: VkTimelineSemaphoreSubmitInfo
+}
+
+struct SemaphoreWaitInfo {
+    var cStruct: VkSemaphoreWaitInfo
+}
+
+struct SemaphoreSignalInfo {
+    var cStruct: VkSemaphoreSignalInfo
+}
+
+struct VertexInputBindingDivisorDescriptionEXT {
+    var cStruct: VkVertexInputBindingDivisorDescriptionEXT
+}
+
+struct PipelineVertexInputDivisorStateCreateInfoEXT {
+    var cStruct: VkPipelineVertexInputDivisorStateCreateInfoEXT
+}
+
+struct PhysicalDeviceVertexAttributeDivisorPropertiesEXT {
+    var cStruct: VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT
+}
+
+struct PhysicalDevicePCIBusInfoPropertiesEXT {
+    var cStruct: VkPhysicalDevicePCIBusInfoPropertiesEXT
+}
+
+struct ImportAndroidHardwareBufferInfoANDROID {
+    var cStruct: VkImportAndroidHardwareBufferInfoANDROID
+}
+
+struct AndroidHardwareBufferUsageANDROID {
+    var cStruct: VkAndroidHardwareBufferUsageANDROID
+}
+
+struct AndroidHardwareBufferPropertiesANDROID {
+    var cStruct: VkAndroidHardwareBufferPropertiesANDROID
+}
+
+struct MemoryGetAndroidHardwareBufferInfoANDROID {
+    var cStruct: VkMemoryGetAndroidHardwareBufferInfoANDROID
+}
+
+struct AndroidHardwareBufferFormatPropertiesANDROID {
+    var cStruct: VkAndroidHardwareBufferFormatPropertiesANDROID
+}
+
+struct CommandBufferInheritanceConditionalRenderingInfoEXT {
+    var cStruct: VkCommandBufferInheritanceConditionalRenderingInfoEXT
+}
+
+struct ExternalFormatANDROID {
+    var cStruct: VkExternalFormatANDROID
+}
+
+struct PhysicalDevice8BitStorageFeatures {
+    var cStruct: VkPhysicalDevice8BitStorageFeatures
+}
+
+struct PhysicalDeviceConditionalRenderingFeaturesEXT {
+    var cStruct: VkPhysicalDeviceConditionalRenderingFeaturesEXT
+}
+
+struct PhysicalDeviceVulkanMemoryModelFeatures {
+    var cStruct: VkPhysicalDeviceVulkanMemoryModelFeatures
+}
+
+struct PhysicalDeviceShaderAtomicInt64Features {
+    var cStruct: VkPhysicalDeviceShaderAtomicInt64Features
+}
+
+struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT {
+    var cStruct: VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
+}
+
+struct QueueFamilyCheckpointPropertiesNV {
+    var cStruct: VkQueueFamilyCheckpointPropertiesNV
+}
+
+struct CheckpointDataNV {
+    var cStruct: VkCheckpointDataNV
+}
+
+struct PhysicalDeviceDepthStencilResolveProperties {
+    var cStruct: VkPhysicalDeviceDepthStencilResolveProperties
+}
+
+struct SubpassDescriptionDepthStencilResolve {
+    var cStruct: VkSubpassDescriptionDepthStencilResolve
+}
+
+struct ImageViewASTCDecodeModeEXT {
+    var cStruct: VkImageViewASTCDecodeModeEXT
+}
+
+struct PhysicalDeviceASTCDecodeFeaturesEXT {
+    var cStruct: VkPhysicalDeviceASTCDecodeFeaturesEXT
+}
+
+struct PhysicalDeviceTransformFeedbackFeaturesEXT {
+    var cStruct: VkPhysicalDeviceTransformFeedbackFeaturesEXT
+}
+
+struct PhysicalDeviceTransformFeedbackPropertiesEXT {
+    var cStruct: VkPhysicalDeviceTransformFeedbackPropertiesEXT
+}
+
+struct PipelineRasterizationStateStreamCreateInfoEXT {
+    var cStruct: VkPipelineRasterizationStateStreamCreateInfoEXT
+}
+
+struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV {
+    var cStruct: VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV
+}
+
+struct PipelineRepresentativeFragmentTestStateCreateInfoNV {
+    var cStruct: VkPipelineRepresentativeFragmentTestStateCreateInfoNV
+}
+
+struct PhysicalDeviceExclusiveScissorFeaturesNV {
+    var cStruct: VkPhysicalDeviceExclusiveScissorFeaturesNV
+}
+
+struct PipelineViewportExclusiveScissorStateCreateInfoNV {
+    var cStruct: VkPipelineViewportExclusiveScissorStateCreateInfoNV
+}
+
+struct PhysicalDeviceCornerSampledImageFeaturesNV {
+    var cStruct: VkPhysicalDeviceCornerSampledImageFeaturesNV
+}
+
+struct PhysicalDeviceComputeShaderDerivativesFeaturesNV {
+    var cStruct: VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+}
+
+struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV {
+    var cStruct: VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV
+}
+
+struct PhysicalDeviceShaderImageFootprintFeaturesNV {
+    var cStruct: VkPhysicalDeviceShaderImageFootprintFeaturesNV
+}
+
+struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV {
+    var cStruct: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
+}
+
+struct ShadingRatePaletteNV {
+    var cStruct: VkShadingRatePaletteNV
+}
+
+struct PipelineViewportShadingRateImageStateCreateInfoNV {
+    var cStruct: VkPipelineViewportShadingRateImageStateCreateInfoNV
+}
+
+struct PhysicalDeviceShadingRateImageFeaturesNV {
+    var cStruct: VkPhysicalDeviceShadingRateImageFeaturesNV
+}
+
+struct PhysicalDeviceShadingRateImagePropertiesNV {
+    var cStruct: VkPhysicalDeviceShadingRateImagePropertiesNV
+}
+
+struct CoarseSampleLocationNV {
+    var cStruct: VkCoarseSampleLocationNV
+}
+
+struct CoarseSampleOrderCustomNV {
+    var cStruct: VkCoarseSampleOrderCustomNV
+}
+
+struct PipelineViewportCoarseSampleOrderStateCreateInfoNV {
+    var cStruct: VkPipelineViewportCoarseSampleOrderStateCreateInfoNV
+}
+
+struct PhysicalDeviceMeshShaderFeaturesNV {
+    var cStruct: VkPhysicalDeviceMeshShaderFeaturesNV
+}
+
+struct PhysicalDeviceMeshShaderPropertiesNV {
+    var cStruct: VkPhysicalDeviceMeshShaderPropertiesNV
+}
+
+struct DrawMeshTasksIndirectCommandNV {
+    var cStruct: VkDrawMeshTasksIndirectCommandNV
+}
+
+struct RayTracingShaderGroupCreateInfoNV {
+    var cStruct: VkRayTracingShaderGroupCreateInfoNV
+}
+
+struct RayTracingShaderGroupCreateInfoKHR {
+    var cStruct: VkRayTracingShaderGroupCreateInfoKHR
+}
+
+struct RayTracingPipelineCreateInfoNV {
+    var cStruct: VkRayTracingPipelineCreateInfoNV
+}
+
+struct RayTracingPipelineCreateInfoKHR {
+    var cStruct: VkRayTracingPipelineCreateInfoKHR
+}
+
+struct GeometryTrianglesNV {
+    var cStruct: VkGeometryTrianglesNV
+}
+
+struct GeometryAABBNV {
+    var cStruct: VkGeometryAABBNV
+}
+
+struct GeometryDataNV {
+    var cStruct: VkGeometryDataNV
+}
+
+struct GeometryNV {
+    var cStruct: VkGeometryNV
+}
+
+struct AccelerationStructureInfoNV {
+    var cStruct: VkAccelerationStructureInfoNV
+}
+
+struct AccelerationStructureCreateInfoNV {
+    var cStruct: VkAccelerationStructureCreateInfoNV
+}
+
+struct BindAccelerationStructureMemoryInfoKHR {
+    var cStruct: VkBindAccelerationStructureMemoryInfoKHR
+}
+
+struct WriteDescriptorSetAccelerationStructureKHR {
+    var cStruct: VkWriteDescriptorSetAccelerationStructureKHR
+}
+
+struct AccelerationStructureMemoryRequirementsInfoKHR {
+    var cStruct: VkAccelerationStructureMemoryRequirementsInfoKHR
+}
+
+struct AccelerationStructureMemoryRequirementsInfoNV {
+    var cStruct: VkAccelerationStructureMemoryRequirementsInfoNV
+}
+
+struct PhysicalDeviceRayTracingFeaturesKHR {
+    var cStruct: VkPhysicalDeviceRayTracingFeaturesKHR
+}
+
+struct PhysicalDeviceRayTracingPropertiesKHR {
+    var cStruct: VkPhysicalDeviceRayTracingPropertiesKHR
+}
+
+struct PhysicalDeviceRayTracingPropertiesNV {
+    var cStruct: VkPhysicalDeviceRayTracingPropertiesNV
+}
+
+struct StridedBufferRegionKHR {
+    var cStruct: VkStridedBufferRegionKHR
+}
+
+struct TraceRaysIndirectCommandKHR {
+    var cStruct: VkTraceRaysIndirectCommandKHR
+}
+
+struct DrmFormatModifierPropertiesListEXT {
+    var cStruct: VkDrmFormatModifierPropertiesListEXT
+}
+
+struct DrmFormatModifierPropertiesEXT {
+    var cStruct: VkDrmFormatModifierPropertiesEXT
+}
+
+struct PhysicalDeviceImageDrmFormatModifierInfoEXT {
+    var cStruct: VkPhysicalDeviceImageDrmFormatModifierInfoEXT
+}
+
+struct ImageDrmFormatModifierListCreateInfoEXT {
+    var cStruct: VkImageDrmFormatModifierListCreateInfoEXT
+}
+
+struct ImageDrmFormatModifierExplicitCreateInfoEXT {
+    var cStruct: VkImageDrmFormatModifierExplicitCreateInfoEXT
+}
+
+struct ImageDrmFormatModifierPropertiesEXT {
+    var cStruct: VkImageDrmFormatModifierPropertiesEXT
+}
+
+struct ImageStencilUsageCreateInfo {
+    var cStruct: VkImageStencilUsageCreateInfo
+}
+
+struct DeviceMemoryOverallocationCreateInfoAMD {
+    var cStruct: VkDeviceMemoryOverallocationCreateInfoAMD
+}
+
+struct PhysicalDeviceFragmentDensityMapFeaturesEXT {
+    var cStruct: VkPhysicalDeviceFragmentDensityMapFeaturesEXT
+}
+
+struct PhysicalDeviceFragmentDensityMapPropertiesEXT {
+    var cStruct: VkPhysicalDeviceFragmentDensityMapPropertiesEXT
+}
+
+struct RenderPassFragmentDensityMapCreateInfoEXT {
+    var cStruct: VkRenderPassFragmentDensityMapCreateInfoEXT
+}
+
+struct PhysicalDeviceScalarBlockLayoutFeatures {
+    var cStruct: VkPhysicalDeviceScalarBlockLayoutFeatures
+}
+
+struct SurfaceProtectedCapabilitiesKHR {
+    var cStruct: VkSurfaceProtectedCapabilitiesKHR
+}
+
+struct PhysicalDeviceUniformBufferStandardLayoutFeatures {
+    var cStruct: VkPhysicalDeviceUniformBufferStandardLayoutFeatures
+}
+
+struct PhysicalDeviceDepthClipEnableFeaturesEXT {
+    var cStruct: VkPhysicalDeviceDepthClipEnableFeaturesEXT
+}
+
+struct PipelineRasterizationDepthClipStateCreateInfoEXT {
+    var cStruct: VkPipelineRasterizationDepthClipStateCreateInfoEXT
+}
+
+struct PhysicalDeviceMemoryBudgetPropertiesEXT {
+    var cStruct: VkPhysicalDeviceMemoryBudgetPropertiesEXT
+}
+
+struct PhysicalDeviceMemoryPriorityFeaturesEXT {
+    var cStruct: VkPhysicalDeviceMemoryPriorityFeaturesEXT
+}
+
+struct MemoryPriorityAllocateInfoEXT {
+    var cStruct: VkMemoryPriorityAllocateInfoEXT
+}
+
+struct PhysicalDeviceBufferDeviceAddressFeatures {
+    var cStruct: VkPhysicalDeviceBufferDeviceAddressFeatures
+}
+
+struct PhysicalDeviceBufferDeviceAddressFeaturesEXT {
+    var cStruct: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
+}
+
+struct BufferDeviceAddressInfo {
+    var cStruct: VkBufferDeviceAddressInfo
+}
+
+struct BufferOpaqueCaptureAddressCreateInfo {
+    var cStruct: VkBufferOpaqueCaptureAddressCreateInfo
+}
+
+struct BufferDeviceAddressCreateInfoEXT {
+    var cStruct: VkBufferDeviceAddressCreateInfoEXT
+}
+
+struct PhysicalDeviceImageViewImageFormatInfoEXT {
+    var cStruct: VkPhysicalDeviceImageViewImageFormatInfoEXT
+}
+
+struct FilterCubicImageViewImageFormatPropertiesEXT {
+    var cStruct: VkFilterCubicImageViewImageFormatPropertiesEXT
+}
+
+struct PhysicalDeviceImagelessFramebufferFeatures {
+    var cStruct: VkPhysicalDeviceImagelessFramebufferFeatures
+}
+
+struct FramebufferAttachmentsCreateInfo {
+    var cStruct: VkFramebufferAttachmentsCreateInfo
+}
+
+struct FramebufferAttachmentImageInfo {
+    var cStruct: VkFramebufferAttachmentImageInfo
+}
+
+struct RenderPassAttachmentBeginInfo {
+    var cStruct: VkRenderPassAttachmentBeginInfo
+}
+
+struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT {
+    var cStruct: VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT
+}
+
+struct PhysicalDeviceCooperativeMatrixFeaturesNV {
+    var cStruct: VkPhysicalDeviceCooperativeMatrixFeaturesNV
+}
+
+struct PhysicalDeviceCooperativeMatrixPropertiesNV {
+    var cStruct: VkPhysicalDeviceCooperativeMatrixPropertiesNV
+}
+
+struct CooperativeMatrixPropertiesNV {
+    var cStruct: VkCooperativeMatrixPropertiesNV
+}
+
+struct PhysicalDeviceYcbcrImageArraysFeaturesEXT {
+    var cStruct: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT
+}
+
+struct ImageViewHandleInfoNVX {
+    var cStruct: VkImageViewHandleInfoNVX
+}
+
+struct PresentFrameTokenGGP {
+    var cStruct: VkPresentFrameTokenGGP
+}
+
+struct PipelineCreationFeedbackEXT {
+    var cStruct: VkPipelineCreationFeedbackEXT
+}
+
+struct PipelineCreationFeedbackCreateInfoEXT {
+    var cStruct: VkPipelineCreationFeedbackCreateInfoEXT
+}
+
+struct SurfaceFullScreenExclusiveInfoEXT {
+    var cStruct: VkSurfaceFullScreenExclusiveInfoEXT
+}
+
+struct SurfaceFullScreenExclusiveWin32InfoEXT {
+    var cStruct: VkSurfaceFullScreenExclusiveWin32InfoEXT
+}
+
+struct SurfaceCapabilitiesFullScreenExclusiveEXT {
+    var cStruct: VkSurfaceCapabilitiesFullScreenExclusiveEXT
+}
+
+struct PhysicalDevicePerformanceQueryFeaturesKHR {
+    var cStruct: VkPhysicalDevicePerformanceQueryFeaturesKHR
+}
+
+struct PhysicalDevicePerformanceQueryPropertiesKHR {
+    var cStruct: VkPhysicalDevicePerformanceQueryPropertiesKHR
+}
+
+struct PerformanceCounterKHR {
+    var cStruct: VkPerformanceCounterKHR
+}
+
+struct PerformanceCounterDescriptionKHR {
+    var cStruct: VkPerformanceCounterDescriptionKHR
+}
+
+struct QueryPoolPerformanceCreateInfoKHR {
+    var cStruct: VkQueryPoolPerformanceCreateInfoKHR
+}
+
+struct AcquireProfilingLockInfoKHR {
+    var cStruct: VkAcquireProfilingLockInfoKHR
+}
+
+struct PerformanceQuerySubmitInfoKHR {
+    var cStruct: VkPerformanceQuerySubmitInfoKHR
+}
+
+struct HeadlessSurfaceCreateInfoEXT {
+    var cStruct: VkHeadlessSurfaceCreateInfoEXT
+}
+
+struct PhysicalDeviceCoverageReductionModeFeaturesNV {
+    var cStruct: VkPhysicalDeviceCoverageReductionModeFeaturesNV
+}
+
+struct PipelineCoverageReductionStateCreateInfoNV {
+    var cStruct: VkPipelineCoverageReductionStateCreateInfoNV
+}
+
+struct FramebufferMixedSamplesCombinationNV {
+    var cStruct: VkFramebufferMixedSamplesCombinationNV
+}
+
+struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL {
+    var cStruct: VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL
+}
+
+struct PerformanceValueINTEL {
+    var cStruct: VkPerformanceValueINTEL
+}
+
+struct InitializePerformanceApiInfoINTEL {
+    var cStruct: VkInitializePerformanceApiInfoINTEL
+}
+
+struct QueryPoolPerformanceQueryCreateInfoINTEL {
+    var cStruct: VkQueryPoolPerformanceQueryCreateInfoINTEL
+}
+
+struct PerformanceMarkerInfoINTEL {
+    var cStruct: VkPerformanceMarkerInfoINTEL
+}
+
+struct PerformanceStreamMarkerInfoINTEL {
+    var cStruct: VkPerformanceStreamMarkerInfoINTEL
+}
+
+struct PerformanceOverrideInfoINTEL {
+    var cStruct: VkPerformanceOverrideInfoINTEL
+}
+
+struct PerformanceConfigurationAcquireInfoINTEL {
+    var cStruct: VkPerformanceConfigurationAcquireInfoINTEL
+}
+
+struct PhysicalDeviceShaderClockFeaturesKHR {
+    var cStruct: VkPhysicalDeviceShaderClockFeaturesKHR
+}
+
+struct PhysicalDeviceIndexTypeUint8FeaturesEXT {
+    var cStruct: VkPhysicalDeviceIndexTypeUint8FeaturesEXT
+}
+
+struct PhysicalDeviceShaderSMBuiltinsPropertiesNV {
+    var cStruct: VkPhysicalDeviceShaderSMBuiltinsPropertiesNV
+}
+
+struct PhysicalDeviceShaderSMBuiltinsFeaturesNV {
+    var cStruct: VkPhysicalDeviceShaderSMBuiltinsFeaturesNV
+}
+
+struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT {
+    var cStruct: VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT
+}
+
+struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures {
+    var cStruct: VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures
+}
+
+struct AttachmentReferenceStencilLayout {
+    var cStruct: VkAttachmentReferenceStencilLayout
+}
+
+struct AttachmentDescriptionStencilLayout {
+    var cStruct: VkAttachmentDescriptionStencilLayout
+}
+
+struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR {
+    var cStruct: VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR
+}
+
+struct PipelineInfoKHR {
+    var cStruct: VkPipelineInfoKHR
+}
+
+struct PipelineExecutablePropertiesKHR {
+    var cStruct: VkPipelineExecutablePropertiesKHR
+}
+
+struct PipelineExecutableInfoKHR {
+    var cStruct: VkPipelineExecutableInfoKHR
+}
+
+struct PipelineExecutableStatisticKHR {
+    var cStruct: VkPipelineExecutableStatisticKHR
+}
+
+struct PipelineExecutableInternalRepresentationKHR {
+    var cStruct: VkPipelineExecutableInternalRepresentationKHR
+}
+
+struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT {
+    var cStruct: VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT
+}
+
+struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT {
+    var cStruct: VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT
+}
+
+struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT {
+    var cStruct: VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT
+}
+
+struct PhysicalDeviceSubgroupSizeControlFeaturesEXT {
+    var cStruct: VkPhysicalDeviceSubgroupSizeControlFeaturesEXT
+}
+
+struct PhysicalDeviceSubgroupSizeControlPropertiesEXT {
+    var cStruct: VkPhysicalDeviceSubgroupSizeControlPropertiesEXT
+}
+
+struct PipelineShaderStageRequiredSubgroupSizeCreateInfoEXT {
+    var cStruct: VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT
+}
+
+struct MemoryOpaqueCaptureAddressAllocateInfo {
+    var cStruct: VkMemoryOpaqueCaptureAddressAllocateInfo
+}
+
+struct DeviceMemoryOpaqueCaptureAddressInfo {
+    var cStruct: VkDeviceMemoryOpaqueCaptureAddressInfo
+}
+
+struct PhysicalDeviceLineRasterizationFeaturesEXT {
+    var cStruct: VkPhysicalDeviceLineRasterizationFeaturesEXT
+}
+
+struct PhysicalDeviceLineRasterizationPropertiesEXT {
+    var cStruct: VkPhysicalDeviceLineRasterizationPropertiesEXT
+}
+
+struct PipelineRasterizationLineStateCreateInfoEXT {
+    var cStruct: VkPipelineRasterizationLineStateCreateInfoEXT
+}
+
+struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT {
+    var cStruct: VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT
+}
+
+struct PhysicalDeviceVulkan11Features {
+    var cStruct: VkPhysicalDeviceVulkan11Features
+}
+
+struct PhysicalDeviceVulkan11Properties {
+    var cStruct: VkPhysicalDeviceVulkan11Properties
+}
+
+struct PhysicalDeviceVulkan12Features {
+    var cStruct: VkPhysicalDeviceVulkan12Features
+}
+
+struct PhysicalDeviceVulkan12Properties {
+    var cStruct: VkPhysicalDeviceVulkan12Properties
+}
+
+struct PipelineCompilerControlCreateInfoAMD {
+    var cStruct: VkPipelineCompilerControlCreateInfoAMD
+}
+
+struct PhysicalDeviceCoherentMemoryFeaturesAMD {
+    var cStruct: VkPhysicalDeviceCoherentMemoryFeaturesAMD
+}
+
+struct PhysicalDeviceToolPropertiesEXT {
+    var cStruct: VkPhysicalDeviceToolPropertiesEXT
+}
+
+struct AccelerationStructureGeometryTrianglesDataKHR {
+    var cStruct: VkAccelerationStructureGeometryTrianglesDataKHR
+}
+
+struct AccelerationStructureGeometryAabbsDataKHR {
+    var cStruct: VkAccelerationStructureGeometryAabbsDataKHR
+}
+
+struct AccelerationStructureGeometryInstancesDataKHR {
+    var cStruct: VkAccelerationStructureGeometryInstancesDataKHR
+}
+
+struct AccelerationStructureGeometryKHR {
+    var cStruct: VkAccelerationStructureGeometryKHR
+}
+
+struct AccelerationStructureBuildGeometryInfoKHR {
+    var cStruct: VkAccelerationStructureBuildGeometryInfoKHR
+}
+
+struct AccelerationStructureBuildOffsetInfoKHR {
+    var cStruct: VkAccelerationStructureBuildOffsetInfoKHR
+}
+
+struct AccelerationStructureCreateGeometryTypeInfoKHR {
+    var cStruct: VkAccelerationStructureCreateGeometryTypeInfoKHR
+}
+
+struct AccelerationStructureCreateInfoKHR {
+    var cStruct: VkAccelerationStructureCreateInfoKHR
+}
+
+struct AabbPositionsKHR {
+    var cStruct: VkAabbPositionsKHR
+}
+
+struct TransformMatrixKHR {
+    var cStruct: VkTransformMatrixKHR
+}
+
+struct AccelerationStructureInstanceKHR {
+    var cStruct: VkAccelerationStructureInstanceKHR
+}
+
+struct AccelerationStructureDeviceAddressInfoKHR {
+    var cStruct: VkAccelerationStructureDeviceAddressInfoKHR
+}
+
+struct AccelerationStructureVersionKHR {
+    var cStruct: VkAccelerationStructureVersionKHR
+}
+
+struct CopyAccelerationStructureInfoKHR {
+    var cStruct: VkCopyAccelerationStructureInfoKHR
+}
+
+struct CopyAccelerationStructureToMemoryInfoKHR {
+    var cStruct: VkCopyAccelerationStructureToMemoryInfoKHR
+}
+
+struct CopyMemoryToAccelerationStructureInfoKHR {
+    var cStruct: VkCopyMemoryToAccelerationStructureInfoKHR
+}
+
+struct RayTracingPipelineInterfaceCreateInfoKHR {
+    var cStruct: VkRayTracingPipelineInterfaceCreateInfoKHR
+}
+
+struct DeferredOperationInfoKHR {
+    var cStruct: VkDeferredOperationInfoKHR
+}
+
+struct PipelineLibraryCreateInfoKHR {
+    var cStruct: VkPipelineLibraryCreateInfoKHR
+}
+
+struct RenderPassTransformBeginInfoQCOM {
+    var cStruct: VkRenderPassTransformBeginInfoQCOM
+}
+
+struct CommandBufferInheritanceRenderPassTransformInfoQCOM {
+    var cStruct: VkCommandBufferInheritanceRenderPassTransformInfoQCOM
+}
+
+struct PhysicalDeviceDiagnosticsConfigFeaturesNV {
+    var cStruct: VkPhysicalDeviceDiagnosticsConfigFeaturesNV
+}
+
+struct DeviceDiagnosticsConfigCreateInfoNV {
+    var cStruct: VkDeviceDiagnosticsConfigCreateInfoNV
+}
+
