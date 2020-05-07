@@ -32,15 +32,6 @@ class BaseGenerator:
 
 
 class Generator(BaseGenerator):
-    def generate_all(self, context: SwiftContext):
-        self.generate_imports()
-        for enum in context.enums:
-            self.generate_enum(enum)
-        for option_set in context.option_sets:
-            self.generate_option_set(option_set)
-        for struct in context.structs:
-            self.generate_struct(struct)
-
     def generate_imports(self):
         self << 'import CVulkan'
         self.linebreak()
