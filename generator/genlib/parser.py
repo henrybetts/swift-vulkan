@@ -44,8 +44,19 @@ class CStruct:
         self.members = members or []
 
 
+class CExtension:
+    def __init__(self, name: str, supported: str = None, platform: str = None,
+                 types: List[str] = None, enums: List[CEnum] = None):
+        self.name = name
+        self.supported = supported
+        self.platform = platform
+        self.types = types or []
+        self.enums = enums or []
+
+
 class CContext:
     def __init__(self):
+        self.extensions: List[CExtension] = []
         self.extension_tags: List[str] = []
         self.enums: List[CEnum] = []
         self.bitmasks: List[CBitmask] = []
@@ -56,10 +67,20 @@ class CContext:
         self.parse_tree(tree)
 
     def parse_tree(self, tree: ElementTree):
+        self.parse_extensions(tree)
         self.parse_extension_tags(tree),
         self.parse_enums(tree)
         self.parse_bitmasks(tree)
         self.parse_structs(tree)
+
+    def parse_extensions(self, tree: ElementTree):
+        for e_extension in tree.findall('./extensions/extension'):
+            c_extension = CExtension(
+                name=e_extension.attrib['name'],
+                supported=e_extension.get('supported'),
+                platform=e_extension.get('platform'),
+                types=[t.attrib['name'] for t in e_extension.findall('./require/type')])
+            self.extensions.append(c_extension)
 
     def parse_extension_tags(self, tree: ElementTree):
         for tag in tree.findall('./tags/tag'):
@@ -67,6 +88,9 @@ class CContext:
 
     def parse_enums(self, tree: ElementTree):
         for enum in tree.findall('./enums[@type="enum"]'):
+            if self.should_ignore_type(enum.attrib['name']):
+                continue
+
             c_enum = CEnum(name=enum.attrib['name'], cases=[])
             for case in enum.findall('./enum[@value]'):  # TODO: Handle aliases
                 c_enum.cases.append(CEnum.Case(name=case.attrib['name'], value=case.attrib['value']))
@@ -102,6 +126,10 @@ class CContext:
                 continue
 
             name = bitmask.find('./name').text
+
+            if self.should_ignore_type(name):
+                continue
+
             c_bitmask = CBitmask(name)
 
             requires = bitmask.get('requires')
@@ -147,6 +175,9 @@ class CContext:
     def parse_structs(self, tree: ElementTree):
         for struct in tree.findall('./types/type[@category="struct"]'):
             if 'alias' in struct.attrib:
+                continue
+
+            if self.should_ignore_type(struct.attrib['name']):
                 continue
 
             c_struct = CStruct(struct.attrib['name'])
@@ -198,3 +229,10 @@ class CContext:
                 c_struct.members.append(CStruct.Member(name, c_type))
 
             self.structs.append(c_struct)
+
+    def should_ignore_type(self, type_name: str) -> bool:
+        for extension in self.extensions:
+            if type_name in extension.types:
+                if extension.supported == 'disabled' or extension.platform:
+                    return True
+        return False

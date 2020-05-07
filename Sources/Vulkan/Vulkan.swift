@@ -1205,42 +1205,6 @@ enum CoarseSampleOrderTypeNV: UInt32 {
     case sampleMajor = 3
 }
 
-enum CopyAccelerationStructureModeKHR: UInt32 {
-    case clone = 0
-    case compact = 1
-    case serialize = 2
-    case deserialize = 3
-}
-
-enum AccelerationStructureTypeKHR: UInt32 {
-    case topLevel = 0
-    case bottomLevel = 1
-}
-
-enum GeometryTypeKHR: UInt32 {
-    case triangles = 0
-    case aabbs = 1
-    case instances = 1000150000
-}
-
-enum AccelerationStructureMemoryRequirementsTypeKHR: UInt32 {
-    case object = 0
-    case buildScratch = 1
-    case updateScratch = 2
-}
-
-enum AccelerationStructureBuildTypeKHR: UInt32 {
-    case host = 0
-    case device = 1
-    case hostOrDevice = 2
-}
-
-enum RayTracingShaderGroupTypeKHR: UInt32 {
-    case general = 0
-    case trianglesHitGroup = 1
-    case proceduralHitGroup = 2
-}
-
 enum MemoryOverallocationBehaviorAMD: UInt32 {
     case `default` = 0
     case allowed = 1
@@ -1266,13 +1230,6 @@ enum ComponentTypeNV: UInt32 {
     case uint16 = 8
     case uint32 = 9
     case uint64 = 10
-}
-
-enum FullScreenExclusiveEXT: UInt32 {
-    case `default` = 0
-    case allowed = 1
-    case disallowed = 2
-    case applicationControlled = 3
 }
 
 enum PerformanceCounterScopeKHR: UInt32 {
@@ -1822,29 +1779,6 @@ struct IndirectStateFlagsNV: OptionSet {
     static let flagFrontface = IndirectStateFlagsNV(rawValue: 1)
 }
 
-struct GeometryFlagsKHR: OptionSet {
-    let rawValue: UInt32
-    static let opaque = GeometryFlagsKHR(rawValue: 1)
-    static let noDuplicateAnyHitInvocation = GeometryFlagsKHR(rawValue: 2)
-}
-
-struct GeometryInstanceFlagsKHR: OptionSet {
-    let rawValue: UInt32
-    static let triangleFacingCullDisable = GeometryInstanceFlagsKHR(rawValue: 1)
-    static let triangleFrontCounterclockwise = GeometryInstanceFlagsKHR(rawValue: 2)
-    static let forceOpaque = GeometryInstanceFlagsKHR(rawValue: 4)
-    static let forceNoOpaque = GeometryInstanceFlagsKHR(rawValue: 8)
-}
-
-struct BuildAccelerationStructureFlagsKHR: OptionSet {
-    let rawValue: UInt32
-    static let allowUpdate = BuildAccelerationStructureFlagsKHR(rawValue: 1)
-    static let allowCompaction = BuildAccelerationStructureFlagsKHR(rawValue: 2)
-    static let preferFastTrace = BuildAccelerationStructureFlagsKHR(rawValue: 4)
-    static let preferFastBuild = BuildAccelerationStructureFlagsKHR(rawValue: 8)
-    static let lowMemory = BuildAccelerationStructureFlagsKHR(rawValue: 16)
-}
-
 struct DescriptorUpdateTemplateCreateFlags: OptionSet {
     let rawValue: UInt32
 }
@@ -1927,50 +1861,6 @@ struct DisplayModeCreateFlagsKHR: OptionSet {
 }
 
 struct DisplaySurfaceCreateFlagsKHR: OptionSet {
-    let rawValue: UInt32
-}
-
-struct AndroidSurfaceCreateFlagsKHR: OptionSet {
-    let rawValue: UInt32
-}
-
-struct ViSurfaceCreateFlagsNN: OptionSet {
-    let rawValue: UInt32
-}
-
-struct WaylandSurfaceCreateFlagsKHR: OptionSet {
-    let rawValue: UInt32
-}
-
-struct Win32SurfaceCreateFlagsKHR: OptionSet {
-    let rawValue: UInt32
-}
-
-struct XlibSurfaceCreateFlagsKHR: OptionSet {
-    let rawValue: UInt32
-}
-
-struct XcbSurfaceCreateFlagsKHR: OptionSet {
-    let rawValue: UInt32
-}
-
-struct IOSSurfaceCreateFlagsMVK: OptionSet {
-    let rawValue: UInt32
-}
-
-struct MacOSSurfaceCreateFlagsMVK: OptionSet {
-    let rawValue: UInt32
-}
-
-struct MetalSurfaceCreateFlagsEXT: OptionSet {
-    let rawValue: UInt32
-}
-
-struct ImagePipeSurfaceCreateFlagsFUCHSIA: OptionSet {
-    let rawValue: UInt32
-}
-
-struct StreamDescriptorSurfaceCreateFlagsGGP: OptionSet {
     let rawValue: UInt32
 }
 
@@ -2172,11 +2062,6 @@ struct PipelineRasterizationStateStreamCreateFlagsEXT: OptionSet {
 
 struct PipelineRasterizationDepthClipStateCreateFlagsEXT: OptionSet {
     let rawValue: UInt32
-}
-
-struct SwapchainImageUsageFlagsANDROID: OptionSet {
-    let rawValue: UInt32
-    static let shared = SwapchainImageUsageFlagsANDROID(rawValue: 1)
 }
 
 struct ToolPurposeFlagsEXT: OptionSet {
@@ -2654,38 +2539,6 @@ struct SurfaceCapabilitiesKHR {
     var cStruct: VkSurfaceCapabilitiesKHR
 }
 
-struct AndroidSurfaceCreateInfoKHR {
-    var cStruct: VkAndroidSurfaceCreateInfoKHR
-}
-
-struct ViSurfaceCreateInfoNN {
-    var cStruct: VkViSurfaceCreateInfoNN
-}
-
-struct WaylandSurfaceCreateInfoKHR {
-    var cStruct: VkWaylandSurfaceCreateInfoKHR
-}
-
-struct Win32SurfaceCreateInfoKHR {
-    var cStruct: VkWin32SurfaceCreateInfoKHR
-}
-
-struct XlibSurfaceCreateInfoKHR {
-    var cStruct: VkXlibSurfaceCreateInfoKHR
-}
-
-struct XcbSurfaceCreateInfoKHR {
-    var cStruct: VkXcbSurfaceCreateInfoKHR
-}
-
-struct ImagePipeSurfaceCreateInfoFUCHSIA {
-    var cStruct: VkImagePipeSurfaceCreateInfoFUCHSIA
-}
-
-struct StreamDescriptorSurfaceCreateInfoGGP {
-    var cStruct: VkStreamDescriptorSurfaceCreateInfoGGP
-}
-
 struct SurfaceFormatKHR {
     var cStruct: VkSurfaceFormatKHR
 }
@@ -2748,18 +2601,6 @@ struct ExternalMemoryImageCreateInfoNV {
 
 struct ExportMemoryAllocateInfoNV {
     var cStruct: VkExportMemoryAllocateInfoNV
-}
-
-struct ImportMemoryWin32HandleInfoNV {
-    var cStruct: VkImportMemoryWin32HandleInfoNV
-}
-
-struct ExportMemoryWin32HandleInfoNV {
-    var cStruct: VkExportMemoryWin32HandleInfoNV
-}
-
-struct Win32KeyedMutexAcquireReleaseInfoNV {
-    var cStruct: VkWin32KeyedMutexAcquireReleaseInfoNV
 }
 
 struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV {
@@ -2914,22 +2755,6 @@ struct ExportMemoryAllocateInfo {
     var cStruct: VkExportMemoryAllocateInfo
 }
 
-struct ImportMemoryWin32HandleInfoKHR {
-    var cStruct: VkImportMemoryWin32HandleInfoKHR
-}
-
-struct ExportMemoryWin32HandleInfoKHR {
-    var cStruct: VkExportMemoryWin32HandleInfoKHR
-}
-
-struct MemoryWin32HandlePropertiesKHR {
-    var cStruct: VkMemoryWin32HandlePropertiesKHR
-}
-
-struct MemoryGetWin32HandleInfoKHR {
-    var cStruct: VkMemoryGetWin32HandleInfoKHR
-}
-
 struct ImportMemoryFdInfoKHR {
     var cStruct: VkImportMemoryFdInfoKHR
 }
@@ -2942,10 +2767,6 @@ struct MemoryGetFdInfoKHR {
     var cStruct: VkMemoryGetFdInfoKHR
 }
 
-struct Win32KeyedMutexAcquireReleaseInfoKHR {
-    var cStruct: VkWin32KeyedMutexAcquireReleaseInfoKHR
-}
-
 struct PhysicalDeviceExternalSemaphoreInfo {
     var cStruct: VkPhysicalDeviceExternalSemaphoreInfo
 }
@@ -2956,22 +2777,6 @@ struct ExternalSemaphoreProperties {
 
 struct ExportSemaphoreCreateInfo {
     var cStruct: VkExportSemaphoreCreateInfo
-}
-
-struct ImportSemaphoreWin32HandleInfoKHR {
-    var cStruct: VkImportSemaphoreWin32HandleInfoKHR
-}
-
-struct ExportSemaphoreWin32HandleInfoKHR {
-    var cStruct: VkExportSemaphoreWin32HandleInfoKHR
-}
-
-struct D3D12FenceSubmitInfoKHR {
-    var cStruct: VkD3D12FenceSubmitInfoKHR
-}
-
-struct SemaphoreGetWin32HandleInfoKHR {
-    var cStruct: VkSemaphoreGetWin32HandleInfoKHR
 }
 
 struct ImportSemaphoreFdInfoKHR {
@@ -2992,18 +2797,6 @@ struct ExternalFenceProperties {
 
 struct ExportFenceCreateInfo {
     var cStruct: VkExportFenceCreateInfo
-}
-
-struct ImportFenceWin32HandleInfoKHR {
-    var cStruct: VkImportFenceWin32HandleInfoKHR
-}
-
-struct ExportFenceWin32HandleInfoKHR {
-    var cStruct: VkExportFenceWin32HandleInfoKHR
-}
-
-struct FenceGetWin32HandleInfoKHR {
-    var cStruct: VkFenceGetWin32HandleInfoKHR
 }
 
 struct ImportFenceFdInfoKHR {
@@ -3152,18 +2945,6 @@ struct PresentTimesInfoGOOGLE {
 
 struct PresentTimeGOOGLE {
     var cStruct: VkPresentTimeGOOGLE
-}
-
-struct IOSSurfaceCreateInfoMVK {
-    var cStruct: VkIOSSurfaceCreateInfoMVK
-}
-
-struct MacOSSurfaceCreateInfoMVK {
-    var cStruct: VkMacOSSurfaceCreateInfoMVK
-}
-
-struct MetalSurfaceCreateInfoEXT {
-    var cStruct: VkMetalSurfaceCreateInfoEXT
 }
 
 struct ViewportWScalingNV {
@@ -3450,22 +3231,6 @@ struct PhysicalDeviceHostQueryResetFeatures {
     var cStruct: VkPhysicalDeviceHostQueryResetFeatures
 }
 
-struct NativeBufferUsage2ANDROID {
-    var cStruct: VkNativeBufferUsage2ANDROID
-}
-
-struct NativeBufferANDROID {
-    var cStruct: VkNativeBufferANDROID
-}
-
-struct SwapchainImageCreateInfoANDROID {
-    var cStruct: VkSwapchainImageCreateInfoANDROID
-}
-
-struct PhysicalDevicePresentationPropertiesANDROID {
-    var cStruct: VkPhysicalDevicePresentationPropertiesANDROID
-}
-
 struct ShaderResourceUsageAMD {
     var cStruct: VkShaderResourceUsageAMD
 }
@@ -3618,32 +3383,8 @@ struct PhysicalDevicePCIBusInfoPropertiesEXT {
     var cStruct: VkPhysicalDevicePCIBusInfoPropertiesEXT
 }
 
-struct ImportAndroidHardwareBufferInfoANDROID {
-    var cStruct: VkImportAndroidHardwareBufferInfoANDROID
-}
-
-struct AndroidHardwareBufferUsageANDROID {
-    var cStruct: VkAndroidHardwareBufferUsageANDROID
-}
-
-struct AndroidHardwareBufferPropertiesANDROID {
-    var cStruct: VkAndroidHardwareBufferPropertiesANDROID
-}
-
-struct MemoryGetAndroidHardwareBufferInfoANDROID {
-    var cStruct: VkMemoryGetAndroidHardwareBufferInfoANDROID
-}
-
-struct AndroidHardwareBufferFormatPropertiesANDROID {
-    var cStruct: VkAndroidHardwareBufferFormatPropertiesANDROID
-}
-
 struct CommandBufferInheritanceConditionalRenderingInfoEXT {
     var cStruct: VkCommandBufferInheritanceConditionalRenderingInfoEXT
-}
-
-struct ExternalFormatANDROID {
-    var cStruct: VkExternalFormatANDROID
 }
 
 struct PhysicalDevice8BitStorageFeatures {
@@ -3782,16 +3523,8 @@ struct RayTracingShaderGroupCreateInfoNV {
     var cStruct: VkRayTracingShaderGroupCreateInfoNV
 }
 
-struct RayTracingShaderGroupCreateInfoKHR {
-    var cStruct: VkRayTracingShaderGroupCreateInfoKHR
-}
-
 struct RayTracingPipelineCreateInfoNV {
     var cStruct: VkRayTracingPipelineCreateInfoNV
-}
-
-struct RayTracingPipelineCreateInfoKHR {
-    var cStruct: VkRayTracingPipelineCreateInfoKHR
 }
 
 struct GeometryTrianglesNV {
@@ -3818,40 +3551,12 @@ struct AccelerationStructureCreateInfoNV {
     var cStruct: VkAccelerationStructureCreateInfoNV
 }
 
-struct BindAccelerationStructureMemoryInfoKHR {
-    var cStruct: VkBindAccelerationStructureMemoryInfoKHR
-}
-
-struct WriteDescriptorSetAccelerationStructureKHR {
-    var cStruct: VkWriteDescriptorSetAccelerationStructureKHR
-}
-
-struct AccelerationStructureMemoryRequirementsInfoKHR {
-    var cStruct: VkAccelerationStructureMemoryRequirementsInfoKHR
-}
-
 struct AccelerationStructureMemoryRequirementsInfoNV {
     var cStruct: VkAccelerationStructureMemoryRequirementsInfoNV
 }
 
-struct PhysicalDeviceRayTracingFeaturesKHR {
-    var cStruct: VkPhysicalDeviceRayTracingFeaturesKHR
-}
-
-struct PhysicalDeviceRayTracingPropertiesKHR {
-    var cStruct: VkPhysicalDeviceRayTracingPropertiesKHR
-}
-
 struct PhysicalDeviceRayTracingPropertiesNV {
     var cStruct: VkPhysicalDeviceRayTracingPropertiesNV
-}
-
-struct StridedBufferRegionKHR {
-    var cStruct: VkStridedBufferRegionKHR
-}
-
-struct TraceRaysIndirectCommandKHR {
-    var cStruct: VkTraceRaysIndirectCommandKHR
 }
 
 struct DrmFormatModifierPropertiesListEXT {
@@ -3998,28 +3703,12 @@ struct ImageViewHandleInfoNVX {
     var cStruct: VkImageViewHandleInfoNVX
 }
 
-struct PresentFrameTokenGGP {
-    var cStruct: VkPresentFrameTokenGGP
-}
-
 struct PipelineCreationFeedbackEXT {
     var cStruct: VkPipelineCreationFeedbackEXT
 }
 
 struct PipelineCreationFeedbackCreateInfoEXT {
     var cStruct: VkPipelineCreationFeedbackCreateInfoEXT
-}
-
-struct SurfaceFullScreenExclusiveInfoEXT {
-    var cStruct: VkSurfaceFullScreenExclusiveInfoEXT
-}
-
-struct SurfaceFullScreenExclusiveWin32InfoEXT {
-    var cStruct: VkSurfaceFullScreenExclusiveWin32InfoEXT
-}
-
-struct SurfaceCapabilitiesFullScreenExclusiveEXT {
-    var cStruct: VkSurfaceCapabilitiesFullScreenExclusiveEXT
 }
 
 struct PhysicalDevicePerformanceQueryFeaturesKHR {
@@ -4228,82 +3917,6 @@ struct PhysicalDeviceCoherentMemoryFeaturesAMD {
 
 struct PhysicalDeviceToolPropertiesEXT {
     var cStruct: VkPhysicalDeviceToolPropertiesEXT
-}
-
-struct AccelerationStructureGeometryTrianglesDataKHR {
-    var cStruct: VkAccelerationStructureGeometryTrianglesDataKHR
-}
-
-struct AccelerationStructureGeometryAabbsDataKHR {
-    var cStruct: VkAccelerationStructureGeometryAabbsDataKHR
-}
-
-struct AccelerationStructureGeometryInstancesDataKHR {
-    var cStruct: VkAccelerationStructureGeometryInstancesDataKHR
-}
-
-struct AccelerationStructureGeometryKHR {
-    var cStruct: VkAccelerationStructureGeometryKHR
-}
-
-struct AccelerationStructureBuildGeometryInfoKHR {
-    var cStruct: VkAccelerationStructureBuildGeometryInfoKHR
-}
-
-struct AccelerationStructureBuildOffsetInfoKHR {
-    var cStruct: VkAccelerationStructureBuildOffsetInfoKHR
-}
-
-struct AccelerationStructureCreateGeometryTypeInfoKHR {
-    var cStruct: VkAccelerationStructureCreateGeometryTypeInfoKHR
-}
-
-struct AccelerationStructureCreateInfoKHR {
-    var cStruct: VkAccelerationStructureCreateInfoKHR
-}
-
-struct AabbPositionsKHR {
-    var cStruct: VkAabbPositionsKHR
-}
-
-struct TransformMatrixKHR {
-    var cStruct: VkTransformMatrixKHR
-}
-
-struct AccelerationStructureInstanceKHR {
-    var cStruct: VkAccelerationStructureInstanceKHR
-}
-
-struct AccelerationStructureDeviceAddressInfoKHR {
-    var cStruct: VkAccelerationStructureDeviceAddressInfoKHR
-}
-
-struct AccelerationStructureVersionKHR {
-    var cStruct: VkAccelerationStructureVersionKHR
-}
-
-struct CopyAccelerationStructureInfoKHR {
-    var cStruct: VkCopyAccelerationStructureInfoKHR
-}
-
-struct CopyAccelerationStructureToMemoryInfoKHR {
-    var cStruct: VkCopyAccelerationStructureToMemoryInfoKHR
-}
-
-struct CopyMemoryToAccelerationStructureInfoKHR {
-    var cStruct: VkCopyMemoryToAccelerationStructureInfoKHR
-}
-
-struct RayTracingPipelineInterfaceCreateInfoKHR {
-    var cStruct: VkRayTracingPipelineInterfaceCreateInfoKHR
-}
-
-struct DeferredOperationInfoKHR {
-    var cStruct: VkDeferredOperationInfoKHR
-}
-
-struct PipelineLibraryCreateInfoKHR {
-    var cStruct: VkPipelineLibraryCreateInfoKHR
 }
 
 struct RenderPassTransformBeginInfoQCOM {
