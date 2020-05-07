@@ -50,10 +50,23 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_struct(self, struct: SwiftStruct):
-        with self.indent(f'struct {struct.name} {{', '}'):
+        with self.indent(f'struct {struct.name}: CStructConvertible {{', '}'):
+            self << f'typealias CStruct = {struct.c_struct.name}'
+            self.linebreak()
             for member in struct.members:
                 self << f'let {safe_name(member.name)}: {member.type}'
+            self.linebreak()
+            self.generate_struct_swift_to_c_method(struct)
         self.linebreak()
+
+    def generate_struct_swift_to_c_method(self, struct: SwiftStruct):
+        with self.indent('func withUnsafeCStructPointer<R>'
+                         f'(_ body: (UnsafePointer<{struct.c_struct.name}>) throws -> R)'
+                         ' rethrows -> R {', '}'):
+            self << f'var cStruct = {struct.c_struct.name}()'
+            for member in struct.members:
+                self << f'cStruct.{member.name} = self.{member.name}'
+            self << 'return try body(&cStruct)'
 
 
 def safe_name(name: str) -> str:
