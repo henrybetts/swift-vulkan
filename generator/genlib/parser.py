@@ -1,5 +1,5 @@
 from xml.etree import ElementTree
-from typing import List, Union
+from typing import List, Union, Dict
 import re
 from itertools import zip_longest
 
@@ -75,11 +75,22 @@ class CContext:
 
     def parse_extensions(self, tree: ElementTree):
         for e_extension in tree.findall('./extensions/extension'):
+            extension_number = int(e_extension.attrib['number'])
+
+            enums: Dict[str, List[CEnum.Case]] = {}
+            for e_enum in e_extension.findall('./require/enum[@extends]'):
+                if 'alias' in e_enum.attrib:
+                    continue
+                c_case = CEnum.Case(e_enum.attrib['name'], parse_enum_value(e_enum, extension_number))
+                enums.setdefault(e_enum.attrib['extends'], []).append(c_case)
+
             c_extension = CExtension(
                 name=e_extension.attrib['name'],
                 supported=e_extension.get('supported'),
                 platform=e_extension.get('platform'),
-                types=[t.attrib['name'] for t in e_extension.findall('./require/type')])
+                types=[t.attrib['name'] for t in e_extension.findall('./require/type')],
+                enums=[CEnum(enum_name, cases) for enum_name, cases in enums.items()]
+            )
             self.extensions.append(c_extension)
 
     def parse_extension_tags(self, tree: ElementTree):
@@ -87,88 +98,59 @@ class CContext:
             self.extension_tags.append(tag.attrib['name'])
 
     def parse_enums(self, tree: ElementTree):
-        for enum in tree.findall('./enums[@type="enum"]'):
-            if self.should_ignore_type(enum.attrib['name']):
+        for e_enum in tree.findall('./enums[@type="enum"]'):
+            enum_name = e_enum.attrib['name']
+
+            if self.should_ignore_type(enum_name):
                 continue
 
-            c_enum = CEnum(name=enum.attrib['name'], cases=[])
-            for case in enum.findall('./enum[@value]'):  # TODO: Handle aliases
-                c_enum.cases.append(CEnum.Case(name=case.attrib['name'], value=case.attrib['value']))
-
-            case_names = []
-            for extension in tree.findall(f'./extensions/extension'):
-                if extension.get('supported') == 'disabled':
+            cases = {}
+            for e_case in e_enum.findall('./enum'):
+                if 'alias' in e_case.attrib:
                     continue
+                cases[e_case.attrib['name']] = parse_enum_value(e_case)
 
-                ext_number = int(extension.attrib['number'])
-                for case in extension.findall(f'./require/enum[@extends="{c_enum.name}"][@offset]'):
-                    case_name = case.attrib['name']
-                    if case_name in case_names:
-                        continue
+            for extension in self.extensions:
+                if extension.supported == 'disabled' or extension.platform:
+                    continue
+                for ext_enum in extension.enums:
+                    if ext_enum.name == enum_name:
+                        for ext_case in ext_enum.cases:
+                            cases[ext_case.name] = ext_case.value
 
-                    case_ext_number = ext_number
-                    if 'extnumber' in case.attrib:
-                        case_ext_number = int(case.attrib['extnumber'])
-
-                    value = 1000000000 + (case_ext_number - 1) * 1000 + int(case.attrib['offset'])
-                    signed_value = case.get('dir', '') + str(value)
-
-                    case_names.append(case_name)
-                    c_enum.cases.append(
-                        CEnum.Case(name=case_name, value=signed_value)
-                    )
-
+            c_enum = CEnum(enum_name, [CEnum.Case(name, value) for name, value in cases.items()])
             self.enums.append(c_enum)
 
     def parse_bitmasks(self, tree: ElementTree):
-        for bitmask in tree.findall('./types/type[@category="bitmask"]'):
-            if 'alias' in bitmask.attrib:
+        for e_bitmask in tree.findall('./types/type[@category="bitmask"]'):
+            if 'alias' in e_bitmask.attrib:
                 continue
 
-            name = bitmask.find('./name').text
+            bitmask_name = e_bitmask.find('./name').text
 
-            if self.should_ignore_type(name):
+            if self.should_ignore_type(bitmask_name):
                 continue
 
-            c_bitmask = CBitmask(name)
+            c_bitmask = CBitmask(bitmask_name)
 
-            requires = bitmask.get('requires')
+            requires = e_bitmask.get('requires')
             if requires:
-                c_enum = CEnum(requires, [])
-                enum = tree.find(f'./enums[@name="{requires}"]')
-
-                for case in enum.findall('./enum'):
-                    if 'alias' in case.attrib:
+                cases = {}
+                e_enum = tree.find(f'./enums[@name="{requires}"]')
+                for e_case in e_enum.findall('./enum'):
+                    if 'alias' in e_case.attrib:
                         continue
+                    cases[e_case.attrib['name']] = parse_enum_value(e_case)
 
-                    if 'bitpos' in case.attrib:
-                        value = str(2 ** int(case.attrib['bitpos']))
-                    else:
-                        value = case.attrib['value']
-
-                    c_enum.cases.append(CEnum.Case(name=case.attrib['name'], value=value))
-
-                case_names = []
-                for extension in tree.findall(f'./extensions/extension'):
-                    if extension.get('supported') == 'disabled':
+                for extension in self.extensions:
+                    if extension.supported == 'disabled' or extension.platform:
                         continue
+                    for ext_enum in extension.enums:
+                        if ext_enum.name == requires:
+                            for ext_case in ext_enum.cases:
+                                cases[ext_case.name] = ext_case.value
 
-                    for case in extension.findall(f'./require/enum[@extends="{c_enum.name}"][@bitpos]'):
-                        case_name = case.attrib['name']
-                        if case_name in case_names:
-                            continue
-
-                        if 'bitpos' in case.attrib:
-                            value = 2 ** int(case.attrib['bitpos'])
-                        else:
-                            value = case.attrib['value']
-
-                        case_names.append(case_name)
-                        c_enum.cases.append(
-                            CEnum.Case(name=case_name, value=value)
-                        )
-
-                c_bitmask.enum = c_enum
+                c_bitmask.enum = CEnum(requires, [CEnum.Case(name, value) for name, value in cases.items()])
 
             self.bitmasks.append(c_bitmask)
 
@@ -236,3 +218,17 @@ class CContext:
                 if extension.supported == 'disabled' or extension.platform:
                     return True
         return False
+
+
+def parse_enum_value(e_enum: ElementTree, extension_number: int = None) -> str:
+    if 'offset' in e_enum.attrib:
+        if 'extnumber' in e_enum.attrib:
+            extension_number = int(e_enum.attrib['extnumber'])
+        value = 1000000000 + (extension_number - 1) * 1000 + int(e_enum.attrib['offset'])
+        if e_enum.get('dir') == '-':
+            value *= -1
+        return str(value)
+    elif 'bitpos' in e_enum.attrib:
+        return str(2 ** int(e_enum.attrib['bitpos']))
+    else:
+        return e_enum.attrib['value']

@@ -77,7 +77,6 @@ enum DescriptorType: UInt32 {
     case storageBufferDynamic = 9
     case inputAttachment = 10
     case inlineUniformBlockEXT = 1000138000
-    case accelerationStructureKHR = 1000165000
 }
 
 enum QueryType: UInt32 {
@@ -86,8 +85,6 @@ enum QueryType: UInt32 {
     case timestamp = 2
     case transformFeedbackStreamEXT = 1000028004
     case performanceQueryKHR = 1000116000
-    case accelerationStructureCompactedSizeKHR = 1000165000
-    case accelerationStructureSerializationSizeKHR = 1000150000
     case performanceQueryINTEL = 1000210000
 }
 
@@ -103,7 +100,6 @@ enum BorderColor: UInt32 {
 enum PipelineBindPoint: UInt32 {
     case graphics = 0
     case compute = 1
-    case rayTracingKHR = 1000165000
 }
 
 enum PipelineCacheHeaderVersion: UInt32 {
@@ -132,7 +128,6 @@ enum SharingMode: UInt32 {
 enum IndexType: UInt32 {
     case uint16 = 0
     case uint32 = 1
-    case noneKHR = 1000165000
     case uint8EXT = 1000265000
 }
 
@@ -152,6 +147,7 @@ enum SamplerAddressMode: UInt32 {
     case mirroredRepeat = 1
     case clampToEdge = 2
     case clampToBorder = 3
+    case mirrorClampToEdge = 4
 }
 
 enum CompareOp: UInt32 {
@@ -579,11 +575,6 @@ enum StructureType: UInt32 {
     case displayModeCreateInfoKHR = 1000002000
     case displaySurfaceCreateInfoKHR = 1000002001
     case displayPresentInfoKHR = 1000003000
-    case xlibSurfaceCreateInfoKHR = 1000004000
-    case xcbSurfaceCreateInfoKHR = 1000005000
-    case waylandSurfaceCreateInfoKHR = 1000006000
-    case androidSurfaceCreateInfoKHR = 1000008000
-    case win32SurfaceCreateInfoKHR = 1000009000
     case debugReportCallbackCreateInfoEXT = 1000011000
     case pipelineRasterizationStateRasterizationOrderAMD = 1000018000
     case debugMarkerObjectNameInfoEXT = 1000022000
@@ -597,30 +588,16 @@ enum StructureType: UInt32 {
     case pipelineRasterizationStateStreamCreateInfoEXT = 1000028002
     case imageViewHandleInfoNVX = 1000030000
     case textureLodGatherFormatPropertiesAMD = 1000041000
-    case streamDescriptorSurfaceCreateInfoGGP = 1000049000
     case physicalDeviceCornerSampledImageFeaturesNV = 1000050000
     case externalMemoryImageCreateInfoNV = 1000056000
     case exportMemoryAllocateInfoNV = 1000056001
-    case importMemoryWin32HandleInfoNV = 1000057000
-    case exportMemoryWin32HandleInfoNV = 1000057001
-    case win32KeyedMutexAcquireReleaseInfoNV = 1000058000
     case validationFlagsEXT = 1000061000
-    case viSurfaceCreateInfoNN = 1000062000
     case physicalDeviceTextureCompressionAstcHdrFeaturesEXT = 1000066000
     case imageViewAstcDecodeModeEXT = 1000067000
     case physicalDeviceAstcDecodeFeaturesEXT = 1000067001
-    case importMemoryWin32HandleInfoKHR = 1000073000
-    case exportMemoryWin32HandleInfoKHR = 1000073001
-    case memoryWin32HandlePropertiesKHR = 1000073002
-    case memoryGetWin32HandleInfoKHR = 1000073003
     case importMemoryFdInfoKHR = 1000074000
     case memoryFdPropertiesKHR = 1000074001
     case memoryGetFdInfoKHR = 1000074002
-    case win32KeyedMutexAcquireReleaseInfoKHR = 1000075000
-    case importSemaphoreWin32HandleInfoKHR = 1000078000
-    case exportSemaphoreWin32HandleInfoKHR = 1000078001
-    case d3d12FenceSubmitInfoKHR = 1000078002
-    case semaphoreGetWin32HandleInfoKHR = 1000078003
     case importSemaphoreFdInfoKHR = 1000079000
     case semaphoreGetFdInfoKHR = 1000079001
     case physicalDevicePushDescriptorPropertiesKHR = 1000080000
@@ -645,9 +622,6 @@ enum StructureType: UInt32 {
     case pipelineRasterizationDepthClipStateCreateInfoEXT = 1000102001
     case hdrMetadataEXT = 1000105000
     case sharedPresentSurfaceCapabilitiesKHR = 1000111000
-    case importFenceWin32HandleInfoKHR = 1000114000
-    case exportFenceWin32HandleInfoKHR = 1000114001
-    case fenceGetWin32HandleInfoKHR = 1000114002
     case importFenceFdInfoKHR = 1000115000
     case fenceGetFdInfoKHR = 1000115001
     case physicalDevicePerformanceQueryFeaturesKHR = 1000116000
@@ -665,19 +639,11 @@ enum StructureType: UInt32 {
     case displayModeProperties2KHR = 1000121002
     case displayPlaneInfo2KHR = 1000121003
     case displayPlaneCapabilities2KHR = 1000121004
-    case iosSurfaceCreateInfoMVK = 1000122000
-    case macosSurfaceCreateInfoMVK = 1000123000
     case debugUtilsObjectNameInfoEXT = 1000128000
     case debugUtilsObjectTagInfoEXT = 1000128001
     case debugUtilsLabelEXT = 1000128002
     case debugUtilsMessengerCallbackDataEXT = 1000128003
     case debugUtilsMessengerCreateInfoEXT = 1000128004
-    case androidHardwareBufferUsageANDROID = 1000129000
-    case androidHardwareBufferPropertiesANDROID = 1000129001
-    case androidHardwareBufferFormatPropertiesANDROID = 1000129002
-    case importAndroidHardwareBufferInfoANDROID = 1000129003
-    case memoryGetAndroidHardwareBufferInfoANDROID = 1000129004
-    case externalFormatANDROID = 1000129005
     case physicalDeviceInlineUniformBlockFeaturesEXT = 1000138000
     case physicalDeviceInlineUniformBlockPropertiesEXT = 1000138001
     case writeDescriptorSetInlineUniformBlockEXT = 1000138002
@@ -691,27 +657,6 @@ enum StructureType: UInt32 {
     case physicalDeviceBlendOperationAdvancedPropertiesEXT = 1000148001
     case pipelineColorBlendAdvancedStateCreateInfoEXT = 1000148002
     case pipelineCoverageToColorStateCreateInfoNV = 1000149000
-    case bindAccelerationStructureMemoryInfoKHR = 1000165006
-    case writeDescriptorSetAccelerationStructureKHR = 1000165007
-    case accelerationStructureBuildGeometryInfoKHR = 1000150000
-    case accelerationStructureCreateGeometryTypeInfoKHR = 1000150001
-    case accelerationStructureDeviceAddressInfoKHR = 1000150002
-    case accelerationStructureGeometryAabbsDataKHR = 1000150003
-    case accelerationStructureGeometryInstancesDataKHR = 1000150004
-    case accelerationStructureGeometryTrianglesDataKHR = 1000150005
-    case accelerationStructureGeometryKHR = 1000150006
-    case accelerationStructureInfoKHR = 1000150007
-    case accelerationStructureMemoryRequirementsInfoKHR = 1000150008
-    case accelerationStructureVersionKHR = 1000150009
-    case copyAccelerationStructureInfoKHR = 1000150010
-    case copyAccelerationStructureToMemoryInfoKHR = 1000150011
-    case copyMemoryToAccelerationStructureInfoKHR = 1000150012
-    case physicalDeviceRayTracingFeaturesKHR = 1000150013
-    case physicalDeviceRayTracingPropertiesKHR = 1000150014
-    case rayTracingPipelineCreateInfoKHR = 1000150015
-    case rayTracingShaderGroupCreateInfoKHR = 1000150016
-    case accelerationStructureCreateInfoKHR = 1000150017
-    case rayTracingPipelineInterfaceCreateInfoKHR = 1000150018
     case pipelineCoverageModulationStateCreateInfoNV = 1000152000
     case physicalDeviceShaderSmBuiltinsFeaturesNV = 1000154000
     case physicalDeviceShaderSmBuiltinsPropertiesNV = 1000154001
@@ -752,7 +697,6 @@ enum StructureType: UInt32 {
     case physicalDeviceVertexAttributeDivisorPropertiesEXT = 1000190000
     case pipelineVertexInputDivisorStateCreateInfoEXT = 1000190001
     case physicalDeviceVertexAttributeDivisorFeaturesEXT = 1000190002
-    case presentFrameTokenGGP = 1000191000
     case pipelineCreationFeedbackCreateInfoEXT = 1000192000
     case physicalDeviceComputeShaderDerivativesFeaturesNV = 1000201000
     case physicalDeviceMeshShaderFeaturesNV = 1000202000
@@ -773,8 +717,6 @@ enum StructureType: UInt32 {
     case physicalDevicePciBusInfoPropertiesEXT = 1000212000
     case displayNativeHdrSurfaceCapabilitiesAMD = 1000213000
     case swapchainDisplayNativeHdrCreateInfoAMD = 1000213001
-    case imagepipeSurfaceCreateInfoFUCHSIA = 1000214000
-    case metalSurfaceCreateInfoEXT = 1000217000
     case physicalDeviceFragmentDensityMapFeaturesEXT = 1000218000
     case physicalDeviceFragmentDensityMapPropertiesEXT = 1000218001
     case renderPassFragmentDensityMapCreateInfoEXT = 1000218002
@@ -800,15 +742,11 @@ enum StructureType: UInt32 {
     case framebufferMixedSamplesCombinationNV = 1000250002
     case physicalDeviceFragmentShaderInterlockFeaturesEXT = 1000251000
     case physicalDeviceYcbcrImageArraysFeaturesEXT = 1000252000
-    case surfaceFullScreenExclusiveInfoEXT = 1000255000
-    case surfaceCapabilitiesFullScreenExclusiveEXT = 1000255002
-    case surfaceFullScreenExclusiveWin32InfoEXT = 1000255001
     case headlessSurfaceCreateInfoEXT = 1000256000
     case physicalDeviceLineRasterizationFeaturesEXT = 1000259000
     case pipelineRasterizationLineStateCreateInfoEXT = 1000259001
     case physicalDeviceLineRasterizationPropertiesEXT = 1000259002
     case physicalDeviceIndexTypeUint8FeaturesEXT = 1000265000
-    case deferredOperationInfoKHR = 1000268000
     case physicalDevicePipelineExecutablePropertiesFeaturesKHR = 1000269000
     case pipelineInfoKHR = 1000269001
     case pipelineExecutablePropertiesKHR = 1000269002
@@ -828,7 +766,6 @@ enum StructureType: UInt32 {
     case physicalDeviceTexelBufferAlignmentPropertiesEXT = 1000281001
     case commandBufferInheritanceRenderPassTransformInfoQCOM = 1000282000
     case renderPassTransformBeginInfoQCOM = 1000282001
-    case pipelineLibraryCreateInfoKHR = 1000290000
     case physicalDevicePipelineCreationCacheControlFeaturesEXT = 1000297000
     case physicalDeviceDiagnosticsConfigFeaturesNV = 1000300000
     case deviceDiagnosticsConfigCreateInfoNV = 1000300001
@@ -866,14 +803,8 @@ enum Result: Int32 {
     case errorIncompatibleDisplayKHR = -1000003001
     case errorValidationFailedEXT = -1000011001
     case errorInvalidShaderNV = -1000012000
-    case errorIncompatibleVersionKHR = -1000150000
     case errorInvalidDrmFormatModifierPlaneLayoutEXT = -1000158000
     case errorNotPermittedEXT = -1000174001
-    case errorFullScreenExclusiveModeLostEXT = -1000255000
-    case threadIdleKHR = 1000268000
-    case threadDoneKHR = 1000268001
-    case operationDeferredKHR = 1000268002
-    case operationNotDeferredKHR = 1000268003
     case errorPipelineCompileRequiredEXT = 1000297000
 }
 
@@ -898,6 +829,7 @@ enum DynamicState: UInt32 {
 
 enum DescriptorUpdateTemplateType: UInt32 {
     case descriptorSet = 0
+    case pushDescriptorsKHR = 1
 }
 
 enum ObjectType: UInt32 {
@@ -933,10 +865,8 @@ enum ObjectType: UInt32 {
     case displayModeKHR = 1000002001
     case debugReportCallbackEXT = 1000011000
     case debugUtilsMessengerEXT = 1000128000
-    case accelerationStructureKHR = 1000165000
     case validationCacheEXT = 1000160000
     case performanceConfigurationINTEL = 1000210000
-    case deferredOperationKHR = 1000268000
     case indirectCommandsLayoutNV = 1000277000
 }
 
@@ -1015,7 +945,6 @@ enum DebugReportObjectTypeEXT: UInt32 {
     case validationCacheExt = 33
     case samplerYcbcrConversion = 1000156000
     case descriptorUpdateTemplate = 1000085000
-    case accelerationStructureKhr = 1000165000
 }
 
 enum RasterizationOrderAMD: UInt32 {
@@ -1446,8 +1375,6 @@ struct AccessFlags: OptionSet {
     static let transformFeedbackCounterWriteEXT = AccessFlags(rawValue: 134217728)
     static let conditionalRenderingReadEXT = AccessFlags(rawValue: 1048576)
     static let colorAttachmentReadNoncoherentEXT = AccessFlags(rawValue: 524288)
-    static let accelerationStructureReadKHR = AccessFlags(rawValue: 2097152)
-    static let accelerationStructureWriteKHR = AccessFlags(rawValue: 4194304)
     static let shadingRateImageReadNV = AccessFlags(rawValue: 8388608)
     static let fragmentDensityMapReadEXT = AccessFlags(rawValue: 16777216)
     static let commandPreprocessReadNV = AccessFlags(rawValue: 131072)
@@ -1468,7 +1395,6 @@ struct BufferUsageFlags: OptionSet {
     static let transformFeedbackBufferEXT = BufferUsageFlags(rawValue: 2048)
     static let transformFeedbackCounterBufferEXT = BufferUsageFlags(rawValue: 4096)
     static let conditionalRenderingEXT = BufferUsageFlags(rawValue: 512)
-    static let rayTracingKHR = BufferUsageFlags(rawValue: 1024)
 }
 
 struct BufferCreateFlags: OptionSet {
@@ -1488,12 +1414,6 @@ struct ShaderStageFlags: OptionSet {
     static let compute = ShaderStageFlags(rawValue: 32)
     static let allGraphics = ShaderStageFlags(rawValue: 0x0000001F)
     static let all = ShaderStageFlags(rawValue: 0x7FFFFFFF)
-    static let raygenKHR = ShaderStageFlags(rawValue: 256)
-    static let anyHitKHR = ShaderStageFlags(rawValue: 512)
-    static let closestHitKHR = ShaderStageFlags(rawValue: 1024)
-    static let missKHR = ShaderStageFlags(rawValue: 2048)
-    static let intersectionKHR = ShaderStageFlags(rawValue: 4096)
-    static let callableKHR = ShaderStageFlags(rawValue: 8192)
     static let taskNV = ShaderStageFlags(rawValue: 64)
     static let meshNV = ShaderStageFlags(rawValue: 128)
 }
@@ -1534,17 +1454,10 @@ struct PipelineCreateFlags: OptionSet {
     static let disableOptimization = PipelineCreateFlags(rawValue: 1)
     static let allowDerivatives = PipelineCreateFlags(rawValue: 2)
     static let derivative = PipelineCreateFlags(rawValue: 4)
-    static let rayTracingNoNullAnyHitShadersKHR = PipelineCreateFlags(rawValue: 16384)
-    static let rayTracingNoNullClosestHitShadersKHR = PipelineCreateFlags(rawValue: 32768)
-    static let rayTracingNoNullMissShadersKHR = PipelineCreateFlags(rawValue: 65536)
-    static let rayTracingNoNullIntersectionShadersKHR = PipelineCreateFlags(rawValue: 131072)
-    static let rayTracingSkipTrianglesKHR = PipelineCreateFlags(rawValue: 4096)
-    static let rayTracingSkipAabbsKHR = PipelineCreateFlags(rawValue: 8192)
     static let deferCompileNV = PipelineCreateFlags(rawValue: 32)
     static let captureStatisticsKHR = PipelineCreateFlags(rawValue: 64)
     static let captureInternalRepresentationsKHR = PipelineCreateFlags(rawValue: 128)
     static let indirectBindableNV = PipelineCreateFlags(rawValue: 262144)
-    static let libraryKHR = PipelineCreateFlags(rawValue: 2048)
     static let failOnPipelineCompileRequiredEXT = PipelineCreateFlags(rawValue: 256)
     static let earlyReturnOnFailureEXT = PipelineCreateFlags(rawValue: 512)
 }
@@ -1582,7 +1495,6 @@ struct FormatFeatureFlags: OptionSet {
     static let blitDst = FormatFeatureFlags(rawValue: 2048)
     static let sampledImageFilterLinear = FormatFeatureFlags(rawValue: 4096)
     static let sampledImageFilterCubicIMG = FormatFeatureFlags(rawValue: 8192)
-    static let accelerationStructureVertexBufferKHR = FormatFeatureFlags(rawValue: 536870912)
     static let fragmentDensityMapEXT = FormatFeatureFlags(rawValue: 16777216)
 }
 
@@ -1700,8 +1612,6 @@ struct PipelineStageFlags: OptionSet {
     static let allCommands = PipelineStageFlags(rawValue: 65536)
     static let transformFeedbackEXT = PipelineStageFlags(rawValue: 16777216)
     static let conditionalRenderingEXT = PipelineStageFlags(rawValue: 262144)
-    static let rayTracingShaderKHR = PipelineStageFlags(rawValue: 2097152)
-    static let accelerationStructureBuildKHR = PipelineStageFlags(rawValue: 33554432)
     static let shadingRateImageNV = PipelineStageFlags(rawValue: 4194304)
     static let taskShaderNV = PipelineStageFlags(rawValue: 524288)
     static let meshShaderNV = PipelineStageFlags(rawValue: 1048576)
@@ -1927,7 +1837,6 @@ struct ExternalMemoryHandleTypeFlags: OptionSet {
     static let d3d12Heap = ExternalMemoryHandleTypeFlags(rawValue: 32)
     static let d3d12Resource = ExternalMemoryHandleTypeFlags(rawValue: 64)
     static let dmaBufEXT = ExternalMemoryHandleTypeFlags(rawValue: 512)
-    static let androidHardwareBufferANDROID = ExternalMemoryHandleTypeFlags(rawValue: 1024)
     static let hostAllocationEXT = ExternalMemoryHandleTypeFlags(rawValue: 128)
     static let hostMappedForeignMemoryEXT = ExternalMemoryHandleTypeFlags(rawValue: 256)
 }
