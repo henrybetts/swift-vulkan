@@ -1,5 +1,20 @@
-from .parser import CContext, CEnum, CBitmask, CStruct
+from .parser import CContext, CEnum, CBitmask, CStruct, CType
 from typing import Optional, Tuple, List
+
+IMPLICIT_TYPE_MAP = {
+    'void': 'Void',
+    'char': 'CChar',
+    'float': 'Float',
+    'double': 'Double',
+    'uint8_t': 'UInt8',
+    'uint16_t': 'UInt16',
+    'uint32_t': 'UInt32',
+    'uint64_t': 'UInt64',
+    'int32_t': 'Int32',
+    'int64_t': 'Int64',
+    'size_t': 'Int',
+    'int': 'Int32'
+}
 
 
 class SwiftEnum(CEnum):
@@ -17,8 +32,14 @@ class SwiftOptionSet(CEnum):
 
 
 class SwiftStruct:
-    def __init__(self, name: str, c_struct: CStruct):
+    class Member:
+        def __init__(self, name: str, type_: str):
+            self.name = name
+            self.type = type_
+
+    def __init__(self, name: str, members: List[Member], c_struct: CStruct):
         self.name = name
+        self.members = members
         self.c_struct = c_struct
 
 
@@ -129,9 +150,24 @@ class Importer:
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
         struct = SwiftStruct(
             name=remove_vk_prefix(c_struct.name),
+            members=[SwiftStruct.Member(member.name, self.get_swift_type(member.type)) for member in c_struct.members],
             c_struct=c_struct
         )
         return struct
+
+    def get_swift_type(self, c_type: CType) -> str:
+        if c_type.name:
+            if c_type.name in IMPLICIT_TYPE_MAP:
+                return IMPLICIT_TYPE_MAP[c_type.name]
+            return c_type.name
+        elif c_type.pointer_to:
+            if c_type.pointer_to.name == 'void':
+                return 'UnsafeRawPointer' if c_type.pointer_to.const else 'UnsafeMutableRawPointer'
+            to_type = self.get_swift_type(c_type.pointer_to)
+            return f'UnsafePointer<{to_type}>' if c_type.pointer_to.const else f'UnsafeMutablePointer<{to_type}>'
+        elif c_type.array_of:
+            of_type = self.get_swift_type(c_type.array_of)
+            return f'({", ".join([of_type] * c_type.length)})'
 
     def pop_extension_tag(self, string: str) -> Tuple[str, Optional[str]]:
         for tag in self.c_context.extension_tags:

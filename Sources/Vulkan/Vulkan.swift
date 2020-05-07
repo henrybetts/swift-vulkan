@@ -1985,1862 +1985,3928 @@ struct ToolPurposeFlagsEXT: OptionSet {
 }
 
 struct BaseOutStructure {
-    var cStruct: VkBaseOutStructure
+    let sType: VkStructureType
+    let pNext: UnsafeMutablePointer<VkBaseOutStructure>
 }
 
 struct BaseInStructure {
-    var cStruct: VkBaseInStructure
+    let sType: VkStructureType
+    let pNext: UnsafePointer<VkBaseInStructure>
 }
 
 struct Offset2D {
-    var cStruct: VkOffset2D
+    let x: Int32
+    let y: Int32
 }
 
 struct Offset3D {
-    var cStruct: VkOffset3D
+    let x: Int32
+    let y: Int32
+    let z: Int32
 }
 
 struct Extent2D {
-    var cStruct: VkExtent2D
+    let width: UInt32
+    let height: UInt32
 }
 
 struct Extent3D {
-    var cStruct: VkExtent3D
+    let width: UInt32
+    let height: UInt32
+    let depth: UInt32
 }
 
 struct Viewport {
-    var cStruct: VkViewport
+    let x: Float
+    let y: Float
+    let width: Float
+    let height: Float
+    let minDepth: Float
+    let maxDepth: Float
 }
 
 struct Rect2D {
-    var cStruct: VkRect2D
+    let offset: VkOffset2D
+    let extent: VkExtent2D
 }
 
 struct ClearRect {
-    var cStruct: VkClearRect
+    let rect: VkRect2D
+    let baseArrayLayer: UInt32
+    let layerCount: UInt32
 }
 
 struct ComponentMapping {
-    var cStruct: VkComponentMapping
+    let r: VkComponentSwizzle
+    let g: VkComponentSwizzle
+    let b: VkComponentSwizzle
+    let a: VkComponentSwizzle
 }
 
 struct PhysicalDeviceProperties {
-    var cStruct: VkPhysicalDeviceProperties
+    let apiVersion: UInt32
+    let driverVersion: UInt32
+    let vendorID: UInt32
+    let deviceID: UInt32
+    let deviceType: VkPhysicalDeviceType
+    let deviceName: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let pipelineCacheUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let limits: VkPhysicalDeviceLimits
+    let sparseProperties: VkPhysicalDeviceSparseProperties
 }
 
 struct ExtensionProperties {
-    var cStruct: VkExtensionProperties
+    let extensionName: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let specVersion: UInt32
 }
 
 struct LayerProperties {
-    var cStruct: VkLayerProperties
+    let layerName: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let specVersion: UInt32
+    let implementationVersion: UInt32
+    let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
 }
 
 struct ApplicationInfo {
-    var cStruct: VkApplicationInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pApplicationName: UnsafePointer<CChar>
+    let applicationVersion: UInt32
+    let pEngineName: UnsafePointer<CChar>
+    let engineVersion: UInt32
+    let apiVersion: UInt32
 }
 
 struct AllocationCallbacks {
-    var cStruct: VkAllocationCallbacks
+    let pUserData: UnsafeMutableRawPointer
+    let pfnAllocation: PFN_vkAllocationFunction
+    let pfnReallocation: PFN_vkReallocationFunction
+    let pfnFree: PFN_vkFreeFunction
+    let pfnInternalAllocation: PFN_vkInternalAllocationNotification
+    let pfnInternalFree: PFN_vkInternalFreeNotification
 }
 
 struct DeviceQueueCreateInfo {
-    var cStruct: VkDeviceQueueCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDeviceQueueCreateFlags
+    let queueFamilyIndex: UInt32
+    let queueCount: UInt32
+    let pQueuePriorities: UnsafePointer<Float>
 }
 
 struct DeviceCreateInfo {
-    var cStruct: VkDeviceCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDeviceCreateFlags
+    let queueCreateInfoCount: UInt32
+    let pQueueCreateInfos: UnsafePointer<VkDeviceQueueCreateInfo>
+    let enabledLayerCount: UInt32
+    let ppEnabledLayerNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let enabledExtensionCount: UInt32
+    let ppEnabledExtensionNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let pEnabledFeatures: UnsafePointer<VkPhysicalDeviceFeatures>
 }
 
 struct InstanceCreateInfo {
-    var cStruct: VkInstanceCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkInstanceCreateFlags
+    let pApplicationInfo: UnsafePointer<VkApplicationInfo>
+    let enabledLayerCount: UInt32
+    let ppEnabledLayerNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let enabledExtensionCount: UInt32
+    let ppEnabledExtensionNames: UnsafeMutablePointer<UnsafePointer<CChar>>
 }
 
 struct QueueFamilyProperties {
-    var cStruct: VkQueueFamilyProperties
+    let queueFlags: VkQueueFlags
+    let queueCount: UInt32
+    let timestampValidBits: UInt32
+    let minImageTransferGranularity: VkExtent3D
 }
 
 struct PhysicalDeviceMemoryProperties {
-    var cStruct: VkPhysicalDeviceMemoryProperties
+    let memoryTypeCount: UInt32
+    let memoryTypes: (VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType)
+    let memoryHeapCount: UInt32
+    let memoryHeaps: (VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap)
 }
 
 struct MemoryAllocateInfo {
-    var cStruct: VkMemoryAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let allocationSize: VkDeviceSize
+    let memoryTypeIndex: UInt32
 }
 
 struct MemoryRequirements {
-    var cStruct: VkMemoryRequirements
+    let size: VkDeviceSize
+    let alignment: VkDeviceSize
+    let memoryTypeBits: UInt32
 }
 
 struct SparseImageFormatProperties {
-    var cStruct: VkSparseImageFormatProperties
+    let aspectMask: VkImageAspectFlags
+    let imageGranularity: VkExtent3D
+    let flags: VkSparseImageFormatFlags
 }
 
 struct SparseImageMemoryRequirements {
-    var cStruct: VkSparseImageMemoryRequirements
+    let formatProperties: VkSparseImageFormatProperties
+    let imageMipTailFirstLod: UInt32
+    let imageMipTailSize: VkDeviceSize
+    let imageMipTailOffset: VkDeviceSize
+    let imageMipTailStride: VkDeviceSize
 }
 
 struct MemoryType {
-    var cStruct: VkMemoryType
+    let propertyFlags: VkMemoryPropertyFlags
+    let heapIndex: UInt32
 }
 
 struct MemoryHeap {
-    var cStruct: VkMemoryHeap
+    let size: VkDeviceSize
+    let flags: VkMemoryHeapFlags
 }
 
 struct MappedMemoryRange {
-    var cStruct: VkMappedMemoryRange
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let memory: VkDeviceMemory
+    let offset: VkDeviceSize
+    let size: VkDeviceSize
 }
 
 struct FormatProperties {
-    var cStruct: VkFormatProperties
+    let linearTilingFeatures: VkFormatFeatureFlags
+    let optimalTilingFeatures: VkFormatFeatureFlags
+    let bufferFeatures: VkFormatFeatureFlags
 }
 
 struct ImageFormatProperties {
-    var cStruct: VkImageFormatProperties
+    let maxExtent: VkExtent3D
+    let maxMipLevels: UInt32
+    let maxArrayLayers: UInt32
+    let sampleCounts: VkSampleCountFlags
+    let maxResourceSize: VkDeviceSize
 }
 
 struct DescriptorBufferInfo {
-    var cStruct: VkDescriptorBufferInfo
+    let buffer: VkBuffer
+    let offset: VkDeviceSize
+    let range: VkDeviceSize
 }
 
 struct DescriptorImageInfo {
-    var cStruct: VkDescriptorImageInfo
+    let sampler: VkSampler
+    let imageView: VkImageView
+    let imageLayout: VkImageLayout
 }
 
 struct WriteDescriptorSet {
-    var cStruct: VkWriteDescriptorSet
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let dstSet: VkDescriptorSet
+    let dstBinding: UInt32
+    let dstArrayElement: UInt32
+    let descriptorCount: UInt32
+    let descriptorType: VkDescriptorType
+    let pImageInfo: UnsafePointer<VkDescriptorImageInfo>
+    let pBufferInfo: UnsafePointer<VkDescriptorBufferInfo>
+    let pTexelBufferView: UnsafePointer<VkBufferView>
 }
 
 struct CopyDescriptorSet {
-    var cStruct: VkCopyDescriptorSet
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcSet: VkDescriptorSet
+    let srcBinding: UInt32
+    let srcArrayElement: UInt32
+    let dstSet: VkDescriptorSet
+    let dstBinding: UInt32
+    let dstArrayElement: UInt32
+    let descriptorCount: UInt32
 }
 
 struct BufferCreateInfo {
-    var cStruct: VkBufferCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkBufferCreateFlags
+    let size: VkDeviceSize
+    let usage: VkBufferUsageFlags
+    let sharingMode: VkSharingMode
+    let queueFamilyIndexCount: UInt32
+    let pQueueFamilyIndices: UnsafePointer<UInt32>
 }
 
 struct BufferViewCreateInfo {
-    var cStruct: VkBufferViewCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkBufferViewCreateFlags
+    let buffer: VkBuffer
+    let format: VkFormat
+    let offset: VkDeviceSize
+    let range: VkDeviceSize
 }
 
 struct ImageSubresource {
-    var cStruct: VkImageSubresource
+    let aspectMask: VkImageAspectFlags
+    let mipLevel: UInt32
+    let arrayLayer: UInt32
 }
 
 struct ImageSubresourceLayers {
-    var cStruct: VkImageSubresourceLayers
+    let aspectMask: VkImageAspectFlags
+    let mipLevel: UInt32
+    let baseArrayLayer: UInt32
+    let layerCount: UInt32
 }
 
 struct ImageSubresourceRange {
-    var cStruct: VkImageSubresourceRange
+    let aspectMask: VkImageAspectFlags
+    let baseMipLevel: UInt32
+    let levelCount: UInt32
+    let baseArrayLayer: UInt32
+    let layerCount: UInt32
 }
 
 struct MemoryBarrier {
-    var cStruct: VkMemoryBarrier
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcAccessMask: VkAccessFlags
+    let dstAccessMask: VkAccessFlags
 }
 
 struct BufferMemoryBarrier {
-    var cStruct: VkBufferMemoryBarrier
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcAccessMask: VkAccessFlags
+    let dstAccessMask: VkAccessFlags
+    let srcQueueFamilyIndex: UInt32
+    let dstQueueFamilyIndex: UInt32
+    let buffer: VkBuffer
+    let offset: VkDeviceSize
+    let size: VkDeviceSize
 }
 
 struct ImageMemoryBarrier {
-    var cStruct: VkImageMemoryBarrier
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcAccessMask: VkAccessFlags
+    let dstAccessMask: VkAccessFlags
+    let oldLayout: VkImageLayout
+    let newLayout: VkImageLayout
+    let srcQueueFamilyIndex: UInt32
+    let dstQueueFamilyIndex: UInt32
+    let image: VkImage
+    let subresourceRange: VkImageSubresourceRange
 }
 
 struct ImageCreateInfo {
-    var cStruct: VkImageCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkImageCreateFlags
+    let imageType: VkImageType
+    let format: VkFormat
+    let extent: VkExtent3D
+    let mipLevels: UInt32
+    let arrayLayers: UInt32
+    let samples: VkSampleCountFlagBits
+    let tiling: VkImageTiling
+    let usage: VkImageUsageFlags
+    let sharingMode: VkSharingMode
+    let queueFamilyIndexCount: UInt32
+    let pQueueFamilyIndices: UnsafePointer<UInt32>
+    let initialLayout: VkImageLayout
 }
 
 struct SubresourceLayout {
-    var cStruct: VkSubresourceLayout
+    let offset: VkDeviceSize
+    let size: VkDeviceSize
+    let rowPitch: VkDeviceSize
+    let arrayPitch: VkDeviceSize
+    let depthPitch: VkDeviceSize
 }
 
 struct ImageViewCreateInfo {
-    var cStruct: VkImageViewCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkImageViewCreateFlags
+    let image: VkImage
+    let viewType: VkImageViewType
+    let format: VkFormat
+    let components: VkComponentMapping
+    let subresourceRange: VkImageSubresourceRange
 }
 
 struct BufferCopy {
-    var cStruct: VkBufferCopy
+    let srcOffset: VkDeviceSize
+    let dstOffset: VkDeviceSize
+    let size: VkDeviceSize
 }
 
 struct SparseMemoryBind {
-    var cStruct: VkSparseMemoryBind
+    let resourceOffset: VkDeviceSize
+    let size: VkDeviceSize
+    let memory: VkDeviceMemory
+    let memoryOffset: VkDeviceSize
+    let flags: VkSparseMemoryBindFlags
 }
 
 struct SparseImageMemoryBind {
-    var cStruct: VkSparseImageMemoryBind
+    let subresource: VkImageSubresource
+    let offset: VkOffset3D
+    let extent: VkExtent3D
+    let memory: VkDeviceMemory
+    let memoryOffset: VkDeviceSize
+    let flags: VkSparseMemoryBindFlags
 }
 
 struct SparseBufferMemoryBindInfo {
-    var cStruct: VkSparseBufferMemoryBindInfo
+    let buffer: VkBuffer
+    let bindCount: UInt32
+    let pBinds: UnsafePointer<VkSparseMemoryBind>
 }
 
 struct SparseImageOpaqueMemoryBindInfo {
-    var cStruct: VkSparseImageOpaqueMemoryBindInfo
+    let image: VkImage
+    let bindCount: UInt32
+    let pBinds: UnsafePointer<VkSparseMemoryBind>
 }
 
 struct SparseImageMemoryBindInfo {
-    var cStruct: VkSparseImageMemoryBindInfo
+    let image: VkImage
+    let bindCount: UInt32
+    let pBinds: UnsafePointer<VkSparseImageMemoryBind>
 }
 
 struct BindSparseInfo {
-    var cStruct: VkBindSparseInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let waitSemaphoreCount: UInt32
+    let pWaitSemaphores: UnsafePointer<VkSemaphore>
+    let bufferBindCount: UInt32
+    let pBufferBinds: UnsafePointer<VkSparseBufferMemoryBindInfo>
+    let imageOpaqueBindCount: UInt32
+    let pImageOpaqueBinds: UnsafePointer<VkSparseImageOpaqueMemoryBindInfo>
+    let imageBindCount: UInt32
+    let pImageBinds: UnsafePointer<VkSparseImageMemoryBindInfo>
+    let signalSemaphoreCount: UInt32
+    let pSignalSemaphores: UnsafePointer<VkSemaphore>
 }
 
 struct ImageCopy {
-    var cStruct: VkImageCopy
+    let srcSubresource: VkImageSubresourceLayers
+    let srcOffset: VkOffset3D
+    let dstSubresource: VkImageSubresourceLayers
+    let dstOffset: VkOffset3D
+    let extent: VkExtent3D
 }
 
 struct ImageBlit {
-    var cStruct: VkImageBlit
+    let srcSubresource: VkImageSubresourceLayers
+    let srcOffsets: (VkOffset3D, VkOffset3D)
+    let dstSubresource: VkImageSubresourceLayers
+    let dstOffsets: (VkOffset3D, VkOffset3D)
 }
 
 struct BufferImageCopy {
-    var cStruct: VkBufferImageCopy
+    let bufferOffset: VkDeviceSize
+    let bufferRowLength: UInt32
+    let bufferImageHeight: UInt32
+    let imageSubresource: VkImageSubresourceLayers
+    let imageOffset: VkOffset3D
+    let imageExtent: VkExtent3D
 }
 
 struct ImageResolve {
-    var cStruct: VkImageResolve
+    let srcSubresource: VkImageSubresourceLayers
+    let srcOffset: VkOffset3D
+    let dstSubresource: VkImageSubresourceLayers
+    let dstOffset: VkOffset3D
+    let extent: VkExtent3D
 }
 
 struct ShaderModuleCreateInfo {
-    var cStruct: VkShaderModuleCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkShaderModuleCreateFlags
+    let codeSize: Int
+    let pCode: UnsafePointer<UInt32>
 }
 
 struct DescriptorSetLayoutBinding {
-    var cStruct: VkDescriptorSetLayoutBinding
+    let binding: UInt32
+    let descriptorType: VkDescriptorType
+    let descriptorCount: UInt32
+    let stageFlags: VkShaderStageFlags
+    let pImmutableSamplers: UnsafePointer<VkSampler>
 }
 
 struct DescriptorSetLayoutCreateInfo {
-    var cStruct: VkDescriptorSetLayoutCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDescriptorSetLayoutCreateFlags
+    let bindingCount: UInt32
+    let pBindings: UnsafePointer<VkDescriptorSetLayoutBinding>
 }
 
 struct DescriptorPoolSize {
-    var cStruct: VkDescriptorPoolSize
+    let type: VkDescriptorType
+    let descriptorCount: UInt32
 }
 
 struct DescriptorPoolCreateInfo {
-    var cStruct: VkDescriptorPoolCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDescriptorPoolCreateFlags
+    let maxSets: UInt32
+    let poolSizeCount: UInt32
+    let pPoolSizes: UnsafePointer<VkDescriptorPoolSize>
 }
 
 struct DescriptorSetAllocateInfo {
-    var cStruct: VkDescriptorSetAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let descriptorPool: VkDescriptorPool
+    let descriptorSetCount: UInt32
+    let pSetLayouts: UnsafePointer<VkDescriptorSetLayout>
 }
 
 struct SpecializationMapEntry {
-    var cStruct: VkSpecializationMapEntry
+    let constantID: UInt32
+    let offset: UInt32
+    let size: Int
 }
 
 struct SpecializationInfo {
-    var cStruct: VkSpecializationInfo
+    let mapEntryCount: UInt32
+    let pMapEntries: UnsafePointer<VkSpecializationMapEntry>
+    let dataSize: Int
+    let pData: UnsafeRawPointer
 }
 
 struct PipelineShaderStageCreateInfo {
-    var cStruct: VkPipelineShaderStageCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineShaderStageCreateFlags
+    let stage: VkShaderStageFlagBits
+    let module: VkShaderModule
+    let pName: UnsafePointer<CChar>
+    let pSpecializationInfo: UnsafePointer<VkSpecializationInfo>
 }
 
 struct ComputePipelineCreateInfo {
-    var cStruct: VkComputePipelineCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCreateFlags
+    let stage: VkPipelineShaderStageCreateInfo
+    let layout: VkPipelineLayout
+    let basePipelineHandle: VkPipeline
+    let basePipelineIndex: Int32
 }
 
 struct VertexInputBindingDescription {
-    var cStruct: VkVertexInputBindingDescription
+    let binding: UInt32
+    let stride: UInt32
+    let inputRate: VkVertexInputRate
 }
 
 struct VertexInputAttributeDescription {
-    var cStruct: VkVertexInputAttributeDescription
+    let location: UInt32
+    let binding: UInt32
+    let format: VkFormat
+    let offset: UInt32
 }
 
 struct PipelineVertexInputStateCreateInfo {
-    var cStruct: VkPipelineVertexInputStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineVertexInputStateCreateFlags
+    let vertexBindingDescriptionCount: UInt32
+    let pVertexBindingDescriptions: UnsafePointer<VkVertexInputBindingDescription>
+    let vertexAttributeDescriptionCount: UInt32
+    let pVertexAttributeDescriptions: UnsafePointer<VkVertexInputAttributeDescription>
 }
 
 struct PipelineInputAssemblyStateCreateInfo {
-    var cStruct: VkPipelineInputAssemblyStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineInputAssemblyStateCreateFlags
+    let topology: VkPrimitiveTopology
+    let primitiveRestartEnable: VkBool32
 }
 
 struct PipelineTessellationStateCreateInfo {
-    var cStruct: VkPipelineTessellationStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineTessellationStateCreateFlags
+    let patchControlPoints: UInt32
 }
 
 struct PipelineViewportStateCreateInfo {
-    var cStruct: VkPipelineViewportStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineViewportStateCreateFlags
+    let viewportCount: UInt32
+    let pViewports: UnsafePointer<VkViewport>
+    let scissorCount: UInt32
+    let pScissors: UnsafePointer<VkRect2D>
 }
 
 struct PipelineRasterizationStateCreateInfo {
-    var cStruct: VkPipelineRasterizationStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineRasterizationStateCreateFlags
+    let depthClampEnable: VkBool32
+    let rasterizerDiscardEnable: VkBool32
+    let polygonMode: VkPolygonMode
+    let cullMode: VkCullModeFlags
+    let frontFace: VkFrontFace
+    let depthBiasEnable: VkBool32
+    let depthBiasConstantFactor: Float
+    let depthBiasClamp: Float
+    let depthBiasSlopeFactor: Float
+    let lineWidth: Float
 }
 
 struct PipelineMultisampleStateCreateInfo {
-    var cStruct: VkPipelineMultisampleStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineMultisampleStateCreateFlags
+    let rasterizationSamples: VkSampleCountFlagBits
+    let sampleShadingEnable: VkBool32
+    let minSampleShading: Float
+    let pSampleMask: UnsafePointer<VkSampleMask>
+    let alphaToCoverageEnable: VkBool32
+    let alphaToOneEnable: VkBool32
 }
 
 struct PipelineColorBlendAttachmentState {
-    var cStruct: VkPipelineColorBlendAttachmentState
+    let blendEnable: VkBool32
+    let srcColorBlendFactor: VkBlendFactor
+    let dstColorBlendFactor: VkBlendFactor
+    let colorBlendOp: VkBlendOp
+    let srcAlphaBlendFactor: VkBlendFactor
+    let dstAlphaBlendFactor: VkBlendFactor
+    let alphaBlendOp: VkBlendOp
+    let colorWriteMask: VkColorComponentFlags
 }
 
 struct PipelineColorBlendStateCreateInfo {
-    var cStruct: VkPipelineColorBlendStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineColorBlendStateCreateFlags
+    let logicOpEnable: VkBool32
+    let logicOp: VkLogicOp
+    let attachmentCount: UInt32
+    let pAttachments: UnsafePointer<VkPipelineColorBlendAttachmentState>
+    let blendConstants: (Float, Float, Float, Float)
 }
 
 struct PipelineDynamicStateCreateInfo {
-    var cStruct: VkPipelineDynamicStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineDynamicStateCreateFlags
+    let dynamicStateCount: UInt32
+    let pDynamicStates: UnsafePointer<VkDynamicState>
 }
 
 struct StencilOpState {
-    var cStruct: VkStencilOpState
+    let failOp: VkStencilOp
+    let passOp: VkStencilOp
+    let depthFailOp: VkStencilOp
+    let compareOp: VkCompareOp
+    let compareMask: UInt32
+    let writeMask: UInt32
+    let reference: UInt32
 }
 
 struct PipelineDepthStencilStateCreateInfo {
-    var cStruct: VkPipelineDepthStencilStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineDepthStencilStateCreateFlags
+    let depthTestEnable: VkBool32
+    let depthWriteEnable: VkBool32
+    let depthCompareOp: VkCompareOp
+    let depthBoundsTestEnable: VkBool32
+    let stencilTestEnable: VkBool32
+    let front: VkStencilOpState
+    let back: VkStencilOpState
+    let minDepthBounds: Float
+    let maxDepthBounds: Float
 }
 
 struct GraphicsPipelineCreateInfo {
-    var cStruct: VkGraphicsPipelineCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCreateFlags
+    let stageCount: UInt32
+    let pStages: UnsafePointer<VkPipelineShaderStageCreateInfo>
+    let pVertexInputState: UnsafePointer<VkPipelineVertexInputStateCreateInfo>
+    let pInputAssemblyState: UnsafePointer<VkPipelineInputAssemblyStateCreateInfo>
+    let pTessellationState: UnsafePointer<VkPipelineTessellationStateCreateInfo>
+    let pViewportState: UnsafePointer<VkPipelineViewportStateCreateInfo>
+    let pRasterizationState: UnsafePointer<VkPipelineRasterizationStateCreateInfo>
+    let pMultisampleState: UnsafePointer<VkPipelineMultisampleStateCreateInfo>
+    let pDepthStencilState: UnsafePointer<VkPipelineDepthStencilStateCreateInfo>
+    let pColorBlendState: UnsafePointer<VkPipelineColorBlendStateCreateInfo>
+    let pDynamicState: UnsafePointer<VkPipelineDynamicStateCreateInfo>
+    let layout: VkPipelineLayout
+    let renderPass: VkRenderPass
+    let subpass: UInt32
+    let basePipelineHandle: VkPipeline
+    let basePipelineIndex: Int32
 }
 
 struct PipelineCacheCreateInfo {
-    var cStruct: VkPipelineCacheCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCacheCreateFlags
+    let initialDataSize: Int
+    let pInitialData: UnsafeRawPointer
 }
 
 struct PushConstantRange {
-    var cStruct: VkPushConstantRange
+    let stageFlags: VkShaderStageFlags
+    let offset: UInt32
+    let size: UInt32
 }
 
 struct PipelineLayoutCreateInfo {
-    var cStruct: VkPipelineLayoutCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineLayoutCreateFlags
+    let setLayoutCount: UInt32
+    let pSetLayouts: UnsafePointer<VkDescriptorSetLayout>
+    let pushConstantRangeCount: UInt32
+    let pPushConstantRanges: UnsafePointer<VkPushConstantRange>
 }
 
 struct SamplerCreateInfo {
-    var cStruct: VkSamplerCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkSamplerCreateFlags
+    let magFilter: VkFilter
+    let minFilter: VkFilter
+    let mipmapMode: VkSamplerMipmapMode
+    let addressModeU: VkSamplerAddressMode
+    let addressModeV: VkSamplerAddressMode
+    let addressModeW: VkSamplerAddressMode
+    let mipLodBias: Float
+    let anisotropyEnable: VkBool32
+    let maxAnisotropy: Float
+    let compareEnable: VkBool32
+    let compareOp: VkCompareOp
+    let minLod: Float
+    let maxLod: Float
+    let borderColor: VkBorderColor
+    let unnormalizedCoordinates: VkBool32
 }
 
 struct CommandPoolCreateInfo {
-    var cStruct: VkCommandPoolCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkCommandPoolCreateFlags
+    let queueFamilyIndex: UInt32
 }
 
 struct CommandBufferAllocateInfo {
-    var cStruct: VkCommandBufferAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let commandPool: VkCommandPool
+    let level: VkCommandBufferLevel
+    let commandBufferCount: UInt32
 }
 
 struct CommandBufferInheritanceInfo {
-    var cStruct: VkCommandBufferInheritanceInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let renderPass: VkRenderPass
+    let subpass: UInt32
+    let framebuffer: VkFramebuffer
+    let occlusionQueryEnable: VkBool32
+    let queryFlags: VkQueryControlFlags
+    let pipelineStatistics: VkQueryPipelineStatisticFlags
 }
 
 struct CommandBufferBeginInfo {
-    var cStruct: VkCommandBufferBeginInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkCommandBufferUsageFlags
+    let pInheritanceInfo: UnsafePointer<VkCommandBufferInheritanceInfo>
 }
 
 struct RenderPassBeginInfo {
-    var cStruct: VkRenderPassBeginInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let renderPass: VkRenderPass
+    let framebuffer: VkFramebuffer
+    let renderArea: VkRect2D
+    let clearValueCount: UInt32
+    let pClearValues: UnsafePointer<VkClearValue>
 }
 
 struct ClearDepthStencilValue {
-    var cStruct: VkClearDepthStencilValue
+    let depth: Float
+    let stencil: UInt32
 }
 
 struct ClearAttachment {
-    var cStruct: VkClearAttachment
+    let aspectMask: VkImageAspectFlags
+    let colorAttachment: UInt32
+    let clearValue: VkClearValue
 }
 
 struct AttachmentDescription {
-    var cStruct: VkAttachmentDescription
+    let flags: VkAttachmentDescriptionFlags
+    let format: VkFormat
+    let samples: VkSampleCountFlagBits
+    let loadOp: VkAttachmentLoadOp
+    let storeOp: VkAttachmentStoreOp
+    let stencilLoadOp: VkAttachmentLoadOp
+    let stencilStoreOp: VkAttachmentStoreOp
+    let initialLayout: VkImageLayout
+    let finalLayout: VkImageLayout
 }
 
 struct AttachmentReference {
-    var cStruct: VkAttachmentReference
+    let attachment: UInt32
+    let layout: VkImageLayout
 }
 
 struct SubpassDescription {
-    var cStruct: VkSubpassDescription
+    let flags: VkSubpassDescriptionFlags
+    let pipelineBindPoint: VkPipelineBindPoint
+    let inputAttachmentCount: UInt32
+    let pInputAttachments: UnsafePointer<VkAttachmentReference>
+    let colorAttachmentCount: UInt32
+    let pColorAttachments: UnsafePointer<VkAttachmentReference>
+    let pResolveAttachments: UnsafePointer<VkAttachmentReference>
+    let pDepthStencilAttachment: UnsafePointer<VkAttachmentReference>
+    let preserveAttachmentCount: UInt32
+    let pPreserveAttachments: UnsafePointer<UInt32>
 }
 
 struct SubpassDependency {
-    var cStruct: VkSubpassDependency
+    let srcSubpass: UInt32
+    let dstSubpass: UInt32
+    let srcStageMask: VkPipelineStageFlags
+    let dstStageMask: VkPipelineStageFlags
+    let srcAccessMask: VkAccessFlags
+    let dstAccessMask: VkAccessFlags
+    let dependencyFlags: VkDependencyFlags
 }
 
 struct RenderPassCreateInfo {
-    var cStruct: VkRenderPassCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkRenderPassCreateFlags
+    let attachmentCount: UInt32
+    let pAttachments: UnsafePointer<VkAttachmentDescription>
+    let subpassCount: UInt32
+    let pSubpasses: UnsafePointer<VkSubpassDescription>
+    let dependencyCount: UInt32
+    let pDependencies: UnsafePointer<VkSubpassDependency>
 }
 
 struct EventCreateInfo {
-    var cStruct: VkEventCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkEventCreateFlags
 }
 
 struct FenceCreateInfo {
-    var cStruct: VkFenceCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkFenceCreateFlags
 }
 
 struct PhysicalDeviceFeatures {
-    var cStruct: VkPhysicalDeviceFeatures
+    let robustBufferAccess: VkBool32
+    let fullDrawIndexUint32: VkBool32
+    let imageCubeArray: VkBool32
+    let independentBlend: VkBool32
+    let geometryShader: VkBool32
+    let tessellationShader: VkBool32
+    let sampleRateShading: VkBool32
+    let dualSrcBlend: VkBool32
+    let logicOp: VkBool32
+    let multiDrawIndirect: VkBool32
+    let drawIndirectFirstInstance: VkBool32
+    let depthClamp: VkBool32
+    let depthBiasClamp: VkBool32
+    let fillModeNonSolid: VkBool32
+    let depthBounds: VkBool32
+    let wideLines: VkBool32
+    let largePoints: VkBool32
+    let alphaToOne: VkBool32
+    let multiViewport: VkBool32
+    let samplerAnisotropy: VkBool32
+    let textureCompressionETC2: VkBool32
+    let textureCompressionASTC_LDR: VkBool32
+    let textureCompressionBC: VkBool32
+    let occlusionQueryPrecise: VkBool32
+    let pipelineStatisticsQuery: VkBool32
+    let vertexPipelineStoresAndAtomics: VkBool32
+    let fragmentStoresAndAtomics: VkBool32
+    let shaderTessellationAndGeometryPointSize: VkBool32
+    let shaderImageGatherExtended: VkBool32
+    let shaderStorageImageExtendedFormats: VkBool32
+    let shaderStorageImageMultisample: VkBool32
+    let shaderStorageImageReadWithoutFormat: VkBool32
+    let shaderStorageImageWriteWithoutFormat: VkBool32
+    let shaderUniformBufferArrayDynamicIndexing: VkBool32
+    let shaderSampledImageArrayDynamicIndexing: VkBool32
+    let shaderStorageBufferArrayDynamicIndexing: VkBool32
+    let shaderStorageImageArrayDynamicIndexing: VkBool32
+    let shaderClipDistance: VkBool32
+    let shaderCullDistance: VkBool32
+    let shaderFloat64: VkBool32
+    let shaderInt64: VkBool32
+    let shaderInt16: VkBool32
+    let shaderResourceResidency: VkBool32
+    let shaderResourceMinLod: VkBool32
+    let sparseBinding: VkBool32
+    let sparseResidencyBuffer: VkBool32
+    let sparseResidencyImage2D: VkBool32
+    let sparseResidencyImage3D: VkBool32
+    let sparseResidency2Samples: VkBool32
+    let sparseResidency4Samples: VkBool32
+    let sparseResidency8Samples: VkBool32
+    let sparseResidency16Samples: VkBool32
+    let sparseResidencyAliased: VkBool32
+    let variableMultisampleRate: VkBool32
+    let inheritedQueries: VkBool32
 }
 
 struct PhysicalDeviceSparseProperties {
-    var cStruct: VkPhysicalDeviceSparseProperties
+    let residencyStandard2DBlockShape: VkBool32
+    let residencyStandard2DMultisampleBlockShape: VkBool32
+    let residencyStandard3DBlockShape: VkBool32
+    let residencyAlignedMipSize: VkBool32
+    let residencyNonResidentStrict: VkBool32
 }
 
 struct PhysicalDeviceLimits {
-    var cStruct: VkPhysicalDeviceLimits
+    let maxImageDimension1D: UInt32
+    let maxImageDimension2D: UInt32
+    let maxImageDimension3D: UInt32
+    let maxImageDimensionCube: UInt32
+    let maxImageArrayLayers: UInt32
+    let maxTexelBufferElements: UInt32
+    let maxUniformBufferRange: UInt32
+    let maxStorageBufferRange: UInt32
+    let maxPushConstantsSize: UInt32
+    let maxMemoryAllocationCount: UInt32
+    let maxSamplerAllocationCount: UInt32
+    let bufferImageGranularity: VkDeviceSize
+    let sparseAddressSpaceSize: VkDeviceSize
+    let maxBoundDescriptorSets: UInt32
+    let maxPerStageDescriptorSamplers: UInt32
+    let maxPerStageDescriptorUniformBuffers: UInt32
+    let maxPerStageDescriptorStorageBuffers: UInt32
+    let maxPerStageDescriptorSampledImages: UInt32
+    let maxPerStageDescriptorStorageImages: UInt32
+    let maxPerStageDescriptorInputAttachments: UInt32
+    let maxPerStageResources: UInt32
+    let maxDescriptorSetSamplers: UInt32
+    let maxDescriptorSetUniformBuffers: UInt32
+    let maxDescriptorSetUniformBuffersDynamic: UInt32
+    let maxDescriptorSetStorageBuffers: UInt32
+    let maxDescriptorSetStorageBuffersDynamic: UInt32
+    let maxDescriptorSetSampledImages: UInt32
+    let maxDescriptorSetStorageImages: UInt32
+    let maxDescriptorSetInputAttachments: UInt32
+    let maxVertexInputAttributes: UInt32
+    let maxVertexInputBindings: UInt32
+    let maxVertexInputAttributeOffset: UInt32
+    let maxVertexInputBindingStride: UInt32
+    let maxVertexOutputComponents: UInt32
+    let maxTessellationGenerationLevel: UInt32
+    let maxTessellationPatchSize: UInt32
+    let maxTessellationControlPerVertexInputComponents: UInt32
+    let maxTessellationControlPerVertexOutputComponents: UInt32
+    let maxTessellationControlPerPatchOutputComponents: UInt32
+    let maxTessellationControlTotalOutputComponents: UInt32
+    let maxTessellationEvaluationInputComponents: UInt32
+    let maxTessellationEvaluationOutputComponents: UInt32
+    let maxGeometryShaderInvocations: UInt32
+    let maxGeometryInputComponents: UInt32
+    let maxGeometryOutputComponents: UInt32
+    let maxGeometryOutputVertices: UInt32
+    let maxGeometryTotalOutputComponents: UInt32
+    let maxFragmentInputComponents: UInt32
+    let maxFragmentOutputAttachments: UInt32
+    let maxFragmentDualSrcAttachments: UInt32
+    let maxFragmentCombinedOutputResources: UInt32
+    let maxComputeSharedMemorySize: UInt32
+    let maxComputeWorkGroupCount: (UInt32, UInt32, UInt32)
+    let maxComputeWorkGroupInvocations: UInt32
+    let maxComputeWorkGroupSize: (UInt32, UInt32, UInt32)
+    let subPixelPrecisionBits: UInt32
+    let subTexelPrecisionBits: UInt32
+    let mipmapPrecisionBits: UInt32
+    let maxDrawIndexedIndexValue: UInt32
+    let maxDrawIndirectCount: UInt32
+    let maxSamplerLodBias: Float
+    let maxSamplerAnisotropy: Float
+    let maxViewports: UInt32
+    let maxViewportDimensions: (UInt32, UInt32)
+    let viewportBoundsRange: (Float, Float)
+    let viewportSubPixelBits: UInt32
+    let minMemoryMapAlignment: Int
+    let minTexelBufferOffsetAlignment: VkDeviceSize
+    let minUniformBufferOffsetAlignment: VkDeviceSize
+    let minStorageBufferOffsetAlignment: VkDeviceSize
+    let minTexelOffset: Int32
+    let maxTexelOffset: UInt32
+    let minTexelGatherOffset: Int32
+    let maxTexelGatherOffset: UInt32
+    let minInterpolationOffset: Float
+    let maxInterpolationOffset: Float
+    let subPixelInterpolationOffsetBits: UInt32
+    let maxFramebufferWidth: UInt32
+    let maxFramebufferHeight: UInt32
+    let maxFramebufferLayers: UInt32
+    let framebufferColorSampleCounts: VkSampleCountFlags
+    let framebufferDepthSampleCounts: VkSampleCountFlags
+    let framebufferStencilSampleCounts: VkSampleCountFlags
+    let framebufferNoAttachmentsSampleCounts: VkSampleCountFlags
+    let maxColorAttachments: UInt32
+    let sampledImageColorSampleCounts: VkSampleCountFlags
+    let sampledImageIntegerSampleCounts: VkSampleCountFlags
+    let sampledImageDepthSampleCounts: VkSampleCountFlags
+    let sampledImageStencilSampleCounts: VkSampleCountFlags
+    let storageImageSampleCounts: VkSampleCountFlags
+    let maxSampleMaskWords: UInt32
+    let timestampComputeAndGraphics: VkBool32
+    let timestampPeriod: Float
+    let maxClipDistances: UInt32
+    let maxCullDistances: UInt32
+    let maxCombinedClipAndCullDistances: UInt32
+    let discreteQueuePriorities: UInt32
+    let pointSizeRange: (Float, Float)
+    let lineWidthRange: (Float, Float)
+    let pointSizeGranularity: Float
+    let lineWidthGranularity: Float
+    let strictLines: VkBool32
+    let standardSampleLocations: VkBool32
+    let optimalBufferCopyOffsetAlignment: VkDeviceSize
+    let optimalBufferCopyRowPitchAlignment: VkDeviceSize
+    let nonCoherentAtomSize: VkDeviceSize
 }
 
 struct SemaphoreCreateInfo {
-    var cStruct: VkSemaphoreCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkSemaphoreCreateFlags
 }
 
 struct QueryPoolCreateInfo {
-    var cStruct: VkQueryPoolCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkQueryPoolCreateFlags
+    let queryType: VkQueryType
+    let queryCount: UInt32
+    let pipelineStatistics: VkQueryPipelineStatisticFlags
 }
 
 struct FramebufferCreateInfo {
-    var cStruct: VkFramebufferCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkFramebufferCreateFlags
+    let renderPass: VkRenderPass
+    let attachmentCount: UInt32
+    let pAttachments: UnsafePointer<VkImageView>
+    let width: UInt32
+    let height: UInt32
+    let layers: UInt32
 }
 
 struct DrawIndirectCommand {
-    var cStruct: VkDrawIndirectCommand
+    let vertexCount: UInt32
+    let instanceCount: UInt32
+    let firstVertex: UInt32
+    let firstInstance: UInt32
 }
 
 struct DrawIndexedIndirectCommand {
-    var cStruct: VkDrawIndexedIndirectCommand
+    let indexCount: UInt32
+    let instanceCount: UInt32
+    let firstIndex: UInt32
+    let vertexOffset: Int32
+    let firstInstance: UInt32
 }
 
 struct DispatchIndirectCommand {
-    var cStruct: VkDispatchIndirectCommand
+    let x: UInt32
+    let y: UInt32
+    let z: UInt32
 }
 
 struct SubmitInfo {
-    var cStruct: VkSubmitInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let waitSemaphoreCount: UInt32
+    let pWaitSemaphores: UnsafePointer<VkSemaphore>
+    let pWaitDstStageMask: UnsafePointer<VkPipelineStageFlags>
+    let commandBufferCount: UInt32
+    let pCommandBuffers: UnsafePointer<VkCommandBuffer>
+    let signalSemaphoreCount: UInt32
+    let pSignalSemaphores: UnsafePointer<VkSemaphore>
 }
 
 struct DisplayPropertiesKHR {
-    var cStruct: VkDisplayPropertiesKHR
+    let display: VkDisplayKHR
+    let displayName: UnsafePointer<CChar>
+    let physicalDimensions: VkExtent2D
+    let physicalResolution: VkExtent2D
+    let supportedTransforms: VkSurfaceTransformFlagsKHR
+    let planeReorderPossible: VkBool32
+    let persistentContent: VkBool32
 }
 
 struct DisplayPlanePropertiesKHR {
-    var cStruct: VkDisplayPlanePropertiesKHR
+    let currentDisplay: VkDisplayKHR
+    let currentStackIndex: UInt32
 }
 
 struct DisplayModeParametersKHR {
-    var cStruct: VkDisplayModeParametersKHR
+    let visibleRegion: VkExtent2D
+    let refreshRate: UInt32
 }
 
 struct DisplayModePropertiesKHR {
-    var cStruct: VkDisplayModePropertiesKHR
+    let displayMode: VkDisplayModeKHR
+    let parameters: VkDisplayModeParametersKHR
 }
 
 struct DisplayModeCreateInfoKHR {
-    var cStruct: VkDisplayModeCreateInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDisplayModeCreateFlagsKHR
+    let parameters: VkDisplayModeParametersKHR
 }
 
 struct DisplayPlaneCapabilitiesKHR {
-    var cStruct: VkDisplayPlaneCapabilitiesKHR
+    let supportedAlpha: VkDisplayPlaneAlphaFlagsKHR
+    let minSrcPosition: VkOffset2D
+    let maxSrcPosition: VkOffset2D
+    let minSrcExtent: VkExtent2D
+    let maxSrcExtent: VkExtent2D
+    let minDstPosition: VkOffset2D
+    let maxDstPosition: VkOffset2D
+    let minDstExtent: VkExtent2D
+    let maxDstExtent: VkExtent2D
 }
 
 struct DisplaySurfaceCreateInfoKHR {
-    var cStruct: VkDisplaySurfaceCreateInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDisplaySurfaceCreateFlagsKHR
+    let displayMode: VkDisplayModeKHR
+    let planeIndex: UInt32
+    let planeStackIndex: UInt32
+    let transform: VkSurfaceTransformFlagBitsKHR
+    let globalAlpha: Float
+    let alphaMode: VkDisplayPlaneAlphaFlagBitsKHR
+    let imageExtent: VkExtent2D
 }
 
 struct DisplayPresentInfoKHR {
-    var cStruct: VkDisplayPresentInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcRect: VkRect2D
+    let dstRect: VkRect2D
+    let persistent: VkBool32
 }
 
 struct SurfaceCapabilitiesKHR {
-    var cStruct: VkSurfaceCapabilitiesKHR
+    let minImageCount: UInt32
+    let maxImageCount: UInt32
+    let currentExtent: VkExtent2D
+    let minImageExtent: VkExtent2D
+    let maxImageExtent: VkExtent2D
+    let maxImageArrayLayers: UInt32
+    let supportedTransforms: VkSurfaceTransformFlagsKHR
+    let currentTransform: VkSurfaceTransformFlagBitsKHR
+    let supportedCompositeAlpha: VkCompositeAlphaFlagsKHR
+    let supportedUsageFlags: VkImageUsageFlags
 }
 
 struct SurfaceFormatKHR {
-    var cStruct: VkSurfaceFormatKHR
+    let format: VkFormat
+    let colorSpace: VkColorSpaceKHR
 }
 
 struct SwapchainCreateInfoKHR {
-    var cStruct: VkSwapchainCreateInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkSwapchainCreateFlagsKHR
+    let surface: VkSurfaceKHR
+    let minImageCount: UInt32
+    let imageFormat: VkFormat
+    let imageColorSpace: VkColorSpaceKHR
+    let imageExtent: VkExtent2D
+    let imageArrayLayers: UInt32
+    let imageUsage: VkImageUsageFlags
+    let imageSharingMode: VkSharingMode
+    let queueFamilyIndexCount: UInt32
+    let pQueueFamilyIndices: UnsafePointer<UInt32>
+    let preTransform: VkSurfaceTransformFlagBitsKHR
+    let compositeAlpha: VkCompositeAlphaFlagBitsKHR
+    let presentMode: VkPresentModeKHR
+    let clipped: VkBool32
+    let oldSwapchain: VkSwapchainKHR
 }
 
 struct PresentInfoKHR {
-    var cStruct: VkPresentInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let waitSemaphoreCount: UInt32
+    let pWaitSemaphores: UnsafePointer<VkSemaphore>
+    let swapchainCount: UInt32
+    let pSwapchains: UnsafePointer<VkSwapchainKHR>
+    let pImageIndices: UnsafePointer<UInt32>
+    let pResults: UnsafeMutablePointer<VkResult>
 }
 
 struct DebugReportCallbackCreateInfoEXT {
-    var cStruct: VkDebugReportCallbackCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDebugReportFlagsEXT
+    let pfnCallback: PFN_vkDebugReportCallbackEXT
+    let pUserData: UnsafeMutableRawPointer
 }
 
 struct ValidationFlagsEXT {
-    var cStruct: VkValidationFlagsEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let disabledValidationCheckCount: UInt32
+    let pDisabledValidationChecks: UnsafePointer<VkValidationCheckEXT>
 }
 
 struct ValidationFeaturesEXT {
-    var cStruct: VkValidationFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let enabledValidationFeatureCount: UInt32
+    let pEnabledValidationFeatures: UnsafePointer<VkValidationFeatureEnableEXT>
+    let disabledValidationFeatureCount: UInt32
+    let pDisabledValidationFeatures: UnsafePointer<VkValidationFeatureDisableEXT>
 }
 
 struct PipelineRasterizationStateRasterizationOrderAMD {
-    var cStruct: VkPipelineRasterizationStateRasterizationOrderAMD
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let rasterizationOrder: VkRasterizationOrderAMD
 }
 
 struct DebugMarkerObjectNameInfoEXT {
-    var cStruct: VkDebugMarkerObjectNameInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let objectType: VkDebugReportObjectTypeEXT
+    let object: UInt64
+    let pObjectName: UnsafePointer<CChar>
 }
 
 struct DebugMarkerObjectTagInfoEXT {
-    var cStruct: VkDebugMarkerObjectTagInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let objectType: VkDebugReportObjectTypeEXT
+    let object: UInt64
+    let tagName: UInt64
+    let tagSize: Int
+    let pTag: UnsafeRawPointer
 }
 
 struct DebugMarkerMarkerInfoEXT {
-    var cStruct: VkDebugMarkerMarkerInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pMarkerName: UnsafePointer<CChar>
+    let color: (Float, Float, Float, Float)
 }
 
 struct DedicatedAllocationImageCreateInfoNV {
-    var cStruct: VkDedicatedAllocationImageCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let dedicatedAllocation: VkBool32
 }
 
 struct DedicatedAllocationBufferCreateInfoNV {
-    var cStruct: VkDedicatedAllocationBufferCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let dedicatedAllocation: VkBool32
 }
 
 struct DedicatedAllocationMemoryAllocateInfoNV {
-    var cStruct: VkDedicatedAllocationMemoryAllocateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let image: VkImage
+    let buffer: VkBuffer
 }
 
 struct ExternalImageFormatPropertiesNV {
-    var cStruct: VkExternalImageFormatPropertiesNV
+    let imageFormatProperties: VkImageFormatProperties
+    let externalMemoryFeatures: VkExternalMemoryFeatureFlagsNV
+    let exportFromImportedHandleTypes: VkExternalMemoryHandleTypeFlagsNV
+    let compatibleHandleTypes: VkExternalMemoryHandleTypeFlagsNV
 }
 
 struct ExternalMemoryImageCreateInfoNV {
-    var cStruct: VkExternalMemoryImageCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalMemoryHandleTypeFlagsNV
 }
 
 struct ExportMemoryAllocateInfoNV {
-    var cStruct: VkExportMemoryAllocateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalMemoryHandleTypeFlagsNV
 }
 
 struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV {
-    var cStruct: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let deviceGeneratedCommands: VkBool32
 }
 
 struct PhysicalDeviceDeviceGeneratedCommandsPropertiesNV {
-    var cStruct: VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let maxGraphicsShaderGroupCount: UInt32
+    let maxIndirectSequenceCount: UInt32
+    let maxIndirectCommandsTokenCount: UInt32
+    let maxIndirectCommandsStreamCount: UInt32
+    let maxIndirectCommandsTokenOffset: UInt32
+    let maxIndirectCommandsStreamStride: UInt32
+    let minSequencesCountBufferOffsetAlignment: UInt32
+    let minSequencesIndexBufferOffsetAlignment: UInt32
+    let minIndirectCommandsBufferOffsetAlignment: UInt32
 }
 
 struct GraphicsShaderGroupCreateInfoNV {
-    var cStruct: VkGraphicsShaderGroupCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let stageCount: UInt32
+    let pStages: UnsafePointer<VkPipelineShaderStageCreateInfo>
+    let pVertexInputState: UnsafePointer<VkPipelineVertexInputStateCreateInfo>
+    let pTessellationState: UnsafePointer<VkPipelineTessellationStateCreateInfo>
 }
 
 struct GraphicsPipelineShaderGroupsCreateInfoNV {
-    var cStruct: VkGraphicsPipelineShaderGroupsCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let groupCount: UInt32
+    let pGroups: UnsafePointer<VkGraphicsShaderGroupCreateInfoNV>
+    let pipelineCount: UInt32
+    let pPipelines: UnsafePointer<VkPipeline>
 }
 
 struct BindShaderGroupIndirectCommandNV {
-    var cStruct: VkBindShaderGroupIndirectCommandNV
+    let groupIndex: UInt32
 }
 
 struct BindIndexBufferIndirectCommandNV {
-    var cStruct: VkBindIndexBufferIndirectCommandNV
+    let bufferAddress: VkDeviceAddress
+    let size: UInt32
+    let indexType: VkIndexType
 }
 
 struct BindVertexBufferIndirectCommandNV {
-    var cStruct: VkBindVertexBufferIndirectCommandNV
+    let bufferAddress: VkDeviceAddress
+    let size: UInt32
+    let stride: UInt32
 }
 
 struct SetStateFlagsIndirectCommandNV {
-    var cStruct: VkSetStateFlagsIndirectCommandNV
+    let data: UInt32
 }
 
 struct IndirectCommandsStreamNV {
-    var cStruct: VkIndirectCommandsStreamNV
+    let buffer: VkBuffer
+    let offset: VkDeviceSize
 }
 
 struct IndirectCommandsLayoutTokenNV {
-    var cStruct: VkIndirectCommandsLayoutTokenNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let tokenType: VkIndirectCommandsTokenTypeNV
+    let stream: UInt32
+    let offset: UInt32
+    let vertexBindingUnit: UInt32
+    let vertexDynamicStride: VkBool32
+    let pushconstantPipelineLayout: VkPipelineLayout
+    let pushconstantShaderStageFlags: VkShaderStageFlags
+    let pushconstantOffset: UInt32
+    let pushconstantSize: UInt32
+    let indirectStateFlags: VkIndirectStateFlagsNV
+    let indexTypeCount: UInt32
+    let pIndexTypes: UnsafePointer<VkIndexType>
+    let pIndexTypeValues: UnsafePointer<UInt32>
 }
 
 struct IndirectCommandsLayoutCreateInfoNV {
-    var cStruct: VkIndirectCommandsLayoutCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkIndirectCommandsLayoutUsageFlagsNV
+    let pipelineBindPoint: VkPipelineBindPoint
+    let tokenCount: UInt32
+    let pTokens: UnsafePointer<VkIndirectCommandsLayoutTokenNV>
+    let streamCount: UInt32
+    let pStreamStrides: UnsafePointer<UInt32>
 }
 
 struct GeneratedCommandsInfoNV {
-    var cStruct: VkGeneratedCommandsInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pipelineBindPoint: VkPipelineBindPoint
+    let pipeline: VkPipeline
+    let indirectCommandsLayout: VkIndirectCommandsLayoutNV
+    let streamCount: UInt32
+    let pStreams: UnsafePointer<VkIndirectCommandsStreamNV>
+    let sequencesCount: UInt32
+    let preprocessBuffer: VkBuffer
+    let preprocessOffset: VkDeviceSize
+    let preprocessSize: VkDeviceSize
+    let sequencesCountBuffer: VkBuffer
+    let sequencesCountOffset: VkDeviceSize
+    let sequencesIndexBuffer: VkBuffer
+    let sequencesIndexOffset: VkDeviceSize
 }
 
 struct GeneratedCommandsMemoryRequirementsInfoNV {
-    var cStruct: VkGeneratedCommandsMemoryRequirementsInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pipelineBindPoint: VkPipelineBindPoint
+    let pipeline: VkPipeline
+    let indirectCommandsLayout: VkIndirectCommandsLayoutNV
+    let maxSequencesCount: UInt32
 }
 
 struct PhysicalDeviceFeatures2 {
-    var cStruct: VkPhysicalDeviceFeatures2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let features: VkPhysicalDeviceFeatures
 }
 
 struct PhysicalDeviceProperties2 {
-    var cStruct: VkPhysicalDeviceProperties2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let properties: VkPhysicalDeviceProperties
 }
 
 struct FormatProperties2 {
-    var cStruct: VkFormatProperties2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let formatProperties: VkFormatProperties
 }
 
 struct ImageFormatProperties2 {
-    var cStruct: VkImageFormatProperties2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let imageFormatProperties: VkImageFormatProperties
 }
 
 struct PhysicalDeviceImageFormatInfo2 {
-    var cStruct: VkPhysicalDeviceImageFormatInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let format: VkFormat
+    let type: VkImageType
+    let tiling: VkImageTiling
+    let usage: VkImageUsageFlags
+    let flags: VkImageCreateFlags
 }
 
 struct QueueFamilyProperties2 {
-    var cStruct: VkQueueFamilyProperties2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let queueFamilyProperties: VkQueueFamilyProperties
 }
 
 struct PhysicalDeviceMemoryProperties2 {
-    var cStruct: VkPhysicalDeviceMemoryProperties2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let memoryProperties: VkPhysicalDeviceMemoryProperties
 }
 
 struct SparseImageFormatProperties2 {
-    var cStruct: VkSparseImageFormatProperties2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let properties: VkSparseImageFormatProperties
 }
 
 struct PhysicalDeviceSparseImageFormatInfo2 {
-    var cStruct: VkPhysicalDeviceSparseImageFormatInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let format: VkFormat
+    let type: VkImageType
+    let samples: VkSampleCountFlagBits
+    let usage: VkImageUsageFlags
+    let tiling: VkImageTiling
 }
 
 struct PhysicalDevicePushDescriptorPropertiesKHR {
-    var cStruct: VkPhysicalDevicePushDescriptorPropertiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxPushDescriptors: UInt32
 }
 
 struct ConformanceVersion {
-    var cStruct: VkConformanceVersion
+    let major: UInt8
+    let minor: UInt8
+    let subminor: UInt8
+    let patch: UInt8
 }
 
 struct PhysicalDeviceDriverProperties {
-    var cStruct: VkPhysicalDeviceDriverProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let driverID: VkDriverId
+    let driverName: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let driverInfo: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let conformanceVersion: VkConformanceVersion
 }
 
 struct PresentRegionsKHR {
-    var cStruct: VkPresentRegionsKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let swapchainCount: UInt32
+    let pRegions: UnsafePointer<VkPresentRegionKHR>
 }
 
 struct PresentRegionKHR {
-    var cStruct: VkPresentRegionKHR
+    let rectangleCount: UInt32
+    let pRectangles: UnsafePointer<VkRectLayerKHR>
 }
 
 struct RectLayerKHR {
-    var cStruct: VkRectLayerKHR
+    let offset: VkOffset2D
+    let extent: VkExtent2D
+    let layer: UInt32
 }
 
 struct PhysicalDeviceVariablePointersFeatures {
-    var cStruct: VkPhysicalDeviceVariablePointersFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let variablePointersStorageBuffer: VkBool32
+    let variablePointers: VkBool32
 }
 
 struct ExternalMemoryProperties {
-    var cStruct: VkExternalMemoryProperties
+    let externalMemoryFeatures: VkExternalMemoryFeatureFlags
+    let exportFromImportedHandleTypes: VkExternalMemoryHandleTypeFlags
+    let compatibleHandleTypes: VkExternalMemoryHandleTypeFlags
 }
 
 struct PhysicalDeviceExternalImageFormatInfo {
-    var cStruct: VkPhysicalDeviceExternalImageFormatInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleType: VkExternalMemoryHandleTypeFlagBits
 }
 
 struct ExternalImageFormatProperties {
-    var cStruct: VkExternalImageFormatProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let externalMemoryProperties: VkExternalMemoryProperties
 }
 
 struct PhysicalDeviceExternalBufferInfo {
-    var cStruct: VkPhysicalDeviceExternalBufferInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkBufferCreateFlags
+    let usage: VkBufferUsageFlags
+    let handleType: VkExternalMemoryHandleTypeFlagBits
 }
 
 struct ExternalBufferProperties {
-    var cStruct: VkExternalBufferProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let externalMemoryProperties: VkExternalMemoryProperties
 }
 
 struct PhysicalDeviceIDProperties {
-    var cStruct: VkPhysicalDeviceIDProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let deviceUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let deviceNodeMask: UInt32
+    let deviceLUIDValid: VkBool32
 }
 
 struct ExternalMemoryImageCreateInfo {
-    var cStruct: VkExternalMemoryImageCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalMemoryHandleTypeFlags
 }
 
 struct ExternalMemoryBufferCreateInfo {
-    var cStruct: VkExternalMemoryBufferCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalMemoryHandleTypeFlags
 }
 
 struct ExportMemoryAllocateInfo {
-    var cStruct: VkExportMemoryAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalMemoryHandleTypeFlags
 }
 
 struct ImportMemoryFdInfoKHR {
-    var cStruct: VkImportMemoryFdInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleType: VkExternalMemoryHandleTypeFlagBits
+    let fd: Int32
 }
 
 struct MemoryFdPropertiesKHR {
-    var cStruct: VkMemoryFdPropertiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let memoryTypeBits: UInt32
 }
 
 struct MemoryGetFdInfoKHR {
-    var cStruct: VkMemoryGetFdInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let memory: VkDeviceMemory
+    let handleType: VkExternalMemoryHandleTypeFlagBits
 }
 
 struct PhysicalDeviceExternalSemaphoreInfo {
-    var cStruct: VkPhysicalDeviceExternalSemaphoreInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleType: VkExternalSemaphoreHandleTypeFlagBits
 }
 
 struct ExternalSemaphoreProperties {
-    var cStruct: VkExternalSemaphoreProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let exportFromImportedHandleTypes: VkExternalSemaphoreHandleTypeFlags
+    let compatibleHandleTypes: VkExternalSemaphoreHandleTypeFlags
+    let externalSemaphoreFeatures: VkExternalSemaphoreFeatureFlags
 }
 
 struct ExportSemaphoreCreateInfo {
-    var cStruct: VkExportSemaphoreCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalSemaphoreHandleTypeFlags
 }
 
 struct ImportSemaphoreFdInfoKHR {
-    var cStruct: VkImportSemaphoreFdInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let semaphore: VkSemaphore
+    let flags: VkSemaphoreImportFlags
+    let handleType: VkExternalSemaphoreHandleTypeFlagBits
+    let fd: Int32
 }
 
 struct SemaphoreGetFdInfoKHR {
-    var cStruct: VkSemaphoreGetFdInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let semaphore: VkSemaphore
+    let handleType: VkExternalSemaphoreHandleTypeFlagBits
 }
 
 struct PhysicalDeviceExternalFenceInfo {
-    var cStruct: VkPhysicalDeviceExternalFenceInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleType: VkExternalFenceHandleTypeFlagBits
 }
 
 struct ExternalFenceProperties {
-    var cStruct: VkExternalFenceProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let exportFromImportedHandleTypes: VkExternalFenceHandleTypeFlags
+    let compatibleHandleTypes: VkExternalFenceHandleTypeFlags
+    let externalFenceFeatures: VkExternalFenceFeatureFlags
 }
 
 struct ExportFenceCreateInfo {
-    var cStruct: VkExportFenceCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleTypes: VkExternalFenceHandleTypeFlags
 }
 
 struct ImportFenceFdInfoKHR {
-    var cStruct: VkImportFenceFdInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let fence: VkFence
+    let flags: VkFenceImportFlags
+    let handleType: VkExternalFenceHandleTypeFlagBits
+    let fd: Int32
 }
 
 struct FenceGetFdInfoKHR {
-    var cStruct: VkFenceGetFdInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let fence: VkFence
+    let handleType: VkExternalFenceHandleTypeFlagBits
 }
 
 struct PhysicalDeviceMultiviewFeatures {
-    var cStruct: VkPhysicalDeviceMultiviewFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let multiview: VkBool32
+    let multiviewGeometryShader: VkBool32
+    let multiviewTessellationShader: VkBool32
 }
 
 struct PhysicalDeviceMultiviewProperties {
-    var cStruct: VkPhysicalDeviceMultiviewProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxMultiviewViewCount: UInt32
+    let maxMultiviewInstanceIndex: UInt32
 }
 
 struct RenderPassMultiviewCreateInfo {
-    var cStruct: VkRenderPassMultiviewCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let subpassCount: UInt32
+    let pViewMasks: UnsafePointer<UInt32>
+    let dependencyCount: UInt32
+    let pViewOffsets: UnsafePointer<Int32>
+    let correlationMaskCount: UInt32
+    let pCorrelationMasks: UnsafePointer<UInt32>
 }
 
 struct SurfaceCapabilities2EXT {
-    var cStruct: VkSurfaceCapabilities2EXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let minImageCount: UInt32
+    let maxImageCount: UInt32
+    let currentExtent: VkExtent2D
+    let minImageExtent: VkExtent2D
+    let maxImageExtent: VkExtent2D
+    let maxImageArrayLayers: UInt32
+    let supportedTransforms: VkSurfaceTransformFlagsKHR
+    let currentTransform: VkSurfaceTransformFlagBitsKHR
+    let supportedCompositeAlpha: VkCompositeAlphaFlagsKHR
+    let supportedUsageFlags: VkImageUsageFlags
+    let supportedSurfaceCounters: VkSurfaceCounterFlagsEXT
 }
 
 struct DisplayPowerInfoEXT {
-    var cStruct: VkDisplayPowerInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let powerState: VkDisplayPowerStateEXT
 }
 
 struct DeviceEventInfoEXT {
-    var cStruct: VkDeviceEventInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let deviceEvent: VkDeviceEventTypeEXT
 }
 
 struct DisplayEventInfoEXT {
-    var cStruct: VkDisplayEventInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let displayEvent: VkDisplayEventTypeEXT
 }
 
 struct SwapchainCounterCreateInfoEXT {
-    var cStruct: VkSwapchainCounterCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let surfaceCounters: VkSurfaceCounterFlagsEXT
 }
 
 struct PhysicalDeviceGroupProperties {
-    var cStruct: VkPhysicalDeviceGroupProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let physicalDeviceCount: UInt32
+    let physicalDevices: (VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice)
+    let subsetAllocation: VkBool32
 }
 
 struct MemoryAllocateFlagsInfo {
-    var cStruct: VkMemoryAllocateFlagsInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkMemoryAllocateFlags
+    let deviceMask: UInt32
 }
 
 struct BindBufferMemoryInfo {
-    var cStruct: VkBindBufferMemoryInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let buffer: VkBuffer
+    let memory: VkDeviceMemory
+    let memoryOffset: VkDeviceSize
 }
 
 struct BindBufferMemoryDeviceGroupInfo {
-    var cStruct: VkBindBufferMemoryDeviceGroupInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let deviceIndexCount: UInt32
+    let pDeviceIndices: UnsafePointer<UInt32>
 }
 
 struct BindImageMemoryInfo {
-    var cStruct: VkBindImageMemoryInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let image: VkImage
+    let memory: VkDeviceMemory
+    let memoryOffset: VkDeviceSize
 }
 
 struct BindImageMemoryDeviceGroupInfo {
-    var cStruct: VkBindImageMemoryDeviceGroupInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let deviceIndexCount: UInt32
+    let pDeviceIndices: UnsafePointer<UInt32>
+    let splitInstanceBindRegionCount: UInt32
+    let pSplitInstanceBindRegions: UnsafePointer<VkRect2D>
 }
 
 struct DeviceGroupRenderPassBeginInfo {
-    var cStruct: VkDeviceGroupRenderPassBeginInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let deviceMask: UInt32
+    let deviceRenderAreaCount: UInt32
+    let pDeviceRenderAreas: UnsafePointer<VkRect2D>
 }
 
 struct DeviceGroupCommandBufferBeginInfo {
-    var cStruct: VkDeviceGroupCommandBufferBeginInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let deviceMask: UInt32
 }
 
 struct DeviceGroupSubmitInfo {
-    var cStruct: VkDeviceGroupSubmitInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let waitSemaphoreCount: UInt32
+    let pWaitSemaphoreDeviceIndices: UnsafePointer<UInt32>
+    let commandBufferCount: UInt32
+    let pCommandBufferDeviceMasks: UnsafePointer<UInt32>
+    let signalSemaphoreCount: UInt32
+    let pSignalSemaphoreDeviceIndices: UnsafePointer<UInt32>
 }
 
 struct DeviceGroupBindSparseInfo {
-    var cStruct: VkDeviceGroupBindSparseInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let resourceDeviceIndex: UInt32
+    let memoryDeviceIndex: UInt32
 }
 
 struct DeviceGroupPresentCapabilitiesKHR {
-    var cStruct: VkDeviceGroupPresentCapabilitiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let presentMask: (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+    let modes: VkDeviceGroupPresentModeFlagsKHR
 }
 
 struct ImageSwapchainCreateInfoKHR {
-    var cStruct: VkImageSwapchainCreateInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let swapchain: VkSwapchainKHR
 }
 
 struct BindImageMemorySwapchainInfoKHR {
-    var cStruct: VkBindImageMemorySwapchainInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let swapchain: VkSwapchainKHR
+    let imageIndex: UInt32
 }
 
 struct AcquireNextImageInfoKHR {
-    var cStruct: VkAcquireNextImageInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let swapchain: VkSwapchainKHR
+    let timeout: UInt64
+    let semaphore: VkSemaphore
+    let fence: VkFence
+    let deviceMask: UInt32
 }
 
 struct DeviceGroupPresentInfoKHR {
-    var cStruct: VkDeviceGroupPresentInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let swapchainCount: UInt32
+    let pDeviceMasks: UnsafePointer<UInt32>
+    let mode: VkDeviceGroupPresentModeFlagBitsKHR
 }
 
 struct DeviceGroupDeviceCreateInfo {
-    var cStruct: VkDeviceGroupDeviceCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let physicalDeviceCount: UInt32
+    let pPhysicalDevices: UnsafePointer<VkPhysicalDevice>
 }
 
 struct DeviceGroupSwapchainCreateInfoKHR {
-    var cStruct: VkDeviceGroupSwapchainCreateInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let modes: VkDeviceGroupPresentModeFlagsKHR
 }
 
 struct DescriptorUpdateTemplateEntry {
-    var cStruct: VkDescriptorUpdateTemplateEntry
+    let dstBinding: UInt32
+    let dstArrayElement: UInt32
+    let descriptorCount: UInt32
+    let descriptorType: VkDescriptorType
+    let offset: Int
+    let stride: Int
 }
 
 struct DescriptorUpdateTemplateCreateInfo {
-    var cStruct: VkDescriptorUpdateTemplateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDescriptorUpdateTemplateCreateFlags
+    let descriptorUpdateEntryCount: UInt32
+    let pDescriptorUpdateEntries: UnsafePointer<VkDescriptorUpdateTemplateEntry>
+    let templateType: VkDescriptorUpdateTemplateType
+    let descriptorSetLayout: VkDescriptorSetLayout
+    let pipelineBindPoint: VkPipelineBindPoint
+    let pipelineLayout: VkPipelineLayout
+    let set: UInt32
 }
 
 struct XYColorEXT {
-    var cStruct: VkXYColorEXT
+    let x: Float
+    let y: Float
 }
 
 struct HdrMetadataEXT {
-    var cStruct: VkHdrMetadataEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let displayPrimaryRed: VkXYColorEXT
+    let displayPrimaryGreen: VkXYColorEXT
+    let displayPrimaryBlue: VkXYColorEXT
+    let whitePoint: VkXYColorEXT
+    let maxLuminance: Float
+    let minLuminance: Float
+    let maxContentLightLevel: Float
+    let maxFrameAverageLightLevel: Float
 }
 
 struct DisplayNativeHdrSurfaceCapabilitiesAMD {
-    var cStruct: VkDisplayNativeHdrSurfaceCapabilitiesAMD
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let localDimmingSupport: VkBool32
 }
 
 struct SwapchainDisplayNativeHdrCreateInfoAMD {
-    var cStruct: VkSwapchainDisplayNativeHdrCreateInfoAMD
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let localDimmingEnable: VkBool32
 }
 
 struct RefreshCycleDurationGOOGLE {
-    var cStruct: VkRefreshCycleDurationGOOGLE
+    let refreshDuration: UInt64
 }
 
 struct PastPresentationTimingGOOGLE {
-    var cStruct: VkPastPresentationTimingGOOGLE
+    let presentID: UInt32
+    let desiredPresentTime: UInt64
+    let actualPresentTime: UInt64
+    let earliestPresentTime: UInt64
+    let presentMargin: UInt64
 }
 
 struct PresentTimesInfoGOOGLE {
-    var cStruct: VkPresentTimesInfoGOOGLE
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let swapchainCount: UInt32
+    let pTimes: UnsafePointer<VkPresentTimeGOOGLE>
 }
 
 struct PresentTimeGOOGLE {
-    var cStruct: VkPresentTimeGOOGLE
+    let presentID: UInt32
+    let desiredPresentTime: UInt64
 }
 
 struct ViewportWScalingNV {
-    var cStruct: VkViewportWScalingNV
+    let xcoeff: Float
+    let ycoeff: Float
 }
 
 struct PipelineViewportWScalingStateCreateInfoNV {
-    var cStruct: VkPipelineViewportWScalingStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let viewportWScalingEnable: VkBool32
+    let viewportCount: UInt32
+    let pViewportWScalings: UnsafePointer<VkViewportWScalingNV>
 }
 
 struct ViewportSwizzleNV {
-    var cStruct: VkViewportSwizzleNV
+    let x: VkViewportCoordinateSwizzleNV
+    let y: VkViewportCoordinateSwizzleNV
+    let z: VkViewportCoordinateSwizzleNV
+    let w: VkViewportCoordinateSwizzleNV
 }
 
 struct PipelineViewportSwizzleStateCreateInfoNV {
-    var cStruct: VkPipelineViewportSwizzleStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineViewportSwizzleStateCreateFlagsNV
+    let viewportCount: UInt32
+    let pViewportSwizzles: UnsafePointer<VkViewportSwizzleNV>
 }
 
 struct PhysicalDeviceDiscardRectanglePropertiesEXT {
-    var cStruct: VkPhysicalDeviceDiscardRectanglePropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxDiscardRectangles: UInt32
 }
 
 struct PipelineDiscardRectangleStateCreateInfoEXT {
-    var cStruct: VkPipelineDiscardRectangleStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineDiscardRectangleStateCreateFlagsEXT
+    let discardRectangleMode: VkDiscardRectangleModeEXT
+    let discardRectangleCount: UInt32
+    let pDiscardRectangles: UnsafePointer<VkRect2D>
 }
 
 struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX {
-    var cStruct: VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let perViewPositionAllComponents: VkBool32
 }
 
 struct InputAttachmentAspectReference {
-    var cStruct: VkInputAttachmentAspectReference
+    let subpass: UInt32
+    let inputAttachmentIndex: UInt32
+    let aspectMask: VkImageAspectFlags
 }
 
 struct RenderPassInputAttachmentAspectCreateInfo {
-    var cStruct: VkRenderPassInputAttachmentAspectCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let aspectReferenceCount: UInt32
+    let pAspectReferences: UnsafePointer<VkInputAttachmentAspectReference>
 }
 
 struct PhysicalDeviceSurfaceInfo2KHR {
-    var cStruct: VkPhysicalDeviceSurfaceInfo2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let surface: VkSurfaceKHR
 }
 
 struct SurfaceCapabilities2KHR {
-    var cStruct: VkSurfaceCapabilities2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let surfaceCapabilities: VkSurfaceCapabilitiesKHR
 }
 
 struct SurfaceFormat2KHR {
-    var cStruct: VkSurfaceFormat2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let surfaceFormat: VkSurfaceFormatKHR
 }
 
 struct DisplayProperties2KHR {
-    var cStruct: VkDisplayProperties2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let displayProperties: VkDisplayPropertiesKHR
 }
 
 struct DisplayPlaneProperties2KHR {
-    var cStruct: VkDisplayPlaneProperties2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let displayPlaneProperties: VkDisplayPlanePropertiesKHR
 }
 
 struct DisplayModeProperties2KHR {
-    var cStruct: VkDisplayModeProperties2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let displayModeProperties: VkDisplayModePropertiesKHR
 }
 
 struct DisplayPlaneInfo2KHR {
-    var cStruct: VkDisplayPlaneInfo2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let mode: VkDisplayModeKHR
+    let planeIndex: UInt32
 }
 
 struct DisplayPlaneCapabilities2KHR {
-    var cStruct: VkDisplayPlaneCapabilities2KHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let capabilities: VkDisplayPlaneCapabilitiesKHR
 }
 
 struct SharedPresentSurfaceCapabilitiesKHR {
-    var cStruct: VkSharedPresentSurfaceCapabilitiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let sharedPresentSupportedUsageFlags: VkImageUsageFlags
 }
 
 struct PhysicalDevice16BitStorageFeatures {
-    var cStruct: VkPhysicalDevice16BitStorageFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let storageBuffer16BitAccess: VkBool32
+    let uniformAndStorageBuffer16BitAccess: VkBool32
+    let storagePushConstant16: VkBool32
+    let storageInputOutput16: VkBool32
 }
 
 struct PhysicalDeviceSubgroupProperties {
-    var cStruct: VkPhysicalDeviceSubgroupProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let subgroupSize: UInt32
+    let supportedStages: VkShaderStageFlags
+    let supportedOperations: VkSubgroupFeatureFlags
+    let quadOperationsInAllStages: VkBool32
 }
 
 struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures {
-    var cStruct: VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderSubgroupExtendedTypes: VkBool32
 }
 
 struct BufferMemoryRequirementsInfo2 {
-    var cStruct: VkBufferMemoryRequirementsInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let buffer: VkBuffer
 }
 
 struct ImageMemoryRequirementsInfo2 {
-    var cStruct: VkImageMemoryRequirementsInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let image: VkImage
 }
 
 struct ImageSparseMemoryRequirementsInfo2 {
-    var cStruct: VkImageSparseMemoryRequirementsInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let image: VkImage
 }
 
 struct MemoryRequirements2 {
-    var cStruct: VkMemoryRequirements2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let memoryRequirements: VkMemoryRequirements
 }
 
 struct SparseImageMemoryRequirements2 {
-    var cStruct: VkSparseImageMemoryRequirements2
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let memoryRequirements: VkSparseImageMemoryRequirements
 }
 
 struct PhysicalDevicePointClippingProperties {
-    var cStruct: VkPhysicalDevicePointClippingProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let pointClippingBehavior: VkPointClippingBehavior
 }
 
 struct MemoryDedicatedRequirements {
-    var cStruct: VkMemoryDedicatedRequirements
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let prefersDedicatedAllocation: VkBool32
+    let requiresDedicatedAllocation: VkBool32
 }
 
 struct MemoryDedicatedAllocateInfo {
-    var cStruct: VkMemoryDedicatedAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let image: VkImage
+    let buffer: VkBuffer
 }
 
 struct ImageViewUsageCreateInfo {
-    var cStruct: VkImageViewUsageCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let usage: VkImageUsageFlags
 }
 
 struct PipelineTessellationDomainOriginStateCreateInfo {
-    var cStruct: VkPipelineTessellationDomainOriginStateCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let domainOrigin: VkTessellationDomainOrigin
 }
 
 struct SamplerYcbcrConversionInfo {
-    var cStruct: VkSamplerYcbcrConversionInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let conversion: VkSamplerYcbcrConversion
 }
 
 struct SamplerYcbcrConversionCreateInfo {
-    var cStruct: VkSamplerYcbcrConversionCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let format: VkFormat
+    let ycbcrModel: VkSamplerYcbcrModelConversion
+    let ycbcrRange: VkSamplerYcbcrRange
+    let components: VkComponentMapping
+    let xChromaOffset: VkChromaLocation
+    let yChromaOffset: VkChromaLocation
+    let chromaFilter: VkFilter
+    let forceExplicitReconstruction: VkBool32
 }
 
 struct BindImagePlaneMemoryInfo {
-    var cStruct: VkBindImagePlaneMemoryInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let planeAspect: VkImageAspectFlagBits
 }
 
 struct ImagePlaneMemoryRequirementsInfo {
-    var cStruct: VkImagePlaneMemoryRequirementsInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let planeAspect: VkImageAspectFlagBits
 }
 
 struct PhysicalDeviceSamplerYcbcrConversionFeatures {
-    var cStruct: VkPhysicalDeviceSamplerYcbcrConversionFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let samplerYcbcrConversion: VkBool32
 }
 
 struct SamplerYcbcrConversionImageFormatProperties {
-    var cStruct: VkSamplerYcbcrConversionImageFormatProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let combinedImageSamplerDescriptorCount: UInt32
 }
 
 struct TextureLODGatherFormatPropertiesAMD {
-    var cStruct: VkTextureLODGatherFormatPropertiesAMD
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let supportsTextureGatherLODBiasAMD: VkBool32
 }
 
 struct ConditionalRenderingBeginInfoEXT {
-    var cStruct: VkConditionalRenderingBeginInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let buffer: VkBuffer
+    let offset: VkDeviceSize
+    let flags: VkConditionalRenderingFlagsEXT
 }
 
 struct ProtectedSubmitInfo {
-    var cStruct: VkProtectedSubmitInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let protectedSubmit: VkBool32
 }
 
 struct PhysicalDeviceProtectedMemoryFeatures {
-    var cStruct: VkPhysicalDeviceProtectedMemoryFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let protectedMemory: VkBool32
 }
 
 struct PhysicalDeviceProtectedMemoryProperties {
-    var cStruct: VkPhysicalDeviceProtectedMemoryProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let protectedNoFault: VkBool32
 }
 
 struct DeviceQueueInfo2 {
-    var cStruct: VkDeviceQueueInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDeviceQueueCreateFlags
+    let queueFamilyIndex: UInt32
+    let queueIndex: UInt32
 }
 
 struct PipelineCoverageToColorStateCreateInfoNV {
-    var cStruct: VkPipelineCoverageToColorStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCoverageToColorStateCreateFlagsNV
+    let coverageToColorEnable: VkBool32
+    let coverageToColorLocation: UInt32
 }
 
 struct PhysicalDeviceSamplerFilterMinmaxProperties {
-    var cStruct: VkPhysicalDeviceSamplerFilterMinmaxProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let filterMinmaxSingleComponentFormats: VkBool32
+    let filterMinmaxImageComponentMapping: VkBool32
 }
 
 struct SampleLocationEXT {
-    var cStruct: VkSampleLocationEXT
+    let x: Float
+    let y: Float
 }
 
 struct SampleLocationsInfoEXT {
-    var cStruct: VkSampleLocationsInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let sampleLocationsPerPixel: VkSampleCountFlagBits
+    let sampleLocationGridSize: VkExtent2D
+    let sampleLocationsCount: UInt32
+    let pSampleLocations: UnsafePointer<VkSampleLocationEXT>
 }
 
 struct AttachmentSampleLocationsEXT {
-    var cStruct: VkAttachmentSampleLocationsEXT
+    let attachmentIndex: UInt32
+    let sampleLocationsInfo: VkSampleLocationsInfoEXT
 }
 
 struct SubpassSampleLocationsEXT {
-    var cStruct: VkSubpassSampleLocationsEXT
+    let subpassIndex: UInt32
+    let sampleLocationsInfo: VkSampleLocationsInfoEXT
 }
 
 struct RenderPassSampleLocationsBeginInfoEXT {
-    var cStruct: VkRenderPassSampleLocationsBeginInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let attachmentInitialSampleLocationsCount: UInt32
+    let pAttachmentInitialSampleLocations: UnsafePointer<VkAttachmentSampleLocationsEXT>
+    let postSubpassSampleLocationsCount: UInt32
+    let pPostSubpassSampleLocations: UnsafePointer<VkSubpassSampleLocationsEXT>
 }
 
 struct PipelineSampleLocationsStateCreateInfoEXT {
-    var cStruct: VkPipelineSampleLocationsStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let sampleLocationsEnable: VkBool32
+    let sampleLocationsInfo: VkSampleLocationsInfoEXT
 }
 
 struct PhysicalDeviceSampleLocationsPropertiesEXT {
-    var cStruct: VkPhysicalDeviceSampleLocationsPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let sampleLocationSampleCounts: VkSampleCountFlags
+    let maxSampleLocationGridSize: VkExtent2D
+    let sampleLocationCoordinateRange: (Float, Float)
+    let sampleLocationSubPixelBits: UInt32
+    let variableSampleLocations: VkBool32
 }
 
 struct MultisamplePropertiesEXT {
-    var cStruct: VkMultisamplePropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxSampleLocationGridSize: VkExtent2D
 }
 
 struct SamplerReductionModeCreateInfo {
-    var cStruct: VkSamplerReductionModeCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let reductionMode: VkSamplerReductionMode
 }
 
 struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT {
-    var cStruct: VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let advancedBlendCoherentOperations: VkBool32
 }
 
 struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT {
-    var cStruct: VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let advancedBlendMaxColorAttachments: UInt32
+    let advancedBlendIndependentBlend: VkBool32
+    let advancedBlendNonPremultipliedSrcColor: VkBool32
+    let advancedBlendNonPremultipliedDstColor: VkBool32
+    let advancedBlendCorrelatedOverlap: VkBool32
+    let advancedBlendAllOperations: VkBool32
 }
 
 struct PipelineColorBlendAdvancedStateCreateInfoEXT {
-    var cStruct: VkPipelineColorBlendAdvancedStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcPremultiplied: VkBool32
+    let dstPremultiplied: VkBool32
+    let blendOverlap: VkBlendOverlapEXT
 }
 
 struct PhysicalDeviceInlineUniformBlockFeaturesEXT {
-    var cStruct: VkPhysicalDeviceInlineUniformBlockFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let inlineUniformBlock: VkBool32
+    let descriptorBindingInlineUniformBlockUpdateAfterBind: VkBool32
 }
 
 struct PhysicalDeviceInlineUniformBlockPropertiesEXT {
-    var cStruct: VkPhysicalDeviceInlineUniformBlockPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxInlineUniformBlockSize: UInt32
+    let maxPerStageDescriptorInlineUniformBlocks: UInt32
+    let maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks: UInt32
+    let maxDescriptorSetInlineUniformBlocks: UInt32
+    let maxDescriptorSetUpdateAfterBindInlineUniformBlocks: UInt32
 }
 
 struct WriteDescriptorSetInlineUniformBlockEXT {
-    var cStruct: VkWriteDescriptorSetInlineUniformBlockEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let dataSize: UInt32
+    let pData: UnsafeRawPointer
 }
 
 struct DescriptorPoolInlineUniformBlockCreateInfoEXT {
-    var cStruct: VkDescriptorPoolInlineUniformBlockCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let maxInlineUniformBlockBindings: UInt32
 }
 
 struct PipelineCoverageModulationStateCreateInfoNV {
-    var cStruct: VkPipelineCoverageModulationStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCoverageModulationStateCreateFlagsNV
+    let coverageModulationMode: VkCoverageModulationModeNV
+    let coverageModulationTableEnable: VkBool32
+    let coverageModulationTableCount: UInt32
+    let pCoverageModulationTable: UnsafePointer<Float>
 }
 
 struct ImageFormatListCreateInfo {
-    var cStruct: VkImageFormatListCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let viewFormatCount: UInt32
+    let pViewFormats: UnsafePointer<VkFormat>
 }
 
 struct ValidationCacheCreateInfoEXT {
-    var cStruct: VkValidationCacheCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkValidationCacheCreateFlagsEXT
+    let initialDataSize: Int
+    let pInitialData: UnsafeRawPointer
 }
 
 struct ShaderModuleValidationCacheCreateInfoEXT {
-    var cStruct: VkShaderModuleValidationCacheCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let validationCache: VkValidationCacheEXT
 }
 
 struct PhysicalDeviceMaintenance3Properties {
-    var cStruct: VkPhysicalDeviceMaintenance3Properties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxPerSetDescriptors: UInt32
+    let maxMemoryAllocationSize: VkDeviceSize
 }
 
 struct DescriptorSetLayoutSupport {
-    var cStruct: VkDescriptorSetLayoutSupport
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let supported: VkBool32
 }
 
 struct PhysicalDeviceShaderDrawParametersFeatures {
-    var cStruct: VkPhysicalDeviceShaderDrawParametersFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderDrawParameters: VkBool32
 }
 
 struct PhysicalDeviceShaderFloat16Int8Features {
-    var cStruct: VkPhysicalDeviceShaderFloat16Int8Features
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderFloat16: VkBool32
+    let shaderInt8: VkBool32
 }
 
 struct PhysicalDeviceFloatControlsProperties {
-    var cStruct: VkPhysicalDeviceFloatControlsProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let denormBehaviorIndependence: VkShaderFloatControlsIndependence
+    let roundingModeIndependence: VkShaderFloatControlsIndependence
+    let shaderSignedZeroInfNanPreserveFloat16: VkBool32
+    let shaderSignedZeroInfNanPreserveFloat32: VkBool32
+    let shaderSignedZeroInfNanPreserveFloat64: VkBool32
+    let shaderDenormPreserveFloat16: VkBool32
+    let shaderDenormPreserveFloat32: VkBool32
+    let shaderDenormPreserveFloat64: VkBool32
+    let shaderDenormFlushToZeroFloat16: VkBool32
+    let shaderDenormFlushToZeroFloat32: VkBool32
+    let shaderDenormFlushToZeroFloat64: VkBool32
+    let shaderRoundingModeRTEFloat16: VkBool32
+    let shaderRoundingModeRTEFloat32: VkBool32
+    let shaderRoundingModeRTEFloat64: VkBool32
+    let shaderRoundingModeRTZFloat16: VkBool32
+    let shaderRoundingModeRTZFloat32: VkBool32
+    let shaderRoundingModeRTZFloat64: VkBool32
 }
 
 struct PhysicalDeviceHostQueryResetFeatures {
-    var cStruct: VkPhysicalDeviceHostQueryResetFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let hostQueryReset: VkBool32
 }
 
 struct ShaderResourceUsageAMD {
-    var cStruct: VkShaderResourceUsageAMD
+    let numUsedVgprs: UInt32
+    let numUsedSgprs: UInt32
+    let ldsSizePerLocalWorkGroup: UInt32
+    let ldsUsageSizeInBytes: Int
+    let scratchMemUsageInBytes: Int
 }
 
 struct ShaderStatisticsInfoAMD {
-    var cStruct: VkShaderStatisticsInfoAMD
+    let shaderStageMask: VkShaderStageFlags
+    let resourceUsage: VkShaderResourceUsageAMD
+    let numPhysicalVgprs: UInt32
+    let numPhysicalSgprs: UInt32
+    let numAvailableVgprs: UInt32
+    let numAvailableSgprs: UInt32
+    let computeWorkGroupSize: (UInt32, UInt32, UInt32)
 }
 
 struct DeviceQueueGlobalPriorityCreateInfoEXT {
-    var cStruct: VkDeviceQueueGlobalPriorityCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let globalPriority: VkQueueGlobalPriorityEXT
 }
 
 struct DebugUtilsObjectNameInfoEXT {
-    var cStruct: VkDebugUtilsObjectNameInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let objectType: VkObjectType
+    let objectHandle: UInt64
+    let pObjectName: UnsafePointer<CChar>
 }
 
 struct DebugUtilsObjectTagInfoEXT {
-    var cStruct: VkDebugUtilsObjectTagInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let objectType: VkObjectType
+    let objectHandle: UInt64
+    let tagName: UInt64
+    let tagSize: Int
+    let pTag: UnsafeRawPointer
 }
 
 struct DebugUtilsLabelEXT {
-    var cStruct: VkDebugUtilsLabelEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pLabelName: UnsafePointer<CChar>
+    let color: (Float, Float, Float, Float)
 }
 
 struct DebugUtilsMessengerCreateInfoEXT {
-    var cStruct: VkDebugUtilsMessengerCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDebugUtilsMessengerCreateFlagsEXT
+    let messageSeverity: VkDebugUtilsMessageSeverityFlagsEXT
+    let messageType: VkDebugUtilsMessageTypeFlagsEXT
+    let pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT
+    let pUserData: UnsafeMutableRawPointer
 }
 
 struct DebugUtilsMessengerCallbackDataEXT {
-    var cStruct: VkDebugUtilsMessengerCallbackDataEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDebugUtilsMessengerCallbackDataFlagsEXT
+    let pMessageIdName: UnsafePointer<CChar>
+    let messageIdNumber: Int32
+    let pMessage: UnsafePointer<CChar>
+    let queueLabelCount: UInt32
+    let pQueueLabels: UnsafePointer<VkDebugUtilsLabelEXT>
+    let cmdBufLabelCount: UInt32
+    let pCmdBufLabels: UnsafePointer<VkDebugUtilsLabelEXT>
+    let objectCount: UInt32
+    let pObjects: UnsafePointer<VkDebugUtilsObjectNameInfoEXT>
 }
 
 struct ImportMemoryHostPointerInfoEXT {
-    var cStruct: VkImportMemoryHostPointerInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let handleType: VkExternalMemoryHandleTypeFlagBits
+    let pHostPointer: UnsafeMutableRawPointer
 }
 
 struct MemoryHostPointerPropertiesEXT {
-    var cStruct: VkMemoryHostPointerPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let memoryTypeBits: UInt32
 }
 
 struct PhysicalDeviceExternalMemoryHostPropertiesEXT {
-    var cStruct: VkPhysicalDeviceExternalMemoryHostPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let minImportedHostPointerAlignment: VkDeviceSize
 }
 
 struct PhysicalDeviceConservativeRasterizationPropertiesEXT {
-    var cStruct: VkPhysicalDeviceConservativeRasterizationPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let primitiveOverestimationSize: Float
+    let maxExtraPrimitiveOverestimationSize: Float
+    let extraPrimitiveOverestimationSizeGranularity: Float
+    let primitiveUnderestimation: VkBool32
+    let conservativePointAndLineRasterization: VkBool32
+    let degenerateTrianglesRasterized: VkBool32
+    let degenerateLinesRasterized: VkBool32
+    let fullyCoveredFragmentShaderInputVariable: VkBool32
+    let conservativeRasterizationPostDepthCoverage: VkBool32
 }
 
 struct CalibratedTimestampInfoEXT {
-    var cStruct: VkCalibratedTimestampInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let timeDomain: VkTimeDomainEXT
 }
 
 struct PhysicalDeviceShaderCorePropertiesAMD {
-    var cStruct: VkPhysicalDeviceShaderCorePropertiesAMD
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderEngineCount: UInt32
+    let shaderArraysPerEngineCount: UInt32
+    let computeUnitsPerShaderArray: UInt32
+    let simdPerComputeUnit: UInt32
+    let wavefrontsPerSimd: UInt32
+    let wavefrontSize: UInt32
+    let sgprsPerSimd: UInt32
+    let minSgprAllocation: UInt32
+    let maxSgprAllocation: UInt32
+    let sgprAllocationGranularity: UInt32
+    let vgprsPerSimd: UInt32
+    let minVgprAllocation: UInt32
+    let maxVgprAllocation: UInt32
+    let vgprAllocationGranularity: UInt32
 }
 
 struct PhysicalDeviceShaderCoreProperties2AMD {
-    var cStruct: VkPhysicalDeviceShaderCoreProperties2AMD
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderCoreFeatures: VkShaderCorePropertiesFlagsAMD
+    let activeComputeUnitCount: UInt32
 }
 
 struct PipelineRasterizationConservativeStateCreateInfoEXT {
-    var cStruct: VkPipelineRasterizationConservativeStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineRasterizationConservativeStateCreateFlagsEXT
+    let conservativeRasterizationMode: VkConservativeRasterizationModeEXT
+    let extraPrimitiveOverestimationSize: Float
 }
 
 struct PhysicalDeviceDescriptorIndexingFeatures {
-    var cStruct: VkPhysicalDeviceDescriptorIndexingFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderInputAttachmentArrayDynamicIndexing: VkBool32
+    let shaderUniformTexelBufferArrayDynamicIndexing: VkBool32
+    let shaderStorageTexelBufferArrayDynamicIndexing: VkBool32
+    let shaderUniformBufferArrayNonUniformIndexing: VkBool32
+    let shaderSampledImageArrayNonUniformIndexing: VkBool32
+    let shaderStorageBufferArrayNonUniformIndexing: VkBool32
+    let shaderStorageImageArrayNonUniformIndexing: VkBool32
+    let shaderInputAttachmentArrayNonUniformIndexing: VkBool32
+    let shaderUniformTexelBufferArrayNonUniformIndexing: VkBool32
+    let shaderStorageTexelBufferArrayNonUniformIndexing: VkBool32
+    let descriptorBindingUniformBufferUpdateAfterBind: VkBool32
+    let descriptorBindingSampledImageUpdateAfterBind: VkBool32
+    let descriptorBindingStorageImageUpdateAfterBind: VkBool32
+    let descriptorBindingStorageBufferUpdateAfterBind: VkBool32
+    let descriptorBindingUniformTexelBufferUpdateAfterBind: VkBool32
+    let descriptorBindingStorageTexelBufferUpdateAfterBind: VkBool32
+    let descriptorBindingUpdateUnusedWhilePending: VkBool32
+    let descriptorBindingPartiallyBound: VkBool32
+    let descriptorBindingVariableDescriptorCount: VkBool32
+    let runtimeDescriptorArray: VkBool32
 }
 
 struct PhysicalDeviceDescriptorIndexingProperties {
-    var cStruct: VkPhysicalDeviceDescriptorIndexingProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxUpdateAfterBindDescriptorsInAllPools: UInt32
+    let shaderUniformBufferArrayNonUniformIndexingNative: VkBool32
+    let shaderSampledImageArrayNonUniformIndexingNative: VkBool32
+    let shaderStorageBufferArrayNonUniformIndexingNative: VkBool32
+    let shaderStorageImageArrayNonUniformIndexingNative: VkBool32
+    let shaderInputAttachmentArrayNonUniformIndexingNative: VkBool32
+    let robustBufferAccessUpdateAfterBind: VkBool32
+    let quadDivergentImplicitLod: VkBool32
+    let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
+    let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
+    let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
+    let maxPerStageDescriptorUpdateAfterBindSampledImages: UInt32
+    let maxPerStageDescriptorUpdateAfterBindStorageImages: UInt32
+    let maxPerStageDescriptorUpdateAfterBindInputAttachments: UInt32
+    let maxPerStageUpdateAfterBindResources: UInt32
+    let maxDescriptorSetUpdateAfterBindSamplers: UInt32
+    let maxDescriptorSetUpdateAfterBindUniformBuffers: UInt32
+    let maxDescriptorSetUpdateAfterBindUniformBuffersDynamic: UInt32
+    let maxDescriptorSetUpdateAfterBindStorageBuffers: UInt32
+    let maxDescriptorSetUpdateAfterBindStorageBuffersDynamic: UInt32
+    let maxDescriptorSetUpdateAfterBindSampledImages: UInt32
+    let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
+    let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
 }
 
 struct DescriptorSetLayoutBindingFlagsCreateInfo {
-    var cStruct: VkDescriptorSetLayoutBindingFlagsCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let bindingCount: UInt32
+    let pBindingFlags: UnsafePointer<VkDescriptorBindingFlags>
 }
 
 struct DescriptorSetVariableDescriptorCountAllocateInfo {
-    var cStruct: VkDescriptorSetVariableDescriptorCountAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let descriptorSetCount: UInt32
+    let pDescriptorCounts: UnsafePointer<UInt32>
 }
 
 struct DescriptorSetVariableDescriptorCountLayoutSupport {
-    var cStruct: VkDescriptorSetVariableDescriptorCountLayoutSupport
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxVariableDescriptorCount: UInt32
 }
 
 struct AttachmentDescription2 {
-    var cStruct: VkAttachmentDescription2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkAttachmentDescriptionFlags
+    let format: VkFormat
+    let samples: VkSampleCountFlagBits
+    let loadOp: VkAttachmentLoadOp
+    let storeOp: VkAttachmentStoreOp
+    let stencilLoadOp: VkAttachmentLoadOp
+    let stencilStoreOp: VkAttachmentStoreOp
+    let initialLayout: VkImageLayout
+    let finalLayout: VkImageLayout
 }
 
 struct AttachmentReference2 {
-    var cStruct: VkAttachmentReference2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let attachment: UInt32
+    let layout: VkImageLayout
+    let aspectMask: VkImageAspectFlags
 }
 
 struct SubpassDescription2 {
-    var cStruct: VkSubpassDescription2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkSubpassDescriptionFlags
+    let pipelineBindPoint: VkPipelineBindPoint
+    let viewMask: UInt32
+    let inputAttachmentCount: UInt32
+    let pInputAttachments: UnsafePointer<VkAttachmentReference2>
+    let colorAttachmentCount: UInt32
+    let pColorAttachments: UnsafePointer<VkAttachmentReference2>
+    let pResolveAttachments: UnsafePointer<VkAttachmentReference2>
+    let pDepthStencilAttachment: UnsafePointer<VkAttachmentReference2>
+    let preserveAttachmentCount: UInt32
+    let pPreserveAttachments: UnsafePointer<UInt32>
 }
 
 struct SubpassDependency2 {
-    var cStruct: VkSubpassDependency2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let srcSubpass: UInt32
+    let dstSubpass: UInt32
+    let srcStageMask: VkPipelineStageFlags
+    let dstStageMask: VkPipelineStageFlags
+    let srcAccessMask: VkAccessFlags
+    let dstAccessMask: VkAccessFlags
+    let dependencyFlags: VkDependencyFlags
+    let viewOffset: Int32
 }
 
 struct RenderPassCreateInfo2 {
-    var cStruct: VkRenderPassCreateInfo2
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkRenderPassCreateFlags
+    let attachmentCount: UInt32
+    let pAttachments: UnsafePointer<VkAttachmentDescription2>
+    let subpassCount: UInt32
+    let pSubpasses: UnsafePointer<VkSubpassDescription2>
+    let dependencyCount: UInt32
+    let pDependencies: UnsafePointer<VkSubpassDependency2>
+    let correlatedViewMaskCount: UInt32
+    let pCorrelatedViewMasks: UnsafePointer<UInt32>
 }
 
 struct SubpassBeginInfo {
-    var cStruct: VkSubpassBeginInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let contents: VkSubpassContents
 }
 
 struct SubpassEndInfo {
-    var cStruct: VkSubpassEndInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
 }
 
 struct PhysicalDeviceTimelineSemaphoreFeatures {
-    var cStruct: VkPhysicalDeviceTimelineSemaphoreFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let timelineSemaphore: VkBool32
 }
 
 struct PhysicalDeviceTimelineSemaphoreProperties {
-    var cStruct: VkPhysicalDeviceTimelineSemaphoreProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxTimelineSemaphoreValueDifference: UInt64
 }
 
 struct SemaphoreTypeCreateInfo {
-    var cStruct: VkSemaphoreTypeCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let semaphoreType: VkSemaphoreType
+    let initialValue: UInt64
 }
 
 struct TimelineSemaphoreSubmitInfo {
-    var cStruct: VkTimelineSemaphoreSubmitInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let waitSemaphoreValueCount: UInt32
+    let pWaitSemaphoreValues: UnsafePointer<UInt64>
+    let signalSemaphoreValueCount: UInt32
+    let pSignalSemaphoreValues: UnsafePointer<UInt64>
 }
 
 struct SemaphoreWaitInfo {
-    var cStruct: VkSemaphoreWaitInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkSemaphoreWaitFlags
+    let semaphoreCount: UInt32
+    let pSemaphores: UnsafePointer<VkSemaphore>
+    let pValues: UnsafePointer<UInt64>
 }
 
 struct SemaphoreSignalInfo {
-    var cStruct: VkSemaphoreSignalInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let semaphore: VkSemaphore
+    let value: UInt64
 }
 
 struct VertexInputBindingDivisorDescriptionEXT {
-    var cStruct: VkVertexInputBindingDivisorDescriptionEXT
+    let binding: UInt32
+    let divisor: UInt32
 }
 
 struct PipelineVertexInputDivisorStateCreateInfoEXT {
-    var cStruct: VkPipelineVertexInputDivisorStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let vertexBindingDivisorCount: UInt32
+    let pVertexBindingDivisors: UnsafePointer<VkVertexInputBindingDivisorDescriptionEXT>
 }
 
 struct PhysicalDeviceVertexAttributeDivisorPropertiesEXT {
-    var cStruct: VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxVertexAttribDivisor: UInt32
 }
 
 struct PhysicalDevicePCIBusInfoPropertiesEXT {
-    var cStruct: VkPhysicalDevicePCIBusInfoPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let pciDomain: UInt32
+    let pciBus: UInt32
+    let pciDevice: UInt32
+    let pciFunction: UInt32
 }
 
 struct CommandBufferInheritanceConditionalRenderingInfoEXT {
-    var cStruct: VkCommandBufferInheritanceConditionalRenderingInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let conditionalRenderingEnable: VkBool32
 }
 
 struct PhysicalDevice8BitStorageFeatures {
-    var cStruct: VkPhysicalDevice8BitStorageFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let storageBuffer8BitAccess: VkBool32
+    let uniformAndStorageBuffer8BitAccess: VkBool32
+    let storagePushConstant8: VkBool32
 }
 
 struct PhysicalDeviceConditionalRenderingFeaturesEXT {
-    var cStruct: VkPhysicalDeviceConditionalRenderingFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let conditionalRendering: VkBool32
+    let inheritedConditionalRendering: VkBool32
 }
 
 struct PhysicalDeviceVulkanMemoryModelFeatures {
-    var cStruct: VkPhysicalDeviceVulkanMemoryModelFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let vulkanMemoryModel: VkBool32
+    let vulkanMemoryModelDeviceScope: VkBool32
+    let vulkanMemoryModelAvailabilityVisibilityChains: VkBool32
 }
 
 struct PhysicalDeviceShaderAtomicInt64Features {
-    var cStruct: VkPhysicalDeviceShaderAtomicInt64Features
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderBufferInt64Atomics: VkBool32
+    let shaderSharedInt64Atomics: VkBool32
 }
 
 struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT {
-    var cStruct: VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let vertexAttributeInstanceRateDivisor: VkBool32
+    let vertexAttributeInstanceRateZeroDivisor: VkBool32
 }
 
 struct QueueFamilyCheckpointPropertiesNV {
-    var cStruct: VkQueueFamilyCheckpointPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let checkpointExecutionStageMask: VkPipelineStageFlags
 }
 
 struct CheckpointDataNV {
-    var cStruct: VkCheckpointDataNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let stage: VkPipelineStageFlagBits
+    let pCheckpointMarker: UnsafeMutableRawPointer
 }
 
 struct PhysicalDeviceDepthStencilResolveProperties {
-    var cStruct: VkPhysicalDeviceDepthStencilResolveProperties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let supportedDepthResolveModes: VkResolveModeFlags
+    let supportedStencilResolveModes: VkResolveModeFlags
+    let independentResolveNone: VkBool32
+    let independentResolve: VkBool32
 }
 
 struct SubpassDescriptionDepthStencilResolve {
-    var cStruct: VkSubpassDescriptionDepthStencilResolve
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let depthResolveMode: VkResolveModeFlagBits
+    let stencilResolveMode: VkResolveModeFlagBits
+    let pDepthStencilResolveAttachment: UnsafePointer<VkAttachmentReference2>
 }
 
 struct ImageViewASTCDecodeModeEXT {
-    var cStruct: VkImageViewASTCDecodeModeEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let decodeMode: VkFormat
 }
 
 struct PhysicalDeviceASTCDecodeFeaturesEXT {
-    var cStruct: VkPhysicalDeviceASTCDecodeFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let decodeModeSharedExponent: VkBool32
 }
 
 struct PhysicalDeviceTransformFeedbackFeaturesEXT {
-    var cStruct: VkPhysicalDeviceTransformFeedbackFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let transformFeedback: VkBool32
+    let geometryStreams: VkBool32
 }
 
 struct PhysicalDeviceTransformFeedbackPropertiesEXT {
-    var cStruct: VkPhysicalDeviceTransformFeedbackPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxTransformFeedbackStreams: UInt32
+    let maxTransformFeedbackBuffers: UInt32
+    let maxTransformFeedbackBufferSize: VkDeviceSize
+    let maxTransformFeedbackStreamDataSize: UInt32
+    let maxTransformFeedbackBufferDataSize: UInt32
+    let maxTransformFeedbackBufferDataStride: UInt32
+    let transformFeedbackQueries: VkBool32
+    let transformFeedbackStreamsLinesTriangles: VkBool32
+    let transformFeedbackRasterizationStreamSelect: VkBool32
+    let transformFeedbackDraw: VkBool32
 }
 
 struct PipelineRasterizationStateStreamCreateInfoEXT {
-    var cStruct: VkPipelineRasterizationStateStreamCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineRasterizationStateStreamCreateFlagsEXT
+    let rasterizationStream: UInt32
 }
 
 struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV {
-    var cStruct: VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let representativeFragmentTest: VkBool32
 }
 
 struct PipelineRepresentativeFragmentTestStateCreateInfoNV {
-    var cStruct: VkPipelineRepresentativeFragmentTestStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let representativeFragmentTestEnable: VkBool32
 }
 
 struct PhysicalDeviceExclusiveScissorFeaturesNV {
-    var cStruct: VkPhysicalDeviceExclusiveScissorFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let exclusiveScissor: VkBool32
 }
 
 struct PipelineViewportExclusiveScissorStateCreateInfoNV {
-    var cStruct: VkPipelineViewportExclusiveScissorStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let exclusiveScissorCount: UInt32
+    let pExclusiveScissors: UnsafePointer<VkRect2D>
 }
 
 struct PhysicalDeviceCornerSampledImageFeaturesNV {
-    var cStruct: VkPhysicalDeviceCornerSampledImageFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let cornerSampledImage: VkBool32
 }
 
 struct PhysicalDeviceComputeShaderDerivativesFeaturesNV {
-    var cStruct: VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let computeDerivativeGroupQuads: VkBool32
+    let computeDerivativeGroupLinear: VkBool32
 }
 
 struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV {
-    var cStruct: VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let fragmentShaderBarycentric: VkBool32
 }
 
 struct PhysicalDeviceShaderImageFootprintFeaturesNV {
-    var cStruct: VkPhysicalDeviceShaderImageFootprintFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let imageFootprint: VkBool32
 }
 
 struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV {
-    var cStruct: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let dedicatedAllocationImageAliasing: VkBool32
 }
 
 struct ShadingRatePaletteNV {
-    var cStruct: VkShadingRatePaletteNV
+    let shadingRatePaletteEntryCount: UInt32
+    let pShadingRatePaletteEntries: UnsafePointer<VkShadingRatePaletteEntryNV>
 }
 
 struct PipelineViewportShadingRateImageStateCreateInfoNV {
-    var cStruct: VkPipelineViewportShadingRateImageStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let shadingRateImageEnable: VkBool32
+    let viewportCount: UInt32
+    let pShadingRatePalettes: UnsafePointer<VkShadingRatePaletteNV>
 }
 
 struct PhysicalDeviceShadingRateImageFeaturesNV {
-    var cStruct: VkPhysicalDeviceShadingRateImageFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shadingRateImage: VkBool32
+    let shadingRateCoarseSampleOrder: VkBool32
 }
 
 struct PhysicalDeviceShadingRateImagePropertiesNV {
-    var cStruct: VkPhysicalDeviceShadingRateImagePropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shadingRateTexelSize: VkExtent2D
+    let shadingRatePaletteSize: UInt32
+    let shadingRateMaxCoarseSamples: UInt32
 }
 
 struct CoarseSampleLocationNV {
-    var cStruct: VkCoarseSampleLocationNV
+    let pixelX: UInt32
+    let pixelY: UInt32
+    let sample: UInt32
 }
 
 struct CoarseSampleOrderCustomNV {
-    var cStruct: VkCoarseSampleOrderCustomNV
+    let shadingRate: VkShadingRatePaletteEntryNV
+    let sampleCount: UInt32
+    let sampleLocationCount: UInt32
+    let pSampleLocations: UnsafePointer<VkCoarseSampleLocationNV>
 }
 
 struct PipelineViewportCoarseSampleOrderStateCreateInfoNV {
-    var cStruct: VkPipelineViewportCoarseSampleOrderStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let sampleOrderType: VkCoarseSampleOrderTypeNV
+    let customSampleOrderCount: UInt32
+    let pCustomSampleOrders: UnsafePointer<VkCoarseSampleOrderCustomNV>
 }
 
 struct PhysicalDeviceMeshShaderFeaturesNV {
-    var cStruct: VkPhysicalDeviceMeshShaderFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let taskShader: VkBool32
+    let meshShader: VkBool32
 }
 
 struct PhysicalDeviceMeshShaderPropertiesNV {
-    var cStruct: VkPhysicalDeviceMeshShaderPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let maxDrawMeshTasksCount: UInt32
+    let maxTaskWorkGroupInvocations: UInt32
+    let maxTaskWorkGroupSize: (UInt32, UInt32, UInt32)
+    let maxTaskTotalMemorySize: UInt32
+    let maxTaskOutputCount: UInt32
+    let maxMeshWorkGroupInvocations: UInt32
+    let maxMeshWorkGroupSize: (UInt32, UInt32, UInt32)
+    let maxMeshTotalMemorySize: UInt32
+    let maxMeshOutputVertices: UInt32
+    let maxMeshOutputPrimitives: UInt32
+    let maxMeshMultiviewViewCount: UInt32
+    let meshOutputPerVertexGranularity: UInt32
+    let meshOutputPerPrimitiveGranularity: UInt32
 }
 
 struct DrawMeshTasksIndirectCommandNV {
-    var cStruct: VkDrawMeshTasksIndirectCommandNV
+    let taskCount: UInt32
+    let firstTask: UInt32
 }
 
 struct RayTracingShaderGroupCreateInfoNV {
-    var cStruct: VkRayTracingShaderGroupCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let type: VkRayTracingShaderGroupTypeKHR
+    let generalShader: UInt32
+    let closestHitShader: UInt32
+    let anyHitShader: UInt32
+    let intersectionShader: UInt32
 }
 
 struct RayTracingPipelineCreateInfoNV {
-    var cStruct: VkRayTracingPipelineCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCreateFlags
+    let stageCount: UInt32
+    let pStages: UnsafePointer<VkPipelineShaderStageCreateInfo>
+    let groupCount: UInt32
+    let pGroups: UnsafePointer<VkRayTracingShaderGroupCreateInfoNV>
+    let maxRecursionDepth: UInt32
+    let layout: VkPipelineLayout
+    let basePipelineHandle: VkPipeline
+    let basePipelineIndex: Int32
 }
 
 struct GeometryTrianglesNV {
-    var cStruct: VkGeometryTrianglesNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let vertexData: VkBuffer
+    let vertexOffset: VkDeviceSize
+    let vertexCount: UInt32
+    let vertexStride: VkDeviceSize
+    let vertexFormat: VkFormat
+    let indexData: VkBuffer
+    let indexOffset: VkDeviceSize
+    let indexCount: UInt32
+    let indexType: VkIndexType
+    let transformData: VkBuffer
+    let transformOffset: VkDeviceSize
 }
 
 struct GeometryAABBNV {
-    var cStruct: VkGeometryAABBNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let aabbData: VkBuffer
+    let numAABBs: UInt32
+    let stride: UInt32
+    let offset: VkDeviceSize
 }
 
 struct GeometryDataNV {
-    var cStruct: VkGeometryDataNV
+    let triangles: VkGeometryTrianglesNV
+    let aabbs: VkGeometryAABBNV
 }
 
 struct GeometryNV {
-    var cStruct: VkGeometryNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let geometryType: VkGeometryTypeKHR
+    let geometry: VkGeometryDataNV
+    let flags: VkGeometryFlagsKHR
 }
 
 struct AccelerationStructureInfoNV {
-    var cStruct: VkAccelerationStructureInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let type: VkAccelerationStructureTypeNV
+    let flags: VkBuildAccelerationStructureFlagsNV
+    let instanceCount: UInt32
+    let geometryCount: UInt32
+    let pGeometries: UnsafePointer<VkGeometryNV>
 }
 
 struct AccelerationStructureCreateInfoNV {
-    var cStruct: VkAccelerationStructureCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let compactedSize: VkDeviceSize
+    let info: VkAccelerationStructureInfoNV
 }
 
 struct AccelerationStructureMemoryRequirementsInfoNV {
-    var cStruct: VkAccelerationStructureMemoryRequirementsInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let type: VkAccelerationStructureMemoryRequirementsTypeNV
+    let accelerationStructure: VkAccelerationStructureNV
 }
 
 struct PhysicalDeviceRayTracingPropertiesNV {
-    var cStruct: VkPhysicalDeviceRayTracingPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderGroupHandleSize: UInt32
+    let maxRecursionDepth: UInt32
+    let maxShaderGroupStride: UInt32
+    let shaderGroupBaseAlignment: UInt32
+    let maxGeometryCount: UInt64
+    let maxInstanceCount: UInt64
+    let maxTriangleCount: UInt64
+    let maxDescriptorSetAccelerationStructures: UInt32
 }
 
 struct DrmFormatModifierPropertiesListEXT {
-    var cStruct: VkDrmFormatModifierPropertiesListEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let drmFormatModifierCount: UInt32
+    let pDrmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
 }
 
 struct DrmFormatModifierPropertiesEXT {
-    var cStruct: VkDrmFormatModifierPropertiesEXT
+    let drmFormatModifier: UInt64
+    let drmFormatModifierPlaneCount: UInt32
+    let drmFormatModifierTilingFeatures: VkFormatFeatureFlags
 }
 
 struct PhysicalDeviceImageDrmFormatModifierInfoEXT {
-    var cStruct: VkPhysicalDeviceImageDrmFormatModifierInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let drmFormatModifier: UInt64
+    let sharingMode: VkSharingMode
+    let queueFamilyIndexCount: UInt32
+    let pQueueFamilyIndices: UnsafePointer<UInt32>
 }
 
 struct ImageDrmFormatModifierListCreateInfoEXT {
-    var cStruct: VkImageDrmFormatModifierListCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let drmFormatModifierCount: UInt32
+    let pDrmFormatModifiers: UnsafePointer<UInt64>
 }
 
 struct ImageDrmFormatModifierExplicitCreateInfoEXT {
-    var cStruct: VkImageDrmFormatModifierExplicitCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let drmFormatModifier: UInt64
+    let drmFormatModifierPlaneCount: UInt32
+    let pPlaneLayouts: UnsafePointer<VkSubresourceLayout>
 }
 
 struct ImageDrmFormatModifierPropertiesEXT {
-    var cStruct: VkImageDrmFormatModifierPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let drmFormatModifier: UInt64
 }
 
 struct ImageStencilUsageCreateInfo {
-    var cStruct: VkImageStencilUsageCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let stencilUsage: VkImageUsageFlags
 }
 
 struct DeviceMemoryOverallocationCreateInfoAMD {
-    var cStruct: VkDeviceMemoryOverallocationCreateInfoAMD
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let overallocationBehavior: VkMemoryOverallocationBehaviorAMD
 }
 
 struct PhysicalDeviceFragmentDensityMapFeaturesEXT {
-    var cStruct: VkPhysicalDeviceFragmentDensityMapFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let fragmentDensityMap: VkBool32
+    let fragmentDensityMapDynamic: VkBool32
+    let fragmentDensityMapNonSubsampledImages: VkBool32
 }
 
 struct PhysicalDeviceFragmentDensityMapPropertiesEXT {
-    var cStruct: VkPhysicalDeviceFragmentDensityMapPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let minFragmentDensityTexelSize: VkExtent2D
+    let maxFragmentDensityTexelSize: VkExtent2D
+    let fragmentDensityInvocations: VkBool32
 }
 
 struct RenderPassFragmentDensityMapCreateInfoEXT {
-    var cStruct: VkRenderPassFragmentDensityMapCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let fragmentDensityMapAttachment: VkAttachmentReference
 }
 
 struct PhysicalDeviceScalarBlockLayoutFeatures {
-    var cStruct: VkPhysicalDeviceScalarBlockLayoutFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let scalarBlockLayout: VkBool32
 }
 
 struct SurfaceProtectedCapabilitiesKHR {
-    var cStruct: VkSurfaceProtectedCapabilitiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let supportsProtected: VkBool32
 }
 
 struct PhysicalDeviceUniformBufferStandardLayoutFeatures {
-    var cStruct: VkPhysicalDeviceUniformBufferStandardLayoutFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let uniformBufferStandardLayout: VkBool32
 }
 
 struct PhysicalDeviceDepthClipEnableFeaturesEXT {
-    var cStruct: VkPhysicalDeviceDepthClipEnableFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let depthClipEnable: VkBool32
 }
 
 struct PipelineRasterizationDepthClipStateCreateInfoEXT {
-    var cStruct: VkPipelineRasterizationDepthClipStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineRasterizationDepthClipStateCreateFlagsEXT
+    let depthClipEnable: VkBool32
 }
 
 struct PhysicalDeviceMemoryBudgetPropertiesEXT {
-    var cStruct: VkPhysicalDeviceMemoryBudgetPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let heapBudget: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
+    let heapUsage: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
 }
 
 struct PhysicalDeviceMemoryPriorityFeaturesEXT {
-    var cStruct: VkPhysicalDeviceMemoryPriorityFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let memoryPriority: VkBool32
 }
 
 struct MemoryPriorityAllocateInfoEXT {
-    var cStruct: VkMemoryPriorityAllocateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let priority: Float
 }
 
 struct PhysicalDeviceBufferDeviceAddressFeatures {
-    var cStruct: VkPhysicalDeviceBufferDeviceAddressFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let bufferDeviceAddress: VkBool32
+    let bufferDeviceAddressCaptureReplay: VkBool32
+    let bufferDeviceAddressMultiDevice: VkBool32
 }
 
 struct PhysicalDeviceBufferDeviceAddressFeaturesEXT {
-    var cStruct: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let bufferDeviceAddress: VkBool32
+    let bufferDeviceAddressCaptureReplay: VkBool32
+    let bufferDeviceAddressMultiDevice: VkBool32
 }
 
 struct BufferDeviceAddressInfo {
-    var cStruct: VkBufferDeviceAddressInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let buffer: VkBuffer
 }
 
 struct BufferOpaqueCaptureAddressCreateInfo {
-    var cStruct: VkBufferOpaqueCaptureAddressCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let opaqueCaptureAddress: UInt64
 }
 
 struct BufferDeviceAddressCreateInfoEXT {
-    var cStruct: VkBufferDeviceAddressCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let deviceAddress: VkDeviceAddress
 }
 
 struct PhysicalDeviceImageViewImageFormatInfoEXT {
-    var cStruct: VkPhysicalDeviceImageViewImageFormatInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let imageViewType: VkImageViewType
 }
 
 struct FilterCubicImageViewImageFormatPropertiesEXT {
-    var cStruct: VkFilterCubicImageViewImageFormatPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let filterCubic: VkBool32
+    let filterCubicMinmax: VkBool32
 }
 
 struct PhysicalDeviceImagelessFramebufferFeatures {
-    var cStruct: VkPhysicalDeviceImagelessFramebufferFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let imagelessFramebuffer: VkBool32
 }
 
 struct FramebufferAttachmentsCreateInfo {
-    var cStruct: VkFramebufferAttachmentsCreateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let attachmentImageInfoCount: UInt32
+    let pAttachmentImageInfos: UnsafePointer<VkFramebufferAttachmentImageInfo>
 }
 
 struct FramebufferAttachmentImageInfo {
-    var cStruct: VkFramebufferAttachmentImageInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkImageCreateFlags
+    let usage: VkImageUsageFlags
+    let width: UInt32
+    let height: UInt32
+    let layerCount: UInt32
+    let viewFormatCount: UInt32
+    let pViewFormats: UnsafePointer<VkFormat>
 }
 
 struct RenderPassAttachmentBeginInfo {
-    var cStruct: VkRenderPassAttachmentBeginInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let attachmentCount: UInt32
+    let pAttachments: UnsafePointer<VkImageView>
 }
 
 struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT {
-    var cStruct: VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let textureCompressionASTC_HDR: VkBool32
 }
 
 struct PhysicalDeviceCooperativeMatrixFeaturesNV {
-    var cStruct: VkPhysicalDeviceCooperativeMatrixFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let cooperativeMatrix: VkBool32
+    let cooperativeMatrixRobustBufferAccess: VkBool32
 }
 
 struct PhysicalDeviceCooperativeMatrixPropertiesNV {
-    var cStruct: VkPhysicalDeviceCooperativeMatrixPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let cooperativeMatrixSupportedStages: VkShaderStageFlags
 }
 
 struct CooperativeMatrixPropertiesNV {
-    var cStruct: VkCooperativeMatrixPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let MSize: UInt32
+    let NSize: UInt32
+    let KSize: UInt32
+    let AType: VkComponentTypeNV
+    let BType: VkComponentTypeNV
+    let CType: VkComponentTypeNV
+    let DType: VkComponentTypeNV
+    let scope: VkScopeNV
 }
 
 struct PhysicalDeviceYcbcrImageArraysFeaturesEXT {
-    var cStruct: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let ycbcrImageArrays: VkBool32
 }
 
 struct ImageViewHandleInfoNVX {
-    var cStruct: VkImageViewHandleInfoNVX
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let imageView: VkImageView
+    let descriptorType: VkDescriptorType
+    let sampler: VkSampler
 }
 
 struct PipelineCreationFeedbackEXT {
-    var cStruct: VkPipelineCreationFeedbackEXT
+    let flags: VkPipelineCreationFeedbackFlagsEXT
+    let duration: UInt64
 }
 
 struct PipelineCreationFeedbackCreateInfoEXT {
-    var cStruct: VkPipelineCreationFeedbackCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pPipelineCreationFeedback: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
+    let pipelineStageCreationFeedbackCount: UInt32
+    let pPipelineStageCreationFeedbacks: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
 }
 
 struct PhysicalDevicePerformanceQueryFeaturesKHR {
-    var cStruct: VkPhysicalDevicePerformanceQueryFeaturesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let performanceCounterQueryPools: VkBool32
+    let performanceCounterMultipleQueryPools: VkBool32
 }
 
 struct PhysicalDevicePerformanceQueryPropertiesKHR {
-    var cStruct: VkPhysicalDevicePerformanceQueryPropertiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let allowCommandBufferQueryCopies: VkBool32
 }
 
 struct PerformanceCounterKHR {
-    var cStruct: VkPerformanceCounterKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let unit: VkPerformanceCounterUnitKHR
+    let scope: VkPerformanceCounterScopeKHR
+    let storage: VkPerformanceCounterStorageKHR
+    let uuid: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
 }
 
 struct PerformanceCounterDescriptionKHR {
-    var cStruct: VkPerformanceCounterDescriptionKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPerformanceCounterDescriptionFlagsKHR
+    let name: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let category: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
 }
 
 struct QueryPoolPerformanceCreateInfoKHR {
-    var cStruct: VkQueryPoolPerformanceCreateInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let queueFamilyIndex: UInt32
+    let counterIndexCount: UInt32
+    let pCounterIndices: UnsafePointer<UInt32>
 }
 
 struct AcquireProfilingLockInfoKHR {
-    var cStruct: VkAcquireProfilingLockInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkAcquireProfilingLockFlagsKHR
+    let timeout: UInt64
 }
 
 struct PerformanceQuerySubmitInfoKHR {
-    var cStruct: VkPerformanceQuerySubmitInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let counterPassIndex: UInt32
 }
 
 struct HeadlessSurfaceCreateInfoEXT {
-    var cStruct: VkHeadlessSurfaceCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkHeadlessSurfaceCreateFlagsEXT
 }
 
 struct PhysicalDeviceCoverageReductionModeFeaturesNV {
-    var cStruct: VkPhysicalDeviceCoverageReductionModeFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let coverageReductionMode: VkBool32
 }
 
 struct PipelineCoverageReductionStateCreateInfoNV {
-    var cStruct: VkPipelineCoverageReductionStateCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkPipelineCoverageReductionStateCreateFlagsNV
+    let coverageReductionMode: VkCoverageReductionModeNV
 }
 
 struct FramebufferMixedSamplesCombinationNV {
-    var cStruct: VkFramebufferMixedSamplesCombinationNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let coverageReductionMode: VkCoverageReductionModeNV
+    let rasterizationSamples: VkSampleCountFlagBits
+    let depthStencilSamples: VkSampleCountFlags
+    let colorSamples: VkSampleCountFlags
 }
 
 struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL {
-    var cStruct: VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderIntegerFunctions2: VkBool32
 }
 
 struct PerformanceValueINTEL {
-    var cStruct: VkPerformanceValueINTEL
+    let type: VkPerformanceValueTypeINTEL
+    let data: VkPerformanceValueDataINTEL
 }
 
 struct InitializePerformanceApiInfoINTEL {
-    var cStruct: VkInitializePerformanceApiInfoINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pUserData: UnsafeMutableRawPointer
 }
 
 struct QueryPoolPerformanceQueryCreateInfoINTEL {
-    var cStruct: VkQueryPoolPerformanceQueryCreateInfoINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let performanceCountersSampling: VkQueryPoolSamplingModeINTEL
 }
 
 struct PerformanceMarkerInfoINTEL {
-    var cStruct: VkPerformanceMarkerInfoINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let marker: UInt64
 }
 
 struct PerformanceStreamMarkerInfoINTEL {
-    var cStruct: VkPerformanceStreamMarkerInfoINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let marker: UInt32
 }
 
 struct PerformanceOverrideInfoINTEL {
-    var cStruct: VkPerformanceOverrideInfoINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let type: VkPerformanceOverrideTypeINTEL
+    let enable: VkBool32
+    let parameter: UInt64
 }
 
 struct PerformanceConfigurationAcquireInfoINTEL {
-    var cStruct: VkPerformanceConfigurationAcquireInfoINTEL
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let type: VkPerformanceConfigurationTypeINTEL
 }
 
 struct PhysicalDeviceShaderClockFeaturesKHR {
-    var cStruct: VkPhysicalDeviceShaderClockFeaturesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderSubgroupClock: VkBool32
+    let shaderDeviceClock: VkBool32
 }
 
 struct PhysicalDeviceIndexTypeUint8FeaturesEXT {
-    var cStruct: VkPhysicalDeviceIndexTypeUint8FeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let indexTypeUint8: VkBool32
 }
 
 struct PhysicalDeviceShaderSMBuiltinsPropertiesNV {
-    var cStruct: VkPhysicalDeviceShaderSMBuiltinsPropertiesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderSMCount: UInt32
+    let shaderWarpsPerSM: UInt32
 }
 
 struct PhysicalDeviceShaderSMBuiltinsFeaturesNV {
-    var cStruct: VkPhysicalDeviceShaderSMBuiltinsFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderSMBuiltins: VkBool32
 }
 
 struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT {
-    var cStruct: VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let fragmentShaderSampleInterlock: VkBool32
+    let fragmentShaderPixelInterlock: VkBool32
+    let fragmentShaderShadingRateInterlock: VkBool32
 }
 
 struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures {
-    var cStruct: VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let separateDepthStencilLayouts: VkBool32
 }
 
 struct AttachmentReferenceStencilLayout {
-    var cStruct: VkAttachmentReferenceStencilLayout
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let stencilLayout: VkImageLayout
 }
 
 struct AttachmentDescriptionStencilLayout {
-    var cStruct: VkAttachmentDescriptionStencilLayout
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let stencilInitialLayout: VkImageLayout
+    let stencilFinalLayout: VkImageLayout
 }
 
 struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR {
-    var cStruct: VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let pipelineExecutableInfo: VkBool32
 }
 
 struct PipelineInfoKHR {
-    var cStruct: VkPipelineInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pipeline: VkPipeline
 }
 
 struct PipelineExecutablePropertiesKHR {
-    var cStruct: VkPipelineExecutablePropertiesKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let stages: VkShaderStageFlags
+    let name: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let subgroupSize: UInt32
 }
 
 struct PipelineExecutableInfoKHR {
-    var cStruct: VkPipelineExecutableInfoKHR
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let pipeline: VkPipeline
+    let executableIndex: UInt32
 }
 
 struct PipelineExecutableStatisticKHR {
-    var cStruct: VkPipelineExecutableStatisticKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let name: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let format: VkPipelineExecutableStatisticFormatKHR
+    let value: VkPipelineExecutableStatisticValueKHR
 }
 
 struct PipelineExecutableInternalRepresentationKHR {
-    var cStruct: VkPipelineExecutableInternalRepresentationKHR
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let name: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let isText: VkBool32
+    let dataSize: Int
+    let pData: UnsafeMutableRawPointer
 }
 
 struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT {
-    var cStruct: VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let shaderDemoteToHelperInvocation: VkBool32
 }
 
 struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT {
-    var cStruct: VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let texelBufferAlignment: VkBool32
 }
 
 struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT {
-    var cStruct: VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let storageTexelBufferOffsetAlignmentBytes: VkDeviceSize
+    let storageTexelBufferOffsetSingleTexelAlignment: VkBool32
+    let uniformTexelBufferOffsetAlignmentBytes: VkDeviceSize
+    let uniformTexelBufferOffsetSingleTexelAlignment: VkBool32
 }
 
 struct PhysicalDeviceSubgroupSizeControlFeaturesEXT {
-    var cStruct: VkPhysicalDeviceSubgroupSizeControlFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let subgroupSizeControl: VkBool32
+    let computeFullSubgroups: VkBool32
 }
 
 struct PhysicalDeviceSubgroupSizeControlPropertiesEXT {
-    var cStruct: VkPhysicalDeviceSubgroupSizeControlPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let minSubgroupSize: UInt32
+    let maxSubgroupSize: UInt32
+    let maxComputeWorkgroupSubgroups: UInt32
+    let requiredSubgroupSizeStages: VkShaderStageFlags
 }
 
 struct PipelineShaderStageRequiredSubgroupSizeCreateInfoEXT {
-    var cStruct: VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let requiredSubgroupSize: UInt32
 }
 
 struct MemoryOpaqueCaptureAddressAllocateInfo {
-    var cStruct: VkMemoryOpaqueCaptureAddressAllocateInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let opaqueCaptureAddress: UInt64
 }
 
 struct DeviceMemoryOpaqueCaptureAddressInfo {
-    var cStruct: VkDeviceMemoryOpaqueCaptureAddressInfo
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let memory: VkDeviceMemory
 }
 
 struct PhysicalDeviceLineRasterizationFeaturesEXT {
-    var cStruct: VkPhysicalDeviceLineRasterizationFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let rectangularLines: VkBool32
+    let bresenhamLines: VkBool32
+    let smoothLines: VkBool32
+    let stippledRectangularLines: VkBool32
+    let stippledBresenhamLines: VkBool32
+    let stippledSmoothLines: VkBool32
 }
 
 struct PhysicalDeviceLineRasterizationPropertiesEXT {
-    var cStruct: VkPhysicalDeviceLineRasterizationPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let lineSubPixelPrecisionBits: UInt32
 }
 
 struct PipelineRasterizationLineStateCreateInfoEXT {
-    var cStruct: VkPipelineRasterizationLineStateCreateInfoEXT
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let lineRasterizationMode: VkLineRasterizationModeEXT
+    let stippledLineEnable: VkBool32
+    let lineStippleFactor: UInt32
+    let lineStipplePattern: UInt16
 }
 
 struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT {
-    var cStruct: VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let pipelineCreationCacheControl: VkBool32
 }
 
 struct PhysicalDeviceVulkan11Features {
-    var cStruct: VkPhysicalDeviceVulkan11Features
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let storageBuffer16BitAccess: VkBool32
+    let uniformAndStorageBuffer16BitAccess: VkBool32
+    let storagePushConstant16: VkBool32
+    let storageInputOutput16: VkBool32
+    let multiview: VkBool32
+    let multiviewGeometryShader: VkBool32
+    let multiviewTessellationShader: VkBool32
+    let variablePointersStorageBuffer: VkBool32
+    let variablePointers: VkBool32
+    let protectedMemory: VkBool32
+    let samplerYcbcrConversion: VkBool32
+    let shaderDrawParameters: VkBool32
 }
 
 struct PhysicalDeviceVulkan11Properties {
-    var cStruct: VkPhysicalDeviceVulkan11Properties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let deviceUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    let deviceNodeMask: UInt32
+    let deviceLUIDValid: VkBool32
+    let subgroupSize: UInt32
+    let subgroupSupportedStages: VkShaderStageFlags
+    let subgroupSupportedOperations: VkSubgroupFeatureFlags
+    let subgroupQuadOperationsInAllStages: VkBool32
+    let pointClippingBehavior: VkPointClippingBehavior
+    let maxMultiviewViewCount: UInt32
+    let maxMultiviewInstanceIndex: UInt32
+    let protectedNoFault: VkBool32
+    let maxPerSetDescriptors: UInt32
+    let maxMemoryAllocationSize: VkDeviceSize
 }
 
 struct PhysicalDeviceVulkan12Features {
-    var cStruct: VkPhysicalDeviceVulkan12Features
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let samplerMirrorClampToEdge: VkBool32
+    let drawIndirectCount: VkBool32
+    let storageBuffer8BitAccess: VkBool32
+    let uniformAndStorageBuffer8BitAccess: VkBool32
+    let storagePushConstant8: VkBool32
+    let shaderBufferInt64Atomics: VkBool32
+    let shaderSharedInt64Atomics: VkBool32
+    let shaderFloat16: VkBool32
+    let shaderInt8: VkBool32
+    let descriptorIndexing: VkBool32
+    let shaderInputAttachmentArrayDynamicIndexing: VkBool32
+    let shaderUniformTexelBufferArrayDynamicIndexing: VkBool32
+    let shaderStorageTexelBufferArrayDynamicIndexing: VkBool32
+    let shaderUniformBufferArrayNonUniformIndexing: VkBool32
+    let shaderSampledImageArrayNonUniformIndexing: VkBool32
+    let shaderStorageBufferArrayNonUniformIndexing: VkBool32
+    let shaderStorageImageArrayNonUniformIndexing: VkBool32
+    let shaderInputAttachmentArrayNonUniformIndexing: VkBool32
+    let shaderUniformTexelBufferArrayNonUniformIndexing: VkBool32
+    let shaderStorageTexelBufferArrayNonUniformIndexing: VkBool32
+    let descriptorBindingUniformBufferUpdateAfterBind: VkBool32
+    let descriptorBindingSampledImageUpdateAfterBind: VkBool32
+    let descriptorBindingStorageImageUpdateAfterBind: VkBool32
+    let descriptorBindingStorageBufferUpdateAfterBind: VkBool32
+    let descriptorBindingUniformTexelBufferUpdateAfterBind: VkBool32
+    let descriptorBindingStorageTexelBufferUpdateAfterBind: VkBool32
+    let descriptorBindingUpdateUnusedWhilePending: VkBool32
+    let descriptorBindingPartiallyBound: VkBool32
+    let descriptorBindingVariableDescriptorCount: VkBool32
+    let runtimeDescriptorArray: VkBool32
+    let samplerFilterMinmax: VkBool32
+    let scalarBlockLayout: VkBool32
+    let imagelessFramebuffer: VkBool32
+    let uniformBufferStandardLayout: VkBool32
+    let shaderSubgroupExtendedTypes: VkBool32
+    let separateDepthStencilLayouts: VkBool32
+    let hostQueryReset: VkBool32
+    let timelineSemaphore: VkBool32
+    let bufferDeviceAddress: VkBool32
+    let bufferDeviceAddressCaptureReplay: VkBool32
+    let bufferDeviceAddressMultiDevice: VkBool32
+    let vulkanMemoryModel: VkBool32
+    let vulkanMemoryModelDeviceScope: VkBool32
+    let vulkanMemoryModelAvailabilityVisibilityChains: VkBool32
+    let shaderOutputViewportIndex: VkBool32
+    let shaderOutputLayer: VkBool32
+    let subgroupBroadcastDynamicId: VkBool32
 }
 
 struct PhysicalDeviceVulkan12Properties {
-    var cStruct: VkPhysicalDeviceVulkan12Properties
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let driverID: VkDriverId
+    let driverName: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let driverInfo: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let conformanceVersion: VkConformanceVersion
+    let denormBehaviorIndependence: VkShaderFloatControlsIndependence
+    let roundingModeIndependence: VkShaderFloatControlsIndependence
+    let shaderSignedZeroInfNanPreserveFloat16: VkBool32
+    let shaderSignedZeroInfNanPreserveFloat32: VkBool32
+    let shaderSignedZeroInfNanPreserveFloat64: VkBool32
+    let shaderDenormPreserveFloat16: VkBool32
+    let shaderDenormPreserveFloat32: VkBool32
+    let shaderDenormPreserveFloat64: VkBool32
+    let shaderDenormFlushToZeroFloat16: VkBool32
+    let shaderDenormFlushToZeroFloat32: VkBool32
+    let shaderDenormFlushToZeroFloat64: VkBool32
+    let shaderRoundingModeRTEFloat16: VkBool32
+    let shaderRoundingModeRTEFloat32: VkBool32
+    let shaderRoundingModeRTEFloat64: VkBool32
+    let shaderRoundingModeRTZFloat16: VkBool32
+    let shaderRoundingModeRTZFloat32: VkBool32
+    let shaderRoundingModeRTZFloat64: VkBool32
+    let maxUpdateAfterBindDescriptorsInAllPools: UInt32
+    let shaderUniformBufferArrayNonUniformIndexingNative: VkBool32
+    let shaderSampledImageArrayNonUniformIndexingNative: VkBool32
+    let shaderStorageBufferArrayNonUniformIndexingNative: VkBool32
+    let shaderStorageImageArrayNonUniformIndexingNative: VkBool32
+    let shaderInputAttachmentArrayNonUniformIndexingNative: VkBool32
+    let robustBufferAccessUpdateAfterBind: VkBool32
+    let quadDivergentImplicitLod: VkBool32
+    let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
+    let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
+    let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
+    let maxPerStageDescriptorUpdateAfterBindSampledImages: UInt32
+    let maxPerStageDescriptorUpdateAfterBindStorageImages: UInt32
+    let maxPerStageDescriptorUpdateAfterBindInputAttachments: UInt32
+    let maxPerStageUpdateAfterBindResources: UInt32
+    let maxDescriptorSetUpdateAfterBindSamplers: UInt32
+    let maxDescriptorSetUpdateAfterBindUniformBuffers: UInt32
+    let maxDescriptorSetUpdateAfterBindUniformBuffersDynamic: UInt32
+    let maxDescriptorSetUpdateAfterBindStorageBuffers: UInt32
+    let maxDescriptorSetUpdateAfterBindStorageBuffersDynamic: UInt32
+    let maxDescriptorSetUpdateAfterBindSampledImages: UInt32
+    let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
+    let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
+    let supportedDepthResolveModes: VkResolveModeFlags
+    let supportedStencilResolveModes: VkResolveModeFlags
+    let independentResolveNone: VkBool32
+    let independentResolve: VkBool32
+    let filterMinmaxSingleComponentFormats: VkBool32
+    let filterMinmaxImageComponentMapping: VkBool32
+    let maxTimelineSemaphoreValueDifference: UInt64
+    let framebufferIntegerColorSampleCounts: VkSampleCountFlags
 }
 
 struct PipelineCompilerControlCreateInfoAMD {
-    var cStruct: VkPipelineCompilerControlCreateInfoAMD
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let compilerControlFlags: VkPipelineCompilerControlFlagsAMD
 }
 
 struct PhysicalDeviceCoherentMemoryFeaturesAMD {
-    var cStruct: VkPhysicalDeviceCoherentMemoryFeaturesAMD
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let deviceCoherentMemory: VkBool32
 }
 
 struct PhysicalDeviceToolPropertiesEXT {
-    var cStruct: VkPhysicalDeviceToolPropertiesEXT
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let name: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let version: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let purposes: VkToolPurposeFlagsEXT
+    let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
+    let layer: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
 }
 
 struct RenderPassTransformBeginInfoQCOM {
-    var cStruct: VkRenderPassTransformBeginInfoQCOM
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let transform: VkSurfaceTransformFlagBitsKHR
 }
 
 struct CommandBufferInheritanceRenderPassTransformInfoQCOM {
-    var cStruct: VkCommandBufferInheritanceRenderPassTransformInfoQCOM
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let transform: VkSurfaceTransformFlagBitsKHR
+    let renderArea: VkRect2D
 }
 
 struct PhysicalDeviceDiagnosticsConfigFeaturesNV {
-    var cStruct: VkPhysicalDeviceDiagnosticsConfigFeaturesNV
+    let sType: VkStructureType
+    let pNext: UnsafeMutableRawPointer
+    let diagnosticsConfig: VkBool32
 }
 
 struct DeviceDiagnosticsConfigCreateInfoNV {
-    var cStruct: VkDeviceDiagnosticsConfigCreateInfoNV
+    let sType: VkStructureType
+    let pNext: UnsafeRawPointer
+    let flags: VkDeviceDiagnosticsConfigFlagsNV
 }
 

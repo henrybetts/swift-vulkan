@@ -60,7 +60,8 @@ class Generator(BaseGenerator):
 
     def generate_struct(self, struct: SwiftStruct):
         with self.indent(f'struct {struct.name} {{', '}'):
-            self << f'var cStruct: {struct.c_struct.name}'
+            for member in struct.members:
+                self << f'let {safe_name(member.name)}: {member.type}'
         self.linebreak()
 
 
