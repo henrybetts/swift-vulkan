@@ -295,9 +295,9 @@ struct DeviceCreateInfo: CStructConvertible {
     let queueCreateInfoCount: UInt32
     let pQueueCreateInfos: UnsafePointer<VkDeviceQueueCreateInfo>
     let enabledLayerCount: UInt32
-    let ppEnabledLayerNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let ppEnabledLayerNames: UnsafePointer<UnsafePointer<CChar>?>
     let enabledExtensionCount: UInt32
-    let ppEnabledExtensionNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let ppEnabledExtensionNames: UnsafePointer<UnsafePointer<CChar>?>
     let pEnabledFeatures: UnsafePointer<VkPhysicalDeviceFeatures>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceCreateInfo>) throws -> R) rethrows -> R {
@@ -324,9 +324,9 @@ struct InstanceCreateInfo: CStructConvertible {
     let flags: VkInstanceCreateFlags
     let pApplicationInfo: UnsafePointer<VkApplicationInfo>
     let enabledLayerCount: UInt32
-    let ppEnabledLayerNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let ppEnabledLayerNames: UnsafePointer<UnsafePointer<CChar>?>
     let enabledExtensionCount: UInt32
-    let ppEnabledExtensionNames: UnsafeMutablePointer<UnsafePointer<CChar>>
+    let ppEnabledExtensionNames: UnsafePointer<UnsafePointer<CChar>?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkInstanceCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkInstanceCreateInfo()
@@ -576,7 +576,7 @@ struct WriteDescriptorSet: CStructConvertible {
     let descriptorType: VkDescriptorType
     let pImageInfo: UnsafePointer<VkDescriptorImageInfo>
     let pBufferInfo: UnsafePointer<VkDescriptorBufferInfo>
-    let pTexelBufferView: UnsafePointer<VkBufferView>
+    let pTexelBufferView: UnsafePointer<VkBufferView?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkWriteDescriptorSet>) throws -> R) rethrows -> R {
         var cStruct = VkWriteDescriptorSet()
@@ -1000,7 +1000,7 @@ struct BindSparseInfo: CStructConvertible {
     let sType: VkStructureType
     let pNext: UnsafeRawPointer
     let waitSemaphoreCount: UInt32
-    let pWaitSemaphores: UnsafePointer<VkSemaphore>
+    let pWaitSemaphores: UnsafePointer<VkSemaphore?>
     let bufferBindCount: UInt32
     let pBufferBinds: UnsafePointer<VkSparseBufferMemoryBindInfo>
     let imageOpaqueBindCount: UInt32
@@ -1008,7 +1008,7 @@ struct BindSparseInfo: CStructConvertible {
     let imageBindCount: UInt32
     let pImageBinds: UnsafePointer<VkSparseImageMemoryBindInfo>
     let signalSemaphoreCount: UInt32
-    let pSignalSemaphores: UnsafePointer<VkSemaphore>
+    let pSignalSemaphores: UnsafePointer<VkSemaphore?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindSparseInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindSparseInfo()
@@ -1135,7 +1135,7 @@ struct DescriptorSetLayoutBinding: CStructConvertible {
     let descriptorType: VkDescriptorType
     let descriptorCount: UInt32
     let stageFlags: VkShaderStageFlags
-    let pImmutableSamplers: UnsafePointer<VkSampler>
+    let pImmutableSamplers: UnsafePointer<VkSampler?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBinding>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetLayoutBinding()
@@ -1211,7 +1211,7 @@ struct DescriptorSetAllocateInfo: CStructConvertible {
     let pNext: UnsafeRawPointer
     let descriptorPool: VkDescriptorPool
     let descriptorSetCount: UInt32
-    let pSetLayouts: UnsafePointer<VkDescriptorSetLayout>
+    let pSetLayouts: UnsafePointer<VkDescriptorSetLayout?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetAllocateInfo()
@@ -1711,7 +1711,7 @@ struct PipelineLayoutCreateInfo: CStructConvertible {
     let pNext: UnsafeRawPointer
     let flags: VkPipelineLayoutCreateFlags
     let setLayoutCount: UInt32
-    let pSetLayouts: UnsafePointer<VkDescriptorSetLayout>
+    let pSetLayouts: UnsafePointer<VkDescriptorSetLayout?>
     let pushConstantRangeCount: UInt32
     let pPushConstantRanges: UnsafePointer<VkPushConstantRange>
 
@@ -2474,7 +2474,7 @@ struct FramebufferCreateInfo: CStructConvertible {
     let flags: VkFramebufferCreateFlags
     let renderPass: VkRenderPass
     let attachmentCount: UInt32
-    let pAttachments: UnsafePointer<VkImageView>
+    let pAttachments: UnsafePointer<VkImageView?>
     let width: UInt32
     let height: UInt32
     let layers: UInt32
@@ -2554,12 +2554,12 @@ struct SubmitInfo: CStructConvertible {
     let sType: VkStructureType
     let pNext: UnsafeRawPointer
     let waitSemaphoreCount: UInt32
-    let pWaitSemaphores: UnsafePointer<VkSemaphore>
+    let pWaitSemaphores: UnsafePointer<VkSemaphore?>
     let pWaitDstStageMask: UnsafePointer<VkPipelineStageFlags>
     let commandBufferCount: UInt32
-    let pCommandBuffers: UnsafePointer<VkCommandBuffer>
+    let pCommandBuffers: UnsafePointer<VkCommandBuffer?>
     let signalSemaphoreCount: UInt32
-    let pSignalSemaphores: UnsafePointer<VkSemaphore>
+    let pSignalSemaphores: UnsafePointer<VkSemaphore?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubmitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSubmitInfo()
@@ -2834,9 +2834,9 @@ struct PresentInfoKHR: CStructConvertible {
     let sType: VkStructureType
     let pNext: UnsafeRawPointer
     let waitSemaphoreCount: UInt32
-    let pWaitSemaphores: UnsafePointer<VkSemaphore>
+    let pWaitSemaphores: UnsafePointer<VkSemaphore?>
     let swapchainCount: UInt32
-    let pSwapchains: UnsafePointer<VkSwapchainKHR>
+    let pSwapchains: UnsafePointer<VkSwapchainKHR?>
     let pImageIndices: UnsafePointer<UInt32>
     let pResults: UnsafeMutablePointer<VkResult>
 
@@ -3170,7 +3170,7 @@ struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
     let groupCount: UInt32
     let pGroups: UnsafePointer<VkGraphicsShaderGroupCreateInfoNV>
     let pipelineCount: UInt32
-    let pPipelines: UnsafePointer<VkPipeline>
+    let pPipelines: UnsafePointer<VkPipeline?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGraphicsPipelineShaderGroupsCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkGraphicsPipelineShaderGroupsCreateInfoNV()
@@ -4520,7 +4520,7 @@ struct DeviceGroupDeviceCreateInfo: CStructConvertible {
     let sType: VkStructureType
     let pNext: UnsafeRawPointer
     let physicalDeviceCount: UInt32
-    let pPhysicalDevices: UnsafePointer<VkPhysicalDevice>
+    let pPhysicalDevices: UnsafePointer<VkPhysicalDevice?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupDeviceCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupDeviceCreateInfo()
@@ -6813,7 +6813,7 @@ struct SemaphoreWaitInfo: CStructConvertible {
     let pNext: UnsafeRawPointer
     let flags: VkSemaphoreWaitFlags
     let semaphoreCount: UInt32
-    let pSemaphores: UnsafePointer<VkSemaphore>
+    let pSemaphores: UnsafePointer<VkSemaphore?>
     let pValues: UnsafePointer<UInt64>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSemaphoreWaitInfo>) throws -> R) rethrows -> R {
@@ -8308,7 +8308,7 @@ struct RenderPassAttachmentBeginInfo: CStructConvertible {
     let sType: VkStructureType
     let pNext: UnsafeRawPointer
     let attachmentCount: UInt32
-    let pAttachments: UnsafePointer<VkImageView>
+    let pAttachments: UnsafePointer<VkImageView?>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassAttachmentBeginInfo>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassAttachmentBeginInfo()

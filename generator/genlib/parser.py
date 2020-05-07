@@ -58,6 +58,7 @@ class CContext:
     def __init__(self):
         self.extensions: List[CExtension] = []
         self.extension_tags: List[str] = []
+        self.handles: List[str] = []
         self.enums: List[CEnum] = []
         self.bitmasks: List[CBitmask] = []
         self.structs: List[CStruct] = []
@@ -68,7 +69,8 @@ class CContext:
 
     def parse_tree(self, tree: ElementTree):
         self.parse_extensions(tree)
-        self.parse_extension_tags(tree),
+        self.parse_extension_tags(tree)
+        self.parse_handles(tree)
         self.parse_enums(tree)
         self.parse_bitmasks(tree)
         self.parse_structs(tree)
@@ -96,6 +98,14 @@ class CContext:
     def parse_extension_tags(self, tree: ElementTree):
         for tag in tree.findall('./tags/tag'):
             self.extension_tags.append(tag.attrib['name'])
+
+    def parse_handles(self, tree: ElementTree):
+        for handle in tree.findall('./types/type[@category="handle"]'):
+            if 'alias' in handle.attrib:
+                continue
+            handle_name = handle.find('./name').text
+            if not self.should_ignore_type(handle_name):
+                self.handles.append(handle_name)
 
     def parse_enums(self, tree: ElementTree):
         for e_enum in tree.findall('./enums[@type="enum"]'):
@@ -198,10 +208,10 @@ class CContext:
                 if len(optionals) > len(pointers):
                     c_type.optional = optionals.pop(-1) == 'true'
 
-                lengths = lengths[:len(pointers)]
-                optionals = optionals[:len(pointers)]
+                lengths = reversed(lengths[:len(pointers)])
+                optionals = reversed(optionals[:len(pointers)])
 
-                for pointer, length, optional in zip_longest(reversed(pointers), lengths, optionals):
+                for pointer, length, optional in zip_longest(pointers, lengths, optionals):
                     c_type = CType(pointer_to=c_type, length=length, const='const' in pointer,
                                    optional=optional == 'true')
 

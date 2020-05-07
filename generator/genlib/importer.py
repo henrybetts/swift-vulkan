@@ -164,10 +164,16 @@ class Importer:
             if c_type.pointer_to.name == 'void':
                 return 'UnsafeRawPointer' if c_type.pointer_to.const else 'UnsafeMutableRawPointer'
             to_type = self.get_swift_type(c_type.pointer_to)
+            if self.is_pointer_type(c_type.pointer_to):
+                to_type += '?'
             return f'UnsafePointer<{to_type}>' if c_type.pointer_to.const else f'UnsafeMutablePointer<{to_type}>'
         elif c_type.array_of:
             of_type = self.get_swift_type(c_type.array_of)
             return f'({", ".join([of_type] * c_type.length)})'
+
+    def is_pointer_type(self, c_type: CType) -> bool:
+        return (c_type.pointer_to is not None
+                or (c_type.name and c_type.name in self.c_context.handles))
 
     def pop_extension_tag(self, string: str) -> Tuple[str, Optional[str]]:
         for tag in self.c_context.extension_tags:
