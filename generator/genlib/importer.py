@@ -1,20 +1,6 @@
 from .parser import CContext, CEnum, CBitmask, CStruct, CType
+from . import typeconversion as tc
 from typing import Optional, Tuple, List
-
-IMPLICIT_TYPE_MAP = {
-    'void': 'Void',
-    'char': 'CChar',
-    'float': 'Float',
-    'double': 'Double',
-    'uint8_t': 'UInt8',
-    'uint16_t': 'UInt16',
-    'uint32_t': 'UInt32',
-    'uint64_t': 'UInt64',
-    'int32_t': 'Int32',
-    'int64_t': 'Int64',
-    'size_t': 'Int',
-    'int': 'Int32'
-}
 
 
 class SwiftEnum(CEnum):
@@ -33,13 +19,16 @@ class SwiftOptionSet(CEnum):
 
 class SwiftStruct:
     class Member:
-        def __init__(self, name: str, type_: str):
+        def __init__(self, name: str, type_: str, value_generator: tc.BoundValueGenerator):
             self.name = name
             self.type = type_
+            self.value_generator = value_generator
 
-    def __init__(self, name: str, members: List[Member], c_struct: CStruct):
+    def __init__(self, name: str, members: List[Member],
+                 c_value_generators: List[tc.BoundValueGenerator], c_struct: CStruct):
         self.name = name
         self.members = members
+        self.c_value_generators = c_value_generators
         self.c_struct = c_struct
 
 
@@ -148,28 +137,40 @@ class Importer:
         return option_set
 
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
-        struct = SwiftStruct(
-            name=remove_vk_prefix(c_struct.name),
-            members=[SwiftStruct.Member(member.name, self.get_swift_type(member.type)) for member in c_struct.members],
-            c_struct=c_struct
-        )
+        struct = SwiftStruct(name=remove_vk_prefix(c_struct.name), members=[],
+                             c_value_generators=[], c_struct=c_struct)
+        for c_member in c_struct.members:
+            swift_type, conversion = self.get_type_conversion(c_member.type)
+            member = SwiftStruct.Member(name=c_member.name, type_=swift_type,
+                                        value_generator=conversion.bind_c_value(c_member.name))
+            struct.members.append(member)
+            struct.c_value_generators.append(conversion.bind_swift_value(c_member.name))
         return struct
 
-    def get_swift_type(self, c_type: CType) -> str:
+    def get_type_conversion(self, c_type: CType) -> Tuple[str, tc.TypeConversion]:
         if c_type.name:
-            if c_type.name in IMPLICIT_TYPE_MAP:
-                return IMPLICIT_TYPE_MAP[c_type.name]
-            return c_type.name
+            if c_type.name in tc.IMPLICIT_TYPE_MAP:
+                return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.ImplicitConversion()
+            return c_type.name, tc.ImplicitConversion()
+
         elif c_type.pointer_to:
             if c_type.pointer_to.name == 'void':
-                return 'UnsafeRawPointer' if c_type.pointer_to.const else 'UnsafeMutableRawPointer'
-            to_type = self.get_swift_type(c_type.pointer_to)
+                if c_type.pointer_to.const:
+                    return 'UnsafeRawPointer', tc.ImplicitConversion()
+                else:
+                    return 'UnsafeMutableRawPointer', tc.ImplicitConversion()
+
+            to_type, _ = self.get_type_conversion(c_type.pointer_to)
             if self.is_pointer_type(c_type.pointer_to):
                 to_type += '?'
-            return f'UnsafePointer<{to_type}>' if c_type.pointer_to.const else f'UnsafeMutablePointer<{to_type}>'
+            if c_type.pointer_to.const:
+                return f'UnsafePointer<{to_type}>', tc.ImplicitConversion()
+            else:
+                return f'UnsafeMutablePointer<{to_type}>', tc.ImplicitConversion()
+
         elif c_type.array_of:
-            of_type = self.get_swift_type(c_type.array_of)
-            return f'({", ".join([of_type] * c_type.length)})'
+            of_type, _ = self.get_type_conversion(c_type.array_of)
+            return f'({", ".join([of_type] * c_type.length)})', tc.ImplicitConversion()
 
     def is_pointer_type(self, c_type: CType) -> bool:
         return (c_type.pointer_to is not None

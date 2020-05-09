@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftContext, SwiftOptionSet, SwiftStruct
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct
 from typing import TextIO
 
 
@@ -64,8 +64,9 @@ class Generator(BaseGenerator):
                          f'(_ body: (UnsafePointer<{struct.c_struct.name}>) throws -> R)'
                          ' rethrows -> R {', '}'):
             self << f'var cStruct = {struct.c_struct.name}()'
-            for member in struct.members:
-                self << f'cStruct.{member.name} = self.{member.name}'
+            swift_values_map = {member.name: f'self.{member.name}' for member in struct.members}
+            for member, generator in zip(struct.c_struct.members, struct.c_value_generators):
+                self << f'cStruct.{member.name} = {generator(swift_values_map)}'
             self << 'return try body(&cStruct)'
 
 
