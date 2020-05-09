@@ -161,6 +161,8 @@ class Importer:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.ImplicitConversion()
+            if c_type.name == 'VkBool32':
+                return 'Bool', tc.BoolConversion()
             return c_type.name, tc.ImplicitConversion()
 
         elif c_type.pointer_to:

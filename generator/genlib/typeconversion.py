@@ -27,12 +27,12 @@ class TypeConversion:
 
     def bind_swift_value(self, swift_value: str) -> ValueGenerator:
         def generator(values_map: Dict[str, str]) -> str:
-            return values_map.get(swift_value, swift_value)
+            return self.get_c_value(values_map.get(swift_value, swift_value))
         return generator
 
     def bind_c_value(self, c_value: str) -> ValueGenerator:
         def generator(values_map: Dict[str, str]) -> str:
-            return values_map.get(c_value, c_value)
+            return self.get_swift_value(values_map.get(c_value, c_value))
         return generator
 
 
@@ -42,3 +42,11 @@ class ImplicitConversion(TypeConversion):
 
     def get_c_value(self, swift_value: str) -> str:
         return swift_value
+
+
+class BoolConversion(TypeConversion):
+    def get_swift_value(self, c_value: str) -> str:
+        return f'{c_value} == VK_TRUE'
+
+    def get_c_value(self, swift_value: str) -> str:
+        return f'VkBool32({swift_value} ? VK_TRUE : VK_FALSE)'

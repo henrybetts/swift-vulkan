@@ -1321,7 +1321,7 @@ struct PipelineInputAssemblyStateCreateInfo: CStructConvertible {
 
     let flags: VkPipelineInputAssemblyStateCreateFlags
     let topology: VkPrimitiveTopology
-    let primitiveRestartEnable: VkBool32
+    let primitiveRestartEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineInputAssemblyStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineInputAssemblyStateCreateInfo()
@@ -1329,7 +1329,7 @@ struct PipelineInputAssemblyStateCreateInfo: CStructConvertible {
         cStruct.pNext = nil
         cStruct.flags = self.flags
         cStruct.topology = self.topology
-        cStruct.primitiveRestartEnable = self.primitiveRestartEnable
+        cStruct.primitiveRestartEnable = VkBool32(self.primitiveRestartEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -1376,12 +1376,12 @@ struct PipelineRasterizationStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationStateCreateInfo
 
     let flags: VkPipelineRasterizationStateCreateFlags
-    let depthClampEnable: VkBool32
-    let rasterizerDiscardEnable: VkBool32
+    let depthClampEnable: Bool
+    let rasterizerDiscardEnable: Bool
     let polygonMode: VkPolygonMode
     let cullMode: VkCullModeFlags
     let frontFace: VkFrontFace
-    let depthBiasEnable: VkBool32
+    let depthBiasEnable: Bool
     let depthBiasConstantFactor: Float
     let depthBiasClamp: Float
     let depthBiasSlopeFactor: Float
@@ -1392,12 +1392,12 @@ struct PipelineRasterizationStateCreateInfo: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO
         cStruct.pNext = nil
         cStruct.flags = self.flags
-        cStruct.depthClampEnable = self.depthClampEnable
-        cStruct.rasterizerDiscardEnable = self.rasterizerDiscardEnable
+        cStruct.depthClampEnable = VkBool32(self.depthClampEnable ? VK_TRUE : VK_FALSE)
+        cStruct.rasterizerDiscardEnable = VkBool32(self.rasterizerDiscardEnable ? VK_TRUE : VK_FALSE)
         cStruct.polygonMode = self.polygonMode
         cStruct.cullMode = self.cullMode
         cStruct.frontFace = self.frontFace
-        cStruct.depthBiasEnable = self.depthBiasEnable
+        cStruct.depthBiasEnable = VkBool32(self.depthBiasEnable ? VK_TRUE : VK_FALSE)
         cStruct.depthBiasConstantFactor = self.depthBiasConstantFactor
         cStruct.depthBiasClamp = self.depthBiasClamp
         cStruct.depthBiasSlopeFactor = self.depthBiasSlopeFactor
@@ -1411,11 +1411,11 @@ struct PipelineMultisampleStateCreateInfo: CStructConvertible {
 
     let flags: VkPipelineMultisampleStateCreateFlags
     let rasterizationSamples: VkSampleCountFlagBits
-    let sampleShadingEnable: VkBool32
+    let sampleShadingEnable: Bool
     let minSampleShading: Float
     let pSampleMask: UnsafePointer<VkSampleMask>
-    let alphaToCoverageEnable: VkBool32
-    let alphaToOneEnable: VkBool32
+    let alphaToCoverageEnable: Bool
+    let alphaToOneEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineMultisampleStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineMultisampleStateCreateInfo()
@@ -1423,11 +1423,11 @@ struct PipelineMultisampleStateCreateInfo: CStructConvertible {
         cStruct.pNext = nil
         cStruct.flags = self.flags
         cStruct.rasterizationSamples = self.rasterizationSamples
-        cStruct.sampleShadingEnable = self.sampleShadingEnable
+        cStruct.sampleShadingEnable = VkBool32(self.sampleShadingEnable ? VK_TRUE : VK_FALSE)
         cStruct.minSampleShading = self.minSampleShading
         cStruct.pSampleMask = self.pSampleMask
-        cStruct.alphaToCoverageEnable = self.alphaToCoverageEnable
-        cStruct.alphaToOneEnable = self.alphaToOneEnable
+        cStruct.alphaToCoverageEnable = VkBool32(self.alphaToCoverageEnable ? VK_TRUE : VK_FALSE)
+        cStruct.alphaToOneEnable = VkBool32(self.alphaToOneEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -1435,7 +1435,7 @@ struct PipelineMultisampleStateCreateInfo: CStructConvertible {
 struct PipelineColorBlendAttachmentState: CStructConvertible {
     typealias CStruct = VkPipelineColorBlendAttachmentState
 
-    let blendEnable: VkBool32
+    let blendEnable: Bool
     let srcColorBlendFactor: VkBlendFactor
     let dstColorBlendFactor: VkBlendFactor
     let colorBlendOp: VkBlendOp
@@ -1446,7 +1446,7 @@ struct PipelineColorBlendAttachmentState: CStructConvertible {
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineColorBlendAttachmentState>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineColorBlendAttachmentState()
-        cStruct.blendEnable = self.blendEnable
+        cStruct.blendEnable = VkBool32(self.blendEnable ? VK_TRUE : VK_FALSE)
         cStruct.srcColorBlendFactor = self.srcColorBlendFactor
         cStruct.dstColorBlendFactor = self.dstColorBlendFactor
         cStruct.colorBlendOp = self.colorBlendOp
@@ -1462,7 +1462,7 @@ struct PipelineColorBlendStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineColorBlendStateCreateInfo
 
     let flags: VkPipelineColorBlendStateCreateFlags
-    let logicOpEnable: VkBool32
+    let logicOpEnable: Bool
     let logicOp: VkLogicOp
     let attachmentCount: UInt32
     let pAttachments: UnsafePointer<VkPipelineColorBlendAttachmentState>
@@ -1473,7 +1473,7 @@ struct PipelineColorBlendStateCreateInfo: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
         cStruct.pNext = nil
         cStruct.flags = self.flags
-        cStruct.logicOpEnable = self.logicOpEnable
+        cStruct.logicOpEnable = VkBool32(self.logicOpEnable ? VK_TRUE : VK_FALSE)
         cStruct.logicOp = self.logicOp
         cStruct.attachmentCount = self.attachmentCount
         cStruct.pAttachments = self.pAttachments
@@ -1528,11 +1528,11 @@ struct PipelineDepthStencilStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineDepthStencilStateCreateInfo
 
     let flags: VkPipelineDepthStencilStateCreateFlags
-    let depthTestEnable: VkBool32
-    let depthWriteEnable: VkBool32
+    let depthTestEnable: Bool
+    let depthWriteEnable: Bool
     let depthCompareOp: VkCompareOp
-    let depthBoundsTestEnable: VkBool32
-    let stencilTestEnable: VkBool32
+    let depthBoundsTestEnable: Bool
+    let stencilTestEnable: Bool
     let front: VkStencilOpState
     let back: VkStencilOpState
     let minDepthBounds: Float
@@ -1543,11 +1543,11 @@ struct PipelineDepthStencilStateCreateInfo: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO
         cStruct.pNext = nil
         cStruct.flags = self.flags
-        cStruct.depthTestEnable = self.depthTestEnable
-        cStruct.depthWriteEnable = self.depthWriteEnable
+        cStruct.depthTestEnable = VkBool32(self.depthTestEnable ? VK_TRUE : VK_FALSE)
+        cStruct.depthWriteEnable = VkBool32(self.depthWriteEnable ? VK_TRUE : VK_FALSE)
         cStruct.depthCompareOp = self.depthCompareOp
-        cStruct.depthBoundsTestEnable = self.depthBoundsTestEnable
-        cStruct.stencilTestEnable = self.stencilTestEnable
+        cStruct.depthBoundsTestEnable = VkBool32(self.depthBoundsTestEnable ? VK_TRUE : VK_FALSE)
+        cStruct.stencilTestEnable = VkBool32(self.stencilTestEnable ? VK_TRUE : VK_FALSE)
         cStruct.front = self.front
         cStruct.back = self.back
         cStruct.minDepthBounds = self.minDepthBounds
@@ -1669,14 +1669,14 @@ struct SamplerCreateInfo: CStructConvertible {
     let addressModeV: VkSamplerAddressMode
     let addressModeW: VkSamplerAddressMode
     let mipLodBias: Float
-    let anisotropyEnable: VkBool32
+    let anisotropyEnable: Bool
     let maxAnisotropy: Float
-    let compareEnable: VkBool32
+    let compareEnable: Bool
     let compareOp: VkCompareOp
     let minLod: Float
     let maxLod: Float
     let borderColor: VkBorderColor
-    let unnormalizedCoordinates: VkBool32
+    let unnormalizedCoordinates: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerCreateInfo()
@@ -1690,14 +1690,14 @@ struct SamplerCreateInfo: CStructConvertible {
         cStruct.addressModeV = self.addressModeV
         cStruct.addressModeW = self.addressModeW
         cStruct.mipLodBias = self.mipLodBias
-        cStruct.anisotropyEnable = self.anisotropyEnable
+        cStruct.anisotropyEnable = VkBool32(self.anisotropyEnable ? VK_TRUE : VK_FALSE)
         cStruct.maxAnisotropy = self.maxAnisotropy
-        cStruct.compareEnable = self.compareEnable
+        cStruct.compareEnable = VkBool32(self.compareEnable ? VK_TRUE : VK_FALSE)
         cStruct.compareOp = self.compareOp
         cStruct.minLod = self.minLod
         cStruct.maxLod = self.maxLod
         cStruct.borderColor = self.borderColor
-        cStruct.unnormalizedCoordinates = self.unnormalizedCoordinates
+        cStruct.unnormalizedCoordinates = VkBool32(self.unnormalizedCoordinates ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -1742,7 +1742,7 @@ struct CommandBufferInheritanceInfo: CStructConvertible {
     let renderPass: VkRenderPass
     let subpass: UInt32
     let framebuffer: VkFramebuffer
-    let occlusionQueryEnable: VkBool32
+    let occlusionQueryEnable: Bool
     let queryFlags: VkQueryControlFlags
     let pipelineStatistics: VkQueryPipelineStatisticFlags
 
@@ -1753,7 +1753,7 @@ struct CommandBufferInheritanceInfo: CStructConvertible {
         cStruct.renderPass = self.renderPass
         cStruct.subpass = self.subpass
         cStruct.framebuffer = self.framebuffer
-        cStruct.occlusionQueryEnable = self.occlusionQueryEnable
+        cStruct.occlusionQueryEnable = VkBool32(self.occlusionQueryEnable ? VK_TRUE : VK_FALSE)
         cStruct.queryFlags = self.queryFlags
         cStruct.pipelineStatistics = self.pipelineStatistics
         return try body(&cStruct)
@@ -1981,119 +1981,119 @@ struct FenceCreateInfo: CStructConvertible {
 struct PhysicalDeviceFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFeatures
 
-    let robustBufferAccess: VkBool32
-    let fullDrawIndexUint32: VkBool32
-    let imageCubeArray: VkBool32
-    let independentBlend: VkBool32
-    let geometryShader: VkBool32
-    let tessellationShader: VkBool32
-    let sampleRateShading: VkBool32
-    let dualSrcBlend: VkBool32
-    let logicOp: VkBool32
-    let multiDrawIndirect: VkBool32
-    let drawIndirectFirstInstance: VkBool32
-    let depthClamp: VkBool32
-    let depthBiasClamp: VkBool32
-    let fillModeNonSolid: VkBool32
-    let depthBounds: VkBool32
-    let wideLines: VkBool32
-    let largePoints: VkBool32
-    let alphaToOne: VkBool32
-    let multiViewport: VkBool32
-    let samplerAnisotropy: VkBool32
-    let textureCompressionETC2: VkBool32
-    let textureCompressionASTC_LDR: VkBool32
-    let textureCompressionBC: VkBool32
-    let occlusionQueryPrecise: VkBool32
-    let pipelineStatisticsQuery: VkBool32
-    let vertexPipelineStoresAndAtomics: VkBool32
-    let fragmentStoresAndAtomics: VkBool32
-    let shaderTessellationAndGeometryPointSize: VkBool32
-    let shaderImageGatherExtended: VkBool32
-    let shaderStorageImageExtendedFormats: VkBool32
-    let shaderStorageImageMultisample: VkBool32
-    let shaderStorageImageReadWithoutFormat: VkBool32
-    let shaderStorageImageWriteWithoutFormat: VkBool32
-    let shaderUniformBufferArrayDynamicIndexing: VkBool32
-    let shaderSampledImageArrayDynamicIndexing: VkBool32
-    let shaderStorageBufferArrayDynamicIndexing: VkBool32
-    let shaderStorageImageArrayDynamicIndexing: VkBool32
-    let shaderClipDistance: VkBool32
-    let shaderCullDistance: VkBool32
-    let shaderFloat64: VkBool32
-    let shaderInt64: VkBool32
-    let shaderInt16: VkBool32
-    let shaderResourceResidency: VkBool32
-    let shaderResourceMinLod: VkBool32
-    let sparseBinding: VkBool32
-    let sparseResidencyBuffer: VkBool32
-    let sparseResidencyImage2D: VkBool32
-    let sparseResidencyImage3D: VkBool32
-    let sparseResidency2Samples: VkBool32
-    let sparseResidency4Samples: VkBool32
-    let sparseResidency8Samples: VkBool32
-    let sparseResidency16Samples: VkBool32
-    let sparseResidencyAliased: VkBool32
-    let variableMultisampleRate: VkBool32
-    let inheritedQueries: VkBool32
+    let robustBufferAccess: Bool
+    let fullDrawIndexUint32: Bool
+    let imageCubeArray: Bool
+    let independentBlend: Bool
+    let geometryShader: Bool
+    let tessellationShader: Bool
+    let sampleRateShading: Bool
+    let dualSrcBlend: Bool
+    let logicOp: Bool
+    let multiDrawIndirect: Bool
+    let drawIndirectFirstInstance: Bool
+    let depthClamp: Bool
+    let depthBiasClamp: Bool
+    let fillModeNonSolid: Bool
+    let depthBounds: Bool
+    let wideLines: Bool
+    let largePoints: Bool
+    let alphaToOne: Bool
+    let multiViewport: Bool
+    let samplerAnisotropy: Bool
+    let textureCompressionETC2: Bool
+    let textureCompressionASTC_LDR: Bool
+    let textureCompressionBC: Bool
+    let occlusionQueryPrecise: Bool
+    let pipelineStatisticsQuery: Bool
+    let vertexPipelineStoresAndAtomics: Bool
+    let fragmentStoresAndAtomics: Bool
+    let shaderTessellationAndGeometryPointSize: Bool
+    let shaderImageGatherExtended: Bool
+    let shaderStorageImageExtendedFormats: Bool
+    let shaderStorageImageMultisample: Bool
+    let shaderStorageImageReadWithoutFormat: Bool
+    let shaderStorageImageWriteWithoutFormat: Bool
+    let shaderUniformBufferArrayDynamicIndexing: Bool
+    let shaderSampledImageArrayDynamicIndexing: Bool
+    let shaderStorageBufferArrayDynamicIndexing: Bool
+    let shaderStorageImageArrayDynamicIndexing: Bool
+    let shaderClipDistance: Bool
+    let shaderCullDistance: Bool
+    let shaderFloat64: Bool
+    let shaderInt64: Bool
+    let shaderInt16: Bool
+    let shaderResourceResidency: Bool
+    let shaderResourceMinLod: Bool
+    let sparseBinding: Bool
+    let sparseResidencyBuffer: Bool
+    let sparseResidencyImage2D: Bool
+    let sparseResidencyImage3D: Bool
+    let sparseResidency2Samples: Bool
+    let sparseResidency4Samples: Bool
+    let sparseResidency8Samples: Bool
+    let sparseResidency16Samples: Bool
+    let sparseResidencyAliased: Bool
+    let variableMultisampleRate: Bool
+    let inheritedQueries: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFeatures()
-        cStruct.robustBufferAccess = self.robustBufferAccess
-        cStruct.fullDrawIndexUint32 = self.fullDrawIndexUint32
-        cStruct.imageCubeArray = self.imageCubeArray
-        cStruct.independentBlend = self.independentBlend
-        cStruct.geometryShader = self.geometryShader
-        cStruct.tessellationShader = self.tessellationShader
-        cStruct.sampleRateShading = self.sampleRateShading
-        cStruct.dualSrcBlend = self.dualSrcBlend
-        cStruct.logicOp = self.logicOp
-        cStruct.multiDrawIndirect = self.multiDrawIndirect
-        cStruct.drawIndirectFirstInstance = self.drawIndirectFirstInstance
-        cStruct.depthClamp = self.depthClamp
-        cStruct.depthBiasClamp = self.depthBiasClamp
-        cStruct.fillModeNonSolid = self.fillModeNonSolid
-        cStruct.depthBounds = self.depthBounds
-        cStruct.wideLines = self.wideLines
-        cStruct.largePoints = self.largePoints
-        cStruct.alphaToOne = self.alphaToOne
-        cStruct.multiViewport = self.multiViewport
-        cStruct.samplerAnisotropy = self.samplerAnisotropy
-        cStruct.textureCompressionETC2 = self.textureCompressionETC2
-        cStruct.textureCompressionASTC_LDR = self.textureCompressionASTC_LDR
-        cStruct.textureCompressionBC = self.textureCompressionBC
-        cStruct.occlusionQueryPrecise = self.occlusionQueryPrecise
-        cStruct.pipelineStatisticsQuery = self.pipelineStatisticsQuery
-        cStruct.vertexPipelineStoresAndAtomics = self.vertexPipelineStoresAndAtomics
-        cStruct.fragmentStoresAndAtomics = self.fragmentStoresAndAtomics
-        cStruct.shaderTessellationAndGeometryPointSize = self.shaderTessellationAndGeometryPointSize
-        cStruct.shaderImageGatherExtended = self.shaderImageGatherExtended
-        cStruct.shaderStorageImageExtendedFormats = self.shaderStorageImageExtendedFormats
-        cStruct.shaderStorageImageMultisample = self.shaderStorageImageMultisample
-        cStruct.shaderStorageImageReadWithoutFormat = self.shaderStorageImageReadWithoutFormat
-        cStruct.shaderStorageImageWriteWithoutFormat = self.shaderStorageImageWriteWithoutFormat
-        cStruct.shaderUniformBufferArrayDynamicIndexing = self.shaderUniformBufferArrayDynamicIndexing
-        cStruct.shaderSampledImageArrayDynamicIndexing = self.shaderSampledImageArrayDynamicIndexing
-        cStruct.shaderStorageBufferArrayDynamicIndexing = self.shaderStorageBufferArrayDynamicIndexing
-        cStruct.shaderStorageImageArrayDynamicIndexing = self.shaderStorageImageArrayDynamicIndexing
-        cStruct.shaderClipDistance = self.shaderClipDistance
-        cStruct.shaderCullDistance = self.shaderCullDistance
-        cStruct.shaderFloat64 = self.shaderFloat64
-        cStruct.shaderInt64 = self.shaderInt64
-        cStruct.shaderInt16 = self.shaderInt16
-        cStruct.shaderResourceResidency = self.shaderResourceResidency
-        cStruct.shaderResourceMinLod = self.shaderResourceMinLod
-        cStruct.sparseBinding = self.sparseBinding
-        cStruct.sparseResidencyBuffer = self.sparseResidencyBuffer
-        cStruct.sparseResidencyImage2D = self.sparseResidencyImage2D
-        cStruct.sparseResidencyImage3D = self.sparseResidencyImage3D
-        cStruct.sparseResidency2Samples = self.sparseResidency2Samples
-        cStruct.sparseResidency4Samples = self.sparseResidency4Samples
-        cStruct.sparseResidency8Samples = self.sparseResidency8Samples
-        cStruct.sparseResidency16Samples = self.sparseResidency16Samples
-        cStruct.sparseResidencyAliased = self.sparseResidencyAliased
-        cStruct.variableMultisampleRate = self.variableMultisampleRate
-        cStruct.inheritedQueries = self.inheritedQueries
+        cStruct.robustBufferAccess = VkBool32(self.robustBufferAccess ? VK_TRUE : VK_FALSE)
+        cStruct.fullDrawIndexUint32 = VkBool32(self.fullDrawIndexUint32 ? VK_TRUE : VK_FALSE)
+        cStruct.imageCubeArray = VkBool32(self.imageCubeArray ? VK_TRUE : VK_FALSE)
+        cStruct.independentBlend = VkBool32(self.independentBlend ? VK_TRUE : VK_FALSE)
+        cStruct.geometryShader = VkBool32(self.geometryShader ? VK_TRUE : VK_FALSE)
+        cStruct.tessellationShader = VkBool32(self.tessellationShader ? VK_TRUE : VK_FALSE)
+        cStruct.sampleRateShading = VkBool32(self.sampleRateShading ? VK_TRUE : VK_FALSE)
+        cStruct.dualSrcBlend = VkBool32(self.dualSrcBlend ? VK_TRUE : VK_FALSE)
+        cStruct.logicOp = VkBool32(self.logicOp ? VK_TRUE : VK_FALSE)
+        cStruct.multiDrawIndirect = VkBool32(self.multiDrawIndirect ? VK_TRUE : VK_FALSE)
+        cStruct.drawIndirectFirstInstance = VkBool32(self.drawIndirectFirstInstance ? VK_TRUE : VK_FALSE)
+        cStruct.depthClamp = VkBool32(self.depthClamp ? VK_TRUE : VK_FALSE)
+        cStruct.depthBiasClamp = VkBool32(self.depthBiasClamp ? VK_TRUE : VK_FALSE)
+        cStruct.fillModeNonSolid = VkBool32(self.fillModeNonSolid ? VK_TRUE : VK_FALSE)
+        cStruct.depthBounds = VkBool32(self.depthBounds ? VK_TRUE : VK_FALSE)
+        cStruct.wideLines = VkBool32(self.wideLines ? VK_TRUE : VK_FALSE)
+        cStruct.largePoints = VkBool32(self.largePoints ? VK_TRUE : VK_FALSE)
+        cStruct.alphaToOne = VkBool32(self.alphaToOne ? VK_TRUE : VK_FALSE)
+        cStruct.multiViewport = VkBool32(self.multiViewport ? VK_TRUE : VK_FALSE)
+        cStruct.samplerAnisotropy = VkBool32(self.samplerAnisotropy ? VK_TRUE : VK_FALSE)
+        cStruct.textureCompressionETC2 = VkBool32(self.textureCompressionETC2 ? VK_TRUE : VK_FALSE)
+        cStruct.textureCompressionASTC_LDR = VkBool32(self.textureCompressionASTC_LDR ? VK_TRUE : VK_FALSE)
+        cStruct.textureCompressionBC = VkBool32(self.textureCompressionBC ? VK_TRUE : VK_FALSE)
+        cStruct.occlusionQueryPrecise = VkBool32(self.occlusionQueryPrecise ? VK_TRUE : VK_FALSE)
+        cStruct.pipelineStatisticsQuery = VkBool32(self.pipelineStatisticsQuery ? VK_TRUE : VK_FALSE)
+        cStruct.vertexPipelineStoresAndAtomics = VkBool32(self.vertexPipelineStoresAndAtomics ? VK_TRUE : VK_FALSE)
+        cStruct.fragmentStoresAndAtomics = VkBool32(self.fragmentStoresAndAtomics ? VK_TRUE : VK_FALSE)
+        cStruct.shaderTessellationAndGeometryPointSize = VkBool32(self.shaderTessellationAndGeometryPointSize ? VK_TRUE : VK_FALSE)
+        cStruct.shaderImageGatherExtended = VkBool32(self.shaderImageGatherExtended ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageExtendedFormats = VkBool32(self.shaderStorageImageExtendedFormats ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageMultisample = VkBool32(self.shaderStorageImageMultisample ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageReadWithoutFormat = VkBool32(self.shaderStorageImageReadWithoutFormat ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageWriteWithoutFormat = VkBool32(self.shaderStorageImageWriteWithoutFormat ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformBufferArrayDynamicIndexing = VkBool32(self.shaderUniformBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSampledImageArrayDynamicIndexing = VkBool32(self.shaderSampledImageArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageBufferArrayDynamicIndexing = VkBool32(self.shaderStorageBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageArrayDynamicIndexing = VkBool32(self.shaderStorageImageArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderClipDistance = VkBool32(self.shaderClipDistance ? VK_TRUE : VK_FALSE)
+        cStruct.shaderCullDistance = VkBool32(self.shaderCullDistance ? VK_TRUE : VK_FALSE)
+        cStruct.shaderFloat64 = VkBool32(self.shaderFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInt64 = VkBool32(self.shaderInt64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInt16 = VkBool32(self.shaderInt16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderResourceResidency = VkBool32(self.shaderResourceResidency ? VK_TRUE : VK_FALSE)
+        cStruct.shaderResourceMinLod = VkBool32(self.shaderResourceMinLod ? VK_TRUE : VK_FALSE)
+        cStruct.sparseBinding = VkBool32(self.sparseBinding ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyBuffer = VkBool32(self.sparseResidencyBuffer ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyImage2D = VkBool32(self.sparseResidencyImage2D ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyImage3D = VkBool32(self.sparseResidencyImage3D ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency2Samples = VkBool32(self.sparseResidency2Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency4Samples = VkBool32(self.sparseResidency4Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency8Samples = VkBool32(self.sparseResidency8Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency16Samples = VkBool32(self.sparseResidency16Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyAliased = VkBool32(self.sparseResidencyAliased ? VK_TRUE : VK_FALSE)
+        cStruct.variableMultisampleRate = VkBool32(self.variableMultisampleRate ? VK_TRUE : VK_FALSE)
+        cStruct.inheritedQueries = VkBool32(self.inheritedQueries ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -2101,19 +2101,19 @@ struct PhysicalDeviceFeatures: CStructConvertible {
 struct PhysicalDeviceSparseProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSparseProperties
 
-    let residencyStandard2DBlockShape: VkBool32
-    let residencyStandard2DMultisampleBlockShape: VkBool32
-    let residencyStandard3DBlockShape: VkBool32
-    let residencyAlignedMipSize: VkBool32
-    let residencyNonResidentStrict: VkBool32
+    let residencyStandard2DBlockShape: Bool
+    let residencyStandard2DMultisampleBlockShape: Bool
+    let residencyStandard3DBlockShape: Bool
+    let residencyAlignedMipSize: Bool
+    let residencyNonResidentStrict: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSparseProperties()
-        cStruct.residencyStandard2DBlockShape = self.residencyStandard2DBlockShape
-        cStruct.residencyStandard2DMultisampleBlockShape = self.residencyStandard2DMultisampleBlockShape
-        cStruct.residencyStandard3DBlockShape = self.residencyStandard3DBlockShape
-        cStruct.residencyAlignedMipSize = self.residencyAlignedMipSize
-        cStruct.residencyNonResidentStrict = self.residencyNonResidentStrict
+        cStruct.residencyStandard2DBlockShape = VkBool32(self.residencyStandard2DBlockShape ? VK_TRUE : VK_FALSE)
+        cStruct.residencyStandard2DMultisampleBlockShape = VkBool32(self.residencyStandard2DMultisampleBlockShape ? VK_TRUE : VK_FALSE)
+        cStruct.residencyStandard3DBlockShape = VkBool32(self.residencyStandard3DBlockShape ? VK_TRUE : VK_FALSE)
+        cStruct.residencyAlignedMipSize = VkBool32(self.residencyAlignedMipSize ? VK_TRUE : VK_FALSE)
+        cStruct.residencyNonResidentStrict = VkBool32(self.residencyNonResidentStrict ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -2212,7 +2212,7 @@ struct PhysicalDeviceLimits: CStructConvertible {
     let sampledImageStencilSampleCounts: VkSampleCountFlags
     let storageImageSampleCounts: VkSampleCountFlags
     let maxSampleMaskWords: UInt32
-    let timestampComputeAndGraphics: VkBool32
+    let timestampComputeAndGraphics: Bool
     let timestampPeriod: Float
     let maxClipDistances: UInt32
     let maxCullDistances: UInt32
@@ -2222,8 +2222,8 @@ struct PhysicalDeviceLimits: CStructConvertible {
     let lineWidthRange: (Float, Float)
     let pointSizeGranularity: Float
     let lineWidthGranularity: Float
-    let strictLines: VkBool32
-    let standardSampleLocations: VkBool32
+    let strictLines: Bool
+    let standardSampleLocations: Bool
     let optimalBufferCopyOffsetAlignment: VkDeviceSize
     let optimalBufferCopyRowPitchAlignment: VkDeviceSize
     let nonCoherentAtomSize: VkDeviceSize
@@ -2321,7 +2321,7 @@ struct PhysicalDeviceLimits: CStructConvertible {
         cStruct.sampledImageStencilSampleCounts = self.sampledImageStencilSampleCounts
         cStruct.storageImageSampleCounts = self.storageImageSampleCounts
         cStruct.maxSampleMaskWords = self.maxSampleMaskWords
-        cStruct.timestampComputeAndGraphics = self.timestampComputeAndGraphics
+        cStruct.timestampComputeAndGraphics = VkBool32(self.timestampComputeAndGraphics ? VK_TRUE : VK_FALSE)
         cStruct.timestampPeriod = self.timestampPeriod
         cStruct.maxClipDistances = self.maxClipDistances
         cStruct.maxCullDistances = self.maxCullDistances
@@ -2331,8 +2331,8 @@ struct PhysicalDeviceLimits: CStructConvertible {
         cStruct.lineWidthRange = self.lineWidthRange
         cStruct.pointSizeGranularity = self.pointSizeGranularity
         cStruct.lineWidthGranularity = self.lineWidthGranularity
-        cStruct.strictLines = self.strictLines
-        cStruct.standardSampleLocations = self.standardSampleLocations
+        cStruct.strictLines = VkBool32(self.strictLines ? VK_TRUE : VK_FALSE)
+        cStruct.standardSampleLocations = VkBool32(self.standardSampleLocations ? VK_TRUE : VK_FALSE)
         cStruct.optimalBufferCopyOffsetAlignment = self.optimalBufferCopyOffsetAlignment
         cStruct.optimalBufferCopyRowPitchAlignment = self.optimalBufferCopyRowPitchAlignment
         cStruct.nonCoherentAtomSize = self.nonCoherentAtomSize
@@ -2488,8 +2488,8 @@ struct DisplayPropertiesKHR: CStructConvertible {
     let physicalDimensions: VkExtent2D
     let physicalResolution: VkExtent2D
     let supportedTransforms: VkSurfaceTransformFlagsKHR
-    let planeReorderPossible: VkBool32
-    let persistentContent: VkBool32
+    let planeReorderPossible: Bool
+    let persistentContent: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPropertiesKHR()
@@ -2498,8 +2498,8 @@ struct DisplayPropertiesKHR: CStructConvertible {
         cStruct.physicalDimensions = self.physicalDimensions
         cStruct.physicalResolution = self.physicalResolution
         cStruct.supportedTransforms = self.supportedTransforms
-        cStruct.planeReorderPossible = self.planeReorderPossible
-        cStruct.persistentContent = self.persistentContent
+        cStruct.planeReorderPossible = VkBool32(self.planeReorderPossible ? VK_TRUE : VK_FALSE)
+        cStruct.persistentContent = VkBool32(self.persistentContent ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -2623,7 +2623,7 @@ struct DisplayPresentInfoKHR: CStructConvertible {
 
     let srcRect: VkRect2D
     let dstRect: VkRect2D
-    let persistent: VkBool32
+    let persistent: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPresentInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPresentInfoKHR()
@@ -2631,7 +2631,7 @@ struct DisplayPresentInfoKHR: CStructConvertible {
         cStruct.pNext = nil
         cStruct.srcRect = self.srcRect
         cStruct.dstRect = self.dstRect
-        cStruct.persistent = self.persistent
+        cStruct.persistent = VkBool32(self.persistent ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -2697,7 +2697,7 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
     let preTransform: VkSurfaceTransformFlagBitsKHR
     let compositeAlpha: VkCompositeAlphaFlagBitsKHR
     let presentMode: VkPresentModeKHR
-    let clipped: VkBool32
+    let clipped: Bool
     let oldSwapchain: VkSwapchainKHR
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
@@ -2718,7 +2718,7 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
         cStruct.preTransform = self.preTransform
         cStruct.compositeAlpha = self.compositeAlpha
         cStruct.presentMode = self.presentMode
-        cStruct.clipped = self.clipped
+        cStruct.clipped = VkBool32(self.clipped ? VK_TRUE : VK_FALSE)
         cStruct.oldSwapchain = self.oldSwapchain
         return try body(&cStruct)
     }
@@ -2875,13 +2875,13 @@ struct DebugMarkerMarkerInfoEXT: CStructConvertible {
 struct DedicatedAllocationImageCreateInfoNV: CStructConvertible {
     typealias CStruct = VkDedicatedAllocationImageCreateInfoNV
 
-    let dedicatedAllocation: VkBool32
+    let dedicatedAllocation: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDedicatedAllocationImageCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationImageCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_IMAGE_CREATE_INFO_NV
         cStruct.pNext = nil
-        cStruct.dedicatedAllocation = self.dedicatedAllocation
+        cStruct.dedicatedAllocation = VkBool32(self.dedicatedAllocation ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -2889,13 +2889,13 @@ struct DedicatedAllocationImageCreateInfoNV: CStructConvertible {
 struct DedicatedAllocationBufferCreateInfoNV: CStructConvertible {
     typealias CStruct = VkDedicatedAllocationBufferCreateInfoNV
 
-    let dedicatedAllocation: VkBool32
+    let dedicatedAllocation: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDedicatedAllocationBufferCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationBufferCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_BUFFER_CREATE_INFO_NV
         cStruct.pNext = nil
-        cStruct.dedicatedAllocation = self.dedicatedAllocation
+        cStruct.dedicatedAllocation = VkBool32(self.dedicatedAllocation ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -2965,13 +2965,13 @@ struct ExportMemoryAllocateInfoNV: CStructConvertible {
 struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
 
-    let deviceGeneratedCommands: VkBool32
+    let deviceGeneratedCommands: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.deviceGeneratedCommands = self.deviceGeneratedCommands
+        cStruct.deviceGeneratedCommands = VkBool32(self.deviceGeneratedCommands ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -3123,7 +3123,7 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
     let stream: UInt32
     let offset: UInt32
     let vertexBindingUnit: UInt32
-    let vertexDynamicStride: VkBool32
+    let vertexDynamicStride: Bool
     let pushconstantPipelineLayout: VkPipelineLayout
     let pushconstantShaderStageFlags: VkShaderStageFlags
     let pushconstantOffset: UInt32
@@ -3141,7 +3141,7 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
         cStruct.stream = self.stream
         cStruct.offset = self.offset
         cStruct.vertexBindingUnit = self.vertexBindingUnit
-        cStruct.vertexDynamicStride = self.vertexDynamicStride
+        cStruct.vertexDynamicStride = VkBool32(self.vertexDynamicStride ? VK_TRUE : VK_FALSE)
         cStruct.pushconstantPipelineLayout = self.pushconstantPipelineLayout
         cStruct.pushconstantShaderStageFlags = self.pushconstantShaderStageFlags
         cStruct.pushconstantOffset = self.pushconstantOffset
@@ -3479,15 +3479,15 @@ struct RectLayerKHR: CStructConvertible {
 struct PhysicalDeviceVariablePointersFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVariablePointersFeatures
 
-    let variablePointersStorageBuffer: VkBool32
-    let variablePointers: VkBool32
+    let variablePointersStorageBuffer: Bool
+    let variablePointers: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVariablePointersFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVariablePointersFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES
         cStruct.pNext = nil
-        cStruct.variablePointersStorageBuffer = self.variablePointersStorageBuffer
-        cStruct.variablePointers = self.variablePointers
+        cStruct.variablePointersStorageBuffer = VkBool32(self.variablePointersStorageBuffer ? VK_TRUE : VK_FALSE)
+        cStruct.variablePointers = VkBool32(self.variablePointers ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -3575,7 +3575,7 @@ struct PhysicalDeviceIDProperties: CStructConvertible {
     let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
     let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
     let deviceNodeMask: UInt32
-    let deviceLUIDValid: VkBool32
+    let deviceLUIDValid: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceIDProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceIDProperties()
@@ -3585,7 +3585,7 @@ struct PhysicalDeviceIDProperties: CStructConvertible {
         cStruct.driverUUID = self.driverUUID
         cStruct.deviceLUID = self.deviceLUID
         cStruct.deviceNodeMask = self.deviceNodeMask
-        cStruct.deviceLUIDValid = self.deviceLUIDValid
+        cStruct.deviceLUIDValid = VkBool32(self.deviceLUIDValid ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -3845,17 +3845,17 @@ struct FenceGetFdInfoKHR: CStructConvertible {
 struct PhysicalDeviceMultiviewFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMultiviewFeatures
 
-    let multiview: VkBool32
-    let multiviewGeometryShader: VkBool32
-    let multiviewTessellationShader: VkBool32
+    let multiview: Bool
+    let multiviewGeometryShader: Bool
+    let multiviewTessellationShader: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMultiviewFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES
         cStruct.pNext = nil
-        cStruct.multiview = self.multiview
-        cStruct.multiviewGeometryShader = self.multiviewGeometryShader
-        cStruct.multiviewTessellationShader = self.multiviewTessellationShader
+        cStruct.multiview = VkBool32(self.multiview ? VK_TRUE : VK_FALSE)
+        cStruct.multiviewGeometryShader = VkBool32(self.multiviewGeometryShader ? VK_TRUE : VK_FALSE)
+        cStruct.multiviewTessellationShader = VkBool32(self.multiviewTessellationShader ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -3995,7 +3995,7 @@ struct PhysicalDeviceGroupProperties: CStructConvertible {
 
     let physicalDeviceCount: UInt32
     let physicalDevices: (VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice)
-    let subsetAllocation: VkBool32
+    let subsetAllocation: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceGroupProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceGroupProperties()
@@ -4003,7 +4003,7 @@ struct PhysicalDeviceGroupProperties: CStructConvertible {
         cStruct.pNext = nil
         cStruct.physicalDeviceCount = self.physicalDeviceCount
         cStruct.physicalDevices = self.physicalDevices
-        cStruct.subsetAllocation = self.subsetAllocation
+        cStruct.subsetAllocation = VkBool32(self.subsetAllocation ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4379,13 +4379,13 @@ struct HdrMetadataEXT: CStructConvertible {
 struct DisplayNativeHdrSurfaceCapabilitiesAMD: CStructConvertible {
     typealias CStruct = VkDisplayNativeHdrSurfaceCapabilitiesAMD
 
-    let localDimmingSupport: VkBool32
+    let localDimmingSupport: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayNativeHdrSurfaceCapabilitiesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayNativeHdrSurfaceCapabilitiesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD
         cStruct.pNext = nil
-        cStruct.localDimmingSupport = self.localDimmingSupport
+        cStruct.localDimmingSupport = VkBool32(self.localDimmingSupport ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4393,13 +4393,13 @@ struct DisplayNativeHdrSurfaceCapabilitiesAMD: CStructConvertible {
 struct SwapchainDisplayNativeHdrCreateInfoAMD: CStructConvertible {
     typealias CStruct = VkSwapchainDisplayNativeHdrCreateInfoAMD
 
-    let localDimmingEnable: VkBool32
+    let localDimmingEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSwapchainDisplayNativeHdrCreateInfoAMD>) throws -> R) rethrows -> R {
         var cStruct = VkSwapchainDisplayNativeHdrCreateInfoAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD
         cStruct.pNext = nil
-        cStruct.localDimmingEnable = self.localDimmingEnable
+        cStruct.localDimmingEnable = VkBool32(self.localDimmingEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4483,7 +4483,7 @@ struct ViewportWScalingNV: CStructConvertible {
 struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportWScalingStateCreateInfoNV
 
-    let viewportWScalingEnable: VkBool32
+    let viewportWScalingEnable: Bool
     let viewportCount: UInt32
     let pViewportWScalings: UnsafePointer<VkViewportWScalingNV>
 
@@ -4491,7 +4491,7 @@ struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
         var cStruct = VkPipelineViewportWScalingStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
-        cStruct.viewportWScalingEnable = self.viewportWScalingEnable
+        cStruct.viewportWScalingEnable = VkBool32(self.viewportWScalingEnable ? VK_TRUE : VK_FALSE)
         cStruct.viewportCount = self.viewportCount
         cStruct.pViewportWScalings = self.pViewportWScalings
         return try body(&cStruct)
@@ -4571,13 +4571,13 @@ struct PipelineDiscardRectangleStateCreateInfoEXT: CStructConvertible {
 struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX
 
-    let perViewPositionAllComponents: VkBool32
+    let perViewPositionAllComponents: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_ATTRIBUTES_PROPERTIES_NVX
         cStruct.pNext = nil
-        cStruct.perViewPositionAllComponents = self.perViewPositionAllComponents
+        cStruct.perViewPositionAllComponents = VkBool32(self.perViewPositionAllComponents ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4745,19 +4745,19 @@ struct SharedPresentSurfaceCapabilitiesKHR: CStructConvertible {
 struct PhysicalDevice16BitStorageFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDevice16BitStorageFeatures
 
-    let storageBuffer16BitAccess: VkBool32
-    let uniformAndStorageBuffer16BitAccess: VkBool32
-    let storagePushConstant16: VkBool32
-    let storageInputOutput16: VkBool32
+    let storageBuffer16BitAccess: Bool
+    let uniformAndStorageBuffer16BitAccess: Bool
+    let storagePushConstant16: Bool
+    let storageInputOutput16: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevice16BitStorageFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevice16BitStorageFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES
         cStruct.pNext = nil
-        cStruct.storageBuffer16BitAccess = self.storageBuffer16BitAccess
-        cStruct.uniformAndStorageBuffer16BitAccess = self.uniformAndStorageBuffer16BitAccess
-        cStruct.storagePushConstant16 = self.storagePushConstant16
-        cStruct.storageInputOutput16 = self.storageInputOutput16
+        cStruct.storageBuffer16BitAccess = VkBool32(self.storageBuffer16BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.uniformAndStorageBuffer16BitAccess = VkBool32(self.uniformAndStorageBuffer16BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.storagePushConstant16 = VkBool32(self.storagePushConstant16 ? VK_TRUE : VK_FALSE)
+        cStruct.storageInputOutput16 = VkBool32(self.storageInputOutput16 ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4768,7 +4768,7 @@ struct PhysicalDeviceSubgroupProperties: CStructConvertible {
     let subgroupSize: UInt32
     let supportedStages: VkShaderStageFlags
     let supportedOperations: VkSubgroupFeatureFlags
-    let quadOperationsInAllStages: VkBool32
+    let quadOperationsInAllStages: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSubgroupProperties()
@@ -4777,7 +4777,7 @@ struct PhysicalDeviceSubgroupProperties: CStructConvertible {
         cStruct.subgroupSize = self.subgroupSize
         cStruct.supportedStages = self.supportedStages
         cStruct.supportedOperations = self.supportedOperations
-        cStruct.quadOperationsInAllStages = self.quadOperationsInAllStages
+        cStruct.quadOperationsInAllStages = VkBool32(self.quadOperationsInAllStages ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4785,13 +4785,13 @@ struct PhysicalDeviceSubgroupProperties: CStructConvertible {
 struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures
 
-    let shaderSubgroupExtendedTypes: VkBool32
+    let shaderSubgroupExtendedTypes: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES
         cStruct.pNext = nil
-        cStruct.shaderSubgroupExtendedTypes = self.shaderSubgroupExtendedTypes
+        cStruct.shaderSubgroupExtendedTypes = VkBool32(self.shaderSubgroupExtendedTypes ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4883,15 +4883,15 @@ struct PhysicalDevicePointClippingProperties: CStructConvertible {
 struct MemoryDedicatedRequirements: CStructConvertible {
     typealias CStruct = VkMemoryDedicatedRequirements
 
-    let prefersDedicatedAllocation: VkBool32
-    let requiresDedicatedAllocation: VkBool32
+    let prefersDedicatedAllocation: Bool
+    let requiresDedicatedAllocation: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryDedicatedRequirements>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryDedicatedRequirements()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_DEDICATED_REQUIREMENTS
         cStruct.pNext = nil
-        cStruct.prefersDedicatedAllocation = self.prefersDedicatedAllocation
-        cStruct.requiresDedicatedAllocation = self.requiresDedicatedAllocation
+        cStruct.prefersDedicatedAllocation = VkBool32(self.prefersDedicatedAllocation ? VK_TRUE : VK_FALSE)
+        cStruct.requiresDedicatedAllocation = VkBool32(self.requiresDedicatedAllocation ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -4964,7 +4964,7 @@ struct SamplerYcbcrConversionCreateInfo: CStructConvertible {
     let xChromaOffset: VkChromaLocation
     let yChromaOffset: VkChromaLocation
     let chromaFilter: VkFilter
-    let forceExplicitReconstruction: VkBool32
+    let forceExplicitReconstruction: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerYcbcrConversionCreateInfo()
@@ -4977,7 +4977,7 @@ struct SamplerYcbcrConversionCreateInfo: CStructConvertible {
         cStruct.xChromaOffset = self.xChromaOffset
         cStruct.yChromaOffset = self.yChromaOffset
         cStruct.chromaFilter = self.chromaFilter
-        cStruct.forceExplicitReconstruction = self.forceExplicitReconstruction
+        cStruct.forceExplicitReconstruction = VkBool32(self.forceExplicitReconstruction ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5013,13 +5013,13 @@ struct ImagePlaneMemoryRequirementsInfo: CStructConvertible {
 struct PhysicalDeviceSamplerYcbcrConversionFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSamplerYcbcrConversionFeatures
 
-    let samplerYcbcrConversion: VkBool32
+    let samplerYcbcrConversion: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSamplerYcbcrConversionFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSamplerYcbcrConversionFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES
         cStruct.pNext = nil
-        cStruct.samplerYcbcrConversion = self.samplerYcbcrConversion
+        cStruct.samplerYcbcrConversion = VkBool32(self.samplerYcbcrConversion ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5041,13 +5041,13 @@ struct SamplerYcbcrConversionImageFormatProperties: CStructConvertible {
 struct TextureLODGatherFormatPropertiesAMD: CStructConvertible {
     typealias CStruct = VkTextureLODGatherFormatPropertiesAMD
 
-    let supportsTextureGatherLODBiasAMD: VkBool32
+    let supportsTextureGatherLODBiasAMD: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkTextureLODGatherFormatPropertiesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkTextureLODGatherFormatPropertiesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD
         cStruct.pNext = nil
-        cStruct.supportsTextureGatherLODBiasAMD = self.supportsTextureGatherLODBiasAMD
+        cStruct.supportsTextureGatherLODBiasAMD = VkBool32(self.supportsTextureGatherLODBiasAMD ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5073,13 +5073,13 @@ struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
 struct ProtectedSubmitInfo: CStructConvertible {
     typealias CStruct = VkProtectedSubmitInfo
 
-    let protectedSubmit: VkBool32
+    let protectedSubmit: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkProtectedSubmitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkProtectedSubmitInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PROTECTED_SUBMIT_INFO
         cStruct.pNext = nil
-        cStruct.protectedSubmit = self.protectedSubmit
+        cStruct.protectedSubmit = VkBool32(self.protectedSubmit ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5087,13 +5087,13 @@ struct ProtectedSubmitInfo: CStructConvertible {
 struct PhysicalDeviceProtectedMemoryFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProtectedMemoryFeatures
 
-    let protectedMemory: VkBool32
+    let protectedMemory: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProtectedMemoryFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceProtectedMemoryFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES
         cStruct.pNext = nil
-        cStruct.protectedMemory = self.protectedMemory
+        cStruct.protectedMemory = VkBool32(self.protectedMemory ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5101,13 +5101,13 @@ struct PhysicalDeviceProtectedMemoryFeatures: CStructConvertible {
 struct PhysicalDeviceProtectedMemoryProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProtectedMemoryProperties
 
-    let protectedNoFault: VkBool32
+    let protectedNoFault: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProtectedMemoryProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceProtectedMemoryProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_PROPERTIES
         cStruct.pNext = nil
-        cStruct.protectedNoFault = self.protectedNoFault
+        cStruct.protectedNoFault = VkBool32(self.protectedNoFault ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5134,7 +5134,7 @@ struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineCoverageToColorStateCreateInfoNV
 
     let flags: VkPipelineCoverageToColorStateCreateFlagsNV
-    let coverageToColorEnable: VkBool32
+    let coverageToColorEnable: Bool
     let coverageToColorLocation: UInt32
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCoverageToColorStateCreateInfoNV>) throws -> R) rethrows -> R {
@@ -5142,7 +5142,7 @@ struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
         cStruct.flags = self.flags
-        cStruct.coverageToColorEnable = self.coverageToColorEnable
+        cStruct.coverageToColorEnable = VkBool32(self.coverageToColorEnable ? VK_TRUE : VK_FALSE)
         cStruct.coverageToColorLocation = self.coverageToColorLocation
         return try body(&cStruct)
     }
@@ -5151,15 +5151,15 @@ struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
 struct PhysicalDeviceSamplerFilterMinmaxProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSamplerFilterMinmaxProperties
 
-    let filterMinmaxSingleComponentFormats: VkBool32
-    let filterMinmaxImageComponentMapping: VkBool32
+    let filterMinmaxSingleComponentFormats: Bool
+    let filterMinmaxImageComponentMapping: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSamplerFilterMinmaxProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSamplerFilterMinmaxProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES
         cStruct.pNext = nil
-        cStruct.filterMinmaxSingleComponentFormats = self.filterMinmaxSingleComponentFormats
-        cStruct.filterMinmaxImageComponentMapping = self.filterMinmaxImageComponentMapping
+        cStruct.filterMinmaxSingleComponentFormats = VkBool32(self.filterMinmaxSingleComponentFormats ? VK_TRUE : VK_FALSE)
+        cStruct.filterMinmaxImageComponentMapping = VkBool32(self.filterMinmaxImageComponentMapping ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5249,14 +5249,14 @@ struct RenderPassSampleLocationsBeginInfoEXT: CStructConvertible {
 struct PipelineSampleLocationsStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineSampleLocationsStateCreateInfoEXT
 
-    let sampleLocationsEnable: VkBool32
+    let sampleLocationsEnable: Bool
     let sampleLocationsInfo: VkSampleLocationsInfoEXT
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineSampleLocationsStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineSampleLocationsStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
-        cStruct.sampleLocationsEnable = self.sampleLocationsEnable
+        cStruct.sampleLocationsEnable = VkBool32(self.sampleLocationsEnable ? VK_TRUE : VK_FALSE)
         cStruct.sampleLocationsInfo = self.sampleLocationsInfo
         return try body(&cStruct)
     }
@@ -5269,7 +5269,7 @@ struct PhysicalDeviceSampleLocationsPropertiesEXT: CStructConvertible {
     let maxSampleLocationGridSize: VkExtent2D
     let sampleLocationCoordinateRange: (Float, Float)
     let sampleLocationSubPixelBits: UInt32
-    let variableSampleLocations: VkBool32
+    let variableSampleLocations: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSampleLocationsPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSampleLocationsPropertiesEXT()
@@ -5279,7 +5279,7 @@ struct PhysicalDeviceSampleLocationsPropertiesEXT: CStructConvertible {
         cStruct.maxSampleLocationGridSize = self.maxSampleLocationGridSize
         cStruct.sampleLocationCoordinateRange = self.sampleLocationCoordinateRange
         cStruct.sampleLocationSubPixelBits = self.sampleLocationSubPixelBits
-        cStruct.variableSampleLocations = self.variableSampleLocations
+        cStruct.variableSampleLocations = VkBool32(self.variableSampleLocations ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5315,13 +5315,13 @@ struct SamplerReductionModeCreateInfo: CStructConvertible {
 struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT
 
-    let advancedBlendCoherentOperations: VkBool32
+    let advancedBlendCoherentOperations: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.advancedBlendCoherentOperations = self.advancedBlendCoherentOperations
+        cStruct.advancedBlendCoherentOperations = VkBool32(self.advancedBlendCoherentOperations ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5330,22 +5330,22 @@ struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT
 
     let advancedBlendMaxColorAttachments: UInt32
-    let advancedBlendIndependentBlend: VkBool32
-    let advancedBlendNonPremultipliedSrcColor: VkBool32
-    let advancedBlendNonPremultipliedDstColor: VkBool32
-    let advancedBlendCorrelatedOverlap: VkBool32
-    let advancedBlendAllOperations: VkBool32
+    let advancedBlendIndependentBlend: Bool
+    let advancedBlendNonPremultipliedSrcColor: Bool
+    let advancedBlendNonPremultipliedDstColor: Bool
+    let advancedBlendCorrelatedOverlap: Bool
+    let advancedBlendAllOperations: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT
         cStruct.pNext = nil
         cStruct.advancedBlendMaxColorAttachments = self.advancedBlendMaxColorAttachments
-        cStruct.advancedBlendIndependentBlend = self.advancedBlendIndependentBlend
-        cStruct.advancedBlendNonPremultipliedSrcColor = self.advancedBlendNonPremultipliedSrcColor
-        cStruct.advancedBlendNonPremultipliedDstColor = self.advancedBlendNonPremultipliedDstColor
-        cStruct.advancedBlendCorrelatedOverlap = self.advancedBlendCorrelatedOverlap
-        cStruct.advancedBlendAllOperations = self.advancedBlendAllOperations
+        cStruct.advancedBlendIndependentBlend = VkBool32(self.advancedBlendIndependentBlend ? VK_TRUE : VK_FALSE)
+        cStruct.advancedBlendNonPremultipliedSrcColor = VkBool32(self.advancedBlendNonPremultipliedSrcColor ? VK_TRUE : VK_FALSE)
+        cStruct.advancedBlendNonPremultipliedDstColor = VkBool32(self.advancedBlendNonPremultipliedDstColor ? VK_TRUE : VK_FALSE)
+        cStruct.advancedBlendCorrelatedOverlap = VkBool32(self.advancedBlendCorrelatedOverlap ? VK_TRUE : VK_FALSE)
+        cStruct.advancedBlendAllOperations = VkBool32(self.advancedBlendAllOperations ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5353,16 +5353,16 @@ struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT: CStructConvertible {
 struct PipelineColorBlendAdvancedStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineColorBlendAdvancedStateCreateInfoEXT
 
-    let srcPremultiplied: VkBool32
-    let dstPremultiplied: VkBool32
+    let srcPremultiplied: Bool
+    let dstPremultiplied: Bool
     let blendOverlap: VkBlendOverlapEXT
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineColorBlendAdvancedStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineColorBlendAdvancedStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
-        cStruct.srcPremultiplied = self.srcPremultiplied
-        cStruct.dstPremultiplied = self.dstPremultiplied
+        cStruct.srcPremultiplied = VkBool32(self.srcPremultiplied ? VK_TRUE : VK_FALSE)
+        cStruct.dstPremultiplied = VkBool32(self.dstPremultiplied ? VK_TRUE : VK_FALSE)
         cStruct.blendOverlap = self.blendOverlap
         return try body(&cStruct)
     }
@@ -5371,15 +5371,15 @@ struct PipelineColorBlendAdvancedStateCreateInfoEXT: CStructConvertible {
 struct PhysicalDeviceInlineUniformBlockFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceInlineUniformBlockFeaturesEXT
 
-    let inlineUniformBlock: VkBool32
-    let descriptorBindingInlineUniformBlockUpdateAfterBind: VkBool32
+    let inlineUniformBlock: Bool
+    let descriptorBindingInlineUniformBlockUpdateAfterBind: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceInlineUniformBlockFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.inlineUniformBlock = self.inlineUniformBlock
-        cStruct.descriptorBindingInlineUniformBlockUpdateAfterBind = self.descriptorBindingInlineUniformBlockUpdateAfterBind
+        cStruct.inlineUniformBlock = VkBool32(self.inlineUniformBlock ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingInlineUniformBlockUpdateAfterBind = VkBool32(self.descriptorBindingInlineUniformBlockUpdateAfterBind ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5441,7 +5441,7 @@ struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
 
     let flags: VkPipelineCoverageModulationStateCreateFlagsNV
     let coverageModulationMode: VkCoverageModulationModeNV
-    let coverageModulationTableEnable: VkBool32
+    let coverageModulationTableEnable: Bool
     let coverageModulationTableCount: UInt32
     let pCoverageModulationTable: UnsafePointer<Float>
 
@@ -5451,7 +5451,7 @@ struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
         cStruct.pNext = nil
         cStruct.flags = self.flags
         cStruct.coverageModulationMode = self.coverageModulationMode
-        cStruct.coverageModulationTableEnable = self.coverageModulationTableEnable
+        cStruct.coverageModulationTableEnable = VkBool32(self.coverageModulationTableEnable ? VK_TRUE : VK_FALSE)
         cStruct.coverageModulationTableCount = self.coverageModulationTableCount
         cStruct.pCoverageModulationTable = self.pCoverageModulationTable
         return try body(&cStruct)
@@ -5525,13 +5525,13 @@ struct PhysicalDeviceMaintenance3Properties: CStructConvertible {
 struct DescriptorSetLayoutSupport: CStructConvertible {
     typealias CStruct = VkDescriptorSetLayoutSupport
 
-    let supported: VkBool32
+    let supported: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutSupport>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetLayoutSupport()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_SUPPORT
         cStruct.pNext = nil
-        cStruct.supported = self.supported
+        cStruct.supported = VkBool32(self.supported ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5539,13 +5539,13 @@ struct DescriptorSetLayoutSupport: CStructConvertible {
 struct PhysicalDeviceShaderDrawParametersFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderDrawParametersFeatures
 
-    let shaderDrawParameters: VkBool32
+    let shaderDrawParameters: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderDrawParametersFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderDrawParametersFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES
         cStruct.pNext = nil
-        cStruct.shaderDrawParameters = self.shaderDrawParameters
+        cStruct.shaderDrawParameters = VkBool32(self.shaderDrawParameters ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5553,15 +5553,15 @@ struct PhysicalDeviceShaderDrawParametersFeatures: CStructConvertible {
 struct PhysicalDeviceShaderFloat16Int8Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderFloat16Int8Features
 
-    let shaderFloat16: VkBool32
-    let shaderInt8: VkBool32
+    let shaderFloat16: Bool
+    let shaderInt8: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderFloat16Int8Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderFloat16Int8Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES
         cStruct.pNext = nil
-        cStruct.shaderFloat16 = self.shaderFloat16
-        cStruct.shaderInt8 = self.shaderInt8
+        cStruct.shaderFloat16 = VkBool32(self.shaderFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInt8 = VkBool32(self.shaderInt8 ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5571,21 +5571,21 @@ struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
 
     let denormBehaviorIndependence: VkShaderFloatControlsIndependence
     let roundingModeIndependence: VkShaderFloatControlsIndependence
-    let shaderSignedZeroInfNanPreserveFloat16: VkBool32
-    let shaderSignedZeroInfNanPreserveFloat32: VkBool32
-    let shaderSignedZeroInfNanPreserveFloat64: VkBool32
-    let shaderDenormPreserveFloat16: VkBool32
-    let shaderDenormPreserveFloat32: VkBool32
-    let shaderDenormPreserveFloat64: VkBool32
-    let shaderDenormFlushToZeroFloat16: VkBool32
-    let shaderDenormFlushToZeroFloat32: VkBool32
-    let shaderDenormFlushToZeroFloat64: VkBool32
-    let shaderRoundingModeRTEFloat16: VkBool32
-    let shaderRoundingModeRTEFloat32: VkBool32
-    let shaderRoundingModeRTEFloat64: VkBool32
-    let shaderRoundingModeRTZFloat16: VkBool32
-    let shaderRoundingModeRTZFloat32: VkBool32
-    let shaderRoundingModeRTZFloat64: VkBool32
+    let shaderSignedZeroInfNanPreserveFloat16: Bool
+    let shaderSignedZeroInfNanPreserveFloat32: Bool
+    let shaderSignedZeroInfNanPreserveFloat64: Bool
+    let shaderDenormPreserveFloat16: Bool
+    let shaderDenormPreserveFloat32: Bool
+    let shaderDenormPreserveFloat64: Bool
+    let shaderDenormFlushToZeroFloat16: Bool
+    let shaderDenormFlushToZeroFloat32: Bool
+    let shaderDenormFlushToZeroFloat64: Bool
+    let shaderRoundingModeRTEFloat16: Bool
+    let shaderRoundingModeRTEFloat32: Bool
+    let shaderRoundingModeRTEFloat64: Bool
+    let shaderRoundingModeRTZFloat16: Bool
+    let shaderRoundingModeRTZFloat32: Bool
+    let shaderRoundingModeRTZFloat64: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFloatControlsProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFloatControlsProperties()
@@ -5593,21 +5593,21 @@ struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
         cStruct.pNext = nil
         cStruct.denormBehaviorIndependence = self.denormBehaviorIndependence
         cStruct.roundingModeIndependence = self.roundingModeIndependence
-        cStruct.shaderSignedZeroInfNanPreserveFloat16 = self.shaderSignedZeroInfNanPreserveFloat16
-        cStruct.shaderSignedZeroInfNanPreserveFloat32 = self.shaderSignedZeroInfNanPreserveFloat32
-        cStruct.shaderSignedZeroInfNanPreserveFloat64 = self.shaderSignedZeroInfNanPreserveFloat64
-        cStruct.shaderDenormPreserveFloat16 = self.shaderDenormPreserveFloat16
-        cStruct.shaderDenormPreserveFloat32 = self.shaderDenormPreserveFloat32
-        cStruct.shaderDenormPreserveFloat64 = self.shaderDenormPreserveFloat64
-        cStruct.shaderDenormFlushToZeroFloat16 = self.shaderDenormFlushToZeroFloat16
-        cStruct.shaderDenormFlushToZeroFloat32 = self.shaderDenormFlushToZeroFloat32
-        cStruct.shaderDenormFlushToZeroFloat64 = self.shaderDenormFlushToZeroFloat64
-        cStruct.shaderRoundingModeRTEFloat16 = self.shaderRoundingModeRTEFloat16
-        cStruct.shaderRoundingModeRTEFloat32 = self.shaderRoundingModeRTEFloat32
-        cStruct.shaderRoundingModeRTEFloat64 = self.shaderRoundingModeRTEFloat64
-        cStruct.shaderRoundingModeRTZFloat16 = self.shaderRoundingModeRTZFloat16
-        cStruct.shaderRoundingModeRTZFloat32 = self.shaderRoundingModeRTZFloat32
-        cStruct.shaderRoundingModeRTZFloat64 = self.shaderRoundingModeRTZFloat64
+        cStruct.shaderSignedZeroInfNanPreserveFloat16 = VkBool32(self.shaderSignedZeroInfNanPreserveFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSignedZeroInfNanPreserveFloat32 = VkBool32(self.shaderSignedZeroInfNanPreserveFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSignedZeroInfNanPreserveFloat64 = VkBool32(self.shaderSignedZeroInfNanPreserveFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormPreserveFloat16 = VkBool32(self.shaderDenormPreserveFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormPreserveFloat32 = VkBool32(self.shaderDenormPreserveFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormPreserveFloat64 = VkBool32(self.shaderDenormPreserveFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormFlushToZeroFloat16 = VkBool32(self.shaderDenormFlushToZeroFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormFlushToZeroFloat32 = VkBool32(self.shaderDenormFlushToZeroFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormFlushToZeroFloat64 = VkBool32(self.shaderDenormFlushToZeroFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTEFloat16 = VkBool32(self.shaderRoundingModeRTEFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTEFloat32 = VkBool32(self.shaderRoundingModeRTEFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTEFloat64 = VkBool32(self.shaderRoundingModeRTEFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTZFloat16 = VkBool32(self.shaderRoundingModeRTZFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTZFloat32 = VkBool32(self.shaderRoundingModeRTZFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTZFloat64 = VkBool32(self.shaderRoundingModeRTZFloat64 ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5615,13 +5615,13 @@ struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
 struct PhysicalDeviceHostQueryResetFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceHostQueryResetFeatures
 
-    let hostQueryReset: VkBool32
+    let hostQueryReset: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceHostQueryResetFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceHostQueryResetFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES
         cStruct.pNext = nil
-        cStruct.hostQueryReset = self.hostQueryReset
+        cStruct.hostQueryReset = VkBool32(self.hostQueryReset ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5844,12 +5844,12 @@ struct PhysicalDeviceConservativeRasterizationPropertiesEXT: CStructConvertible 
     let primitiveOverestimationSize: Float
     let maxExtraPrimitiveOverestimationSize: Float
     let extraPrimitiveOverestimationSizeGranularity: Float
-    let primitiveUnderestimation: VkBool32
-    let conservativePointAndLineRasterization: VkBool32
-    let degenerateTrianglesRasterized: VkBool32
-    let degenerateLinesRasterized: VkBool32
-    let fullyCoveredFragmentShaderInputVariable: VkBool32
-    let conservativeRasterizationPostDepthCoverage: VkBool32
+    let primitiveUnderestimation: Bool
+    let conservativePointAndLineRasterization: Bool
+    let degenerateTrianglesRasterized: Bool
+    let degenerateLinesRasterized: Bool
+    let fullyCoveredFragmentShaderInputVariable: Bool
+    let conservativeRasterizationPostDepthCoverage: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceConservativeRasterizationPropertiesEXT()
@@ -5858,12 +5858,12 @@ struct PhysicalDeviceConservativeRasterizationPropertiesEXT: CStructConvertible 
         cStruct.primitiveOverestimationSize = self.primitiveOverestimationSize
         cStruct.maxExtraPrimitiveOverestimationSize = self.maxExtraPrimitiveOverestimationSize
         cStruct.extraPrimitiveOverestimationSizeGranularity = self.extraPrimitiveOverestimationSizeGranularity
-        cStruct.primitiveUnderestimation = self.primitiveUnderestimation
-        cStruct.conservativePointAndLineRasterization = self.conservativePointAndLineRasterization
-        cStruct.degenerateTrianglesRasterized = self.degenerateTrianglesRasterized
-        cStruct.degenerateLinesRasterized = self.degenerateLinesRasterized
-        cStruct.fullyCoveredFragmentShaderInputVariable = self.fullyCoveredFragmentShaderInputVariable
-        cStruct.conservativeRasterizationPostDepthCoverage = self.conservativeRasterizationPostDepthCoverage
+        cStruct.primitiveUnderestimation = VkBool32(self.primitiveUnderestimation ? VK_TRUE : VK_FALSE)
+        cStruct.conservativePointAndLineRasterization = VkBool32(self.conservativePointAndLineRasterization ? VK_TRUE : VK_FALSE)
+        cStruct.degenerateTrianglesRasterized = VkBool32(self.degenerateTrianglesRasterized ? VK_TRUE : VK_FALSE)
+        cStruct.degenerateLinesRasterized = VkBool32(self.degenerateLinesRasterized ? VK_TRUE : VK_FALSE)
+        cStruct.fullyCoveredFragmentShaderInputVariable = VkBool32(self.fullyCoveredFragmentShaderInputVariable ? VK_TRUE : VK_FALSE)
+        cStruct.conservativeRasterizationPostDepthCoverage = VkBool32(self.conservativeRasterizationPostDepthCoverage ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -5959,51 +5959,51 @@ struct PipelineRasterizationConservativeStateCreateInfoEXT: CStructConvertible {
 struct PhysicalDeviceDescriptorIndexingFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDescriptorIndexingFeatures
 
-    let shaderInputAttachmentArrayDynamicIndexing: VkBool32
-    let shaderUniformTexelBufferArrayDynamicIndexing: VkBool32
-    let shaderStorageTexelBufferArrayDynamicIndexing: VkBool32
-    let shaderUniformBufferArrayNonUniformIndexing: VkBool32
-    let shaderSampledImageArrayNonUniformIndexing: VkBool32
-    let shaderStorageBufferArrayNonUniformIndexing: VkBool32
-    let shaderStorageImageArrayNonUniformIndexing: VkBool32
-    let shaderInputAttachmentArrayNonUniformIndexing: VkBool32
-    let shaderUniformTexelBufferArrayNonUniformIndexing: VkBool32
-    let shaderStorageTexelBufferArrayNonUniformIndexing: VkBool32
-    let descriptorBindingUniformBufferUpdateAfterBind: VkBool32
-    let descriptorBindingSampledImageUpdateAfterBind: VkBool32
-    let descriptorBindingStorageImageUpdateAfterBind: VkBool32
-    let descriptorBindingStorageBufferUpdateAfterBind: VkBool32
-    let descriptorBindingUniformTexelBufferUpdateAfterBind: VkBool32
-    let descriptorBindingStorageTexelBufferUpdateAfterBind: VkBool32
-    let descriptorBindingUpdateUnusedWhilePending: VkBool32
-    let descriptorBindingPartiallyBound: VkBool32
-    let descriptorBindingVariableDescriptorCount: VkBool32
-    let runtimeDescriptorArray: VkBool32
+    let shaderInputAttachmentArrayDynamicIndexing: Bool
+    let shaderUniformTexelBufferArrayDynamicIndexing: Bool
+    let shaderStorageTexelBufferArrayDynamicIndexing: Bool
+    let shaderUniformBufferArrayNonUniformIndexing: Bool
+    let shaderSampledImageArrayNonUniformIndexing: Bool
+    let shaderStorageBufferArrayNonUniformIndexing: Bool
+    let shaderStorageImageArrayNonUniformIndexing: Bool
+    let shaderInputAttachmentArrayNonUniformIndexing: Bool
+    let shaderUniformTexelBufferArrayNonUniformIndexing: Bool
+    let shaderStorageTexelBufferArrayNonUniformIndexing: Bool
+    let descriptorBindingUniformBufferUpdateAfterBind: Bool
+    let descriptorBindingSampledImageUpdateAfterBind: Bool
+    let descriptorBindingStorageImageUpdateAfterBind: Bool
+    let descriptorBindingStorageBufferUpdateAfterBind: Bool
+    let descriptorBindingUniformTexelBufferUpdateAfterBind: Bool
+    let descriptorBindingStorageTexelBufferUpdateAfterBind: Bool
+    let descriptorBindingUpdateUnusedWhilePending: Bool
+    let descriptorBindingPartiallyBound: Bool
+    let descriptorBindingVariableDescriptorCount: Bool
+    let runtimeDescriptorArray: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDescriptorIndexingFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDescriptorIndexingFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES
         cStruct.pNext = nil
-        cStruct.shaderInputAttachmentArrayDynamicIndexing = self.shaderInputAttachmentArrayDynamicIndexing
-        cStruct.shaderUniformTexelBufferArrayDynamicIndexing = self.shaderUniformTexelBufferArrayDynamicIndexing
-        cStruct.shaderStorageTexelBufferArrayDynamicIndexing = self.shaderStorageTexelBufferArrayDynamicIndexing
-        cStruct.shaderUniformBufferArrayNonUniformIndexing = self.shaderUniformBufferArrayNonUniformIndexing
-        cStruct.shaderSampledImageArrayNonUniformIndexing = self.shaderSampledImageArrayNonUniformIndexing
-        cStruct.shaderStorageBufferArrayNonUniformIndexing = self.shaderStorageBufferArrayNonUniformIndexing
-        cStruct.shaderStorageImageArrayNonUniformIndexing = self.shaderStorageImageArrayNonUniformIndexing
-        cStruct.shaderInputAttachmentArrayNonUniformIndexing = self.shaderInputAttachmentArrayNonUniformIndexing
-        cStruct.shaderUniformTexelBufferArrayNonUniformIndexing = self.shaderUniformTexelBufferArrayNonUniformIndexing
-        cStruct.shaderStorageTexelBufferArrayNonUniformIndexing = self.shaderStorageTexelBufferArrayNonUniformIndexing
-        cStruct.descriptorBindingUniformBufferUpdateAfterBind = self.descriptorBindingUniformBufferUpdateAfterBind
-        cStruct.descriptorBindingSampledImageUpdateAfterBind = self.descriptorBindingSampledImageUpdateAfterBind
-        cStruct.descriptorBindingStorageImageUpdateAfterBind = self.descriptorBindingStorageImageUpdateAfterBind
-        cStruct.descriptorBindingStorageBufferUpdateAfterBind = self.descriptorBindingStorageBufferUpdateAfterBind
-        cStruct.descriptorBindingUniformTexelBufferUpdateAfterBind = self.descriptorBindingUniformTexelBufferUpdateAfterBind
-        cStruct.descriptorBindingStorageTexelBufferUpdateAfterBind = self.descriptorBindingStorageTexelBufferUpdateAfterBind
-        cStruct.descriptorBindingUpdateUnusedWhilePending = self.descriptorBindingUpdateUnusedWhilePending
-        cStruct.descriptorBindingPartiallyBound = self.descriptorBindingPartiallyBound
-        cStruct.descriptorBindingVariableDescriptorCount = self.descriptorBindingVariableDescriptorCount
-        cStruct.runtimeDescriptorArray = self.runtimeDescriptorArray
+        cStruct.shaderInputAttachmentArrayDynamicIndexing = VkBool32(self.shaderInputAttachmentArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformTexelBufferArrayDynamicIndexing = VkBool32(self.shaderUniformTexelBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageTexelBufferArrayDynamicIndexing = VkBool32(self.shaderStorageTexelBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformBufferArrayNonUniformIndexing = VkBool32(self.shaderUniformBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSampledImageArrayNonUniformIndexing = VkBool32(self.shaderSampledImageArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageBufferArrayNonUniformIndexing = VkBool32(self.shaderStorageBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageArrayNonUniformIndexing = VkBool32(self.shaderStorageImageArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInputAttachmentArrayNonUniformIndexing = VkBool32(self.shaderInputAttachmentArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformTexelBufferArrayNonUniformIndexing = VkBool32(self.shaderUniformTexelBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageTexelBufferArrayNonUniformIndexing = VkBool32(self.shaderStorageTexelBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingUniformBufferUpdateAfterBind = VkBool32(self.descriptorBindingUniformBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingSampledImageUpdateAfterBind = VkBool32(self.descriptorBindingSampledImageUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingStorageImageUpdateAfterBind = VkBool32(self.descriptorBindingStorageImageUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingStorageBufferUpdateAfterBind = VkBool32(self.descriptorBindingStorageBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingUniformTexelBufferUpdateAfterBind = VkBool32(self.descriptorBindingUniformTexelBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingStorageTexelBufferUpdateAfterBind = VkBool32(self.descriptorBindingStorageTexelBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingUpdateUnusedWhilePending = VkBool32(self.descriptorBindingUpdateUnusedWhilePending ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingPartiallyBound = VkBool32(self.descriptorBindingPartiallyBound ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingVariableDescriptorCount = VkBool32(self.descriptorBindingVariableDescriptorCount ? VK_TRUE : VK_FALSE)
+        cStruct.runtimeDescriptorArray = VkBool32(self.runtimeDescriptorArray ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6012,13 +6012,13 @@ struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDescriptorIndexingProperties
 
     let maxUpdateAfterBindDescriptorsInAllPools: UInt32
-    let shaderUniformBufferArrayNonUniformIndexingNative: VkBool32
-    let shaderSampledImageArrayNonUniformIndexingNative: VkBool32
-    let shaderStorageBufferArrayNonUniformIndexingNative: VkBool32
-    let shaderStorageImageArrayNonUniformIndexingNative: VkBool32
-    let shaderInputAttachmentArrayNonUniformIndexingNative: VkBool32
-    let robustBufferAccessUpdateAfterBind: VkBool32
-    let quadDivergentImplicitLod: VkBool32
+    let shaderUniformBufferArrayNonUniformIndexingNative: Bool
+    let shaderSampledImageArrayNonUniformIndexingNative: Bool
+    let shaderStorageBufferArrayNonUniformIndexingNative: Bool
+    let shaderStorageImageArrayNonUniformIndexingNative: Bool
+    let shaderInputAttachmentArrayNonUniformIndexingNative: Bool
+    let robustBufferAccessUpdateAfterBind: Bool
+    let quadDivergentImplicitLod: Bool
     let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
     let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
     let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
@@ -6040,13 +6040,13 @@ struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_PROPERTIES
         cStruct.pNext = nil
         cStruct.maxUpdateAfterBindDescriptorsInAllPools = self.maxUpdateAfterBindDescriptorsInAllPools
-        cStruct.shaderUniformBufferArrayNonUniformIndexingNative = self.shaderUniformBufferArrayNonUniformIndexingNative
-        cStruct.shaderSampledImageArrayNonUniformIndexingNative = self.shaderSampledImageArrayNonUniformIndexingNative
-        cStruct.shaderStorageBufferArrayNonUniformIndexingNative = self.shaderStorageBufferArrayNonUniformIndexingNative
-        cStruct.shaderStorageImageArrayNonUniformIndexingNative = self.shaderStorageImageArrayNonUniformIndexingNative
-        cStruct.shaderInputAttachmentArrayNonUniformIndexingNative = self.shaderInputAttachmentArrayNonUniformIndexingNative
-        cStruct.robustBufferAccessUpdateAfterBind = self.robustBufferAccessUpdateAfterBind
-        cStruct.quadDivergentImplicitLod = self.quadDivergentImplicitLod
+        cStruct.shaderUniformBufferArrayNonUniformIndexingNative = VkBool32(self.shaderUniformBufferArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSampledImageArrayNonUniformIndexingNative = VkBool32(self.shaderSampledImageArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageBufferArrayNonUniformIndexingNative = VkBool32(self.shaderStorageBufferArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageArrayNonUniformIndexingNative = VkBool32(self.shaderStorageImageArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInputAttachmentArrayNonUniformIndexingNative = VkBool32(self.shaderInputAttachmentArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.robustBufferAccessUpdateAfterBind = VkBool32(self.robustBufferAccessUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.quadDivergentImplicitLod = VkBool32(self.quadDivergentImplicitLod ? VK_TRUE : VK_FALSE)
         cStruct.maxPerStageDescriptorUpdateAfterBindSamplers = self.maxPerStageDescriptorUpdateAfterBindSamplers
         cStruct.maxPerStageDescriptorUpdateAfterBindUniformBuffers = self.maxPerStageDescriptorUpdateAfterBindUniformBuffers
         cStruct.maxPerStageDescriptorUpdateAfterBindStorageBuffers = self.maxPerStageDescriptorUpdateAfterBindStorageBuffers
@@ -6281,13 +6281,13 @@ struct SubpassEndInfo: CStructConvertible {
 struct PhysicalDeviceTimelineSemaphoreFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTimelineSemaphoreFeatures
 
-    let timelineSemaphore: VkBool32
+    let timelineSemaphore: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTimelineSemaphoreFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTimelineSemaphoreFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES
         cStruct.pNext = nil
-        cStruct.timelineSemaphore = self.timelineSemaphore
+        cStruct.timelineSemaphore = VkBool32(self.timelineSemaphore ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6445,13 +6445,13 @@ struct PhysicalDevicePCIBusInfoPropertiesEXT: CStructConvertible {
 struct CommandBufferInheritanceConditionalRenderingInfoEXT: CStructConvertible {
     typealias CStruct = VkCommandBufferInheritanceConditionalRenderingInfoEXT
 
-    let conditionalRenderingEnable: VkBool32
+    let conditionalRenderingEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceConditionalRenderingInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkCommandBufferInheritanceConditionalRenderingInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT
         cStruct.pNext = nil
-        cStruct.conditionalRenderingEnable = self.conditionalRenderingEnable
+        cStruct.conditionalRenderingEnable = VkBool32(self.conditionalRenderingEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6459,17 +6459,17 @@ struct CommandBufferInheritanceConditionalRenderingInfoEXT: CStructConvertible {
 struct PhysicalDevice8BitStorageFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDevice8BitStorageFeatures
 
-    let storageBuffer8BitAccess: VkBool32
-    let uniformAndStorageBuffer8BitAccess: VkBool32
-    let storagePushConstant8: VkBool32
+    let storageBuffer8BitAccess: Bool
+    let uniformAndStorageBuffer8BitAccess: Bool
+    let storagePushConstant8: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevice8BitStorageFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevice8BitStorageFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES
         cStruct.pNext = nil
-        cStruct.storageBuffer8BitAccess = self.storageBuffer8BitAccess
-        cStruct.uniformAndStorageBuffer8BitAccess = self.uniformAndStorageBuffer8BitAccess
-        cStruct.storagePushConstant8 = self.storagePushConstant8
+        cStruct.storageBuffer8BitAccess = VkBool32(self.storageBuffer8BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.uniformAndStorageBuffer8BitAccess = VkBool32(self.uniformAndStorageBuffer8BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.storagePushConstant8 = VkBool32(self.storagePushConstant8 ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6477,15 +6477,15 @@ struct PhysicalDevice8BitStorageFeatures: CStructConvertible {
 struct PhysicalDeviceConditionalRenderingFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceConditionalRenderingFeaturesEXT
 
-    let conditionalRendering: VkBool32
-    let inheritedConditionalRendering: VkBool32
+    let conditionalRendering: Bool
+    let inheritedConditionalRendering: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceConditionalRenderingFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceConditionalRenderingFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.conditionalRendering = self.conditionalRendering
-        cStruct.inheritedConditionalRendering = self.inheritedConditionalRendering
+        cStruct.conditionalRendering = VkBool32(self.conditionalRendering ? VK_TRUE : VK_FALSE)
+        cStruct.inheritedConditionalRendering = VkBool32(self.inheritedConditionalRendering ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6493,17 +6493,17 @@ struct PhysicalDeviceConditionalRenderingFeaturesEXT: CStructConvertible {
 struct PhysicalDeviceVulkanMemoryModelFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkanMemoryModelFeatures
 
-    let vulkanMemoryModel: VkBool32
-    let vulkanMemoryModelDeviceScope: VkBool32
-    let vulkanMemoryModelAvailabilityVisibilityChains: VkBool32
+    let vulkanMemoryModel: Bool
+    let vulkanMemoryModelDeviceScope: Bool
+    let vulkanMemoryModelAvailabilityVisibilityChains: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkanMemoryModelFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkanMemoryModelFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES
         cStruct.pNext = nil
-        cStruct.vulkanMemoryModel = self.vulkanMemoryModel
-        cStruct.vulkanMemoryModelDeviceScope = self.vulkanMemoryModelDeviceScope
-        cStruct.vulkanMemoryModelAvailabilityVisibilityChains = self.vulkanMemoryModelAvailabilityVisibilityChains
+        cStruct.vulkanMemoryModel = VkBool32(self.vulkanMemoryModel ? VK_TRUE : VK_FALSE)
+        cStruct.vulkanMemoryModelDeviceScope = VkBool32(self.vulkanMemoryModelDeviceScope ? VK_TRUE : VK_FALSE)
+        cStruct.vulkanMemoryModelAvailabilityVisibilityChains = VkBool32(self.vulkanMemoryModelAvailabilityVisibilityChains ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6511,15 +6511,15 @@ struct PhysicalDeviceVulkanMemoryModelFeatures: CStructConvertible {
 struct PhysicalDeviceShaderAtomicInt64Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderAtomicInt64Features
 
-    let shaderBufferInt64Atomics: VkBool32
-    let shaderSharedInt64Atomics: VkBool32
+    let shaderBufferInt64Atomics: Bool
+    let shaderSharedInt64Atomics: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderAtomicInt64Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderAtomicInt64Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_INT64_FEATURES
         cStruct.pNext = nil
-        cStruct.shaderBufferInt64Atomics = self.shaderBufferInt64Atomics
-        cStruct.shaderSharedInt64Atomics = self.shaderSharedInt64Atomics
+        cStruct.shaderBufferInt64Atomics = VkBool32(self.shaderBufferInt64Atomics ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSharedInt64Atomics = VkBool32(self.shaderSharedInt64Atomics ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6527,15 +6527,15 @@ struct PhysicalDeviceShaderAtomicInt64Features: CStructConvertible {
 struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
 
-    let vertexAttributeInstanceRateDivisor: VkBool32
-    let vertexAttributeInstanceRateZeroDivisor: VkBool32
+    let vertexAttributeInstanceRateDivisor: Bool
+    let vertexAttributeInstanceRateZeroDivisor: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.vertexAttributeInstanceRateDivisor = self.vertexAttributeInstanceRateDivisor
-        cStruct.vertexAttributeInstanceRateZeroDivisor = self.vertexAttributeInstanceRateZeroDivisor
+        cStruct.vertexAttributeInstanceRateDivisor = VkBool32(self.vertexAttributeInstanceRateDivisor ? VK_TRUE : VK_FALSE)
+        cStruct.vertexAttributeInstanceRateZeroDivisor = VkBool32(self.vertexAttributeInstanceRateZeroDivisor ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6575,8 +6575,8 @@ struct PhysicalDeviceDepthStencilResolveProperties: CStructConvertible {
 
     let supportedDepthResolveModes: VkResolveModeFlags
     let supportedStencilResolveModes: VkResolveModeFlags
-    let independentResolveNone: VkBool32
-    let independentResolve: VkBool32
+    let independentResolveNone: Bool
+    let independentResolve: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDepthStencilResolveProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDepthStencilResolveProperties()
@@ -6584,8 +6584,8 @@ struct PhysicalDeviceDepthStencilResolveProperties: CStructConvertible {
         cStruct.pNext = nil
         cStruct.supportedDepthResolveModes = self.supportedDepthResolveModes
         cStruct.supportedStencilResolveModes = self.supportedStencilResolveModes
-        cStruct.independentResolveNone = self.independentResolveNone
-        cStruct.independentResolve = self.independentResolve
+        cStruct.independentResolveNone = VkBool32(self.independentResolveNone ? VK_TRUE : VK_FALSE)
+        cStruct.independentResolve = VkBool32(self.independentResolve ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6625,13 +6625,13 @@ struct ImageViewASTCDecodeModeEXT: CStructConvertible {
 struct PhysicalDeviceASTCDecodeFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceASTCDecodeFeaturesEXT
 
-    let decodeModeSharedExponent: VkBool32
+    let decodeModeSharedExponent: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceASTCDecodeFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceASTCDecodeFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.decodeModeSharedExponent = self.decodeModeSharedExponent
+        cStruct.decodeModeSharedExponent = VkBool32(self.decodeModeSharedExponent ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6639,15 +6639,15 @@ struct PhysicalDeviceASTCDecodeFeaturesEXT: CStructConvertible {
 struct PhysicalDeviceTransformFeedbackFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTransformFeedbackFeaturesEXT
 
-    let transformFeedback: VkBool32
-    let geometryStreams: VkBool32
+    let transformFeedback: Bool
+    let geometryStreams: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTransformFeedbackFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTransformFeedbackFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.transformFeedback = self.transformFeedback
-        cStruct.geometryStreams = self.geometryStreams
+        cStruct.transformFeedback = VkBool32(self.transformFeedback ? VK_TRUE : VK_FALSE)
+        cStruct.geometryStreams = VkBool32(self.geometryStreams ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6661,10 +6661,10 @@ struct PhysicalDeviceTransformFeedbackPropertiesEXT: CStructConvertible {
     let maxTransformFeedbackStreamDataSize: UInt32
     let maxTransformFeedbackBufferDataSize: UInt32
     let maxTransformFeedbackBufferDataStride: UInt32
-    let transformFeedbackQueries: VkBool32
-    let transformFeedbackStreamsLinesTriangles: VkBool32
-    let transformFeedbackRasterizationStreamSelect: VkBool32
-    let transformFeedbackDraw: VkBool32
+    let transformFeedbackQueries: Bool
+    let transformFeedbackStreamsLinesTriangles: Bool
+    let transformFeedbackRasterizationStreamSelect: Bool
+    let transformFeedbackDraw: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTransformFeedbackPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTransformFeedbackPropertiesEXT()
@@ -6676,10 +6676,10 @@ struct PhysicalDeviceTransformFeedbackPropertiesEXT: CStructConvertible {
         cStruct.maxTransformFeedbackStreamDataSize = self.maxTransformFeedbackStreamDataSize
         cStruct.maxTransformFeedbackBufferDataSize = self.maxTransformFeedbackBufferDataSize
         cStruct.maxTransformFeedbackBufferDataStride = self.maxTransformFeedbackBufferDataStride
-        cStruct.transformFeedbackQueries = self.transformFeedbackQueries
-        cStruct.transformFeedbackStreamsLinesTriangles = self.transformFeedbackStreamsLinesTriangles
-        cStruct.transformFeedbackRasterizationStreamSelect = self.transformFeedbackRasterizationStreamSelect
-        cStruct.transformFeedbackDraw = self.transformFeedbackDraw
+        cStruct.transformFeedbackQueries = VkBool32(self.transformFeedbackQueries ? VK_TRUE : VK_FALSE)
+        cStruct.transformFeedbackStreamsLinesTriangles = VkBool32(self.transformFeedbackStreamsLinesTriangles ? VK_TRUE : VK_FALSE)
+        cStruct.transformFeedbackRasterizationStreamSelect = VkBool32(self.transformFeedbackRasterizationStreamSelect ? VK_TRUE : VK_FALSE)
+        cStruct.transformFeedbackDraw = VkBool32(self.transformFeedbackDraw ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6703,13 +6703,13 @@ struct PipelineRasterizationStateStreamCreateInfoEXT: CStructConvertible {
 struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV
 
-    let representativeFragmentTest: VkBool32
+    let representativeFragmentTest: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.representativeFragmentTest = self.representativeFragmentTest
+        cStruct.representativeFragmentTest = VkBool32(self.representativeFragmentTest ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6717,13 +6717,13 @@ struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV: CStructConvertible {
 struct PipelineRepresentativeFragmentTestStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineRepresentativeFragmentTestStateCreateInfoNV
 
-    let representativeFragmentTestEnable: VkBool32
+    let representativeFragmentTestEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRepresentativeFragmentTestStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_REPRESENTATIVE_FRAGMENT_TEST_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
-        cStruct.representativeFragmentTestEnable = self.representativeFragmentTestEnable
+        cStruct.representativeFragmentTestEnable = VkBool32(self.representativeFragmentTestEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6731,13 +6731,13 @@ struct PipelineRepresentativeFragmentTestStateCreateInfoNV: CStructConvertible {
 struct PhysicalDeviceExclusiveScissorFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExclusiveScissorFeaturesNV
 
-    let exclusiveScissor: VkBool32
+    let exclusiveScissor: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExclusiveScissorFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExclusiveScissorFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.exclusiveScissor = self.exclusiveScissor
+        cStruct.exclusiveScissor = VkBool32(self.exclusiveScissor ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6761,13 +6761,13 @@ struct PipelineViewportExclusiveScissorStateCreateInfoNV: CStructConvertible {
 struct PhysicalDeviceCornerSampledImageFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCornerSampledImageFeaturesNV
 
-    let cornerSampledImage: VkBool32
+    let cornerSampledImage: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCornerSampledImageFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCornerSampledImageFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.cornerSampledImage = self.cornerSampledImage
+        cStruct.cornerSampledImage = VkBool32(self.cornerSampledImage ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6775,15 +6775,15 @@ struct PhysicalDeviceCornerSampledImageFeaturesNV: CStructConvertible {
 struct PhysicalDeviceComputeShaderDerivativesFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
 
-    let computeDerivativeGroupQuads: VkBool32
-    let computeDerivativeGroupLinear: VkBool32
+    let computeDerivativeGroupQuads: Bool
+    let computeDerivativeGroupLinear: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceComputeShaderDerivativesFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.computeDerivativeGroupQuads = self.computeDerivativeGroupQuads
-        cStruct.computeDerivativeGroupLinear = self.computeDerivativeGroupLinear
+        cStruct.computeDerivativeGroupQuads = VkBool32(self.computeDerivativeGroupQuads ? VK_TRUE : VK_FALSE)
+        cStruct.computeDerivativeGroupLinear = VkBool32(self.computeDerivativeGroupLinear ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6791,13 +6791,13 @@ struct PhysicalDeviceComputeShaderDerivativesFeaturesNV: CStructConvertible {
 struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV
 
-    let fragmentShaderBarycentric: VkBool32
+    let fragmentShaderBarycentric: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.fragmentShaderBarycentric = self.fragmentShaderBarycentric
+        cStruct.fragmentShaderBarycentric = VkBool32(self.fragmentShaderBarycentric ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6805,13 +6805,13 @@ struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV: CStructConvertible {
 struct PhysicalDeviceShaderImageFootprintFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderImageFootprintFeaturesNV
 
-    let imageFootprint: VkBool32
+    let imageFootprint: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderImageFootprintFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderImageFootprintFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.imageFootprint = self.imageFootprint
+        cStruct.imageFootprint = VkBool32(self.imageFootprint ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6819,13 +6819,13 @@ struct PhysicalDeviceShaderImageFootprintFeaturesNV: CStructConvertible {
 struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
 
-    let dedicatedAllocationImageAliasing: VkBool32
+    let dedicatedAllocationImageAliasing: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.dedicatedAllocationImageAliasing = self.dedicatedAllocationImageAliasing
+        cStruct.dedicatedAllocationImageAliasing = VkBool32(self.dedicatedAllocationImageAliasing ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6847,7 +6847,7 @@ struct ShadingRatePaletteNV: CStructConvertible {
 struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportShadingRateImageStateCreateInfoNV
 
-    let shadingRateImageEnable: VkBool32
+    let shadingRateImageEnable: Bool
     let viewportCount: UInt32
     let pShadingRatePalettes: UnsafePointer<VkShadingRatePaletteNV>
 
@@ -6855,7 +6855,7 @@ struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
         var cStruct = VkPipelineViewportShadingRateImageStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
-        cStruct.shadingRateImageEnable = self.shadingRateImageEnable
+        cStruct.shadingRateImageEnable = VkBool32(self.shadingRateImageEnable ? VK_TRUE : VK_FALSE)
         cStruct.viewportCount = self.viewportCount
         cStruct.pShadingRatePalettes = self.pShadingRatePalettes
         return try body(&cStruct)
@@ -6865,15 +6865,15 @@ struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
 struct PhysicalDeviceShadingRateImageFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShadingRateImageFeaturesNV
 
-    let shadingRateImage: VkBool32
-    let shadingRateCoarseSampleOrder: VkBool32
+    let shadingRateImage: Bool
+    let shadingRateCoarseSampleOrder: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShadingRateImageFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShadingRateImageFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.shadingRateImage = self.shadingRateImage
-        cStruct.shadingRateCoarseSampleOrder = self.shadingRateCoarseSampleOrder
+        cStruct.shadingRateImage = VkBool32(self.shadingRateImage ? VK_TRUE : VK_FALSE)
+        cStruct.shadingRateCoarseSampleOrder = VkBool32(self.shadingRateCoarseSampleOrder ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -6951,15 +6951,15 @@ struct PipelineViewportCoarseSampleOrderStateCreateInfoNV: CStructConvertible {
 struct PhysicalDeviceMeshShaderFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMeshShaderFeaturesNV
 
-    let taskShader: VkBool32
-    let meshShader: VkBool32
+    let taskShader: Bool
+    let meshShader: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMeshShaderFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMeshShaderFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.taskShader = self.taskShader
-        cStruct.meshShader = self.meshShader
+        cStruct.taskShader = VkBool32(self.taskShader ? VK_TRUE : VK_FALSE)
+        cStruct.meshShader = VkBool32(self.meshShader ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7367,17 +7367,17 @@ struct DeviceMemoryOverallocationCreateInfoAMD: CStructConvertible {
 struct PhysicalDeviceFragmentDensityMapFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentDensityMapFeaturesEXT
 
-    let fragmentDensityMap: VkBool32
-    let fragmentDensityMapDynamic: VkBool32
-    let fragmentDensityMapNonSubsampledImages: VkBool32
+    let fragmentDensityMap: Bool
+    let fragmentDensityMapDynamic: Bool
+    let fragmentDensityMapNonSubsampledImages: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentDensityMapFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.fragmentDensityMap = self.fragmentDensityMap
-        cStruct.fragmentDensityMapDynamic = self.fragmentDensityMapDynamic
-        cStruct.fragmentDensityMapNonSubsampledImages = self.fragmentDensityMapNonSubsampledImages
+        cStruct.fragmentDensityMap = VkBool32(self.fragmentDensityMap ? VK_TRUE : VK_FALSE)
+        cStruct.fragmentDensityMapDynamic = VkBool32(self.fragmentDensityMapDynamic ? VK_TRUE : VK_FALSE)
+        cStruct.fragmentDensityMapNonSubsampledImages = VkBool32(self.fragmentDensityMapNonSubsampledImages ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7387,7 +7387,7 @@ struct PhysicalDeviceFragmentDensityMapPropertiesEXT: CStructConvertible {
 
     let minFragmentDensityTexelSize: VkExtent2D
     let maxFragmentDensityTexelSize: VkExtent2D
-    let fragmentDensityInvocations: VkBool32
+    let fragmentDensityInvocations: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentDensityMapPropertiesEXT()
@@ -7395,7 +7395,7 @@ struct PhysicalDeviceFragmentDensityMapPropertiesEXT: CStructConvertible {
         cStruct.pNext = nil
         cStruct.minFragmentDensityTexelSize = self.minFragmentDensityTexelSize
         cStruct.maxFragmentDensityTexelSize = self.maxFragmentDensityTexelSize
-        cStruct.fragmentDensityInvocations = self.fragmentDensityInvocations
+        cStruct.fragmentDensityInvocations = VkBool32(self.fragmentDensityInvocations ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7417,13 +7417,13 @@ struct RenderPassFragmentDensityMapCreateInfoEXT: CStructConvertible {
 struct PhysicalDeviceScalarBlockLayoutFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceScalarBlockLayoutFeatures
 
-    let scalarBlockLayout: VkBool32
+    let scalarBlockLayout: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceScalarBlockLayoutFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceScalarBlockLayoutFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES
         cStruct.pNext = nil
-        cStruct.scalarBlockLayout = self.scalarBlockLayout
+        cStruct.scalarBlockLayout = VkBool32(self.scalarBlockLayout ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7431,13 +7431,13 @@ struct PhysicalDeviceScalarBlockLayoutFeatures: CStructConvertible {
 struct SurfaceProtectedCapabilitiesKHR: CStructConvertible {
     typealias CStruct = VkSurfaceProtectedCapabilitiesKHR
 
-    let supportsProtected: VkBool32
+    let supportsProtected: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceProtectedCapabilitiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSurfaceProtectedCapabilitiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR
         cStruct.pNext = nil
-        cStruct.supportsProtected = self.supportsProtected
+        cStruct.supportsProtected = VkBool32(self.supportsProtected ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7445,13 +7445,13 @@ struct SurfaceProtectedCapabilitiesKHR: CStructConvertible {
 struct PhysicalDeviceUniformBufferStandardLayoutFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceUniformBufferStandardLayoutFeatures
 
-    let uniformBufferStandardLayout: VkBool32
+    let uniformBufferStandardLayout: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceUniformBufferStandardLayoutFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES
         cStruct.pNext = nil
-        cStruct.uniformBufferStandardLayout = self.uniformBufferStandardLayout
+        cStruct.uniformBufferStandardLayout = VkBool32(self.uniformBufferStandardLayout ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7459,13 +7459,13 @@ struct PhysicalDeviceUniformBufferStandardLayoutFeatures: CStructConvertible {
 struct PhysicalDeviceDepthClipEnableFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDepthClipEnableFeaturesEXT
 
-    let depthClipEnable: VkBool32
+    let depthClipEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDepthClipEnableFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDepthClipEnableFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.depthClipEnable = self.depthClipEnable
+        cStruct.depthClipEnable = VkBool32(self.depthClipEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7474,14 +7474,14 @@ struct PipelineRasterizationDepthClipStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationDepthClipStateCreateInfoEXT
 
     let flags: VkPipelineRasterizationDepthClipStateCreateFlagsEXT
-    let depthClipEnable: VkBool32
+    let depthClipEnable: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationDepthClipStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationDepthClipStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
         cStruct.flags = self.flags
-        cStruct.depthClipEnable = self.depthClipEnable
+        cStruct.depthClipEnable = VkBool32(self.depthClipEnable ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7505,13 +7505,13 @@ struct PhysicalDeviceMemoryBudgetPropertiesEXT: CStructConvertible {
 struct PhysicalDeviceMemoryPriorityFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMemoryPriorityFeaturesEXT
 
-    let memoryPriority: VkBool32
+    let memoryPriority: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryPriorityFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMemoryPriorityFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.memoryPriority = self.memoryPriority
+        cStruct.memoryPriority = VkBool32(self.memoryPriority ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7533,17 +7533,17 @@ struct MemoryPriorityAllocateInfoEXT: CStructConvertible {
 struct PhysicalDeviceBufferDeviceAddressFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBufferDeviceAddressFeatures
 
-    let bufferDeviceAddress: VkBool32
-    let bufferDeviceAddressCaptureReplay: VkBool32
-    let bufferDeviceAddressMultiDevice: VkBool32
+    let bufferDeviceAddress: Bool
+    let bufferDeviceAddressCaptureReplay: Bool
+    let bufferDeviceAddressMultiDevice: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBufferDeviceAddressFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBufferDeviceAddressFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES
         cStruct.pNext = nil
-        cStruct.bufferDeviceAddress = self.bufferDeviceAddress
-        cStruct.bufferDeviceAddressCaptureReplay = self.bufferDeviceAddressCaptureReplay
-        cStruct.bufferDeviceAddressMultiDevice = self.bufferDeviceAddressMultiDevice
+        cStruct.bufferDeviceAddress = VkBool32(self.bufferDeviceAddress ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddressCaptureReplay = VkBool32(self.bufferDeviceAddressCaptureReplay ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddressMultiDevice = VkBool32(self.bufferDeviceAddressMultiDevice ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7551,17 +7551,17 @@ struct PhysicalDeviceBufferDeviceAddressFeatures: CStructConvertible {
 struct PhysicalDeviceBufferDeviceAddressFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
 
-    let bufferDeviceAddress: VkBool32
-    let bufferDeviceAddressCaptureReplay: VkBool32
-    let bufferDeviceAddressMultiDevice: VkBool32
+    let bufferDeviceAddress: Bool
+    let bufferDeviceAddressCaptureReplay: Bool
+    let bufferDeviceAddressMultiDevice: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.bufferDeviceAddress = self.bufferDeviceAddress
-        cStruct.bufferDeviceAddressCaptureReplay = self.bufferDeviceAddressCaptureReplay
-        cStruct.bufferDeviceAddressMultiDevice = self.bufferDeviceAddressMultiDevice
+        cStruct.bufferDeviceAddress = VkBool32(self.bufferDeviceAddress ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddressCaptureReplay = VkBool32(self.bufferDeviceAddressCaptureReplay ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddressMultiDevice = VkBool32(self.bufferDeviceAddressMultiDevice ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7625,15 +7625,15 @@ struct PhysicalDeviceImageViewImageFormatInfoEXT: CStructConvertible {
 struct FilterCubicImageViewImageFormatPropertiesEXT: CStructConvertible {
     typealias CStruct = VkFilterCubicImageViewImageFormatPropertiesEXT
 
-    let filterCubic: VkBool32
-    let filterCubicMinmax: VkBool32
+    let filterCubic: Bool
+    let filterCubicMinmax: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFilterCubicImageViewImageFormatPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkFilterCubicImageViewImageFormatPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT
         cStruct.pNext = nil
-        cStruct.filterCubic = self.filterCubic
-        cStruct.filterCubicMinmax = self.filterCubicMinmax
+        cStruct.filterCubic = VkBool32(self.filterCubic ? VK_TRUE : VK_FALSE)
+        cStruct.filterCubicMinmax = VkBool32(self.filterCubicMinmax ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7641,13 +7641,13 @@ struct FilterCubicImageViewImageFormatPropertiesEXT: CStructConvertible {
 struct PhysicalDeviceImagelessFramebufferFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceImagelessFramebufferFeatures
 
-    let imagelessFramebuffer: VkBool32
+    let imagelessFramebuffer: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceImagelessFramebufferFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceImagelessFramebufferFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES
         cStruct.pNext = nil
-        cStruct.imagelessFramebuffer = self.imagelessFramebuffer
+        cStruct.imagelessFramebuffer = VkBool32(self.imagelessFramebuffer ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7713,13 +7713,13 @@ struct RenderPassAttachmentBeginInfo: CStructConvertible {
 struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT
 
-    let textureCompressionASTC_HDR: VkBool32
+    let textureCompressionASTC_HDR: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.textureCompressionASTC_HDR = self.textureCompressionASTC_HDR
+        cStruct.textureCompressionASTC_HDR = VkBool32(self.textureCompressionASTC_HDR ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7727,15 +7727,15 @@ struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: CStructConvertible {
 struct PhysicalDeviceCooperativeMatrixFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCooperativeMatrixFeaturesNV
 
-    let cooperativeMatrix: VkBool32
-    let cooperativeMatrixRobustBufferAccess: VkBool32
+    let cooperativeMatrix: Bool
+    let cooperativeMatrixRobustBufferAccess: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCooperativeMatrixFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCooperativeMatrixFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.cooperativeMatrix = self.cooperativeMatrix
-        cStruct.cooperativeMatrixRobustBufferAccess = self.cooperativeMatrixRobustBufferAccess
+        cStruct.cooperativeMatrix = VkBool32(self.cooperativeMatrix ? VK_TRUE : VK_FALSE)
+        cStruct.cooperativeMatrixRobustBufferAccess = VkBool32(self.cooperativeMatrixRobustBufferAccess ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7785,13 +7785,13 @@ struct CooperativeMatrixPropertiesNV: CStructConvertible {
 struct PhysicalDeviceYcbcrImageArraysFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT
 
-    let ycbcrImageArrays: VkBool32
+    let ycbcrImageArrays: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.ycbcrImageArrays = self.ycbcrImageArrays
+        cStruct.ycbcrImageArrays = VkBool32(self.ycbcrImageArrays ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7849,15 +7849,15 @@ struct PipelineCreationFeedbackCreateInfoEXT: CStructConvertible {
 struct PhysicalDevicePerformanceQueryFeaturesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePerformanceQueryFeaturesKHR
 
-    let performanceCounterQueryPools: VkBool32
-    let performanceCounterMultipleQueryPools: VkBool32
+    let performanceCounterQueryPools: Bool
+    let performanceCounterMultipleQueryPools: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePerformanceQueryFeaturesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePerformanceQueryFeaturesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR
         cStruct.pNext = nil
-        cStruct.performanceCounterQueryPools = self.performanceCounterQueryPools
-        cStruct.performanceCounterMultipleQueryPools = self.performanceCounterMultipleQueryPools
+        cStruct.performanceCounterQueryPools = VkBool32(self.performanceCounterQueryPools ? VK_TRUE : VK_FALSE)
+        cStruct.performanceCounterMultipleQueryPools = VkBool32(self.performanceCounterMultipleQueryPools ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7865,13 +7865,13 @@ struct PhysicalDevicePerformanceQueryFeaturesKHR: CStructConvertible {
 struct PhysicalDevicePerformanceQueryPropertiesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePerformanceQueryPropertiesKHR
 
-    let allowCommandBufferQueryCopies: VkBool32
+    let allowCommandBufferQueryCopies: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePerformanceQueryPropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePerformanceQueryPropertiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_PROPERTIES_KHR
         cStruct.pNext = nil
-        cStruct.allowCommandBufferQueryCopies = self.allowCommandBufferQueryCopies
+        cStruct.allowCommandBufferQueryCopies = VkBool32(self.allowCommandBufferQueryCopies ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -7981,13 +7981,13 @@ struct HeadlessSurfaceCreateInfoEXT: CStructConvertible {
 struct PhysicalDeviceCoverageReductionModeFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCoverageReductionModeFeaturesNV
 
-    let coverageReductionMode: VkBool32
+    let coverageReductionMode: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCoverageReductionModeFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCoverageReductionModeFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.coverageReductionMode = self.coverageReductionMode
+        cStruct.coverageReductionMode = VkBool32(self.coverageReductionMode ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8031,13 +8031,13 @@ struct FramebufferMixedSamplesCombinationNV: CStructConvertible {
 struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL
 
-    let shaderIntegerFunctions2: VkBool32
+    let shaderIntegerFunctions2: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL
         cStruct.pNext = nil
-        cStruct.shaderIntegerFunctions2 = self.shaderIntegerFunctions2
+        cStruct.shaderIntegerFunctions2 = VkBool32(self.shaderIntegerFunctions2 ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8116,7 +8116,7 @@ struct PerformanceOverrideInfoINTEL: CStructConvertible {
     typealias CStruct = VkPerformanceOverrideInfoINTEL
 
     let type: VkPerformanceOverrideTypeINTEL
-    let enable: VkBool32
+    let enable: Bool
     let parameter: UInt64
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceOverrideInfoINTEL>) throws -> R) rethrows -> R {
@@ -8124,7 +8124,7 @@ struct PerformanceOverrideInfoINTEL: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_OVERRIDE_INFO_INTEL
         cStruct.pNext = nil
         cStruct.type = self.type
-        cStruct.enable = self.enable
+        cStruct.enable = VkBool32(self.enable ? VK_TRUE : VK_FALSE)
         cStruct.parameter = self.parameter
         return try body(&cStruct)
     }
@@ -8147,15 +8147,15 @@ struct PerformanceConfigurationAcquireInfoINTEL: CStructConvertible {
 struct PhysicalDeviceShaderClockFeaturesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderClockFeaturesKHR
 
-    let shaderSubgroupClock: VkBool32
-    let shaderDeviceClock: VkBool32
+    let shaderSubgroupClock: Bool
+    let shaderDeviceClock: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderClockFeaturesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderClockFeaturesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR
         cStruct.pNext = nil
-        cStruct.shaderSubgroupClock = self.shaderSubgroupClock
-        cStruct.shaderDeviceClock = self.shaderDeviceClock
+        cStruct.shaderSubgroupClock = VkBool32(self.shaderSubgroupClock ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDeviceClock = VkBool32(self.shaderDeviceClock ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8163,13 +8163,13 @@ struct PhysicalDeviceShaderClockFeaturesKHR: CStructConvertible {
 struct PhysicalDeviceIndexTypeUint8FeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceIndexTypeUint8FeaturesEXT
 
-    let indexTypeUint8: VkBool32
+    let indexTypeUint8: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceIndexTypeUint8FeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.indexTypeUint8 = self.indexTypeUint8
+        cStruct.indexTypeUint8 = VkBool32(self.indexTypeUint8 ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8193,13 +8193,13 @@ struct PhysicalDeviceShaderSMBuiltinsPropertiesNV: CStructConvertible {
 struct PhysicalDeviceShaderSMBuiltinsFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV
 
-    let shaderSMBuiltins: VkBool32
+    let shaderSMBuiltins: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.shaderSMBuiltins = self.shaderSMBuiltins
+        cStruct.shaderSMBuiltins = VkBool32(self.shaderSMBuiltins ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8207,17 +8207,17 @@ struct PhysicalDeviceShaderSMBuiltinsFeaturesNV: CStructConvertible {
 struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT
 
-    let fragmentShaderSampleInterlock: VkBool32
-    let fragmentShaderPixelInterlock: VkBool32
-    let fragmentShaderShadingRateInterlock: VkBool32
+    let fragmentShaderSampleInterlock: Bool
+    let fragmentShaderPixelInterlock: Bool
+    let fragmentShaderShadingRateInterlock: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.fragmentShaderSampleInterlock = self.fragmentShaderSampleInterlock
-        cStruct.fragmentShaderPixelInterlock = self.fragmentShaderPixelInterlock
-        cStruct.fragmentShaderShadingRateInterlock = self.fragmentShaderShadingRateInterlock
+        cStruct.fragmentShaderSampleInterlock = VkBool32(self.fragmentShaderSampleInterlock ? VK_TRUE : VK_FALSE)
+        cStruct.fragmentShaderPixelInterlock = VkBool32(self.fragmentShaderPixelInterlock ? VK_TRUE : VK_FALSE)
+        cStruct.fragmentShaderShadingRateInterlock = VkBool32(self.fragmentShaderShadingRateInterlock ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8225,13 +8225,13 @@ struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT: CStructConvertible {
 struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures
 
-    let separateDepthStencilLayouts: VkBool32
+    let separateDepthStencilLayouts: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES
         cStruct.pNext = nil
-        cStruct.separateDepthStencilLayouts = self.separateDepthStencilLayouts
+        cStruct.separateDepthStencilLayouts = VkBool32(self.separateDepthStencilLayouts ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8269,13 +8269,13 @@ struct AttachmentDescriptionStencilLayout: CStructConvertible {
 struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR
 
-    let pipelineExecutableInfo: VkBool32
+    let pipelineExecutableInfo: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR
         cStruct.pNext = nil
-        cStruct.pipelineExecutableInfo = self.pipelineExecutableInfo
+        cStruct.pipelineExecutableInfo = VkBool32(self.pipelineExecutableInfo ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8355,7 +8355,7 @@ struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
 
     let name: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
     let description: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
-    let isText: VkBool32
+    let isText: Bool
     let dataSize: Int
     let pData: UnsafeMutableRawPointer
 
@@ -8365,7 +8365,7 @@ struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
         cStruct.pNext = nil
         cStruct.name = self.name
         cStruct.description = self.description
-        cStruct.isText = self.isText
+        cStruct.isText = VkBool32(self.isText ? VK_TRUE : VK_FALSE)
         cStruct.dataSize = self.dataSize
         cStruct.pData = self.pData
         return try body(&cStruct)
@@ -8375,13 +8375,13 @@ struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
 struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT
 
-    let shaderDemoteToHelperInvocation: VkBool32
+    let shaderDemoteToHelperInvocation: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.shaderDemoteToHelperInvocation = self.shaderDemoteToHelperInvocation
+        cStruct.shaderDemoteToHelperInvocation = VkBool32(self.shaderDemoteToHelperInvocation ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8389,13 +8389,13 @@ struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: CStructConvertib
 struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT
 
-    let texelBufferAlignment: VkBool32
+    let texelBufferAlignment: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.texelBufferAlignment = self.texelBufferAlignment
+        cStruct.texelBufferAlignment = VkBool32(self.texelBufferAlignment ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8404,18 +8404,18 @@ struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT
 
     let storageTexelBufferOffsetAlignmentBytes: VkDeviceSize
-    let storageTexelBufferOffsetSingleTexelAlignment: VkBool32
+    let storageTexelBufferOffsetSingleTexelAlignment: Bool
     let uniformTexelBufferOffsetAlignmentBytes: VkDeviceSize
-    let uniformTexelBufferOffsetSingleTexelAlignment: VkBool32
+    let uniformTexelBufferOffsetSingleTexelAlignment: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_PROPERTIES_EXT
         cStruct.pNext = nil
         cStruct.storageTexelBufferOffsetAlignmentBytes = self.storageTexelBufferOffsetAlignmentBytes
-        cStruct.storageTexelBufferOffsetSingleTexelAlignment = self.storageTexelBufferOffsetSingleTexelAlignment
+        cStruct.storageTexelBufferOffsetSingleTexelAlignment = VkBool32(self.storageTexelBufferOffsetSingleTexelAlignment ? VK_TRUE : VK_FALSE)
         cStruct.uniformTexelBufferOffsetAlignmentBytes = self.uniformTexelBufferOffsetAlignmentBytes
-        cStruct.uniformTexelBufferOffsetSingleTexelAlignment = self.uniformTexelBufferOffsetSingleTexelAlignment
+        cStruct.uniformTexelBufferOffsetSingleTexelAlignment = VkBool32(self.uniformTexelBufferOffsetSingleTexelAlignment ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8423,15 +8423,15 @@ struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT: CStructConvertible {
 struct PhysicalDeviceSubgroupSizeControlFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT
 
-    let subgroupSizeControl: VkBool32
-    let computeFullSubgroups: VkBool32
+    let subgroupSizeControl: Bool
+    let computeFullSubgroups: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.subgroupSizeControl = self.subgroupSizeControl
-        cStruct.computeFullSubgroups = self.computeFullSubgroups
+        cStruct.subgroupSizeControl = VkBool32(self.subgroupSizeControl ? VK_TRUE : VK_FALSE)
+        cStruct.computeFullSubgroups = VkBool32(self.computeFullSubgroups ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8501,23 +8501,23 @@ struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
 struct PhysicalDeviceLineRasterizationFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceLineRasterizationFeaturesEXT
 
-    let rectangularLines: VkBool32
-    let bresenhamLines: VkBool32
-    let smoothLines: VkBool32
-    let stippledRectangularLines: VkBool32
-    let stippledBresenhamLines: VkBool32
-    let stippledSmoothLines: VkBool32
+    let rectangularLines: Bool
+    let bresenhamLines: Bool
+    let smoothLines: Bool
+    let stippledRectangularLines: Bool
+    let stippledBresenhamLines: Bool
+    let stippledSmoothLines: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceLineRasterizationFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceLineRasterizationFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.rectangularLines = self.rectangularLines
-        cStruct.bresenhamLines = self.bresenhamLines
-        cStruct.smoothLines = self.smoothLines
-        cStruct.stippledRectangularLines = self.stippledRectangularLines
-        cStruct.stippledBresenhamLines = self.stippledBresenhamLines
-        cStruct.stippledSmoothLines = self.stippledSmoothLines
+        cStruct.rectangularLines = VkBool32(self.rectangularLines ? VK_TRUE : VK_FALSE)
+        cStruct.bresenhamLines = VkBool32(self.bresenhamLines ? VK_TRUE : VK_FALSE)
+        cStruct.smoothLines = VkBool32(self.smoothLines ? VK_TRUE : VK_FALSE)
+        cStruct.stippledRectangularLines = VkBool32(self.stippledRectangularLines ? VK_TRUE : VK_FALSE)
+        cStruct.stippledBresenhamLines = VkBool32(self.stippledBresenhamLines ? VK_TRUE : VK_FALSE)
+        cStruct.stippledSmoothLines = VkBool32(self.stippledSmoothLines ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8540,7 +8540,7 @@ struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationLineStateCreateInfoEXT
 
     let lineRasterizationMode: VkLineRasterizationModeEXT
-    let stippledLineEnable: VkBool32
+    let stippledLineEnable: Bool
     let lineStippleFactor: UInt32
     let lineStipplePattern: UInt16
 
@@ -8549,7 +8549,7 @@ struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
         cStruct.lineRasterizationMode = self.lineRasterizationMode
-        cStruct.stippledLineEnable = self.stippledLineEnable
+        cStruct.stippledLineEnable = VkBool32(self.stippledLineEnable ? VK_TRUE : VK_FALSE)
         cStruct.lineStippleFactor = self.lineStippleFactor
         cStruct.lineStipplePattern = self.lineStipplePattern
         return try body(&cStruct)
@@ -8559,13 +8559,13 @@ struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
 struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT
 
-    let pipelineCreationCacheControl: VkBool32
+    let pipelineCreationCacheControl: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES_EXT
         cStruct.pNext = nil
-        cStruct.pipelineCreationCacheControl = self.pipelineCreationCacheControl
+        cStruct.pipelineCreationCacheControl = VkBool32(self.pipelineCreationCacheControl ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8573,35 +8573,35 @@ struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT: CStructConvertible
 struct PhysicalDeviceVulkan11Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkan11Features
 
-    let storageBuffer16BitAccess: VkBool32
-    let uniformAndStorageBuffer16BitAccess: VkBool32
-    let storagePushConstant16: VkBool32
-    let storageInputOutput16: VkBool32
-    let multiview: VkBool32
-    let multiviewGeometryShader: VkBool32
-    let multiviewTessellationShader: VkBool32
-    let variablePointersStorageBuffer: VkBool32
-    let variablePointers: VkBool32
-    let protectedMemory: VkBool32
-    let samplerYcbcrConversion: VkBool32
-    let shaderDrawParameters: VkBool32
+    let storageBuffer16BitAccess: Bool
+    let uniformAndStorageBuffer16BitAccess: Bool
+    let storagePushConstant16: Bool
+    let storageInputOutput16: Bool
+    let multiview: Bool
+    let multiviewGeometryShader: Bool
+    let multiviewTessellationShader: Bool
+    let variablePointersStorageBuffer: Bool
+    let variablePointers: Bool
+    let protectedMemory: Bool
+    let samplerYcbcrConversion: Bool
+    let shaderDrawParameters: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan11Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkan11Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES
         cStruct.pNext = nil
-        cStruct.storageBuffer16BitAccess = self.storageBuffer16BitAccess
-        cStruct.uniformAndStorageBuffer16BitAccess = self.uniformAndStorageBuffer16BitAccess
-        cStruct.storagePushConstant16 = self.storagePushConstant16
-        cStruct.storageInputOutput16 = self.storageInputOutput16
-        cStruct.multiview = self.multiview
-        cStruct.multiviewGeometryShader = self.multiviewGeometryShader
-        cStruct.multiviewTessellationShader = self.multiviewTessellationShader
-        cStruct.variablePointersStorageBuffer = self.variablePointersStorageBuffer
-        cStruct.variablePointers = self.variablePointers
-        cStruct.protectedMemory = self.protectedMemory
-        cStruct.samplerYcbcrConversion = self.samplerYcbcrConversion
-        cStruct.shaderDrawParameters = self.shaderDrawParameters
+        cStruct.storageBuffer16BitAccess = VkBool32(self.storageBuffer16BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.uniformAndStorageBuffer16BitAccess = VkBool32(self.uniformAndStorageBuffer16BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.storagePushConstant16 = VkBool32(self.storagePushConstant16 ? VK_TRUE : VK_FALSE)
+        cStruct.storageInputOutput16 = VkBool32(self.storageInputOutput16 ? VK_TRUE : VK_FALSE)
+        cStruct.multiview = VkBool32(self.multiview ? VK_TRUE : VK_FALSE)
+        cStruct.multiviewGeometryShader = VkBool32(self.multiviewGeometryShader ? VK_TRUE : VK_FALSE)
+        cStruct.multiviewTessellationShader = VkBool32(self.multiviewTessellationShader ? VK_TRUE : VK_FALSE)
+        cStruct.variablePointersStorageBuffer = VkBool32(self.variablePointersStorageBuffer ? VK_TRUE : VK_FALSE)
+        cStruct.variablePointers = VkBool32(self.variablePointers ? VK_TRUE : VK_FALSE)
+        cStruct.protectedMemory = VkBool32(self.protectedMemory ? VK_TRUE : VK_FALSE)
+        cStruct.samplerYcbcrConversion = VkBool32(self.samplerYcbcrConversion ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDrawParameters = VkBool32(self.shaderDrawParameters ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8613,15 +8613,15 @@ struct PhysicalDeviceVulkan11Properties: CStructConvertible {
     let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
     let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
     let deviceNodeMask: UInt32
-    let deviceLUIDValid: VkBool32
+    let deviceLUIDValid: Bool
     let subgroupSize: UInt32
     let subgroupSupportedStages: VkShaderStageFlags
     let subgroupSupportedOperations: VkSubgroupFeatureFlags
-    let subgroupQuadOperationsInAllStages: VkBool32
+    let subgroupQuadOperationsInAllStages: Bool
     let pointClippingBehavior: VkPointClippingBehavior
     let maxMultiviewViewCount: UInt32
     let maxMultiviewInstanceIndex: UInt32
-    let protectedNoFault: VkBool32
+    let protectedNoFault: Bool
     let maxPerSetDescriptors: UInt32
     let maxMemoryAllocationSize: VkDeviceSize
 
@@ -8633,15 +8633,15 @@ struct PhysicalDeviceVulkan11Properties: CStructConvertible {
         cStruct.driverUUID = self.driverUUID
         cStruct.deviceLUID = self.deviceLUID
         cStruct.deviceNodeMask = self.deviceNodeMask
-        cStruct.deviceLUIDValid = self.deviceLUIDValid
+        cStruct.deviceLUIDValid = VkBool32(self.deviceLUIDValid ? VK_TRUE : VK_FALSE)
         cStruct.subgroupSize = self.subgroupSize
         cStruct.subgroupSupportedStages = self.subgroupSupportedStages
         cStruct.subgroupSupportedOperations = self.subgroupSupportedOperations
-        cStruct.subgroupQuadOperationsInAllStages = self.subgroupQuadOperationsInAllStages
+        cStruct.subgroupQuadOperationsInAllStages = VkBool32(self.subgroupQuadOperationsInAllStages ? VK_TRUE : VK_FALSE)
         cStruct.pointClippingBehavior = self.pointClippingBehavior
         cStruct.maxMultiviewViewCount = self.maxMultiviewViewCount
         cStruct.maxMultiviewInstanceIndex = self.maxMultiviewInstanceIndex
-        cStruct.protectedNoFault = self.protectedNoFault
+        cStruct.protectedNoFault = VkBool32(self.protectedNoFault ? VK_TRUE : VK_FALSE)
         cStruct.maxPerSetDescriptors = self.maxPerSetDescriptors
         cStruct.maxMemoryAllocationSize = self.maxMemoryAllocationSize
         return try body(&cStruct)
@@ -8651,105 +8651,105 @@ struct PhysicalDeviceVulkan11Properties: CStructConvertible {
 struct PhysicalDeviceVulkan12Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkan12Features
 
-    let samplerMirrorClampToEdge: VkBool32
-    let drawIndirectCount: VkBool32
-    let storageBuffer8BitAccess: VkBool32
-    let uniformAndStorageBuffer8BitAccess: VkBool32
-    let storagePushConstant8: VkBool32
-    let shaderBufferInt64Atomics: VkBool32
-    let shaderSharedInt64Atomics: VkBool32
-    let shaderFloat16: VkBool32
-    let shaderInt8: VkBool32
-    let descriptorIndexing: VkBool32
-    let shaderInputAttachmentArrayDynamicIndexing: VkBool32
-    let shaderUniformTexelBufferArrayDynamicIndexing: VkBool32
-    let shaderStorageTexelBufferArrayDynamicIndexing: VkBool32
-    let shaderUniformBufferArrayNonUniformIndexing: VkBool32
-    let shaderSampledImageArrayNonUniformIndexing: VkBool32
-    let shaderStorageBufferArrayNonUniformIndexing: VkBool32
-    let shaderStorageImageArrayNonUniformIndexing: VkBool32
-    let shaderInputAttachmentArrayNonUniformIndexing: VkBool32
-    let shaderUniformTexelBufferArrayNonUniformIndexing: VkBool32
-    let shaderStorageTexelBufferArrayNonUniformIndexing: VkBool32
-    let descriptorBindingUniformBufferUpdateAfterBind: VkBool32
-    let descriptorBindingSampledImageUpdateAfterBind: VkBool32
-    let descriptorBindingStorageImageUpdateAfterBind: VkBool32
-    let descriptorBindingStorageBufferUpdateAfterBind: VkBool32
-    let descriptorBindingUniformTexelBufferUpdateAfterBind: VkBool32
-    let descriptorBindingStorageTexelBufferUpdateAfterBind: VkBool32
-    let descriptorBindingUpdateUnusedWhilePending: VkBool32
-    let descriptorBindingPartiallyBound: VkBool32
-    let descriptorBindingVariableDescriptorCount: VkBool32
-    let runtimeDescriptorArray: VkBool32
-    let samplerFilterMinmax: VkBool32
-    let scalarBlockLayout: VkBool32
-    let imagelessFramebuffer: VkBool32
-    let uniformBufferStandardLayout: VkBool32
-    let shaderSubgroupExtendedTypes: VkBool32
-    let separateDepthStencilLayouts: VkBool32
-    let hostQueryReset: VkBool32
-    let timelineSemaphore: VkBool32
-    let bufferDeviceAddress: VkBool32
-    let bufferDeviceAddressCaptureReplay: VkBool32
-    let bufferDeviceAddressMultiDevice: VkBool32
-    let vulkanMemoryModel: VkBool32
-    let vulkanMemoryModelDeviceScope: VkBool32
-    let vulkanMemoryModelAvailabilityVisibilityChains: VkBool32
-    let shaderOutputViewportIndex: VkBool32
-    let shaderOutputLayer: VkBool32
-    let subgroupBroadcastDynamicId: VkBool32
+    let samplerMirrorClampToEdge: Bool
+    let drawIndirectCount: Bool
+    let storageBuffer8BitAccess: Bool
+    let uniformAndStorageBuffer8BitAccess: Bool
+    let storagePushConstant8: Bool
+    let shaderBufferInt64Atomics: Bool
+    let shaderSharedInt64Atomics: Bool
+    let shaderFloat16: Bool
+    let shaderInt8: Bool
+    let descriptorIndexing: Bool
+    let shaderInputAttachmentArrayDynamicIndexing: Bool
+    let shaderUniformTexelBufferArrayDynamicIndexing: Bool
+    let shaderStorageTexelBufferArrayDynamicIndexing: Bool
+    let shaderUniformBufferArrayNonUniformIndexing: Bool
+    let shaderSampledImageArrayNonUniformIndexing: Bool
+    let shaderStorageBufferArrayNonUniformIndexing: Bool
+    let shaderStorageImageArrayNonUniformIndexing: Bool
+    let shaderInputAttachmentArrayNonUniformIndexing: Bool
+    let shaderUniformTexelBufferArrayNonUniformIndexing: Bool
+    let shaderStorageTexelBufferArrayNonUniformIndexing: Bool
+    let descriptorBindingUniformBufferUpdateAfterBind: Bool
+    let descriptorBindingSampledImageUpdateAfterBind: Bool
+    let descriptorBindingStorageImageUpdateAfterBind: Bool
+    let descriptorBindingStorageBufferUpdateAfterBind: Bool
+    let descriptorBindingUniformTexelBufferUpdateAfterBind: Bool
+    let descriptorBindingStorageTexelBufferUpdateAfterBind: Bool
+    let descriptorBindingUpdateUnusedWhilePending: Bool
+    let descriptorBindingPartiallyBound: Bool
+    let descriptorBindingVariableDescriptorCount: Bool
+    let runtimeDescriptorArray: Bool
+    let samplerFilterMinmax: Bool
+    let scalarBlockLayout: Bool
+    let imagelessFramebuffer: Bool
+    let uniformBufferStandardLayout: Bool
+    let shaderSubgroupExtendedTypes: Bool
+    let separateDepthStencilLayouts: Bool
+    let hostQueryReset: Bool
+    let timelineSemaphore: Bool
+    let bufferDeviceAddress: Bool
+    let bufferDeviceAddressCaptureReplay: Bool
+    let bufferDeviceAddressMultiDevice: Bool
+    let vulkanMemoryModel: Bool
+    let vulkanMemoryModelDeviceScope: Bool
+    let vulkanMemoryModelAvailabilityVisibilityChains: Bool
+    let shaderOutputViewportIndex: Bool
+    let shaderOutputLayer: Bool
+    let subgroupBroadcastDynamicId: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan12Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkan12Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES
         cStruct.pNext = nil
-        cStruct.samplerMirrorClampToEdge = self.samplerMirrorClampToEdge
-        cStruct.drawIndirectCount = self.drawIndirectCount
-        cStruct.storageBuffer8BitAccess = self.storageBuffer8BitAccess
-        cStruct.uniformAndStorageBuffer8BitAccess = self.uniformAndStorageBuffer8BitAccess
-        cStruct.storagePushConstant8 = self.storagePushConstant8
-        cStruct.shaderBufferInt64Atomics = self.shaderBufferInt64Atomics
-        cStruct.shaderSharedInt64Atomics = self.shaderSharedInt64Atomics
-        cStruct.shaderFloat16 = self.shaderFloat16
-        cStruct.shaderInt8 = self.shaderInt8
-        cStruct.descriptorIndexing = self.descriptorIndexing
-        cStruct.shaderInputAttachmentArrayDynamicIndexing = self.shaderInputAttachmentArrayDynamicIndexing
-        cStruct.shaderUniformTexelBufferArrayDynamicIndexing = self.shaderUniformTexelBufferArrayDynamicIndexing
-        cStruct.shaderStorageTexelBufferArrayDynamicIndexing = self.shaderStorageTexelBufferArrayDynamicIndexing
-        cStruct.shaderUniformBufferArrayNonUniformIndexing = self.shaderUniformBufferArrayNonUniformIndexing
-        cStruct.shaderSampledImageArrayNonUniformIndexing = self.shaderSampledImageArrayNonUniformIndexing
-        cStruct.shaderStorageBufferArrayNonUniformIndexing = self.shaderStorageBufferArrayNonUniformIndexing
-        cStruct.shaderStorageImageArrayNonUniformIndexing = self.shaderStorageImageArrayNonUniformIndexing
-        cStruct.shaderInputAttachmentArrayNonUniformIndexing = self.shaderInputAttachmentArrayNonUniformIndexing
-        cStruct.shaderUniformTexelBufferArrayNonUniformIndexing = self.shaderUniformTexelBufferArrayNonUniformIndexing
-        cStruct.shaderStorageTexelBufferArrayNonUniformIndexing = self.shaderStorageTexelBufferArrayNonUniformIndexing
-        cStruct.descriptorBindingUniformBufferUpdateAfterBind = self.descriptorBindingUniformBufferUpdateAfterBind
-        cStruct.descriptorBindingSampledImageUpdateAfterBind = self.descriptorBindingSampledImageUpdateAfterBind
-        cStruct.descriptorBindingStorageImageUpdateAfterBind = self.descriptorBindingStorageImageUpdateAfterBind
-        cStruct.descriptorBindingStorageBufferUpdateAfterBind = self.descriptorBindingStorageBufferUpdateAfterBind
-        cStruct.descriptorBindingUniformTexelBufferUpdateAfterBind = self.descriptorBindingUniformTexelBufferUpdateAfterBind
-        cStruct.descriptorBindingStorageTexelBufferUpdateAfterBind = self.descriptorBindingStorageTexelBufferUpdateAfterBind
-        cStruct.descriptorBindingUpdateUnusedWhilePending = self.descriptorBindingUpdateUnusedWhilePending
-        cStruct.descriptorBindingPartiallyBound = self.descriptorBindingPartiallyBound
-        cStruct.descriptorBindingVariableDescriptorCount = self.descriptorBindingVariableDescriptorCount
-        cStruct.runtimeDescriptorArray = self.runtimeDescriptorArray
-        cStruct.samplerFilterMinmax = self.samplerFilterMinmax
-        cStruct.scalarBlockLayout = self.scalarBlockLayout
-        cStruct.imagelessFramebuffer = self.imagelessFramebuffer
-        cStruct.uniformBufferStandardLayout = self.uniformBufferStandardLayout
-        cStruct.shaderSubgroupExtendedTypes = self.shaderSubgroupExtendedTypes
-        cStruct.separateDepthStencilLayouts = self.separateDepthStencilLayouts
-        cStruct.hostQueryReset = self.hostQueryReset
-        cStruct.timelineSemaphore = self.timelineSemaphore
-        cStruct.bufferDeviceAddress = self.bufferDeviceAddress
-        cStruct.bufferDeviceAddressCaptureReplay = self.bufferDeviceAddressCaptureReplay
-        cStruct.bufferDeviceAddressMultiDevice = self.bufferDeviceAddressMultiDevice
-        cStruct.vulkanMemoryModel = self.vulkanMemoryModel
-        cStruct.vulkanMemoryModelDeviceScope = self.vulkanMemoryModelDeviceScope
-        cStruct.vulkanMemoryModelAvailabilityVisibilityChains = self.vulkanMemoryModelAvailabilityVisibilityChains
-        cStruct.shaderOutputViewportIndex = self.shaderOutputViewportIndex
-        cStruct.shaderOutputLayer = self.shaderOutputLayer
-        cStruct.subgroupBroadcastDynamicId = self.subgroupBroadcastDynamicId
+        cStruct.samplerMirrorClampToEdge = VkBool32(self.samplerMirrorClampToEdge ? VK_TRUE : VK_FALSE)
+        cStruct.drawIndirectCount = VkBool32(self.drawIndirectCount ? VK_TRUE : VK_FALSE)
+        cStruct.storageBuffer8BitAccess = VkBool32(self.storageBuffer8BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.uniformAndStorageBuffer8BitAccess = VkBool32(self.uniformAndStorageBuffer8BitAccess ? VK_TRUE : VK_FALSE)
+        cStruct.storagePushConstant8 = VkBool32(self.storagePushConstant8 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderBufferInt64Atomics = VkBool32(self.shaderBufferInt64Atomics ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSharedInt64Atomics = VkBool32(self.shaderSharedInt64Atomics ? VK_TRUE : VK_FALSE)
+        cStruct.shaderFloat16 = VkBool32(self.shaderFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInt8 = VkBool32(self.shaderInt8 ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorIndexing = VkBool32(self.descriptorIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInputAttachmentArrayDynamicIndexing = VkBool32(self.shaderInputAttachmentArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformTexelBufferArrayDynamicIndexing = VkBool32(self.shaderUniformTexelBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageTexelBufferArrayDynamicIndexing = VkBool32(self.shaderStorageTexelBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformBufferArrayNonUniformIndexing = VkBool32(self.shaderUniformBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSampledImageArrayNonUniformIndexing = VkBool32(self.shaderSampledImageArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageBufferArrayNonUniformIndexing = VkBool32(self.shaderStorageBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageArrayNonUniformIndexing = VkBool32(self.shaderStorageImageArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInputAttachmentArrayNonUniformIndexing = VkBool32(self.shaderInputAttachmentArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformTexelBufferArrayNonUniformIndexing = VkBool32(self.shaderUniformTexelBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageTexelBufferArrayNonUniformIndexing = VkBool32(self.shaderStorageTexelBufferArrayNonUniformIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingUniformBufferUpdateAfterBind = VkBool32(self.descriptorBindingUniformBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingSampledImageUpdateAfterBind = VkBool32(self.descriptorBindingSampledImageUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingStorageImageUpdateAfterBind = VkBool32(self.descriptorBindingStorageImageUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingStorageBufferUpdateAfterBind = VkBool32(self.descriptorBindingStorageBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingUniformTexelBufferUpdateAfterBind = VkBool32(self.descriptorBindingUniformTexelBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingStorageTexelBufferUpdateAfterBind = VkBool32(self.descriptorBindingStorageTexelBufferUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingUpdateUnusedWhilePending = VkBool32(self.descriptorBindingUpdateUnusedWhilePending ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingPartiallyBound = VkBool32(self.descriptorBindingPartiallyBound ? VK_TRUE : VK_FALSE)
+        cStruct.descriptorBindingVariableDescriptorCount = VkBool32(self.descriptorBindingVariableDescriptorCount ? VK_TRUE : VK_FALSE)
+        cStruct.runtimeDescriptorArray = VkBool32(self.runtimeDescriptorArray ? VK_TRUE : VK_FALSE)
+        cStruct.samplerFilterMinmax = VkBool32(self.samplerFilterMinmax ? VK_TRUE : VK_FALSE)
+        cStruct.scalarBlockLayout = VkBool32(self.scalarBlockLayout ? VK_TRUE : VK_FALSE)
+        cStruct.imagelessFramebuffer = VkBool32(self.imagelessFramebuffer ? VK_TRUE : VK_FALSE)
+        cStruct.uniformBufferStandardLayout = VkBool32(self.uniformBufferStandardLayout ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSubgroupExtendedTypes = VkBool32(self.shaderSubgroupExtendedTypes ? VK_TRUE : VK_FALSE)
+        cStruct.separateDepthStencilLayouts = VkBool32(self.separateDepthStencilLayouts ? VK_TRUE : VK_FALSE)
+        cStruct.hostQueryReset = VkBool32(self.hostQueryReset ? VK_TRUE : VK_FALSE)
+        cStruct.timelineSemaphore = VkBool32(self.timelineSemaphore ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddress = VkBool32(self.bufferDeviceAddress ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddressCaptureReplay = VkBool32(self.bufferDeviceAddressCaptureReplay ? VK_TRUE : VK_FALSE)
+        cStruct.bufferDeviceAddressMultiDevice = VkBool32(self.bufferDeviceAddressMultiDevice ? VK_TRUE : VK_FALSE)
+        cStruct.vulkanMemoryModel = VkBool32(self.vulkanMemoryModel ? VK_TRUE : VK_FALSE)
+        cStruct.vulkanMemoryModelDeviceScope = VkBool32(self.vulkanMemoryModelDeviceScope ? VK_TRUE : VK_FALSE)
+        cStruct.vulkanMemoryModelAvailabilityVisibilityChains = VkBool32(self.vulkanMemoryModelAvailabilityVisibilityChains ? VK_TRUE : VK_FALSE)
+        cStruct.shaderOutputViewportIndex = VkBool32(self.shaderOutputViewportIndex ? VK_TRUE : VK_FALSE)
+        cStruct.shaderOutputLayer = VkBool32(self.shaderOutputLayer ? VK_TRUE : VK_FALSE)
+        cStruct.subgroupBroadcastDynamicId = VkBool32(self.subgroupBroadcastDynamicId ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8763,29 +8763,29 @@ struct PhysicalDeviceVulkan12Properties: CStructConvertible {
     let conformanceVersion: VkConformanceVersion
     let denormBehaviorIndependence: VkShaderFloatControlsIndependence
     let roundingModeIndependence: VkShaderFloatControlsIndependence
-    let shaderSignedZeroInfNanPreserveFloat16: VkBool32
-    let shaderSignedZeroInfNanPreserveFloat32: VkBool32
-    let shaderSignedZeroInfNanPreserveFloat64: VkBool32
-    let shaderDenormPreserveFloat16: VkBool32
-    let shaderDenormPreserveFloat32: VkBool32
-    let shaderDenormPreserveFloat64: VkBool32
-    let shaderDenormFlushToZeroFloat16: VkBool32
-    let shaderDenormFlushToZeroFloat32: VkBool32
-    let shaderDenormFlushToZeroFloat64: VkBool32
-    let shaderRoundingModeRTEFloat16: VkBool32
-    let shaderRoundingModeRTEFloat32: VkBool32
-    let shaderRoundingModeRTEFloat64: VkBool32
-    let shaderRoundingModeRTZFloat16: VkBool32
-    let shaderRoundingModeRTZFloat32: VkBool32
-    let shaderRoundingModeRTZFloat64: VkBool32
+    let shaderSignedZeroInfNanPreserveFloat16: Bool
+    let shaderSignedZeroInfNanPreserveFloat32: Bool
+    let shaderSignedZeroInfNanPreserveFloat64: Bool
+    let shaderDenormPreserveFloat16: Bool
+    let shaderDenormPreserveFloat32: Bool
+    let shaderDenormPreserveFloat64: Bool
+    let shaderDenormFlushToZeroFloat16: Bool
+    let shaderDenormFlushToZeroFloat32: Bool
+    let shaderDenormFlushToZeroFloat64: Bool
+    let shaderRoundingModeRTEFloat16: Bool
+    let shaderRoundingModeRTEFloat32: Bool
+    let shaderRoundingModeRTEFloat64: Bool
+    let shaderRoundingModeRTZFloat16: Bool
+    let shaderRoundingModeRTZFloat32: Bool
+    let shaderRoundingModeRTZFloat64: Bool
     let maxUpdateAfterBindDescriptorsInAllPools: UInt32
-    let shaderUniformBufferArrayNonUniformIndexingNative: VkBool32
-    let shaderSampledImageArrayNonUniformIndexingNative: VkBool32
-    let shaderStorageBufferArrayNonUniformIndexingNative: VkBool32
-    let shaderStorageImageArrayNonUniformIndexingNative: VkBool32
-    let shaderInputAttachmentArrayNonUniformIndexingNative: VkBool32
-    let robustBufferAccessUpdateAfterBind: VkBool32
-    let quadDivergentImplicitLod: VkBool32
+    let shaderUniformBufferArrayNonUniformIndexingNative: Bool
+    let shaderSampledImageArrayNonUniformIndexingNative: Bool
+    let shaderStorageBufferArrayNonUniformIndexingNative: Bool
+    let shaderStorageImageArrayNonUniformIndexingNative: Bool
+    let shaderInputAttachmentArrayNonUniformIndexingNative: Bool
+    let robustBufferAccessUpdateAfterBind: Bool
+    let quadDivergentImplicitLod: Bool
     let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
     let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
     let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
@@ -8803,10 +8803,10 @@ struct PhysicalDeviceVulkan12Properties: CStructConvertible {
     let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
     let supportedDepthResolveModes: VkResolveModeFlags
     let supportedStencilResolveModes: VkResolveModeFlags
-    let independentResolveNone: VkBool32
-    let independentResolve: VkBool32
-    let filterMinmaxSingleComponentFormats: VkBool32
-    let filterMinmaxImageComponentMapping: VkBool32
+    let independentResolveNone: Bool
+    let independentResolve: Bool
+    let filterMinmaxSingleComponentFormats: Bool
+    let filterMinmaxImageComponentMapping: Bool
     let maxTimelineSemaphoreValueDifference: UInt64
     let framebufferIntegerColorSampleCounts: VkSampleCountFlags
 
@@ -8820,29 +8820,29 @@ struct PhysicalDeviceVulkan12Properties: CStructConvertible {
         cStruct.conformanceVersion = self.conformanceVersion
         cStruct.denormBehaviorIndependence = self.denormBehaviorIndependence
         cStruct.roundingModeIndependence = self.roundingModeIndependence
-        cStruct.shaderSignedZeroInfNanPreserveFloat16 = self.shaderSignedZeroInfNanPreserveFloat16
-        cStruct.shaderSignedZeroInfNanPreserveFloat32 = self.shaderSignedZeroInfNanPreserveFloat32
-        cStruct.shaderSignedZeroInfNanPreserveFloat64 = self.shaderSignedZeroInfNanPreserveFloat64
-        cStruct.shaderDenormPreserveFloat16 = self.shaderDenormPreserveFloat16
-        cStruct.shaderDenormPreserveFloat32 = self.shaderDenormPreserveFloat32
-        cStruct.shaderDenormPreserveFloat64 = self.shaderDenormPreserveFloat64
-        cStruct.shaderDenormFlushToZeroFloat16 = self.shaderDenormFlushToZeroFloat16
-        cStruct.shaderDenormFlushToZeroFloat32 = self.shaderDenormFlushToZeroFloat32
-        cStruct.shaderDenormFlushToZeroFloat64 = self.shaderDenormFlushToZeroFloat64
-        cStruct.shaderRoundingModeRTEFloat16 = self.shaderRoundingModeRTEFloat16
-        cStruct.shaderRoundingModeRTEFloat32 = self.shaderRoundingModeRTEFloat32
-        cStruct.shaderRoundingModeRTEFloat64 = self.shaderRoundingModeRTEFloat64
-        cStruct.shaderRoundingModeRTZFloat16 = self.shaderRoundingModeRTZFloat16
-        cStruct.shaderRoundingModeRTZFloat32 = self.shaderRoundingModeRTZFloat32
-        cStruct.shaderRoundingModeRTZFloat64 = self.shaderRoundingModeRTZFloat64
+        cStruct.shaderSignedZeroInfNanPreserveFloat16 = VkBool32(self.shaderSignedZeroInfNanPreserveFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSignedZeroInfNanPreserveFloat32 = VkBool32(self.shaderSignedZeroInfNanPreserveFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSignedZeroInfNanPreserveFloat64 = VkBool32(self.shaderSignedZeroInfNanPreserveFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormPreserveFloat16 = VkBool32(self.shaderDenormPreserveFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormPreserveFloat32 = VkBool32(self.shaderDenormPreserveFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormPreserveFloat64 = VkBool32(self.shaderDenormPreserveFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormFlushToZeroFloat16 = VkBool32(self.shaderDenormFlushToZeroFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormFlushToZeroFloat32 = VkBool32(self.shaderDenormFlushToZeroFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderDenormFlushToZeroFloat64 = VkBool32(self.shaderDenormFlushToZeroFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTEFloat16 = VkBool32(self.shaderRoundingModeRTEFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTEFloat32 = VkBool32(self.shaderRoundingModeRTEFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTEFloat64 = VkBool32(self.shaderRoundingModeRTEFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTZFloat16 = VkBool32(self.shaderRoundingModeRTZFloat16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTZFloat32 = VkBool32(self.shaderRoundingModeRTZFloat32 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderRoundingModeRTZFloat64 = VkBool32(self.shaderRoundingModeRTZFloat64 ? VK_TRUE : VK_FALSE)
         cStruct.maxUpdateAfterBindDescriptorsInAllPools = self.maxUpdateAfterBindDescriptorsInAllPools
-        cStruct.shaderUniformBufferArrayNonUniformIndexingNative = self.shaderUniformBufferArrayNonUniformIndexingNative
-        cStruct.shaderSampledImageArrayNonUniformIndexingNative = self.shaderSampledImageArrayNonUniformIndexingNative
-        cStruct.shaderStorageBufferArrayNonUniformIndexingNative = self.shaderStorageBufferArrayNonUniformIndexingNative
-        cStruct.shaderStorageImageArrayNonUniformIndexingNative = self.shaderStorageImageArrayNonUniformIndexingNative
-        cStruct.shaderInputAttachmentArrayNonUniformIndexingNative = self.shaderInputAttachmentArrayNonUniformIndexingNative
-        cStruct.robustBufferAccessUpdateAfterBind = self.robustBufferAccessUpdateAfterBind
-        cStruct.quadDivergentImplicitLod = self.quadDivergentImplicitLod
+        cStruct.shaderUniformBufferArrayNonUniformIndexingNative = VkBool32(self.shaderUniformBufferArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSampledImageArrayNonUniformIndexingNative = VkBool32(self.shaderSampledImageArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageBufferArrayNonUniformIndexingNative = VkBool32(self.shaderStorageBufferArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageArrayNonUniformIndexingNative = VkBool32(self.shaderStorageImageArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInputAttachmentArrayNonUniformIndexingNative = VkBool32(self.shaderInputAttachmentArrayNonUniformIndexingNative ? VK_TRUE : VK_FALSE)
+        cStruct.robustBufferAccessUpdateAfterBind = VkBool32(self.robustBufferAccessUpdateAfterBind ? VK_TRUE : VK_FALSE)
+        cStruct.quadDivergentImplicitLod = VkBool32(self.quadDivergentImplicitLod ? VK_TRUE : VK_FALSE)
         cStruct.maxPerStageDescriptorUpdateAfterBindSamplers = self.maxPerStageDescriptorUpdateAfterBindSamplers
         cStruct.maxPerStageDescriptorUpdateAfterBindUniformBuffers = self.maxPerStageDescriptorUpdateAfterBindUniformBuffers
         cStruct.maxPerStageDescriptorUpdateAfterBindStorageBuffers = self.maxPerStageDescriptorUpdateAfterBindStorageBuffers
@@ -8860,10 +8860,10 @@ struct PhysicalDeviceVulkan12Properties: CStructConvertible {
         cStruct.maxDescriptorSetUpdateAfterBindInputAttachments = self.maxDescriptorSetUpdateAfterBindInputAttachments
         cStruct.supportedDepthResolveModes = self.supportedDepthResolveModes
         cStruct.supportedStencilResolveModes = self.supportedStencilResolveModes
-        cStruct.independentResolveNone = self.independentResolveNone
-        cStruct.independentResolve = self.independentResolve
-        cStruct.filterMinmaxSingleComponentFormats = self.filterMinmaxSingleComponentFormats
-        cStruct.filterMinmaxImageComponentMapping = self.filterMinmaxImageComponentMapping
+        cStruct.independentResolveNone = VkBool32(self.independentResolveNone ? VK_TRUE : VK_FALSE)
+        cStruct.independentResolve = VkBool32(self.independentResolve ? VK_TRUE : VK_FALSE)
+        cStruct.filterMinmaxSingleComponentFormats = VkBool32(self.filterMinmaxSingleComponentFormats ? VK_TRUE : VK_FALSE)
+        cStruct.filterMinmaxImageComponentMapping = VkBool32(self.filterMinmaxImageComponentMapping ? VK_TRUE : VK_FALSE)
         cStruct.maxTimelineSemaphoreValueDifference = self.maxTimelineSemaphoreValueDifference
         cStruct.framebufferIntegerColorSampleCounts = self.framebufferIntegerColorSampleCounts
         return try body(&cStruct)
@@ -8887,13 +8887,13 @@ struct PipelineCompilerControlCreateInfoAMD: CStructConvertible {
 struct PhysicalDeviceCoherentMemoryFeaturesAMD: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCoherentMemoryFeaturesAMD
 
-    let deviceCoherentMemory: VkBool32
+    let deviceCoherentMemory: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCoherentMemoryFeaturesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCoherentMemoryFeaturesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD
         cStruct.pNext = nil
-        cStruct.deviceCoherentMemory = self.deviceCoherentMemory
+        cStruct.deviceCoherentMemory = VkBool32(self.deviceCoherentMemory ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
@@ -8953,13 +8953,13 @@ struct CommandBufferInheritanceRenderPassTransformInfoQCOM: CStructConvertible {
 struct PhysicalDeviceDiagnosticsConfigFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDiagnosticsConfigFeaturesNV
 
-    let diagnosticsConfig: VkBool32
+    let diagnosticsConfig: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDiagnosticsConfigFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV
         cStruct.pNext = nil
-        cStruct.diagnosticsConfig = self.diagnosticsConfig
+        cStruct.diagnosticsConfig = VkBool32(self.diagnosticsConfig ? VK_TRUE : VK_FALSE)
         return try body(&cStruct)
     }
 }
