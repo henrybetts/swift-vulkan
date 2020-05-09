@@ -23,21 +23,21 @@ class CBitmask:
 
 class CType:
     def __init__(self, name: str = None, pointer_to: 'CType' = None, array_of: 'CType' = None,
-                 const: bool = False, length: Union[str, int] = None, optional: bool = False, values: List[str] = None):
+                 const: bool = False, length: Union[str, int] = None, optional: bool = False):
         self.name = name
         self.pointer_to = pointer_to
         self.array_of = array_of
         self.const = const
         self.length = length
         self.optional = optional
-        self.values = values or []
 
 
 class CStruct:
     class Member:
-        def __init__(self, name: str, type_: CType):
+        def __init__(self, name: str, type_: CType, values: List[str] = None):
             self.name = name
             self.type = type_
+            self.values = values or []
 
     def __init__(self, name: str, members: List[Member] = None):
         self.name = name
@@ -218,7 +218,10 @@ class CContext:
                 if array_size is not None:
                     c_type = CType(array_of=c_type, length=array_size)
 
-                c_struct.members.append(CStruct.Member(name, c_type))
+                values_string = member.get('values')
+                values = values_string.split(',') if values_string else []
+
+                c_struct.members.append(CStruct.Member(name, c_type, values))
 
             self.structs.append(c_struct)
 

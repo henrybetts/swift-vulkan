@@ -19,13 +19,13 @@ class SwiftOptionSet(CEnum):
 
 class SwiftStruct:
     class Member:
-        def __init__(self, name: str, type_: str, value_generator: tc.BoundValueGenerator):
+        def __init__(self, name: str, type_: str, value_generator: tc.ValueGenerator):
             self.name = name
             self.type = type_
             self.value_generator = value_generator
 
     def __init__(self, name: str, members: List[Member],
-                 c_value_generators: List[tc.BoundValueGenerator], c_struct: CStruct):
+                 c_value_generators: List[tc.ValueGenerator], c_struct: CStruct):
         self.name = name
         self.members = members
         self.c_value_generators = c_value_generators
@@ -140,6 +140,11 @@ class Importer:
         struct = SwiftStruct(name=remove_vk_prefix(c_struct.name), members=[],
                              c_value_generators=[], c_struct=c_struct)
         for c_member in c_struct.members:
+            if len(c_member.values) == 1:
+                static_value = c_member.values[0]
+                struct.c_value_generators.append(lambda _: static_value)
+                continue
+
             swift_type, conversion = self.get_type_conversion(c_member.type)
             member = SwiftStruct.Member(name=c_member.name, type_=swift_type,
                                         value_generator=conversion.bind_c_value(c_member.name))

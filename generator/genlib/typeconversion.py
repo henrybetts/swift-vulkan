@@ -15,16 +15,7 @@ IMPLICIT_TYPE_MAP = {
     'int': 'Int32'
 }
 
-
-class BoundValueGenerator:
-    def __init__(self, get_value: Callable[[str], str], value: str):
-        self.get_value = get_value
-        self.value = value
-
-    def __call__(self, values_map: Dict[str, str] = None) -> str:
-        if values_map:
-            return self.get_value(values_map.get(self.value, self.value))
-        return self.get_value(self.value)
+ValueGenerator = Callable[[Dict[str, str]], str]
 
 
 class TypeConversion:
@@ -34,11 +25,15 @@ class TypeConversion:
     def get_c_value(self, swift_value: str) -> str:
         raise NotImplementedError
 
-    def bind_swift_value(self, swift_value: str) -> BoundValueGenerator:
-        return BoundValueGenerator(self.get_c_value, swift_value)
+    def bind_swift_value(self, swift_value: str) -> ValueGenerator:
+        def generator(values_map: Dict[str, str]) -> str:
+            return values_map.get(swift_value, swift_value)
+        return generator
 
-    def bind_c_value(self, c_value: str) -> BoundValueGenerator:
-        return BoundValueGenerator(self.get_swift_value, c_value)
+    def bind_c_value(self, c_value: str) -> ValueGenerator:
+        def generator(values_map: Dict[str, str]) -> str:
+            return values_map.get(c_value, c_value)
+        return generator
 
 
 class ImplicitConversion(TypeConversion):
