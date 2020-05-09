@@ -139,10 +139,14 @@ class Importer:
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
         struct = SwiftStruct(name=remove_vk_prefix(c_struct.name), members=[],
                              c_value_generators=[], c_struct=c_struct)
+
         for c_member in c_struct.members:
             if len(c_member.values) == 1:
-                static_value = c_member.values[0]
-                struct.c_value_generators.append(lambda _: static_value)
+                struct.c_value_generators.append(static_value_generator(c_member.values[0]))
+                continue
+
+            if c_member.name == 'pNext':
+                struct.c_value_generators.append(static_value_generator('nil'))
                 continue
 
             swift_type, conversion = self.get_type_conversion(c_member.type)
@@ -150,6 +154,7 @@ class Importer:
                                         value_generator=conversion.bind_c_value(c_member.name))
             struct.members.append(member)
             struct.c_value_generators.append(conversion.bind_swift_value(c_member.name))
+
         return struct
 
     def get_type_conversion(self, c_type: CType) -> Tuple[str, tc.TypeConversion]:
@@ -203,3 +208,9 @@ def snake_to_pascal(string: str) -> str:
 def snake_to_camel(string: str) -> str:
     pascal = snake_to_pascal(string)
     return pascal[0].lower() + pascal[1:]
+
+
+def static_value_generator(static_value: str) -> tc.ValueGenerator:
+    def generator(_) -> str:
+        return static_value
+    return generator
