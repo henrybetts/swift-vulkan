@@ -219,22 +219,26 @@ struct LayerProperties: CStructConvertible {
 struct ApplicationInfo: CStructConvertible {
     typealias CStruct = VkApplicationInfo
 
-    let pApplicationName: UnsafePointer<CChar>
+    let pApplicationName: String
     let applicationVersion: UInt32
-    let pEngineName: UnsafePointer<CChar>
+    let pEngineName: String
     let engineVersion: UInt32
     let apiVersion: UInt32
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkApplicationInfo>) throws -> R) rethrows -> R {
-        var cStruct = VkApplicationInfo()
-        cStruct.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO
-        cStruct.pNext = nil
-        cStruct.pApplicationName = self.pApplicationName
-        cStruct.applicationVersion = self.applicationVersion
-        cStruct.pEngineName = self.pEngineName
-        cStruct.engineVersion = self.engineVersion
-        cStruct.apiVersion = self.apiVersion
-        return try body(&cStruct)
+        try self.pApplicationName.withCString { cString_pApplicationName in
+            try self.pEngineName.withCString { cString_pEngineName in
+                var cStruct = VkApplicationInfo()
+                cStruct.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO
+                cStruct.pNext = nil
+                cStruct.pApplicationName = cString_pApplicationName
+                cStruct.applicationVersion = self.applicationVersion
+                cStruct.pEngineName = cString_pEngineName
+                cStruct.engineVersion = self.engineVersion
+                cStruct.apiVersion = self.apiVersion
+                return try body(&cStruct)
+            }
+        }
     }
 }
 
@@ -1222,19 +1226,21 @@ struct PipelineShaderStageCreateInfo: CStructConvertible {
     let flags: PipelineShaderStageCreateFlags
     let stage: VkShaderStageFlagBits
     let module: VkShaderModule
-    let pName: UnsafePointer<CChar>
+    let pName: String
     let pSpecializationInfo: UnsafePointer<VkSpecializationInfo>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineShaderStageCreateInfo>) throws -> R) rethrows -> R {
-        var cStruct = VkPipelineShaderStageCreateInfo()
-        cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO
-        cStruct.pNext = nil
-        cStruct.flags = self.flags.rawValue
-        cStruct.stage = self.stage
-        cStruct.module = self.module
-        cStruct.pName = self.pName
-        cStruct.pSpecializationInfo = self.pSpecializationInfo
-        return try body(&cStruct)
+        try self.pName.withCString { cString_pName in
+            var cStruct = VkPipelineShaderStageCreateInfo()
+            cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO
+            cStruct.pNext = nil
+            cStruct.flags = self.flags.rawValue
+            cStruct.stage = self.stage
+            cStruct.module = self.module
+            cStruct.pName = cString_pName
+            cStruct.pSpecializationInfo = self.pSpecializationInfo
+            return try body(&cStruct)
+        }
     }
 }
 
@@ -2484,7 +2490,7 @@ struct DisplayPropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayPropertiesKHR
 
     let display: VkDisplayKHR
-    let displayName: UnsafePointer<CChar>
+    let displayName: String
     let physicalDimensions: VkExtent2D
     let physicalResolution: VkExtent2D
     let supportedTransforms: SurfaceTransformFlagsKHR
@@ -2492,15 +2498,17 @@ struct DisplayPropertiesKHR: CStructConvertible {
     let persistentContent: Bool
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPropertiesKHR>) throws -> R) rethrows -> R {
-        var cStruct = VkDisplayPropertiesKHR()
-        cStruct.display = self.display
-        cStruct.displayName = self.displayName
-        cStruct.physicalDimensions = self.physicalDimensions
-        cStruct.physicalResolution = self.physicalResolution
-        cStruct.supportedTransforms = self.supportedTransforms.rawValue
-        cStruct.planeReorderPossible = VkBool32(self.planeReorderPossible ? VK_TRUE : VK_FALSE)
-        cStruct.persistentContent = VkBool32(self.persistentContent ? VK_TRUE : VK_FALSE)
-        return try body(&cStruct)
+        try self.displayName.withCString { cString_displayName in
+            var cStruct = VkDisplayPropertiesKHR()
+            cStruct.display = self.display
+            cStruct.displayName = cString_displayName
+            cStruct.physicalDimensions = self.physicalDimensions
+            cStruct.physicalResolution = self.physicalResolution
+            cStruct.supportedTransforms = self.supportedTransforms.rawValue
+            cStruct.planeReorderPossible = VkBool32(self.planeReorderPossible ? VK_TRUE : VK_FALSE)
+            cStruct.persistentContent = VkBool32(self.persistentContent ? VK_TRUE : VK_FALSE)
+            return try body(&cStruct)
+        }
     }
 }
 
@@ -2821,16 +2829,18 @@ struct DebugMarkerObjectNameInfoEXT: CStructConvertible {
 
     let objectType: DebugReportObjectTypeEXT
     let object: UInt64
-    let pObjectName: UnsafePointer<CChar>
+    let pObjectName: String
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugMarkerObjectNameInfoEXT>) throws -> R) rethrows -> R {
-        var cStruct = VkDebugMarkerObjectNameInfoEXT()
-        cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT
-        cStruct.pNext = nil
-        cStruct.objectType = VkDebugReportObjectTypeEXT(rawValue: self.objectType.rawValue)
-        cStruct.object = self.object
-        cStruct.pObjectName = self.pObjectName
-        return try body(&cStruct)
+        try self.pObjectName.withCString { cString_pObjectName in
+            var cStruct = VkDebugMarkerObjectNameInfoEXT()
+            cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT
+            cStruct.pNext = nil
+            cStruct.objectType = VkDebugReportObjectTypeEXT(rawValue: self.objectType.rawValue)
+            cStruct.object = self.object
+            cStruct.pObjectName = cString_pObjectName
+            return try body(&cStruct)
+        }
     }
 }
 
@@ -2859,16 +2869,18 @@ struct DebugMarkerObjectTagInfoEXT: CStructConvertible {
 struct DebugMarkerMarkerInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugMarkerMarkerInfoEXT
 
-    let pMarkerName: UnsafePointer<CChar>
+    let pMarkerName: String
     let color: (Float, Float, Float, Float)
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugMarkerMarkerInfoEXT>) throws -> R) rethrows -> R {
-        var cStruct = VkDebugMarkerMarkerInfoEXT()
-        cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT
-        cStruct.pNext = nil
-        cStruct.pMarkerName = self.pMarkerName
-        cStruct.color = self.color
-        return try body(&cStruct)
+        try self.pMarkerName.withCString { cString_pMarkerName in
+            var cStruct = VkDebugMarkerMarkerInfoEXT()
+            cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT
+            cStruct.pNext = nil
+            cStruct.pMarkerName = cString_pMarkerName
+            cStruct.color = self.color
+            return try body(&cStruct)
+        }
     }
 }
 
@@ -5689,16 +5701,18 @@ struct DebugUtilsObjectNameInfoEXT: CStructConvertible {
 
     let objectType: ObjectType
     let objectHandle: UInt64
-    let pObjectName: UnsafePointer<CChar>
+    let pObjectName: String
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsObjectNameInfoEXT>) throws -> R) rethrows -> R {
-        var cStruct = VkDebugUtilsObjectNameInfoEXT()
-        cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT
-        cStruct.pNext = nil
-        cStruct.objectType = VkObjectType(rawValue: self.objectType.rawValue)
-        cStruct.objectHandle = self.objectHandle
-        cStruct.pObjectName = self.pObjectName
-        return try body(&cStruct)
+        try self.pObjectName.withCString { cString_pObjectName in
+            var cStruct = VkDebugUtilsObjectNameInfoEXT()
+            cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT
+            cStruct.pNext = nil
+            cStruct.objectType = VkObjectType(rawValue: self.objectType.rawValue)
+            cStruct.objectHandle = self.objectHandle
+            cStruct.pObjectName = cString_pObjectName
+            return try body(&cStruct)
+        }
     }
 }
 
@@ -5727,16 +5741,18 @@ struct DebugUtilsObjectTagInfoEXT: CStructConvertible {
 struct DebugUtilsLabelEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsLabelEXT
 
-    let pLabelName: UnsafePointer<CChar>
+    let pLabelName: String
     let color: (Float, Float, Float, Float)
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsLabelEXT>) throws -> R) rethrows -> R {
-        var cStruct = VkDebugUtilsLabelEXT()
-        cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT
-        cStruct.pNext = nil
-        cStruct.pLabelName = self.pLabelName
-        cStruct.color = self.color
-        return try body(&cStruct)
+        try self.pLabelName.withCString { cString_pLabelName in
+            var cStruct = VkDebugUtilsLabelEXT()
+            cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT
+            cStruct.pNext = nil
+            cStruct.pLabelName = cString_pLabelName
+            cStruct.color = self.color
+            return try body(&cStruct)
+        }
     }
 }
 
@@ -5766,9 +5782,9 @@ struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsMessengerCallbackDataEXT
 
     let flags: DebugUtilsMessengerCallbackDataFlagsEXT
-    let pMessageIdName: UnsafePointer<CChar>
+    let pMessageIdName: String
     let messageIdNumber: Int32
-    let pMessage: UnsafePointer<CChar>
+    let pMessage: String
     let queueLabelCount: UInt32
     let pQueueLabels: UnsafePointer<VkDebugUtilsLabelEXT>
     let cmdBufLabelCount: UInt32
@@ -5777,20 +5793,24 @@ struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     let pObjects: UnsafePointer<VkDebugUtilsObjectNameInfoEXT>
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsMessengerCallbackDataEXT>) throws -> R) rethrows -> R {
-        var cStruct = VkDebugUtilsMessengerCallbackDataEXT()
-        cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT
-        cStruct.pNext = nil
-        cStruct.flags = self.flags.rawValue
-        cStruct.pMessageIdName = self.pMessageIdName
-        cStruct.messageIdNumber = self.messageIdNumber
-        cStruct.pMessage = self.pMessage
-        cStruct.queueLabelCount = self.queueLabelCount
-        cStruct.pQueueLabels = self.pQueueLabels
-        cStruct.cmdBufLabelCount = self.cmdBufLabelCount
-        cStruct.pCmdBufLabels = self.pCmdBufLabels
-        cStruct.objectCount = self.objectCount
-        cStruct.pObjects = self.pObjects
-        return try body(&cStruct)
+        try self.pMessageIdName.withCString { cString_pMessageIdName in
+            try self.pMessage.withCString { cString_pMessage in
+                var cStruct = VkDebugUtilsMessengerCallbackDataEXT()
+                cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT
+                cStruct.pNext = nil
+                cStruct.flags = self.flags.rawValue
+                cStruct.pMessageIdName = cString_pMessageIdName
+                cStruct.messageIdNumber = self.messageIdNumber
+                cStruct.pMessage = cString_pMessage
+                cStruct.queueLabelCount = self.queueLabelCount
+                cStruct.pQueueLabels = self.pQueueLabels
+                cStruct.cmdBufLabelCount = self.cmdBufLabelCount
+                cStruct.pCmdBufLabels = self.pCmdBufLabels
+                cStruct.objectCount = self.objectCount
+                cStruct.pObjects = self.pObjects
+                return try body(&cStruct)
+            }
+        }
     }
 }
 

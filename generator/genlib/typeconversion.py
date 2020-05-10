@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from typing import Callable, Dict, Tuple
 
 IMPLICIT_TYPE_MAP = {
     'void': 'Void',
@@ -16,23 +16,34 @@ IMPLICIT_TYPE_MAP = {
 }
 
 ValueGenerator = Callable[[Dict[str, str]], str]
+ClosureGenerator = Callable[[Dict[str, str]], Tuple[str, str]]
 
 
 class TypeConversion:
     def get_swift_value(self, c_value: str) -> str:
         raise NotImplementedError
 
-    def get_c_value(self, swift_value: str) -> str:
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
         raise NotImplementedError
 
-    def bind_swift_value(self, swift_value: str) -> ValueGenerator:
+    def get_c_value_generator(self, swift_name: str) -> ValueGenerator:
         def generator(values_map: Dict[str, str]) -> str:
-            return self.get_c_value(values_map.get(swift_value, swift_value))
+            return self.get_c_value(values_map.get(swift_name, swift_name), swift_name)
         return generator
 
-    def bind_c_value(self, c_value: str) -> ValueGenerator:
+    def get_swift_value_generator(self, c_name: str) -> ValueGenerator:
         def generator(values_map: Dict[str, str]) -> str:
-            return self.get_swift_value(values_map.get(c_value, c_value))
+            return self.get_swift_value(values_map.get(c_name, c_name))
+        return generator
+
+
+class RequiresClosure:
+    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
+        raise NotImplementedError
+
+    def get_closure_generator(self, swift_name: str) -> ClosureGenerator:
+        def generator(values_map: Dict[str, str]) -> Tuple[str, str]:
+            return self.get_closure(values_map.get(swift_name, swift_name), swift_name)
         return generator
 
 
@@ -40,7 +51,7 @@ class ImplicitConversion(TypeConversion):
     def get_swift_value(self, c_value: str) -> str:
         return c_value
 
-    def get_c_value(self, swift_value: str) -> str:
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
         return swift_value
 
 
@@ -48,7 +59,7 @@ class BoolConversion(TypeConversion):
     def get_swift_value(self, c_value: str) -> str:
         return f'{c_value} == VK_TRUE'
 
-    def get_c_value(self, swift_value: str) -> str:
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
         return f'VkBool32({swift_value} ? VK_TRUE : VK_FALSE)'
 
 
@@ -60,7 +71,7 @@ class EnumConversion(TypeConversion):
     def get_swift_value(self, c_value: str) -> str:
         return f'{self.swift_enum}(rawValue: {c_value}.rawValue)!'
 
-    def get_c_value(self, swift_value: str) -> str:
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
         return f'{self.c_enum}(rawValue: {swift_value}.rawValue)'
 
 
@@ -71,5 +82,16 @@ class OptionSetConversion(TypeConversion):
     def get_swift_value(self, c_value: str) -> str:
         return f'{self.option_set}(rawValue: {c_value})'
 
-    def get_c_value(self, swift_value: str) -> str:
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
         return f'{swift_value}.rawValue'
+
+
+class StringConversion(TypeConversion, RequiresClosure):
+    def get_swift_value(self, c_value: str) -> str:
+        return f'String(cString: {c_value})'
+
+    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
+        return f'{swift_value}.withCString {{ cString_{name} in', '}'
+
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
+        return f'cString_{name}'

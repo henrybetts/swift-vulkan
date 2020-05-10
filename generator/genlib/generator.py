@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct
-from typing import TextIO
+from typing import TextIO, List, Tuple
 
 
 class BaseGenerator:
@@ -63,11 +63,28 @@ class Generator(BaseGenerator):
         with self.indent('func withUnsafeCStructPointer<R>'
                          f'(_ body: (UnsafePointer<{struct.c_struct.name}>) throws -> R)'
                          ' rethrows -> R {', '}'):
-            self << f'var cStruct = {struct.c_struct.name}()'
+
             swift_values_map = {member.name: f'self.{member.name}' for member in struct.members}
-            for member, generator in zip(struct.c_struct.members, struct.c_value_generators):
-                self << f'cStruct.{member.name} = {generator(swift_values_map)}'
-            self << 'return try body(&cStruct)'
+            closures = [gen(swift_values_map) for gen in struct.closure_generators]
+
+            with self.closures(closures, throws=True):
+                self << f'var cStruct = {struct.c_struct.name}()'
+                for member, generator in zip(struct.c_struct.members, struct.c_value_generators):
+                    self << f'cStruct.{member.name} = {generator(swift_values_map)}'
+                self << 'return try body(&cStruct)'
+
+    @contextmanager
+    def closures(self, closures: List[Tuple[str, str]], throws: bool = False):
+        for closure in closures:
+            if throws:
+                self << 'try ' + closure[0]
+            else:
+                self << closure[0]
+            self.indent_size += 1
+        yield
+        for closure in reversed(closures):
+            self.indent_size -= 1
+            self << closure[1]
 
 
 def safe_name(name: str) -> str:

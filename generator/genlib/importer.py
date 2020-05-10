@@ -24,11 +24,12 @@ class SwiftStruct:
             self.type = type_
             self.value_generator = value_generator
 
-    def __init__(self, name: str, members: List[Member],
-                 c_value_generators: List[tc.ValueGenerator], c_struct: CStruct):
+    def __init__(self, c_struct: CStruct, name: str, members: List[Member],
+                 c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
         self.name = name
         self.members = members
         self.c_value_generators = c_value_generators
+        self.closure_generators = closure_generators
         self.c_struct = c_struct
 
 
@@ -141,8 +142,8 @@ class Importer:
         return option_set
 
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
-        struct = SwiftStruct(name=remove_vk_prefix(c_struct.name), members=[],
-                             c_value_generators=[], c_struct=c_struct)
+        struct = SwiftStruct(c_struct=c_struct, name=remove_vk_prefix(c_struct.name), members=[],
+                             c_value_generators=[], closure_generators=[])
 
         for c_member in c_struct.members:
             if len(c_member.values) == 1:
@@ -155,9 +156,12 @@ class Importer:
 
             swift_type, conversion = self.get_type_conversion(c_member.type)
             member = SwiftStruct.Member(name=c_member.name, type_=swift_type,
-                                        value_generator=conversion.bind_c_value(c_member.name))
+                                        value_generator=conversion.get_c_value_generator(c_member.name))
+
             struct.members.append(member)
-            struct.c_value_generators.append(conversion.bind_swift_value(c_member.name))
+            struct.c_value_generators.append(conversion.get_c_value_generator(c_member.name))
+            if isinstance(conversion, tc.RequiresClosure):
+                struct.closure_generators.append(conversion.get_closure_generator(c_member.name))
 
         return struct
 
@@ -182,6 +186,10 @@ class Importer:
                     return 'UnsafeRawPointer', tc.ImplicitConversion()
                 else:
                     return 'UnsafeMutableRawPointer', tc.ImplicitConversion()
+
+            if not implicit_only:
+                if c_type.pointer_to.const and c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
+                    return 'String', tc.StringConversion()
 
             to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
             if self.is_pointer_type(c_type.pointer_to):
