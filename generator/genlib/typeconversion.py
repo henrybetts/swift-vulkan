@@ -50,3 +50,15 @@ class BoolConversion(TypeConversion):
 
     def get_c_value(self, swift_value: str) -> str:
         return f'VkBool32({swift_value} ? VK_TRUE : VK_FALSE)'
+
+
+class EnumConversion(TypeConversion):
+    def __init__(self, c_enum: str, swift_enum: str):
+        self.c_enum = c_enum
+        self.swift_enum = swift_enum
+
+    def get_swift_value(self, c_value: str) -> str:
+        return f'{self.swift_enum}(rawValue: {c_value}.rawValue)!'
+
+    def get_c_value(self, swift_value: str) -> str:
+        return f'{self.c_enum}(rawValue: {swift_value}.rawValue)'

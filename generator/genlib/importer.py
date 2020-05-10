@@ -1,6 +1,6 @@
 from .parser import CContext, CEnum, CBitmask, CStruct, CType
 from . import typeconversion as tc
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple, List, Dict
 
 
 class SwiftEnum(CEnum):
@@ -42,6 +42,7 @@ class SwiftContext:
 class Importer:
     def __init__(self, c_context: CContext):
         self.c_context = c_context
+        self.imported_enums: Dict[str, SwiftEnum] = {}
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
@@ -91,6 +92,7 @@ class Importer:
             for case in swift_enum.cases:
                 case.name = 'type' + case.name[0].upper() + case.name[1:]
 
+        self.imported_enums[c_enum.name] = swift_enum
         return swift_enum
 
     def import_bitmask(self, c_bitmask: CBitmask) -> SwiftOptionSet:
@@ -157,12 +159,16 @@ class Importer:
 
         return struct
 
-    def get_type_conversion(self, c_type: CType) -> Tuple[str, tc.TypeConversion]:
+    def get_type_conversion(self, c_type: CType, implicit_only: bool = False) -> Tuple[str, tc.TypeConversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.ImplicitConversion()
-            if c_type.name == 'VkBool32':
-                return 'Bool', tc.BoolConversion()
+            if not implicit_only:
+                if c_type.name == 'VkBool32':
+                    return 'Bool', tc.BoolConversion()
+                if c_type.name in self.imported_enums:
+                    swift_enum = self.imported_enums[c_type.name]
+                    return swift_enum.name, tc.EnumConversion(c_type.name, swift_enum.name)
             return c_type.name, tc.ImplicitConversion()
 
         elif c_type.pointer_to:
@@ -172,7 +178,7 @@ class Importer:
                 else:
                     return 'UnsafeMutableRawPointer', tc.ImplicitConversion()
 
-            to_type, _ = self.get_type_conversion(c_type.pointer_to)
+            to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
             if self.is_pointer_type(c_type.pointer_to):
                 to_type += '?'
             if c_type.pointer_to.const:
@@ -181,7 +187,7 @@ class Importer:
                 return f'UnsafeMutablePointer<{to_type}>', tc.ImplicitConversion()
 
         elif c_type.array_of:
-            of_type, _ = self.get_type_conversion(c_type.array_of)
+            of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True)
             return f'({", ".join([of_type] * c_type.length)})', tc.ImplicitConversion()
 
     def is_pointer_type(self, c_type: CType) -> bool:
