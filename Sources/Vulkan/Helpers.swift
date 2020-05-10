@@ -1,6 +1,6 @@
 protocol CStructConvertible {
     associatedtype CStruct
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<CStruct>) throws -> R) rethrows -> R
+    func withCStruct<R>(_ body: (UnsafePointer<CStruct>) throws -> R) rethrows -> R
 }
 
 extension String {

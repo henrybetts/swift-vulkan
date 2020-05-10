@@ -5,7 +5,7 @@ struct BaseOutStructure: CStructConvertible {
 
     let sType: StructureType
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBaseOutStructure>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBaseOutStructure>) throws -> R) rethrows -> R {
         var cStruct = VkBaseOutStructure()
         cStruct.sType = VkStructureType(rawValue: self.sType.rawValue)
         cStruct.pNext = nil
@@ -18,7 +18,7 @@ struct BaseInStructure: CStructConvertible {
 
     let sType: StructureType
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBaseInStructure>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBaseInStructure>) throws -> R) rethrows -> R {
         var cStruct = VkBaseInStructure()
         cStruct.sType = VkStructureType(rawValue: self.sType.rawValue)
         cStruct.pNext = nil
@@ -32,7 +32,7 @@ struct Offset2D: CStructConvertible {
     let x: Int32
     let y: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkOffset2D>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkOffset2D>) throws -> R) rethrows -> R {
         var cStruct = VkOffset2D()
         cStruct.x = self.x
         cStruct.y = self.y
@@ -47,7 +47,7 @@ struct Offset3D: CStructConvertible {
     let y: Int32
     let z: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkOffset3D>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkOffset3D>) throws -> R) rethrows -> R {
         var cStruct = VkOffset3D()
         cStruct.x = self.x
         cStruct.y = self.y
@@ -62,7 +62,7 @@ struct Extent2D: CStructConvertible {
     let width: UInt32
     let height: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExtent2D>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExtent2D>) throws -> R) rethrows -> R {
         var cStruct = VkExtent2D()
         cStruct.width = self.width
         cStruct.height = self.height
@@ -77,7 +77,7 @@ struct Extent3D: CStructConvertible {
     let height: UInt32
     let depth: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExtent3D>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExtent3D>) throws -> R) rethrows -> R {
         var cStruct = VkExtent3D()
         cStruct.width = self.width
         cStruct.height = self.height
@@ -96,7 +96,7 @@ struct Viewport: CStructConvertible {
     let minDepth: Float
     let maxDepth: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkViewport>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkViewport>) throws -> R) rethrows -> R {
         var cStruct = VkViewport()
         cStruct.x = self.x
         cStruct.y = self.y
@@ -114,9 +114,9 @@ struct Rect2D: CStructConvertible {
     let offset: Offset2D
     let extent: Extent2D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRect2D>) throws -> R) rethrows -> R {
-        try self.offset.withUnsafeCStructPointer { ptr_offset in
-            try self.extent.withUnsafeCStructPointer { ptr_extent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkRect2D>) throws -> R) rethrows -> R {
+        try self.offset.withCStruct { ptr_offset in
+            try self.extent.withCStruct { ptr_extent in
                 var cStruct = VkRect2D()
                 cStruct.offset = ptr_offset.pointee
                 cStruct.extent = ptr_extent.pointee
@@ -133,8 +133,8 @@ struct ClearRect: CStructConvertible {
     let baseArrayLayer: UInt32
     let layerCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkClearRect>) throws -> R) rethrows -> R {
-        try self.rect.withUnsafeCStructPointer { ptr_rect in
+    func withCStruct<R>(_ body: (UnsafePointer<VkClearRect>) throws -> R) rethrows -> R {
+        try self.rect.withCStruct { ptr_rect in
             var cStruct = VkClearRect()
             cStruct.rect = ptr_rect.pointee
             cStruct.baseArrayLayer = self.baseArrayLayer
@@ -152,7 +152,7 @@ struct ComponentMapping: CStructConvertible {
     let b: ComponentSwizzle
     let a: ComponentSwizzle
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkComponentMapping>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkComponentMapping>) throws -> R) rethrows -> R {
         var cStruct = VkComponentMapping()
         cStruct.r = VkComponentSwizzle(rawValue: self.r.rawValue)
         cStruct.g = VkComponentSwizzle(rawValue: self.g.rawValue)
@@ -175,9 +175,9 @@ struct PhysicalDeviceProperties: CStructConvertible {
     let limits: PhysicalDeviceLimits
     let sparseProperties: PhysicalDeviceSparseProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProperties>) throws -> R) rethrows -> R {
-        try self.limits.withUnsafeCStructPointer { ptr_limits in
-            try self.sparseProperties.withUnsafeCStructPointer { ptr_sparseProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceProperties>) throws -> R) rethrows -> R {
+        try self.limits.withCStruct { ptr_limits in
+            try self.sparseProperties.withCStruct { ptr_sparseProperties in
                 var cStruct = VkPhysicalDeviceProperties()
                 cStruct.apiVersion = self.apiVersion
                 cStruct.driverVersion = self.driverVersion
@@ -200,7 +200,7 @@ struct ExtensionProperties: CStructConvertible {
     let extensionName: String
     let specVersion: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExtensionProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExtensionProperties>) throws -> R) rethrows -> R {
         var cStruct = VkExtensionProperties()
         cStruct.extensionName = self.extensionName.unsafeBytesCopy()
         cStruct.specVersion = self.specVersion
@@ -216,7 +216,7 @@ struct LayerProperties: CStructConvertible {
     let implementationVersion: UInt32
     let description: String
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkLayerProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkLayerProperties>) throws -> R) rethrows -> R {
         var cStruct = VkLayerProperties()
         cStruct.layerName = self.layerName.unsafeBytesCopy()
         cStruct.specVersion = self.specVersion
@@ -235,7 +235,7 @@ struct ApplicationInfo: CStructConvertible {
     let engineVersion: UInt32
     let apiVersion: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkApplicationInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkApplicationInfo>) throws -> R) rethrows -> R {
         try self.pApplicationName.withCString { cString_pApplicationName in
             try self.pEngineName.withCString { cString_pEngineName in
                 var cStruct = VkApplicationInfo()
@@ -262,7 +262,7 @@ struct AllocationCallbacks: CStructConvertible {
     let pfnInternalAllocation: PFN_vkInternalAllocationNotification
     let pfnInternalFree: PFN_vkInternalFreeNotification
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAllocationCallbacks>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAllocationCallbacks>) throws -> R) rethrows -> R {
         var cStruct = VkAllocationCallbacks()
         cStruct.pUserData = self.pUserData
         cStruct.pfnAllocation = self.pfnAllocation
@@ -282,7 +282,7 @@ struct DeviceQueueCreateInfo: CStructConvertible {
     let queueCount: UInt32
     let pQueuePriorities: UnsafePointer<Float>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceQueueCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceQueueCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceQueueCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO
         cStruct.pNext = nil
@@ -306,8 +306,8 @@ struct DeviceCreateInfo: CStructConvertible {
     let ppEnabledExtensionNames: UnsafePointer<UnsafePointer<CChar>?>
     let pEnabledFeatures: PhysicalDeviceFeatures
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceCreateInfo>) throws -> R) rethrows -> R {
-        try self.pEnabledFeatures.withUnsafeCStructPointer { ptr_pEnabledFeatures in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceCreateInfo>) throws -> R) rethrows -> R {
+        try self.pEnabledFeatures.withCStruct { ptr_pEnabledFeatures in
             var cStruct = VkDeviceCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO
             cStruct.pNext = nil
@@ -334,8 +334,8 @@ struct InstanceCreateInfo: CStructConvertible {
     let enabledExtensionCount: UInt32
     let ppEnabledExtensionNames: UnsafePointer<UnsafePointer<CChar>?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkInstanceCreateInfo>) throws -> R) rethrows -> R {
-        try self.pApplicationInfo.withUnsafeCStructPointer { ptr_pApplicationInfo in
+    func withCStruct<R>(_ body: (UnsafePointer<VkInstanceCreateInfo>) throws -> R) rethrows -> R {
+        try self.pApplicationInfo.withCStruct { ptr_pApplicationInfo in
             var cStruct = VkInstanceCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO
             cStruct.pNext = nil
@@ -358,8 +358,8 @@ struct QueueFamilyProperties: CStructConvertible {
     let timestampValidBits: UInt32
     let minImageTransferGranularity: Extent3D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkQueueFamilyProperties>) throws -> R) rethrows -> R {
-        try self.minImageTransferGranularity.withUnsafeCStructPointer { ptr_minImageTransferGranularity in
+    func withCStruct<R>(_ body: (UnsafePointer<VkQueueFamilyProperties>) throws -> R) rethrows -> R {
+        try self.minImageTransferGranularity.withCStruct { ptr_minImageTransferGranularity in
             var cStruct = VkQueueFamilyProperties()
             cStruct.queueFlags = self.queueFlags.rawValue
             cStruct.queueCount = self.queueCount
@@ -378,7 +378,7 @@ struct PhysicalDeviceMemoryProperties: CStructConvertible {
     let memoryHeapCount: UInt32
     let memoryHeaps: (VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMemoryProperties()
         cStruct.memoryTypeCount = self.memoryTypeCount
         cStruct.memoryTypes = self.memoryTypes
@@ -394,7 +394,7 @@ struct MemoryAllocateInfo: CStructConvertible {
     let allocationSize: VkDeviceSize
     let memoryTypeIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -411,7 +411,7 @@ struct MemoryRequirements: CStructConvertible {
     let alignment: VkDeviceSize
     let memoryTypeBits: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryRequirements>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryRequirements>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryRequirements()
         cStruct.size = self.size
         cStruct.alignment = self.alignment
@@ -427,8 +427,8 @@ struct SparseImageFormatProperties: CStructConvertible {
     let imageGranularity: Extent3D
     let flags: SparseImageFormatFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageFormatProperties>) throws -> R) rethrows -> R {
-        try self.imageGranularity.withUnsafeCStructPointer { ptr_imageGranularity in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageFormatProperties>) throws -> R) rethrows -> R {
+        try self.imageGranularity.withCStruct { ptr_imageGranularity in
             var cStruct = VkSparseImageFormatProperties()
             cStruct.aspectMask = self.aspectMask.rawValue
             cStruct.imageGranularity = ptr_imageGranularity.pointee
@@ -447,8 +447,8 @@ struct SparseImageMemoryRequirements: CStructConvertible {
     let imageMipTailOffset: VkDeviceSize
     let imageMipTailStride: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageMemoryRequirements>) throws -> R) rethrows -> R {
-        try self.formatProperties.withUnsafeCStructPointer { ptr_formatProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryRequirements>) throws -> R) rethrows -> R {
+        try self.formatProperties.withCStruct { ptr_formatProperties in
             var cStruct = VkSparseImageMemoryRequirements()
             cStruct.formatProperties = ptr_formatProperties.pointee
             cStruct.imageMipTailFirstLod = self.imageMipTailFirstLod
@@ -466,7 +466,7 @@ struct MemoryType: CStructConvertible {
     let propertyFlags: MemoryPropertyFlags
     let heapIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryType>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryType>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryType()
         cStruct.propertyFlags = self.propertyFlags.rawValue
         cStruct.heapIndex = self.heapIndex
@@ -480,7 +480,7 @@ struct MemoryHeap: CStructConvertible {
     let size: VkDeviceSize
     let flags: MemoryHeapFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryHeap>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryHeap>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryHeap()
         cStruct.size = self.size
         cStruct.flags = self.flags.rawValue
@@ -495,7 +495,7 @@ struct MappedMemoryRange: CStructConvertible {
     let offset: VkDeviceSize
     let size: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMappedMemoryRange>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMappedMemoryRange>) throws -> R) rethrows -> R {
         var cStruct = VkMappedMemoryRange()
         cStruct.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE
         cStruct.pNext = nil
@@ -513,7 +513,7 @@ struct FormatProperties: CStructConvertible {
     let optimalTilingFeatures: FormatFeatureFlags
     let bufferFeatures: FormatFeatureFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFormatProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFormatProperties>) throws -> R) rethrows -> R {
         var cStruct = VkFormatProperties()
         cStruct.linearTilingFeatures = self.linearTilingFeatures.rawValue
         cStruct.optimalTilingFeatures = self.optimalTilingFeatures.rawValue
@@ -531,8 +531,8 @@ struct ImageFormatProperties: CStructConvertible {
     let sampleCounts: SampleCountFlags
     let maxResourceSize: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageFormatProperties>) throws -> R) rethrows -> R {
-        try self.maxExtent.withUnsafeCStructPointer { ptr_maxExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageFormatProperties>) throws -> R) rethrows -> R {
+        try self.maxExtent.withCStruct { ptr_maxExtent in
             var cStruct = VkImageFormatProperties()
             cStruct.maxExtent = ptr_maxExtent.pointee
             cStruct.maxMipLevels = self.maxMipLevels
@@ -551,7 +551,7 @@ struct DescriptorBufferInfo: CStructConvertible {
     let offset: VkDeviceSize
     let range: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorBufferInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorBufferInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorBufferInfo()
         cStruct.buffer = self.buffer
         cStruct.offset = self.offset
@@ -567,7 +567,7 @@ struct DescriptorImageInfo: CStructConvertible {
     let imageView: VkImageView
     let imageLayout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorImageInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorImageInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorImageInfo()
         cStruct.sampler = self.sampler
         cStruct.imageView = self.imageView
@@ -588,7 +588,7 @@ struct WriteDescriptorSet: CStructConvertible {
     let pBufferInfo: UnsafePointer<VkDescriptorBufferInfo>
     let pTexelBufferView: UnsafePointer<VkBufferView?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkWriteDescriptorSet>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkWriteDescriptorSet>) throws -> R) rethrows -> R {
         var cStruct = VkWriteDescriptorSet()
         cStruct.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET
         cStruct.pNext = nil
@@ -615,7 +615,7 @@ struct CopyDescriptorSet: CStructConvertible {
     let dstArrayElement: UInt32
     let descriptorCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCopyDescriptorSet>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCopyDescriptorSet>) throws -> R) rethrows -> R {
         var cStruct = VkCopyDescriptorSet()
         cStruct.sType = VK_STRUCTURE_TYPE_COPY_DESCRIPTOR_SET
         cStruct.pNext = nil
@@ -640,7 +640,7 @@ struct BufferCreateInfo: CStructConvertible {
     let queueFamilyIndexCount: UInt32
     let pQueueFamilyIndices: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO
         cStruct.pNext = nil
@@ -663,7 +663,7 @@ struct BufferViewCreateInfo: CStructConvertible {
     let offset: VkDeviceSize
     let range: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferViewCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferViewCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferViewCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_VIEW_CREATE_INFO
         cStruct.pNext = nil
@@ -683,7 +683,7 @@ struct ImageSubresource: CStructConvertible {
     let mipLevel: UInt32
     let arrayLayer: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageSubresource>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageSubresource>) throws -> R) rethrows -> R {
         var cStruct = VkImageSubresource()
         cStruct.aspectMask = self.aspectMask.rawValue
         cStruct.mipLevel = self.mipLevel
@@ -700,7 +700,7 @@ struct ImageSubresourceLayers: CStructConvertible {
     let baseArrayLayer: UInt32
     let layerCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageSubresourceLayers>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageSubresourceLayers>) throws -> R) rethrows -> R {
         var cStruct = VkImageSubresourceLayers()
         cStruct.aspectMask = self.aspectMask.rawValue
         cStruct.mipLevel = self.mipLevel
@@ -719,7 +719,7 @@ struct ImageSubresourceRange: CStructConvertible {
     let baseArrayLayer: UInt32
     let layerCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageSubresourceRange>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageSubresourceRange>) throws -> R) rethrows -> R {
         var cStruct = VkImageSubresourceRange()
         cStruct.aspectMask = self.aspectMask.rawValue
         cStruct.baseMipLevel = self.baseMipLevel
@@ -736,7 +736,7 @@ struct MemoryBarrier: CStructConvertible {
     let srcAccessMask: AccessFlags
     let dstAccessMask: AccessFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryBarrier>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryBarrier>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryBarrier()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER
         cStruct.pNext = nil
@@ -757,7 +757,7 @@ struct BufferMemoryBarrier: CStructConvertible {
     let offset: VkDeviceSize
     let size: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferMemoryBarrier>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferMemoryBarrier>) throws -> R) rethrows -> R {
         var cStruct = VkBufferMemoryBarrier()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER
         cStruct.pNext = nil
@@ -784,8 +784,8 @@ struct ImageMemoryBarrier: CStructConvertible {
     let image: VkImage
     let subresourceRange: ImageSubresourceRange
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageMemoryBarrier>) throws -> R) rethrows -> R {
-        try self.subresourceRange.withUnsafeCStructPointer { ptr_subresourceRange in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageMemoryBarrier>) throws -> R) rethrows -> R {
+        try self.subresourceRange.withCStruct { ptr_subresourceRange in
             var cStruct = VkImageMemoryBarrier()
             cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER
             cStruct.pNext = nil
@@ -819,8 +819,8 @@ struct ImageCreateInfo: CStructConvertible {
     let pQueueFamilyIndices: UnsafePointer<UInt32>
     let initialLayout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageCreateInfo>) throws -> R) rethrows -> R {
-        try self.extent.withUnsafeCStructPointer { ptr_extent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageCreateInfo>) throws -> R) rethrows -> R {
+        try self.extent.withCStruct { ptr_extent in
             var cStruct = VkImageCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO
             cStruct.pNext = nil
@@ -851,7 +851,7 @@ struct SubresourceLayout: CStructConvertible {
     let arrayPitch: VkDeviceSize
     let depthPitch: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubresourceLayout>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubresourceLayout>) throws -> R) rethrows -> R {
         var cStruct = VkSubresourceLayout()
         cStruct.offset = self.offset
         cStruct.size = self.size
@@ -872,9 +872,9 @@ struct ImageViewCreateInfo: CStructConvertible {
     let components: ComponentMapping
     let subresourceRange: ImageSubresourceRange
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageViewCreateInfo>) throws -> R) rethrows -> R {
-        try self.components.withUnsafeCStructPointer { ptr_components in
-            try self.subresourceRange.withUnsafeCStructPointer { ptr_subresourceRange in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageViewCreateInfo>) throws -> R) rethrows -> R {
+        try self.components.withCStruct { ptr_components in
+            try self.subresourceRange.withCStruct { ptr_subresourceRange in
                 var cStruct = VkImageViewCreateInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO
                 cStruct.pNext = nil
@@ -897,7 +897,7 @@ struct BufferCopy: CStructConvertible {
     let dstOffset: VkDeviceSize
     let size: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferCopy>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferCopy>) throws -> R) rethrows -> R {
         var cStruct = VkBufferCopy()
         cStruct.srcOffset = self.srcOffset
         cStruct.dstOffset = self.dstOffset
@@ -915,7 +915,7 @@ struct SparseMemoryBind: CStructConvertible {
     let memoryOffset: VkDeviceSize
     let flags: SparseMemoryBindFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseMemoryBind>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseMemoryBind>) throws -> R) rethrows -> R {
         var cStruct = VkSparseMemoryBind()
         cStruct.resourceOffset = self.resourceOffset
         cStruct.size = self.size
@@ -936,10 +936,10 @@ struct SparseImageMemoryBind: CStructConvertible {
     let memoryOffset: VkDeviceSize
     let flags: SparseMemoryBindFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageMemoryBind>) throws -> R) rethrows -> R {
-        try self.subresource.withUnsafeCStructPointer { ptr_subresource in
-            try self.offset.withUnsafeCStructPointer { ptr_offset in
-                try self.extent.withUnsafeCStructPointer { ptr_extent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryBind>) throws -> R) rethrows -> R {
+        try self.subresource.withCStruct { ptr_subresource in
+            try self.offset.withCStruct { ptr_offset in
+                try self.extent.withCStruct { ptr_extent in
                     var cStruct = VkSparseImageMemoryBind()
                     cStruct.subresource = ptr_subresource.pointee
                     cStruct.offset = ptr_offset.pointee
@@ -961,7 +961,7 @@ struct SparseBufferMemoryBindInfo: CStructConvertible {
     let bindCount: UInt32
     let pBinds: UnsafePointer<VkSparseMemoryBind>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseBufferMemoryBindInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseBufferMemoryBindInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSparseBufferMemoryBindInfo()
         cStruct.buffer = self.buffer
         cStruct.bindCount = self.bindCount
@@ -977,7 +977,7 @@ struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
     let bindCount: UInt32
     let pBinds: UnsafePointer<VkSparseMemoryBind>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageOpaqueMemoryBindInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageOpaqueMemoryBindInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSparseImageOpaqueMemoryBindInfo()
         cStruct.image = self.image
         cStruct.bindCount = self.bindCount
@@ -993,7 +993,7 @@ struct SparseImageMemoryBindInfo: CStructConvertible {
     let bindCount: UInt32
     let pBinds: UnsafePointer<VkSparseImageMemoryBind>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageMemoryBindInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryBindInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSparseImageMemoryBindInfo()
         cStruct.image = self.image
         cStruct.bindCount = self.bindCount
@@ -1016,7 +1016,7 @@ struct BindSparseInfo: CStructConvertible {
     let signalSemaphoreCount: UInt32
     let pSignalSemaphores: UnsafePointer<VkSemaphore?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindSparseInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindSparseInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindSparseInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_SPARSE_INFO
         cStruct.pNext = nil
@@ -1043,12 +1043,12 @@ struct ImageCopy: CStructConvertible {
     let dstOffset: Offset3D
     let extent: Extent3D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageCopy>) throws -> R) rethrows -> R {
-        try self.srcSubresource.withUnsafeCStructPointer { ptr_srcSubresource in
-            try self.srcOffset.withUnsafeCStructPointer { ptr_srcOffset in
-                try self.dstSubresource.withUnsafeCStructPointer { ptr_dstSubresource in
-                    try self.dstOffset.withUnsafeCStructPointer { ptr_dstOffset in
-                        try self.extent.withUnsafeCStructPointer { ptr_extent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageCopy>) throws -> R) rethrows -> R {
+        try self.srcSubresource.withCStruct { ptr_srcSubresource in
+            try self.srcOffset.withCStruct { ptr_srcOffset in
+                try self.dstSubresource.withCStruct { ptr_dstSubresource in
+                    try self.dstOffset.withCStruct { ptr_dstOffset in
+                        try self.extent.withCStruct { ptr_extent in
                             var cStruct = VkImageCopy()
                             cStruct.srcSubresource = ptr_srcSubresource.pointee
                             cStruct.srcOffset = ptr_srcOffset.pointee
@@ -1072,9 +1072,9 @@ struct ImageBlit: CStructConvertible {
     let dstSubresource: ImageSubresourceLayers
     let dstOffsets: (VkOffset3D, VkOffset3D)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageBlit>) throws -> R) rethrows -> R {
-        try self.srcSubresource.withUnsafeCStructPointer { ptr_srcSubresource in
-            try self.dstSubresource.withUnsafeCStructPointer { ptr_dstSubresource in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageBlit>) throws -> R) rethrows -> R {
+        try self.srcSubresource.withCStruct { ptr_srcSubresource in
+            try self.dstSubresource.withCStruct { ptr_dstSubresource in
                 var cStruct = VkImageBlit()
                 cStruct.srcSubresource = ptr_srcSubresource.pointee
                 cStruct.srcOffsets = self.srcOffsets
@@ -1096,10 +1096,10 @@ struct BufferImageCopy: CStructConvertible {
     let imageOffset: Offset3D
     let imageExtent: Extent3D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferImageCopy>) throws -> R) rethrows -> R {
-        try self.imageSubresource.withUnsafeCStructPointer { ptr_imageSubresource in
-            try self.imageOffset.withUnsafeCStructPointer { ptr_imageOffset in
-                try self.imageExtent.withUnsafeCStructPointer { ptr_imageExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferImageCopy>) throws -> R) rethrows -> R {
+        try self.imageSubresource.withCStruct { ptr_imageSubresource in
+            try self.imageOffset.withCStruct { ptr_imageOffset in
+                try self.imageExtent.withCStruct { ptr_imageExtent in
                     var cStruct = VkBufferImageCopy()
                     cStruct.bufferOffset = self.bufferOffset
                     cStruct.bufferRowLength = self.bufferRowLength
@@ -1123,12 +1123,12 @@ struct ImageResolve: CStructConvertible {
     let dstOffset: Offset3D
     let extent: Extent3D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageResolve>) throws -> R) rethrows -> R {
-        try self.srcSubresource.withUnsafeCStructPointer { ptr_srcSubresource in
-            try self.srcOffset.withUnsafeCStructPointer { ptr_srcOffset in
-                try self.dstSubresource.withUnsafeCStructPointer { ptr_dstSubresource in
-                    try self.dstOffset.withUnsafeCStructPointer { ptr_dstOffset in
-                        try self.extent.withUnsafeCStructPointer { ptr_extent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageResolve>) throws -> R) rethrows -> R {
+        try self.srcSubresource.withCStruct { ptr_srcSubresource in
+            try self.srcOffset.withCStruct { ptr_srcOffset in
+                try self.dstSubresource.withCStruct { ptr_dstSubresource in
+                    try self.dstOffset.withCStruct { ptr_dstOffset in
+                        try self.extent.withCStruct { ptr_extent in
                             var cStruct = VkImageResolve()
                             cStruct.srcSubresource = ptr_srcSubresource.pointee
                             cStruct.srcOffset = ptr_srcOffset.pointee
@@ -1151,7 +1151,7 @@ struct ShaderModuleCreateInfo: CStructConvertible {
     let codeSize: Int
     let pCode: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkShaderModuleCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkShaderModuleCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkShaderModuleCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO
         cStruct.pNext = nil
@@ -1171,7 +1171,7 @@ struct DescriptorSetLayoutBinding: CStructConvertible {
     let stageFlags: ShaderStageFlags
     let pImmutableSamplers: UnsafePointer<VkSampler?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBinding>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBinding>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetLayoutBinding()
         cStruct.binding = self.binding
         cStruct.descriptorType = VkDescriptorType(rawValue: self.descriptorType.rawValue)
@@ -1189,7 +1189,7 @@ struct DescriptorSetLayoutCreateInfo: CStructConvertible {
     let bindingCount: UInt32
     let pBindings: UnsafePointer<VkDescriptorSetLayoutBinding>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetLayoutCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO
         cStruct.pNext = nil
@@ -1206,7 +1206,7 @@ struct DescriptorPoolSize: CStructConvertible {
     let type: DescriptorType
     let descriptorCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorPoolSize>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorPoolSize>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorPoolSize()
         cStruct.type = VkDescriptorType(rawValue: self.type.rawValue)
         cStruct.descriptorCount = self.descriptorCount
@@ -1222,7 +1222,7 @@ struct DescriptorPoolCreateInfo: CStructConvertible {
     let poolSizeCount: UInt32
     let pPoolSizes: UnsafePointer<VkDescriptorPoolSize>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorPoolCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorPoolCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorPoolCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO
         cStruct.pNext = nil
@@ -1241,7 +1241,7 @@ struct DescriptorSetAllocateInfo: CStructConvertible {
     let descriptorSetCount: UInt32
     let pSetLayouts: UnsafePointer<VkDescriptorSetLayout?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -1259,7 +1259,7 @@ struct SpecializationMapEntry: CStructConvertible {
     let offset: UInt32
     let size: Int
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSpecializationMapEntry>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSpecializationMapEntry>) throws -> R) rethrows -> R {
         var cStruct = VkSpecializationMapEntry()
         cStruct.constantID = self.constantID
         cStruct.offset = self.offset
@@ -1276,7 +1276,7 @@ struct SpecializationInfo: CStructConvertible {
     let dataSize: Int
     let pData: UnsafeRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSpecializationInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSpecializationInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSpecializationInfo()
         cStruct.mapEntryCount = self.mapEntryCount
         cStruct.pMapEntries = self.pMapEntries
@@ -1295,9 +1295,9 @@ struct PipelineShaderStageCreateInfo: CStructConvertible {
     let pName: String
     let pSpecializationInfo: SpecializationInfo
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineShaderStageCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineShaderStageCreateInfo>) throws -> R) rethrows -> R {
         try self.pName.withCString { cString_pName in
-            try self.pSpecializationInfo.withUnsafeCStructPointer { ptr_pSpecializationInfo in
+            try self.pSpecializationInfo.withCStruct { ptr_pSpecializationInfo in
                 var cStruct = VkPipelineShaderStageCreateInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO
                 cStruct.pNext = nil
@@ -1321,8 +1321,8 @@ struct ComputePipelineCreateInfo: CStructConvertible {
     let basePipelineHandle: VkPipeline
     let basePipelineIndex: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkComputePipelineCreateInfo>) throws -> R) rethrows -> R {
-        try self.stage.withUnsafeCStructPointer { ptr_stage in
+    func withCStruct<R>(_ body: (UnsafePointer<VkComputePipelineCreateInfo>) throws -> R) rethrows -> R {
+        try self.stage.withCStruct { ptr_stage in
             var cStruct = VkComputePipelineCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO
             cStruct.pNext = nil
@@ -1343,7 +1343,7 @@ struct VertexInputBindingDescription: CStructConvertible {
     let stride: UInt32
     let inputRate: VertexInputRate
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkVertexInputBindingDescription>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkVertexInputBindingDescription>) throws -> R) rethrows -> R {
         var cStruct = VkVertexInputBindingDescription()
         cStruct.binding = self.binding
         cStruct.stride = self.stride
@@ -1360,7 +1360,7 @@ struct VertexInputAttributeDescription: CStructConvertible {
     let format: Format
     let offset: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkVertexInputAttributeDescription>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkVertexInputAttributeDescription>) throws -> R) rethrows -> R {
         var cStruct = VkVertexInputAttributeDescription()
         cStruct.location = self.location
         cStruct.binding = self.binding
@@ -1379,7 +1379,7 @@ struct PipelineVertexInputStateCreateInfo: CStructConvertible {
     let vertexAttributeDescriptionCount: UInt32
     let pVertexAttributeDescriptions: UnsafePointer<VkVertexInputAttributeDescription>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineVertexInputStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineVertexInputStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineVertexInputStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1399,7 +1399,7 @@ struct PipelineInputAssemblyStateCreateInfo: CStructConvertible {
     let topology: PrimitiveTopology
     let primitiveRestartEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineInputAssemblyStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineInputAssemblyStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineInputAssemblyStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1416,7 +1416,7 @@ struct PipelineTessellationStateCreateInfo: CStructConvertible {
     let flags: PipelineTessellationStateCreateFlags
     let patchControlPoints: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineTessellationStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineTessellationStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineTessellationStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1435,7 +1435,7 @@ struct PipelineViewportStateCreateInfo: CStructConvertible {
     let scissorCount: UInt32
     let pScissors: UnsafePointer<VkRect2D>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineViewportStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineViewportStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1463,7 +1463,7 @@ struct PipelineRasterizationStateCreateInfo: CStructConvertible {
     let depthBiasSlopeFactor: Float
     let lineWidth: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRasterizationStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1493,7 +1493,7 @@ struct PipelineMultisampleStateCreateInfo: CStructConvertible {
     let alphaToCoverageEnable: Bool
     let alphaToOneEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineMultisampleStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineMultisampleStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineMultisampleStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1520,7 +1520,7 @@ struct PipelineColorBlendAttachmentState: CStructConvertible {
     let alphaBlendOp: BlendOp
     let colorWriteMask: ColorComponentFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineColorBlendAttachmentState>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineColorBlendAttachmentState>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineColorBlendAttachmentState()
         cStruct.blendEnable = VkBool32(self.blendEnable ? VK_TRUE : VK_FALSE)
         cStruct.srcColorBlendFactor = VkBlendFactor(rawValue: self.srcColorBlendFactor.rawValue)
@@ -1544,7 +1544,7 @@ struct PipelineColorBlendStateCreateInfo: CStructConvertible {
     let pAttachments: UnsafePointer<VkPipelineColorBlendAttachmentState>
     let blendConstants: (Float, Float, Float, Float)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineColorBlendStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineColorBlendStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineColorBlendStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1565,7 +1565,7 @@ struct PipelineDynamicStateCreateInfo: CStructConvertible {
     let dynamicStateCount: UInt32
     let pDynamicStates: UnsafePointer<VkDynamicState>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineDynamicStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineDynamicStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineDynamicStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -1587,7 +1587,7 @@ struct StencilOpState: CStructConvertible {
     let writeMask: UInt32
     let reference: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkStencilOpState>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkStencilOpState>) throws -> R) rethrows -> R {
         var cStruct = VkStencilOpState()
         cStruct.failOp = VkStencilOp(rawValue: self.failOp.rawValue)
         cStruct.passOp = VkStencilOp(rawValue: self.passOp.rawValue)
@@ -1614,9 +1614,9 @@ struct PipelineDepthStencilStateCreateInfo: CStructConvertible {
     let minDepthBounds: Float
     let maxDepthBounds: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineDepthStencilStateCreateInfo>) throws -> R) rethrows -> R {
-        try self.front.withUnsafeCStructPointer { ptr_front in
-            try self.back.withUnsafeCStructPointer { ptr_back in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineDepthStencilStateCreateInfo>) throws -> R) rethrows -> R {
+        try self.front.withCStruct { ptr_front in
+            try self.back.withCStruct { ptr_back in
                 var cStruct = VkPipelineDepthStencilStateCreateInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO
                 cStruct.pNext = nil
@@ -1657,16 +1657,16 @@ struct GraphicsPipelineCreateInfo: CStructConvertible {
     let basePipelineHandle: VkPipeline
     let basePipelineIndex: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGraphicsPipelineCreateInfo>) throws -> R) rethrows -> R {
-        try self.pVertexInputState.withUnsafeCStructPointer { ptr_pVertexInputState in
-            try self.pInputAssemblyState.withUnsafeCStructPointer { ptr_pInputAssemblyState in
-                try self.pTessellationState.withUnsafeCStructPointer { ptr_pTessellationState in
-                    try self.pViewportState.withUnsafeCStructPointer { ptr_pViewportState in
-                        try self.pRasterizationState.withUnsafeCStructPointer { ptr_pRasterizationState in
-                            try self.pMultisampleState.withUnsafeCStructPointer { ptr_pMultisampleState in
-                                try self.pDepthStencilState.withUnsafeCStructPointer { ptr_pDepthStencilState in
-                                    try self.pColorBlendState.withUnsafeCStructPointer { ptr_pColorBlendState in
-                                        try self.pDynamicState.withUnsafeCStructPointer { ptr_pDynamicState in
+    func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineCreateInfo>) throws -> R) rethrows -> R {
+        try self.pVertexInputState.withCStruct { ptr_pVertexInputState in
+            try self.pInputAssemblyState.withCStruct { ptr_pInputAssemblyState in
+                try self.pTessellationState.withCStruct { ptr_pTessellationState in
+                    try self.pViewportState.withCStruct { ptr_pViewportState in
+                        try self.pRasterizationState.withCStruct { ptr_pRasterizationState in
+                            try self.pMultisampleState.withCStruct { ptr_pMultisampleState in
+                                try self.pDepthStencilState.withCStruct { ptr_pDepthStencilState in
+                                    try self.pColorBlendState.withCStruct { ptr_pColorBlendState in
+                                        try self.pDynamicState.withCStruct { ptr_pDynamicState in
                                             var cStruct = VkGraphicsPipelineCreateInfo()
                                             cStruct.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO
                                             cStruct.pNext = nil
@@ -1707,7 +1707,7 @@ struct PipelineCacheCreateInfo: CStructConvertible {
     let initialDataSize: Int
     let pInitialData: UnsafeRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCacheCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCacheCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCacheCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO
         cStruct.pNext = nil
@@ -1725,7 +1725,7 @@ struct PushConstantRange: CStructConvertible {
     let offset: UInt32
     let size: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPushConstantRange>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPushConstantRange>) throws -> R) rethrows -> R {
         var cStruct = VkPushConstantRange()
         cStruct.stageFlags = self.stageFlags.rawValue
         cStruct.offset = self.offset
@@ -1743,7 +1743,7 @@ struct PipelineLayoutCreateInfo: CStructConvertible {
     let pushConstantRangeCount: UInt32
     let pPushConstantRanges: UnsafePointer<VkPushConstantRange>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineLayoutCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineLayoutCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineLayoutCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO
         cStruct.pNext = nil
@@ -1776,7 +1776,7 @@ struct SamplerCreateInfo: CStructConvertible {
     let borderColor: BorderColor
     let unnormalizedCoordinates: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSamplerCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO
         cStruct.pNext = nil
@@ -1806,7 +1806,7 @@ struct CommandPoolCreateInfo: CStructConvertible {
     let flags: CommandPoolCreateFlags
     let queueFamilyIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandPoolCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCommandPoolCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkCommandPoolCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO
         cStruct.pNext = nil
@@ -1823,7 +1823,7 @@ struct CommandBufferAllocateInfo: CStructConvertible {
     let level: CommandBufferLevel
     let commandBufferCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandBufferAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkCommandBufferAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -1844,7 +1844,7 @@ struct CommandBufferInheritanceInfo: CStructConvertible {
     let queryFlags: QueryControlFlags
     let pipelineStatistics: QueryPipelineStatisticFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceInfo>) throws -> R) rethrows -> R {
         var cStruct = VkCommandBufferInheritanceInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO
         cStruct.pNext = nil
@@ -1864,8 +1864,8 @@ struct CommandBufferBeginInfo: CStructConvertible {
     let flags: CommandBufferUsageFlags
     let pInheritanceInfo: CommandBufferInheritanceInfo
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandBufferBeginInfo>) throws -> R) rethrows -> R {
-        try self.pInheritanceInfo.withUnsafeCStructPointer { ptr_pInheritanceInfo in
+    func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferBeginInfo>) throws -> R) rethrows -> R {
+        try self.pInheritanceInfo.withCStruct { ptr_pInheritanceInfo in
             var cStruct = VkCommandBufferBeginInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO
             cStruct.pNext = nil
@@ -1885,8 +1885,8 @@ struct RenderPassBeginInfo: CStructConvertible {
     let clearValueCount: UInt32
     let pClearValues: UnsafePointer<VkClearValue>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassBeginInfo>) throws -> R) rethrows -> R {
-        try self.renderArea.withUnsafeCStructPointer { ptr_renderArea in
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassBeginInfo>) throws -> R) rethrows -> R {
+        try self.renderArea.withCStruct { ptr_renderArea in
             var cStruct = VkRenderPassBeginInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO
             cStruct.pNext = nil
@@ -1906,7 +1906,7 @@ struct ClearDepthStencilValue: CStructConvertible {
     let depth: Float
     let stencil: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkClearDepthStencilValue>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkClearDepthStencilValue>) throws -> R) rethrows -> R {
         var cStruct = VkClearDepthStencilValue()
         cStruct.depth = self.depth
         cStruct.stencil = self.stencil
@@ -1921,7 +1921,7 @@ struct ClearAttachment: CStructConvertible {
     let colorAttachment: UInt32
     let clearValue: VkClearValue
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkClearAttachment>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkClearAttachment>) throws -> R) rethrows -> R {
         var cStruct = VkClearAttachment()
         cStruct.aspectMask = self.aspectMask.rawValue
         cStruct.colorAttachment = self.colorAttachment
@@ -1943,7 +1943,7 @@ struct AttachmentDescription: CStructConvertible {
     let initialLayout: ImageLayout
     let finalLayout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentDescription>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentDescription>) throws -> R) rethrows -> R {
         var cStruct = VkAttachmentDescription()
         cStruct.flags = self.flags.rawValue
         cStruct.format = VkFormat(rawValue: self.format.rawValue)
@@ -1964,7 +1964,7 @@ struct AttachmentReference: CStructConvertible {
     let attachment: UInt32
     let layout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentReference>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentReference>) throws -> R) rethrows -> R {
         var cStruct = VkAttachmentReference()
         cStruct.attachment = self.attachment
         cStruct.layout = VkImageLayout(rawValue: self.layout.rawValue)
@@ -1986,8 +1986,8 @@ struct SubpassDescription: CStructConvertible {
     let preserveAttachmentCount: UInt32
     let pPreserveAttachments: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassDescription>) throws -> R) rethrows -> R {
-        try self.pDepthStencilAttachment.withUnsafeCStructPointer { ptr_pDepthStencilAttachment in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescription>) throws -> R) rethrows -> R {
+        try self.pDepthStencilAttachment.withCStruct { ptr_pDepthStencilAttachment in
             var cStruct = VkSubpassDescription()
             cStruct.flags = self.flags.rawValue
             cStruct.pipelineBindPoint = VkPipelineBindPoint(rawValue: self.pipelineBindPoint.rawValue)
@@ -2015,7 +2015,7 @@ struct SubpassDependency: CStructConvertible {
     let dstAccessMask: AccessFlags
     let dependencyFlags: DependencyFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassDependency>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDependency>) throws -> R) rethrows -> R {
         var cStruct = VkSubpassDependency()
         cStruct.srcSubpass = self.srcSubpass
         cStruct.dstSubpass = self.dstSubpass
@@ -2039,7 +2039,7 @@ struct RenderPassCreateInfo: CStructConvertible {
     let dependencyCount: UInt32
     let pDependencies: UnsafePointer<VkSubpassDependency>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO
         cStruct.pNext = nil
@@ -2059,7 +2059,7 @@ struct EventCreateInfo: CStructConvertible {
 
     let flags: EventCreateFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkEventCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkEventCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkEventCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_EVENT_CREATE_INFO
         cStruct.pNext = nil
@@ -2073,7 +2073,7 @@ struct FenceCreateInfo: CStructConvertible {
 
     let flags: FenceCreateFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFenceCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFenceCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkFenceCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO
         cStruct.pNext = nil
@@ -2141,7 +2141,7 @@ struct PhysicalDeviceFeatures: CStructConvertible {
     let variableMultisampleRate: Bool
     let inheritedQueries: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFeatures()
         cStruct.robustBufferAccess = VkBool32(self.robustBufferAccess ? VK_TRUE : VK_FALSE)
         cStruct.fullDrawIndexUint32 = VkBool32(self.fullDrawIndexUint32 ? VK_TRUE : VK_FALSE)
@@ -2211,7 +2211,7 @@ struct PhysicalDeviceSparseProperties: CStructConvertible {
     let residencyAlignedMipSize: Bool
     let residencyNonResidentStrict: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSparseProperties()
         cStruct.residencyStandard2DBlockShape = VkBool32(self.residencyStandard2DBlockShape ? VK_TRUE : VK_FALSE)
         cStruct.residencyStandard2DMultisampleBlockShape = VkBool32(self.residencyStandard2DMultisampleBlockShape ? VK_TRUE : VK_FALSE)
@@ -2332,7 +2332,7 @@ struct PhysicalDeviceLimits: CStructConvertible {
     let optimalBufferCopyRowPitchAlignment: VkDeviceSize
     let nonCoherentAtomSize: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceLimits>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceLimits>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceLimits()
         cStruct.maxImageDimension1D = self.maxImageDimension1D
         cStruct.maxImageDimension2D = self.maxImageDimension2D
@@ -2449,7 +2449,7 @@ struct SemaphoreCreateInfo: CStructConvertible {
 
     let flags: SemaphoreCreateFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSemaphoreCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO
         cStruct.pNext = nil
@@ -2466,7 +2466,7 @@ struct QueryPoolCreateInfo: CStructConvertible {
     let queryCount: UInt32
     let pipelineStatistics: QueryPipelineStatisticFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkQueryPoolCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkQueryPoolCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkQueryPoolCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO
         cStruct.pNext = nil
@@ -2489,7 +2489,7 @@ struct FramebufferCreateInfo: CStructConvertible {
     let height: UInt32
     let layers: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFramebufferCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkFramebufferCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO
         cStruct.pNext = nil
@@ -2512,7 +2512,7 @@ struct DrawIndirectCommand: CStructConvertible {
     let firstVertex: UInt32
     let firstInstance: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDrawIndirectCommand>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDrawIndirectCommand>) throws -> R) rethrows -> R {
         var cStruct = VkDrawIndirectCommand()
         cStruct.vertexCount = self.vertexCount
         cStruct.instanceCount = self.instanceCount
@@ -2531,7 +2531,7 @@ struct DrawIndexedIndirectCommand: CStructConvertible {
     let vertexOffset: Int32
     let firstInstance: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDrawIndexedIndirectCommand>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDrawIndexedIndirectCommand>) throws -> R) rethrows -> R {
         var cStruct = VkDrawIndexedIndirectCommand()
         cStruct.indexCount = self.indexCount
         cStruct.instanceCount = self.instanceCount
@@ -2549,7 +2549,7 @@ struct DispatchIndirectCommand: CStructConvertible {
     let y: UInt32
     let z: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDispatchIndirectCommand>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDispatchIndirectCommand>) throws -> R) rethrows -> R {
         var cStruct = VkDispatchIndirectCommand()
         cStruct.x = self.x
         cStruct.y = self.y
@@ -2569,7 +2569,7 @@ struct SubmitInfo: CStructConvertible {
     let signalSemaphoreCount: UInt32
     let pSignalSemaphores: UnsafePointer<VkSemaphore?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubmitInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubmitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSubmitInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO
         cStruct.pNext = nil
@@ -2595,10 +2595,10 @@ struct DisplayPropertiesKHR: CStructConvertible {
     let planeReorderPossible: Bool
     let persistentContent: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPropertiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPropertiesKHR>) throws -> R) rethrows -> R {
         try self.displayName.withCString { cString_displayName in
-            try self.physicalDimensions.withUnsafeCStructPointer { ptr_physicalDimensions in
-                try self.physicalResolution.withUnsafeCStructPointer { ptr_physicalResolution in
+            try self.physicalDimensions.withCStruct { ptr_physicalDimensions in
+                try self.physicalResolution.withCStruct { ptr_physicalResolution in
                     var cStruct = VkDisplayPropertiesKHR()
                     cStruct.display = self.display
                     cStruct.displayName = cString_displayName
@@ -2620,7 +2620,7 @@ struct DisplayPlanePropertiesKHR: CStructConvertible {
     let currentDisplay: VkDisplayKHR
     let currentStackIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPlanePropertiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlanePropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPlanePropertiesKHR()
         cStruct.currentDisplay = self.currentDisplay
         cStruct.currentStackIndex = self.currentStackIndex
@@ -2634,8 +2634,8 @@ struct DisplayModeParametersKHR: CStructConvertible {
     let visibleRegion: Extent2D
     let refreshRate: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayModeParametersKHR>) throws -> R) rethrows -> R {
-        try self.visibleRegion.withUnsafeCStructPointer { ptr_visibleRegion in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModeParametersKHR>) throws -> R) rethrows -> R {
+        try self.visibleRegion.withCStruct { ptr_visibleRegion in
             var cStruct = VkDisplayModeParametersKHR()
             cStruct.visibleRegion = ptr_visibleRegion.pointee
             cStruct.refreshRate = self.refreshRate
@@ -2650,8 +2650,8 @@ struct DisplayModePropertiesKHR: CStructConvertible {
     let displayMode: VkDisplayModeKHR
     let parameters: DisplayModeParametersKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayModePropertiesKHR>) throws -> R) rethrows -> R {
-        try self.parameters.withUnsafeCStructPointer { ptr_parameters in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModePropertiesKHR>) throws -> R) rethrows -> R {
+        try self.parameters.withCStruct { ptr_parameters in
             var cStruct = VkDisplayModePropertiesKHR()
             cStruct.displayMode = self.displayMode
             cStruct.parameters = ptr_parameters.pointee
@@ -2666,8 +2666,8 @@ struct DisplayModeCreateInfoKHR: CStructConvertible {
     let flags: DisplayModeCreateFlagsKHR
     let parameters: DisplayModeParametersKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayModeCreateInfoKHR>) throws -> R) rethrows -> R {
-        try self.parameters.withUnsafeCStructPointer { ptr_parameters in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModeCreateInfoKHR>) throws -> R) rethrows -> R {
+        try self.parameters.withCStruct { ptr_parameters in
             var cStruct = VkDisplayModeCreateInfoKHR()
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_MODE_CREATE_INFO_KHR
             cStruct.pNext = nil
@@ -2691,15 +2691,15 @@ struct DisplayPlaneCapabilitiesKHR: CStructConvertible {
     let minDstExtent: Extent2D
     let maxDstExtent: Extent2D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPlaneCapabilitiesKHR>) throws -> R) rethrows -> R {
-        try self.minSrcPosition.withUnsafeCStructPointer { ptr_minSrcPosition in
-            try self.maxSrcPosition.withUnsafeCStructPointer { ptr_maxSrcPosition in
-                try self.minSrcExtent.withUnsafeCStructPointer { ptr_minSrcExtent in
-                    try self.maxSrcExtent.withUnsafeCStructPointer { ptr_maxSrcExtent in
-                        try self.minDstPosition.withUnsafeCStructPointer { ptr_minDstPosition in
-                            try self.maxDstPosition.withUnsafeCStructPointer { ptr_maxDstPosition in
-                                try self.minDstExtent.withUnsafeCStructPointer { ptr_minDstExtent in
-                                    try self.maxDstExtent.withUnsafeCStructPointer { ptr_maxDstExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneCapabilitiesKHR>) throws -> R) rethrows -> R {
+        try self.minSrcPosition.withCStruct { ptr_minSrcPosition in
+            try self.maxSrcPosition.withCStruct { ptr_maxSrcPosition in
+                try self.minSrcExtent.withCStruct { ptr_minSrcExtent in
+                    try self.maxSrcExtent.withCStruct { ptr_maxSrcExtent in
+                        try self.minDstPosition.withCStruct { ptr_minDstPosition in
+                            try self.maxDstPosition.withCStruct { ptr_maxDstPosition in
+                                try self.minDstExtent.withCStruct { ptr_minDstExtent in
+                                    try self.maxDstExtent.withCStruct { ptr_maxDstExtent in
                                         var cStruct = VkDisplayPlaneCapabilitiesKHR()
                                         cStruct.supportedAlpha = self.supportedAlpha.rawValue
                                         cStruct.minSrcPosition = ptr_minSrcPosition.pointee
@@ -2734,8 +2734,8 @@ struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
     let alphaMode: VkDisplayPlaneAlphaFlagBitsKHR
     let imageExtent: Extent2D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplaySurfaceCreateInfoKHR>) throws -> R) rethrows -> R {
-        try self.imageExtent.withUnsafeCStructPointer { ptr_imageExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplaySurfaceCreateInfoKHR>) throws -> R) rethrows -> R {
+        try self.imageExtent.withCStruct { ptr_imageExtent in
             var cStruct = VkDisplaySurfaceCreateInfoKHR()
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR
             cStruct.pNext = nil
@@ -2759,9 +2759,9 @@ struct DisplayPresentInfoKHR: CStructConvertible {
     let dstRect: Rect2D
     let persistent: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPresentInfoKHR>) throws -> R) rethrows -> R {
-        try self.srcRect.withUnsafeCStructPointer { ptr_srcRect in
-            try self.dstRect.withUnsafeCStructPointer { ptr_dstRect in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPresentInfoKHR>) throws -> R) rethrows -> R {
+        try self.srcRect.withCStruct { ptr_srcRect in
+            try self.dstRect.withCStruct { ptr_dstRect in
                 var cStruct = VkDisplayPresentInfoKHR()
                 cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_PRESENT_INFO_KHR
                 cStruct.pNext = nil
@@ -2788,10 +2788,10 @@ struct SurfaceCapabilitiesKHR: CStructConvertible {
     let supportedCompositeAlpha: CompositeAlphaFlagsKHR
     let supportedUsageFlags: ImageUsageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceCapabilitiesKHR>) throws -> R) rethrows -> R {
-        try self.currentExtent.withUnsafeCStructPointer { ptr_currentExtent in
-            try self.minImageExtent.withUnsafeCStructPointer { ptr_minImageExtent in
-                try self.maxImageExtent.withUnsafeCStructPointer { ptr_maxImageExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSurfaceCapabilitiesKHR>) throws -> R) rethrows -> R {
+        try self.currentExtent.withCStruct { ptr_currentExtent in
+            try self.minImageExtent.withCStruct { ptr_minImageExtent in
+                try self.maxImageExtent.withCStruct { ptr_maxImageExtent in
                     var cStruct = VkSurfaceCapabilitiesKHR()
                     cStruct.minImageCount = self.minImageCount
                     cStruct.maxImageCount = self.maxImageCount
@@ -2816,7 +2816,7 @@ struct SurfaceFormatKHR: CStructConvertible {
     let format: Format
     let colorSpace: ColorSpaceKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceFormatKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSurfaceFormatKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSurfaceFormatKHR()
         cStruct.format = VkFormat(rawValue: self.format.rawValue)
         cStruct.colorSpace = VkColorSpaceKHR(rawValue: self.colorSpace.rawValue)
@@ -2844,8 +2844,8 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
     let clipped: Bool
     let oldSwapchain: VkSwapchainKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
-        try self.imageExtent.withUnsafeCStructPointer { ptr_imageExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
+        try self.imageExtent.withCStruct { ptr_imageExtent in
             var cStruct = VkSwapchainCreateInfoKHR()
             cStruct.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR
             cStruct.pNext = nil
@@ -2880,7 +2880,7 @@ struct PresentInfoKHR: CStructConvertible {
     let pImageIndices: UnsafePointer<UInt32>
     let pResults: UnsafeMutablePointer<VkResult>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPresentInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPresentInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR
         cStruct.pNext = nil
@@ -2901,7 +2901,7 @@ struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
     let pfnCallback: PFN_vkDebugReportCallbackEXT
     let pUserData: UnsafeMutableRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugReportCallbackCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugReportCallbackCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDebugReportCallbackCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -2918,7 +2918,7 @@ struct ValidationFlagsEXT: CStructConvertible {
     let disabledValidationCheckCount: UInt32
     let pDisabledValidationChecks: UnsafePointer<VkValidationCheckEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkValidationFlagsEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkValidationFlagsEXT>) throws -> R) rethrows -> R {
         var cStruct = VkValidationFlagsEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT
         cStruct.pNext = nil
@@ -2936,7 +2936,7 @@ struct ValidationFeaturesEXT: CStructConvertible {
     let disabledValidationFeatureCount: UInt32
     let pDisabledValidationFeatures: UnsafePointer<VkValidationFeatureDisableEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkValidationFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkValidationFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkValidationFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT
         cStruct.pNext = nil
@@ -2953,7 +2953,7 @@ struct PipelineRasterizationStateRasterizationOrderAMD: CStructConvertible {
 
     let rasterizationOrder: RasterizationOrderAMD
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationStateRasterizationOrderAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRasterizationStateRasterizationOrderAMD>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationStateRasterizationOrderAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_RASTERIZATION_ORDER_AMD
         cStruct.pNext = nil
@@ -2969,7 +2969,7 @@ struct DebugMarkerObjectNameInfoEXT: CStructConvertible {
     let object: UInt64
     let pObjectName: String
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugMarkerObjectNameInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugMarkerObjectNameInfoEXT>) throws -> R) rethrows -> R {
         try self.pObjectName.withCString { cString_pObjectName in
             var cStruct = VkDebugMarkerObjectNameInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT
@@ -2991,7 +2991,7 @@ struct DebugMarkerObjectTagInfoEXT: CStructConvertible {
     let tagSize: Int
     let pTag: UnsafeRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugMarkerObjectTagInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugMarkerObjectTagInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDebugMarkerObjectTagInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_TAG_INFO_EXT
         cStruct.pNext = nil
@@ -3010,7 +3010,7 @@ struct DebugMarkerMarkerInfoEXT: CStructConvertible {
     let pMarkerName: String
     let color: (Float, Float, Float, Float)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugMarkerMarkerInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugMarkerMarkerInfoEXT>) throws -> R) rethrows -> R {
         try self.pMarkerName.withCString { cString_pMarkerName in
             var cStruct = VkDebugMarkerMarkerInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT
@@ -3027,7 +3027,7 @@ struct DedicatedAllocationImageCreateInfoNV: CStructConvertible {
 
     let dedicatedAllocation: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDedicatedAllocationImageCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDedicatedAllocationImageCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationImageCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_IMAGE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -3041,7 +3041,7 @@ struct DedicatedAllocationBufferCreateInfoNV: CStructConvertible {
 
     let dedicatedAllocation: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDedicatedAllocationBufferCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDedicatedAllocationBufferCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationBufferCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_BUFFER_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -3056,7 +3056,7 @@ struct DedicatedAllocationMemoryAllocateInfoNV: CStructConvertible {
     let image: VkImage
     let buffer: VkBuffer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDedicatedAllocationMemoryAllocateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDedicatedAllocationMemoryAllocateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationMemoryAllocateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV
         cStruct.pNext = nil
@@ -3074,8 +3074,8 @@ struct ExternalImageFormatPropertiesNV: CStructConvertible {
     let exportFromImportedHandleTypes: ExternalMemoryHandleTypeFlagsNV
     let compatibleHandleTypes: ExternalMemoryHandleTypeFlagsNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalImageFormatPropertiesNV>) throws -> R) rethrows -> R {
-        try self.imageFormatProperties.withUnsafeCStructPointer { ptr_imageFormatProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalImageFormatPropertiesNV>) throws -> R) rethrows -> R {
+        try self.imageFormatProperties.withCStruct { ptr_imageFormatProperties in
             var cStruct = VkExternalImageFormatPropertiesNV()
             cStruct.imageFormatProperties = ptr_imageFormatProperties.pointee
             cStruct.externalMemoryFeatures = self.externalMemoryFeatures.rawValue
@@ -3091,7 +3091,7 @@ struct ExternalMemoryImageCreateInfoNV: CStructConvertible {
 
     let handleTypes: ExternalMemoryHandleTypeFlagsNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalMemoryImageCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalMemoryImageCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkExternalMemoryImageCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -3105,7 +3105,7 @@ struct ExportMemoryAllocateInfoNV: CStructConvertible {
 
     let handleTypes: ExternalMemoryHandleTypeFlagsNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExportMemoryAllocateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExportMemoryAllocateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkExportMemoryAllocateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO_NV
         cStruct.pNext = nil
@@ -3119,7 +3119,7 @@ struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV: CStructConvertible {
 
     let deviceGeneratedCommands: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV
         cStruct.pNext = nil
@@ -3141,7 +3141,7 @@ struct PhysicalDeviceDeviceGeneratedCommandsPropertiesNV: CStructConvertible {
     let minSequencesIndexBufferOffsetAlignment: UInt32
     let minIndirectCommandsBufferOffsetAlignment: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV
         cStruct.pNext = nil
@@ -3166,9 +3166,9 @@ struct GraphicsShaderGroupCreateInfoNV: CStructConvertible {
     let pVertexInputState: PipelineVertexInputStateCreateInfo
     let pTessellationState: PipelineTessellationStateCreateInfo
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGraphicsShaderGroupCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.pVertexInputState.withUnsafeCStructPointer { ptr_pVertexInputState in
-            try self.pTessellationState.withUnsafeCStructPointer { ptr_pTessellationState in
+    func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsShaderGroupCreateInfoNV>) throws -> R) rethrows -> R {
+        try self.pVertexInputState.withCStruct { ptr_pVertexInputState in
+            try self.pTessellationState.withCStruct { ptr_pTessellationState in
                 var cStruct = VkGraphicsShaderGroupCreateInfoNV()
                 cStruct.sType = VK_STRUCTURE_TYPE_GRAPHICS_SHADER_GROUP_CREATE_INFO_NV
                 cStruct.pNext = nil
@@ -3190,7 +3190,7 @@ struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
     let pipelineCount: UInt32
     let pPipelines: UnsafePointer<VkPipeline?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGraphicsPipelineShaderGroupsCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineShaderGroupsCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkGraphicsPipelineShaderGroupsCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_SHADER_GROUPS_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -3207,7 +3207,7 @@ struct BindShaderGroupIndirectCommandNV: CStructConvertible {
 
     let groupIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindShaderGroupIndirectCommandNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindShaderGroupIndirectCommandNV>) throws -> R) rethrows -> R {
         var cStruct = VkBindShaderGroupIndirectCommandNV()
         cStruct.groupIndex = self.groupIndex
         return try body(&cStruct)
@@ -3221,7 +3221,7 @@ struct BindIndexBufferIndirectCommandNV: CStructConvertible {
     let size: UInt32
     let indexType: IndexType
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindIndexBufferIndirectCommandNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindIndexBufferIndirectCommandNV>) throws -> R) rethrows -> R {
         var cStruct = VkBindIndexBufferIndirectCommandNV()
         cStruct.bufferAddress = self.bufferAddress
         cStruct.size = self.size
@@ -3237,7 +3237,7 @@ struct BindVertexBufferIndirectCommandNV: CStructConvertible {
     let size: UInt32
     let stride: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindVertexBufferIndirectCommandNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindVertexBufferIndirectCommandNV>) throws -> R) rethrows -> R {
         var cStruct = VkBindVertexBufferIndirectCommandNV()
         cStruct.bufferAddress = self.bufferAddress
         cStruct.size = self.size
@@ -3251,7 +3251,7 @@ struct SetStateFlagsIndirectCommandNV: CStructConvertible {
 
     let data: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSetStateFlagsIndirectCommandNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSetStateFlagsIndirectCommandNV>) throws -> R) rethrows -> R {
         var cStruct = VkSetStateFlagsIndirectCommandNV()
         cStruct.data = self.data
         return try body(&cStruct)
@@ -3264,7 +3264,7 @@ struct IndirectCommandsStreamNV: CStructConvertible {
     let buffer: VkBuffer
     let offset: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkIndirectCommandsStreamNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsStreamNV>) throws -> R) rethrows -> R {
         var cStruct = VkIndirectCommandsStreamNV()
         cStruct.buffer = self.buffer
         cStruct.offset = self.offset
@@ -3289,7 +3289,7 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
     let pIndexTypes: UnsafePointer<VkIndexType>
     let pIndexTypeValues: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutTokenNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutTokenNV>) throws -> R) rethrows -> R {
         var cStruct = VkIndirectCommandsLayoutTokenNV()
         cStruct.sType = VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_TOKEN_NV
         cStruct.pNext = nil
@@ -3320,7 +3320,7 @@ struct IndirectCommandsLayoutCreateInfoNV: CStructConvertible {
     let streamCount: UInt32
     let pStreamStrides: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkIndirectCommandsLayoutCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -3351,7 +3351,7 @@ struct GeneratedCommandsInfoNV: CStructConvertible {
     let sequencesIndexBuffer: VkBuffer
     let sequencesIndexOffset: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGeneratedCommandsInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkGeneratedCommandsInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeneratedCommandsInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV
         cStruct.pNext = nil
@@ -3380,7 +3380,7 @@ struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
     let indirectCommandsLayout: VkIndirectCommandsLayoutNV
     let maxSequencesCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGeneratedCommandsMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkGeneratedCommandsMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeneratedCommandsMemoryRequirementsInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GENERATED_COMMANDS_MEMORY_REQUIREMENTS_INFO_NV
         cStruct.pNext = nil
@@ -3397,8 +3397,8 @@ struct PhysicalDeviceFeatures2: CStructConvertible {
 
     let features: PhysicalDeviceFeatures
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures2>) throws -> R) rethrows -> R {
-        try self.features.withUnsafeCStructPointer { ptr_features in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures2>) throws -> R) rethrows -> R {
+        try self.features.withCStruct { ptr_features in
             var cStruct = VkPhysicalDeviceFeatures2()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2
             cStruct.pNext = nil
@@ -3413,8 +3413,8 @@ struct PhysicalDeviceProperties2: CStructConvertible {
 
     let properties: PhysicalDeviceProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProperties2>) throws -> R) rethrows -> R {
-        try self.properties.withUnsafeCStructPointer { ptr_properties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceProperties2>) throws -> R) rethrows -> R {
+        try self.properties.withCStruct { ptr_properties in
             var cStruct = VkPhysicalDeviceProperties2()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2
             cStruct.pNext = nil
@@ -3429,8 +3429,8 @@ struct FormatProperties2: CStructConvertible {
 
     let formatProperties: FormatProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFormatProperties2>) throws -> R) rethrows -> R {
-        try self.formatProperties.withUnsafeCStructPointer { ptr_formatProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkFormatProperties2>) throws -> R) rethrows -> R {
+        try self.formatProperties.withCStruct { ptr_formatProperties in
             var cStruct = VkFormatProperties2()
             cStruct.sType = VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_2
             cStruct.pNext = nil
@@ -3445,8 +3445,8 @@ struct ImageFormatProperties2: CStructConvertible {
 
     let imageFormatProperties: ImageFormatProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageFormatProperties2>) throws -> R) rethrows -> R {
-        try self.imageFormatProperties.withUnsafeCStructPointer { ptr_imageFormatProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageFormatProperties2>) throws -> R) rethrows -> R {
+        try self.imageFormatProperties.withCStruct { ptr_imageFormatProperties in
             var cStruct = VkImageFormatProperties2()
             cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_FORMAT_PROPERTIES_2
             cStruct.pNext = nil
@@ -3465,7 +3465,7 @@ struct PhysicalDeviceImageFormatInfo2: CStructConvertible {
     let usage: ImageUsageFlags
     let flags: ImageCreateFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceImageFormatInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceImageFormatInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceImageFormatInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_FORMAT_INFO_2
         cStruct.pNext = nil
@@ -3483,8 +3483,8 @@ struct QueueFamilyProperties2: CStructConvertible {
 
     let queueFamilyProperties: QueueFamilyProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkQueueFamilyProperties2>) throws -> R) rethrows -> R {
-        try self.queueFamilyProperties.withUnsafeCStructPointer { ptr_queueFamilyProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkQueueFamilyProperties2>) throws -> R) rethrows -> R {
+        try self.queueFamilyProperties.withCStruct { ptr_queueFamilyProperties in
             var cStruct = VkQueueFamilyProperties2()
             cStruct.sType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_PROPERTIES_2
             cStruct.pNext = nil
@@ -3499,8 +3499,8 @@ struct PhysicalDeviceMemoryProperties2: CStructConvertible {
 
     let memoryProperties: PhysicalDeviceMemoryProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryProperties2>) throws -> R) rethrows -> R {
-        try self.memoryProperties.withUnsafeCStructPointer { ptr_memoryProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryProperties2>) throws -> R) rethrows -> R {
+        try self.memoryProperties.withCStruct { ptr_memoryProperties in
             var cStruct = VkPhysicalDeviceMemoryProperties2()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PROPERTIES_2
             cStruct.pNext = nil
@@ -3515,8 +3515,8 @@ struct SparseImageFormatProperties2: CStructConvertible {
 
     let properties: SparseImageFormatProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageFormatProperties2>) throws -> R) rethrows -> R {
-        try self.properties.withUnsafeCStructPointer { ptr_properties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageFormatProperties2>) throws -> R) rethrows -> R {
+        try self.properties.withCStruct { ptr_properties in
             var cStruct = VkSparseImageFormatProperties2()
             cStruct.sType = VK_STRUCTURE_TYPE_SPARSE_IMAGE_FORMAT_PROPERTIES_2
             cStruct.pNext = nil
@@ -3535,7 +3535,7 @@ struct PhysicalDeviceSparseImageFormatInfo2: CStructConvertible {
     let usage: ImageUsageFlags
     let tiling: ImageTiling
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseImageFormatInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseImageFormatInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSparseImageFormatInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SPARSE_IMAGE_FORMAT_INFO_2
         cStruct.pNext = nil
@@ -3553,7 +3553,7 @@ struct PhysicalDevicePushDescriptorPropertiesKHR: CStructConvertible {
 
     let maxPushDescriptors: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePushDescriptorPropertiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePushDescriptorPropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePushDescriptorPropertiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR
         cStruct.pNext = nil
@@ -3570,7 +3570,7 @@ struct ConformanceVersion: CStructConvertible {
     let subminor: UInt8
     let patch: UInt8
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkConformanceVersion>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkConformanceVersion>) throws -> R) rethrows -> R {
         var cStruct = VkConformanceVersion()
         cStruct.major = self.major
         cStruct.minor = self.minor
@@ -3588,8 +3588,8 @@ struct PhysicalDeviceDriverProperties: CStructConvertible {
     let driverInfo: String
     let conformanceVersion: ConformanceVersion
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDriverProperties>) throws -> R) rethrows -> R {
-        try self.conformanceVersion.withUnsafeCStructPointer { ptr_conformanceVersion in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDriverProperties>) throws -> R) rethrows -> R {
+        try self.conformanceVersion.withCStruct { ptr_conformanceVersion in
             var cStruct = VkPhysicalDeviceDriverProperties()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES
             cStruct.pNext = nil
@@ -3608,7 +3608,7 @@ struct PresentRegionsKHR: CStructConvertible {
     let swapchainCount: UInt32
     let pRegions: UnsafePointer<VkPresentRegionKHR>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPresentRegionsKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionsKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPresentRegionsKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR
         cStruct.pNext = nil
@@ -3624,7 +3624,7 @@ struct PresentRegionKHR: CStructConvertible {
     let rectangleCount: UInt32
     let pRectangles: UnsafePointer<VkRectLayerKHR>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPresentRegionKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPresentRegionKHR()
         cStruct.rectangleCount = self.rectangleCount
         cStruct.pRectangles = self.pRectangles
@@ -3639,9 +3639,9 @@ struct RectLayerKHR: CStructConvertible {
     let extent: Extent2D
     let layer: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRectLayerKHR>) throws -> R) rethrows -> R {
-        try self.offset.withUnsafeCStructPointer { ptr_offset in
-            try self.extent.withUnsafeCStructPointer { ptr_extent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkRectLayerKHR>) throws -> R) rethrows -> R {
+        try self.offset.withCStruct { ptr_offset in
+            try self.extent.withCStruct { ptr_extent in
                 var cStruct = VkRectLayerKHR()
                 cStruct.offset = ptr_offset.pointee
                 cStruct.extent = ptr_extent.pointee
@@ -3658,7 +3658,7 @@ struct PhysicalDeviceVariablePointersFeatures: CStructConvertible {
     let variablePointersStorageBuffer: Bool
     let variablePointers: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVariablePointersFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVariablePointersFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVariablePointersFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES
         cStruct.pNext = nil
@@ -3675,7 +3675,7 @@ struct ExternalMemoryProperties: CStructConvertible {
     let exportFromImportedHandleTypes: ExternalMemoryHandleTypeFlags
     let compatibleHandleTypes: ExternalMemoryHandleTypeFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalMemoryProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalMemoryProperties>) throws -> R) rethrows -> R {
         var cStruct = VkExternalMemoryProperties()
         cStruct.externalMemoryFeatures = self.externalMemoryFeatures.rawValue
         cStruct.exportFromImportedHandleTypes = self.exportFromImportedHandleTypes.rawValue
@@ -3689,7 +3689,7 @@ struct PhysicalDeviceExternalImageFormatInfo: CStructConvertible {
 
     let handleType: VkExternalMemoryHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalImageFormatInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalImageFormatInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExternalImageFormatInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO
         cStruct.pNext = nil
@@ -3703,8 +3703,8 @@ struct ExternalImageFormatProperties: CStructConvertible {
 
     let externalMemoryProperties: ExternalMemoryProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalImageFormatProperties>) throws -> R) rethrows -> R {
-        try self.externalMemoryProperties.withUnsafeCStructPointer { ptr_externalMemoryProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalImageFormatProperties>) throws -> R) rethrows -> R {
+        try self.externalMemoryProperties.withCStruct { ptr_externalMemoryProperties in
             var cStruct = VkExternalImageFormatProperties()
             cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES
             cStruct.pNext = nil
@@ -3721,7 +3721,7 @@ struct PhysicalDeviceExternalBufferInfo: CStructConvertible {
     let usage: BufferUsageFlags
     let handleType: VkExternalMemoryHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalBufferInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalBufferInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExternalBufferInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_BUFFER_INFO
         cStruct.pNext = nil
@@ -3737,8 +3737,8 @@ struct ExternalBufferProperties: CStructConvertible {
 
     let externalMemoryProperties: ExternalMemoryProperties
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalBufferProperties>) throws -> R) rethrows -> R {
-        try self.externalMemoryProperties.withUnsafeCStructPointer { ptr_externalMemoryProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalBufferProperties>) throws -> R) rethrows -> R {
+        try self.externalMemoryProperties.withCStruct { ptr_externalMemoryProperties in
             var cStruct = VkExternalBufferProperties()
             cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_BUFFER_PROPERTIES
             cStruct.pNext = nil
@@ -3757,7 +3757,7 @@ struct PhysicalDeviceIDProperties: CStructConvertible {
     let deviceNodeMask: UInt32
     let deviceLUIDValid: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceIDProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceIDProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceIDProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES
         cStruct.pNext = nil
@@ -3775,7 +3775,7 @@ struct ExternalMemoryImageCreateInfo: CStructConvertible {
 
     let handleTypes: ExternalMemoryHandleTypeFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalMemoryImageCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalMemoryImageCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkExternalMemoryImageCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO
         cStruct.pNext = nil
@@ -3789,7 +3789,7 @@ struct ExternalMemoryBufferCreateInfo: CStructConvertible {
 
     let handleTypes: ExternalMemoryHandleTypeFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalMemoryBufferCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalMemoryBufferCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkExternalMemoryBufferCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_BUFFER_CREATE_INFO
         cStruct.pNext = nil
@@ -3803,7 +3803,7 @@ struct ExportMemoryAllocateInfo: CStructConvertible {
 
     let handleTypes: ExternalMemoryHandleTypeFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExportMemoryAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExportMemoryAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkExportMemoryAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -3818,7 +3818,7 @@ struct ImportMemoryFdInfoKHR: CStructConvertible {
     let handleType: VkExternalMemoryHandleTypeFlagBits
     let fd: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImportMemoryFdInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImportMemoryFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImportMemoryFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR
         cStruct.pNext = nil
@@ -3833,7 +3833,7 @@ struct MemoryFdPropertiesKHR: CStructConvertible {
 
     let memoryTypeBits: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryFdPropertiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryFdPropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryFdPropertiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_FD_PROPERTIES_KHR
         cStruct.pNext = nil
@@ -3848,7 +3848,7 @@ struct MemoryGetFdInfoKHR: CStructConvertible {
     let memory: VkDeviceMemory
     let handleType: VkExternalMemoryHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryGetFdInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryGetFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR
         cStruct.pNext = nil
@@ -3863,7 +3863,7 @@ struct PhysicalDeviceExternalSemaphoreInfo: CStructConvertible {
 
     let handleType: VkExternalSemaphoreHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalSemaphoreInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalSemaphoreInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExternalSemaphoreInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_SEMAPHORE_INFO
         cStruct.pNext = nil
@@ -3879,7 +3879,7 @@ struct ExternalSemaphoreProperties: CStructConvertible {
     let compatibleHandleTypes: ExternalSemaphoreHandleTypeFlags
     let externalSemaphoreFeatures: ExternalSemaphoreFeatureFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalSemaphoreProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalSemaphoreProperties>) throws -> R) rethrows -> R {
         var cStruct = VkExternalSemaphoreProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_SEMAPHORE_PROPERTIES
         cStruct.pNext = nil
@@ -3895,7 +3895,7 @@ struct ExportSemaphoreCreateInfo: CStructConvertible {
 
     let handleTypes: ExternalSemaphoreHandleTypeFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExportSemaphoreCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExportSemaphoreCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkExportSemaphoreCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_CREATE_INFO
         cStruct.pNext = nil
@@ -3912,7 +3912,7 @@ struct ImportSemaphoreFdInfoKHR: CStructConvertible {
     let handleType: VkExternalSemaphoreHandleTypeFlagBits
     let fd: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImportSemaphoreFdInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImportSemaphoreFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImportSemaphoreFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_FD_INFO_KHR
         cStruct.pNext = nil
@@ -3930,7 +3930,7 @@ struct SemaphoreGetFdInfoKHR: CStructConvertible {
     let semaphore: VkSemaphore
     let handleType: VkExternalSemaphoreHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSemaphoreGetFdInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreGetFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_GET_FD_INFO_KHR
         cStruct.pNext = nil
@@ -3945,7 +3945,7 @@ struct PhysicalDeviceExternalFenceInfo: CStructConvertible {
 
     let handleType: VkExternalFenceHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalFenceInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalFenceInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExternalFenceInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FENCE_INFO
         cStruct.pNext = nil
@@ -3961,7 +3961,7 @@ struct ExternalFenceProperties: CStructConvertible {
     let compatibleHandleTypes: ExternalFenceHandleTypeFlags
     let externalFenceFeatures: ExternalFenceFeatureFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExternalFenceProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExternalFenceProperties>) throws -> R) rethrows -> R {
         var cStruct = VkExternalFenceProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_EXTERNAL_FENCE_PROPERTIES
         cStruct.pNext = nil
@@ -3977,7 +3977,7 @@ struct ExportFenceCreateInfo: CStructConvertible {
 
     let handleTypes: ExternalFenceHandleTypeFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkExportFenceCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkExportFenceCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkExportFenceCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_EXPORT_FENCE_CREATE_INFO
         cStruct.pNext = nil
@@ -3994,7 +3994,7 @@ struct ImportFenceFdInfoKHR: CStructConvertible {
     let handleType: VkExternalFenceHandleTypeFlagBits
     let fd: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImportFenceFdInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImportFenceFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImportFenceFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMPORT_FENCE_FD_INFO_KHR
         cStruct.pNext = nil
@@ -4012,7 +4012,7 @@ struct FenceGetFdInfoKHR: CStructConvertible {
     let fence: VkFence
     let handleType: VkExternalFenceHandleTypeFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFenceGetFdInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFenceGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkFenceGetFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR
         cStruct.pNext = nil
@@ -4029,7 +4029,7 @@ struct PhysicalDeviceMultiviewFeatures: CStructConvertible {
     let multiviewGeometryShader: Bool
     let multiviewTessellationShader: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMultiviewFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES
         cStruct.pNext = nil
@@ -4046,7 +4046,7 @@ struct PhysicalDeviceMultiviewProperties: CStructConvertible {
     let maxMultiviewViewCount: UInt32
     let maxMultiviewInstanceIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMultiviewProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PROPERTIES
         cStruct.pNext = nil
@@ -4066,7 +4066,7 @@ struct RenderPassMultiviewCreateInfo: CStructConvertible {
     let correlationMaskCount: UInt32
     let pCorrelationMasks: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassMultiviewCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassMultiviewCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassMultiviewCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_MULTIVIEW_CREATE_INFO
         cStruct.pNext = nil
@@ -4095,10 +4095,10 @@ struct SurfaceCapabilities2EXT: CStructConvertible {
     let supportedUsageFlags: ImageUsageFlags
     let supportedSurfaceCounters: SurfaceCounterFlagsEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceCapabilities2EXT>) throws -> R) rethrows -> R {
-        try self.currentExtent.withUnsafeCStructPointer { ptr_currentExtent in
-            try self.minImageExtent.withUnsafeCStructPointer { ptr_minImageExtent in
-                try self.maxImageExtent.withUnsafeCStructPointer { ptr_maxImageExtent in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSurfaceCapabilities2EXT>) throws -> R) rethrows -> R {
+        try self.currentExtent.withCStruct { ptr_currentExtent in
+            try self.minImageExtent.withCStruct { ptr_minImageExtent in
+                try self.maxImageExtent.withCStruct { ptr_maxImageExtent in
                     var cStruct = VkSurfaceCapabilities2EXT()
                     cStruct.sType = VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_EXT
                     cStruct.pNext = nil
@@ -4125,7 +4125,7 @@ struct DisplayPowerInfoEXT: CStructConvertible {
 
     let powerState: DisplayPowerStateEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPowerInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPowerInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPowerInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_POWER_INFO_EXT
         cStruct.pNext = nil
@@ -4139,7 +4139,7 @@ struct DeviceEventInfoEXT: CStructConvertible {
 
     let deviceEvent: DeviceEventTypeEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceEventInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceEventInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceEventInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_EVENT_INFO_EXT
         cStruct.pNext = nil
@@ -4153,7 +4153,7 @@ struct DisplayEventInfoEXT: CStructConvertible {
 
     let displayEvent: DisplayEventTypeEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayEventInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayEventInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayEventInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_EVENT_INFO_EXT
         cStruct.pNext = nil
@@ -4167,7 +4167,7 @@ struct SwapchainCounterCreateInfoEXT: CStructConvertible {
 
     let surfaceCounters: SurfaceCounterFlagsEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSwapchainCounterCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSwapchainCounterCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkSwapchainCounterCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_COUNTER_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -4183,7 +4183,7 @@ struct PhysicalDeviceGroupProperties: CStructConvertible {
     let physicalDevices: (VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice, VkPhysicalDevice)
     let subsetAllocation: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceGroupProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceGroupProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceGroupProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GROUP_PROPERTIES
         cStruct.pNext = nil
@@ -4200,7 +4200,7 @@ struct MemoryAllocateFlagsInfo: CStructConvertible {
     let flags: MemoryAllocateFlags
     let deviceMask: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryAllocateFlagsInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryAllocateFlagsInfo>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryAllocateFlagsInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO
         cStruct.pNext = nil
@@ -4217,7 +4217,7 @@ struct BindBufferMemoryInfo: CStructConvertible {
     let memory: VkDeviceMemory
     let memoryOffset: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindBufferMemoryInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindBufferMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindBufferMemoryInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_INFO
         cStruct.pNext = nil
@@ -4234,7 +4234,7 @@ struct BindBufferMemoryDeviceGroupInfo: CStructConvertible {
     let deviceIndexCount: UInt32
     let pDeviceIndices: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindBufferMemoryDeviceGroupInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindBufferMemoryDeviceGroupInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindBufferMemoryDeviceGroupInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_DEVICE_GROUP_INFO
         cStruct.pNext = nil
@@ -4251,7 +4251,7 @@ struct BindImageMemoryInfo: CStructConvertible {
     let memory: VkDeviceMemory
     let memoryOffset: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindImageMemoryInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemoryInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO
         cStruct.pNext = nil
@@ -4270,7 +4270,7 @@ struct BindImageMemoryDeviceGroupInfo: CStructConvertible {
     let splitInstanceBindRegionCount: UInt32
     let pSplitInstanceBindRegions: UnsafePointer<VkRect2D>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindImageMemoryDeviceGroupInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemoryDeviceGroupInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemoryDeviceGroupInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_DEVICE_GROUP_INFO
         cStruct.pNext = nil
@@ -4289,7 +4289,7 @@ struct DeviceGroupRenderPassBeginInfo: CStructConvertible {
     let deviceRenderAreaCount: UInt32
     let pDeviceRenderAreas: UnsafePointer<VkRect2D>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupRenderPassBeginInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupRenderPassBeginInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupRenderPassBeginInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_RENDER_PASS_BEGIN_INFO
         cStruct.pNext = nil
@@ -4305,7 +4305,7 @@ struct DeviceGroupCommandBufferBeginInfo: CStructConvertible {
 
     let deviceMask: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupCommandBufferBeginInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupCommandBufferBeginInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupCommandBufferBeginInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_COMMAND_BUFFER_BEGIN_INFO
         cStruct.pNext = nil
@@ -4324,7 +4324,7 @@ struct DeviceGroupSubmitInfo: CStructConvertible {
     let signalSemaphoreCount: UInt32
     let pSignalSemaphoreDeviceIndices: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupSubmitInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupSubmitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupSubmitInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO
         cStruct.pNext = nil
@@ -4344,7 +4344,7 @@ struct DeviceGroupBindSparseInfo: CStructConvertible {
     let resourceDeviceIndex: UInt32
     let memoryDeviceIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupBindSparseInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupBindSparseInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupBindSparseInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_BIND_SPARSE_INFO
         cStruct.pNext = nil
@@ -4360,7 +4360,7 @@ struct DeviceGroupPresentCapabilitiesKHR: CStructConvertible {
     let presentMask: (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
     let modes: DeviceGroupPresentModeFlagsKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupPresentCapabilitiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupPresentCapabilitiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupPresentCapabilitiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_CAPABILITIES_KHR
         cStruct.pNext = nil
@@ -4375,7 +4375,7 @@ struct ImageSwapchainCreateInfoKHR: CStructConvertible {
 
     let swapchain: VkSwapchainKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImageSwapchainCreateInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR
         cStruct.pNext = nil
@@ -4390,7 +4390,7 @@ struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
     let swapchain: VkSwapchainKHR
     let imageIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindImageMemorySwapchainInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemorySwapchainInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemorySwapchainInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_SWAPCHAIN_INFO_KHR
         cStruct.pNext = nil
@@ -4409,7 +4409,7 @@ struct AcquireNextImageInfoKHR: CStructConvertible {
     let fence: VkFence
     let deviceMask: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAcquireNextImageInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAcquireNextImageInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkAcquireNextImageInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR
         cStruct.pNext = nil
@@ -4429,7 +4429,7 @@ struct DeviceGroupPresentInfoKHR: CStructConvertible {
     let pDeviceMasks: UnsafePointer<UInt32>
     let mode: VkDeviceGroupPresentModeFlagBitsKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupPresentInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupPresentInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupPresentInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_INFO_KHR
         cStruct.pNext = nil
@@ -4446,7 +4446,7 @@ struct DeviceGroupDeviceCreateInfo: CStructConvertible {
     let physicalDeviceCount: UInt32
     let pPhysicalDevices: UnsafePointer<VkPhysicalDevice?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupDeviceCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupDeviceCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupDeviceCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO
         cStruct.pNext = nil
@@ -4461,7 +4461,7 @@ struct DeviceGroupSwapchainCreateInfoKHR: CStructConvertible {
 
     let modes: DeviceGroupPresentModeFlagsKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceGroupSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceGroupSwapchainCreateInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR
         cStruct.pNext = nil
@@ -4480,7 +4480,7 @@ struct DescriptorUpdateTemplateEntry: CStructConvertible {
     let offset: Int
     let stride: Int
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorUpdateTemplateEntry>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorUpdateTemplateEntry>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorUpdateTemplateEntry()
         cStruct.dstBinding = self.dstBinding
         cStruct.dstArrayElement = self.dstArrayElement
@@ -4504,7 +4504,7 @@ struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
     let pipelineLayout: VkPipelineLayout
     let set: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorUpdateTemplateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorUpdateTemplateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorUpdateTemplateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO
         cStruct.pNext = nil
@@ -4526,7 +4526,7 @@ struct XYColorEXT: CStructConvertible {
     let x: Float
     let y: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkXYColorEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkXYColorEXT>) throws -> R) rethrows -> R {
         var cStruct = VkXYColorEXT()
         cStruct.x = self.x
         cStruct.y = self.y
@@ -4546,11 +4546,11 @@ struct HdrMetadataEXT: CStructConvertible {
     let maxContentLightLevel: Float
     let maxFrameAverageLightLevel: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkHdrMetadataEXT>) throws -> R) rethrows -> R {
-        try self.displayPrimaryRed.withUnsafeCStructPointer { ptr_displayPrimaryRed in
-            try self.displayPrimaryGreen.withUnsafeCStructPointer { ptr_displayPrimaryGreen in
-                try self.displayPrimaryBlue.withUnsafeCStructPointer { ptr_displayPrimaryBlue in
-                    try self.whitePoint.withUnsafeCStructPointer { ptr_whitePoint in
+    func withCStruct<R>(_ body: (UnsafePointer<VkHdrMetadataEXT>) throws -> R) rethrows -> R {
+        try self.displayPrimaryRed.withCStruct { ptr_displayPrimaryRed in
+            try self.displayPrimaryGreen.withCStruct { ptr_displayPrimaryGreen in
+                try self.displayPrimaryBlue.withCStruct { ptr_displayPrimaryBlue in
+                    try self.whitePoint.withCStruct { ptr_whitePoint in
                         var cStruct = VkHdrMetadataEXT()
                         cStruct.sType = VK_STRUCTURE_TYPE_HDR_METADATA_EXT
                         cStruct.pNext = nil
@@ -4575,7 +4575,7 @@ struct DisplayNativeHdrSurfaceCapabilitiesAMD: CStructConvertible {
 
     let localDimmingSupport: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayNativeHdrSurfaceCapabilitiesAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayNativeHdrSurfaceCapabilitiesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayNativeHdrSurfaceCapabilitiesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD
         cStruct.pNext = nil
@@ -4589,7 +4589,7 @@ struct SwapchainDisplayNativeHdrCreateInfoAMD: CStructConvertible {
 
     let localDimmingEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSwapchainDisplayNativeHdrCreateInfoAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSwapchainDisplayNativeHdrCreateInfoAMD>) throws -> R) rethrows -> R {
         var cStruct = VkSwapchainDisplayNativeHdrCreateInfoAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD
         cStruct.pNext = nil
@@ -4603,7 +4603,7 @@ struct RefreshCycleDurationGOOGLE: CStructConvertible {
 
     let refreshDuration: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRefreshCycleDurationGOOGLE>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRefreshCycleDurationGOOGLE>) throws -> R) rethrows -> R {
         var cStruct = VkRefreshCycleDurationGOOGLE()
         cStruct.refreshDuration = self.refreshDuration
         return try body(&cStruct)
@@ -4619,7 +4619,7 @@ struct PastPresentationTimingGOOGLE: CStructConvertible {
     let earliestPresentTime: UInt64
     let presentMargin: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPastPresentationTimingGOOGLE>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPastPresentationTimingGOOGLE>) throws -> R) rethrows -> R {
         var cStruct = VkPastPresentationTimingGOOGLE()
         cStruct.presentID = self.presentID
         cStruct.desiredPresentTime = self.desiredPresentTime
@@ -4636,7 +4636,7 @@ struct PresentTimesInfoGOOGLE: CStructConvertible {
     let swapchainCount: UInt32
     let pTimes: UnsafePointer<VkPresentTimeGOOGLE>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPresentTimesInfoGOOGLE>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentTimesInfoGOOGLE>) throws -> R) rethrows -> R {
         var cStruct = VkPresentTimesInfoGOOGLE()
         cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE
         cStruct.pNext = nil
@@ -4652,7 +4652,7 @@ struct PresentTimeGOOGLE: CStructConvertible {
     let presentID: UInt32
     let desiredPresentTime: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPresentTimeGOOGLE>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentTimeGOOGLE>) throws -> R) rethrows -> R {
         var cStruct = VkPresentTimeGOOGLE()
         cStruct.presentID = self.presentID
         cStruct.desiredPresentTime = self.desiredPresentTime
@@ -4666,7 +4666,7 @@ struct ViewportWScalingNV: CStructConvertible {
     let xcoeff: Float
     let ycoeff: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkViewportWScalingNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkViewportWScalingNV>) throws -> R) rethrows -> R {
         var cStruct = VkViewportWScalingNV()
         cStruct.xcoeff = self.xcoeff
         cStruct.ycoeff = self.ycoeff
@@ -4681,7 +4681,7 @@ struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
     let viewportCount: UInt32
     let pViewportWScalings: UnsafePointer<VkViewportWScalingNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineViewportWScalingStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportWScalingStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineViewportWScalingStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -4700,7 +4700,7 @@ struct ViewportSwizzleNV: CStructConvertible {
     let z: ViewportCoordinateSwizzleNV
     let w: ViewportCoordinateSwizzleNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkViewportSwizzleNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkViewportSwizzleNV>) throws -> R) rethrows -> R {
         var cStruct = VkViewportSwizzleNV()
         cStruct.x = VkViewportCoordinateSwizzleNV(rawValue: self.x.rawValue)
         cStruct.y = VkViewportCoordinateSwizzleNV(rawValue: self.y.rawValue)
@@ -4717,7 +4717,7 @@ struct PipelineViewportSwizzleStateCreateInfoNV: CStructConvertible {
     let viewportCount: UInt32
     let pViewportSwizzles: UnsafePointer<VkViewportSwizzleNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineViewportSwizzleStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportSwizzleStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineViewportSwizzleStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SWIZZLE_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -4733,7 +4733,7 @@ struct PhysicalDeviceDiscardRectanglePropertiesEXT: CStructConvertible {
 
     let maxDiscardRectangles: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDiscardRectanglePropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDiscardRectanglePropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDiscardRectanglePropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -4750,7 +4750,7 @@ struct PipelineDiscardRectangleStateCreateInfoEXT: CStructConvertible {
     let discardRectangleCount: UInt32
     let pDiscardRectangles: UnsafePointer<VkRect2D>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineDiscardRectangleStateCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineDiscardRectangleStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineDiscardRectangleStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_DISCARD_RECTANGLE_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -4767,7 +4767,7 @@ struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: CStructConvertible
 
     let perViewPositionAllComponents: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_ATTRIBUTES_PROPERTIES_NVX
         cStruct.pNext = nil
@@ -4783,7 +4783,7 @@ struct InputAttachmentAspectReference: CStructConvertible {
     let inputAttachmentIndex: UInt32
     let aspectMask: ImageAspectFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkInputAttachmentAspectReference>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkInputAttachmentAspectReference>) throws -> R) rethrows -> R {
         var cStruct = VkInputAttachmentAspectReference()
         cStruct.subpass = self.subpass
         cStruct.inputAttachmentIndex = self.inputAttachmentIndex
@@ -4798,7 +4798,7 @@ struct RenderPassInputAttachmentAspectCreateInfo: CStructConvertible {
     let aspectReferenceCount: UInt32
     let pAspectReferences: UnsafePointer<VkInputAttachmentAspectReference>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassInputAttachmentAspectCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassInputAttachmentAspectCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassInputAttachmentAspectCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_INPUT_ATTACHMENT_ASPECT_CREATE_INFO
         cStruct.pNext = nil
@@ -4813,7 +4813,7 @@ struct PhysicalDeviceSurfaceInfo2KHR: CStructConvertible {
 
     let surface: VkSurfaceKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSurfaceInfo2KHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSurfaceInfo2KHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSurfaceInfo2KHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SURFACE_INFO_2_KHR
         cStruct.pNext = nil
@@ -4827,8 +4827,8 @@ struct SurfaceCapabilities2KHR: CStructConvertible {
 
     let surfaceCapabilities: SurfaceCapabilitiesKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceCapabilities2KHR>) throws -> R) rethrows -> R {
-        try self.surfaceCapabilities.withUnsafeCStructPointer { ptr_surfaceCapabilities in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSurfaceCapabilities2KHR>) throws -> R) rethrows -> R {
+        try self.surfaceCapabilities.withCStruct { ptr_surfaceCapabilities in
             var cStruct = VkSurfaceCapabilities2KHR()
             cStruct.sType = VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_KHR
             cStruct.pNext = nil
@@ -4843,8 +4843,8 @@ struct SurfaceFormat2KHR: CStructConvertible {
 
     let surfaceFormat: SurfaceFormatKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceFormat2KHR>) throws -> R) rethrows -> R {
-        try self.surfaceFormat.withUnsafeCStructPointer { ptr_surfaceFormat in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSurfaceFormat2KHR>) throws -> R) rethrows -> R {
+        try self.surfaceFormat.withCStruct { ptr_surfaceFormat in
             var cStruct = VkSurfaceFormat2KHR()
             cStruct.sType = VK_STRUCTURE_TYPE_SURFACE_FORMAT_2_KHR
             cStruct.pNext = nil
@@ -4859,8 +4859,8 @@ struct DisplayProperties2KHR: CStructConvertible {
 
     let displayProperties: DisplayPropertiesKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayProperties2KHR>) throws -> R) rethrows -> R {
-        try self.displayProperties.withUnsafeCStructPointer { ptr_displayProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayProperties2KHR>) throws -> R) rethrows -> R {
+        try self.displayProperties.withCStruct { ptr_displayProperties in
             var cStruct = VkDisplayProperties2KHR()
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_PROPERTIES_2_KHR
             cStruct.pNext = nil
@@ -4875,8 +4875,8 @@ struct DisplayPlaneProperties2KHR: CStructConvertible {
 
     let displayPlaneProperties: DisplayPlanePropertiesKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPlaneProperties2KHR>) throws -> R) rethrows -> R {
-        try self.displayPlaneProperties.withUnsafeCStructPointer { ptr_displayPlaneProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneProperties2KHR>) throws -> R) rethrows -> R {
+        try self.displayPlaneProperties.withCStruct { ptr_displayPlaneProperties in
             var cStruct = VkDisplayPlaneProperties2KHR()
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_PLANE_PROPERTIES_2_KHR
             cStruct.pNext = nil
@@ -4891,8 +4891,8 @@ struct DisplayModeProperties2KHR: CStructConvertible {
 
     let displayModeProperties: DisplayModePropertiesKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayModeProperties2KHR>) throws -> R) rethrows -> R {
-        try self.displayModeProperties.withUnsafeCStructPointer { ptr_displayModeProperties in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModeProperties2KHR>) throws -> R) rethrows -> R {
+        try self.displayModeProperties.withCStruct { ptr_displayModeProperties in
             var cStruct = VkDisplayModeProperties2KHR()
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR
             cStruct.pNext = nil
@@ -4908,7 +4908,7 @@ struct DisplayPlaneInfo2KHR: CStructConvertible {
     let mode: VkDisplayModeKHR
     let planeIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPlaneInfo2KHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneInfo2KHR>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPlaneInfo2KHR()
         cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_PLANE_INFO_2_KHR
         cStruct.pNext = nil
@@ -4923,8 +4923,8 @@ struct DisplayPlaneCapabilities2KHR: CStructConvertible {
 
     let capabilities: DisplayPlaneCapabilitiesKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDisplayPlaneCapabilities2KHR>) throws -> R) rethrows -> R {
-        try self.capabilities.withUnsafeCStructPointer { ptr_capabilities in
+    func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneCapabilities2KHR>) throws -> R) rethrows -> R {
+        try self.capabilities.withCStruct { ptr_capabilities in
             var cStruct = VkDisplayPlaneCapabilities2KHR()
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_PLANE_CAPABILITIES_2_KHR
             cStruct.pNext = nil
@@ -4939,7 +4939,7 @@ struct SharedPresentSurfaceCapabilitiesKHR: CStructConvertible {
 
     let sharedPresentSupportedUsageFlags: ImageUsageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSharedPresentSurfaceCapabilitiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSharedPresentSurfaceCapabilitiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSharedPresentSurfaceCapabilitiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_SHARED_PRESENT_SURFACE_CAPABILITIES_KHR
         cStruct.pNext = nil
@@ -4956,7 +4956,7 @@ struct PhysicalDevice16BitStorageFeatures: CStructConvertible {
     let storagePushConstant16: Bool
     let storageInputOutput16: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevice16BitStorageFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevice16BitStorageFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevice16BitStorageFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES
         cStruct.pNext = nil
@@ -4976,7 +4976,7 @@ struct PhysicalDeviceSubgroupProperties: CStructConvertible {
     let supportedOperations: SubgroupFeatureFlags
     let quadOperationsInAllStages: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSubgroupProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES
         cStruct.pNext = nil
@@ -4993,7 +4993,7 @@ struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures: CStructConvertible {
 
     let shaderSubgroupExtendedTypes: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES
         cStruct.pNext = nil
@@ -5007,7 +5007,7 @@ struct BufferMemoryRequirementsInfo2: CStructConvertible {
 
     let buffer: VkBuffer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkBufferMemoryRequirementsInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_REQUIREMENTS_INFO_2
         cStruct.pNext = nil
@@ -5021,7 +5021,7 @@ struct ImageMemoryRequirementsInfo2: CStructConvertible {
 
     let image: VkImage
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkImageMemoryRequirementsInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_REQUIREMENTS_INFO_2
         cStruct.pNext = nil
@@ -5035,7 +5035,7 @@ struct ImageSparseMemoryRequirementsInfo2: CStructConvertible {
 
     let image: VkImage
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageSparseMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageSparseMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkImageSparseMemoryRequirementsInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_SPARSE_MEMORY_REQUIREMENTS_INFO_2
         cStruct.pNext = nil
@@ -5049,8 +5049,8 @@ struct MemoryRequirements2: CStructConvertible {
 
     let memoryRequirements: MemoryRequirements
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryRequirements2>) throws -> R) rethrows -> R {
-        try self.memoryRequirements.withUnsafeCStructPointer { ptr_memoryRequirements in
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryRequirements2>) throws -> R) rethrows -> R {
+        try self.memoryRequirements.withCStruct { ptr_memoryRequirements in
             var cStruct = VkMemoryRequirements2()
             cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_REQUIREMENTS_2
             cStruct.pNext = nil
@@ -5065,8 +5065,8 @@ struct SparseImageMemoryRequirements2: CStructConvertible {
 
     let memoryRequirements: SparseImageMemoryRequirements
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSparseImageMemoryRequirements2>) throws -> R) rethrows -> R {
-        try self.memoryRequirements.withUnsafeCStructPointer { ptr_memoryRequirements in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryRequirements2>) throws -> R) rethrows -> R {
+        try self.memoryRequirements.withCStruct { ptr_memoryRequirements in
             var cStruct = VkSparseImageMemoryRequirements2()
             cStruct.sType = VK_STRUCTURE_TYPE_SPARSE_IMAGE_MEMORY_REQUIREMENTS_2
             cStruct.pNext = nil
@@ -5081,7 +5081,7 @@ struct PhysicalDevicePointClippingProperties: CStructConvertible {
 
     let pointClippingBehavior: PointClippingBehavior
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePointClippingProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePointClippingProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePointClippingProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_POINT_CLIPPING_PROPERTIES
         cStruct.pNext = nil
@@ -5096,7 +5096,7 @@ struct MemoryDedicatedRequirements: CStructConvertible {
     let prefersDedicatedAllocation: Bool
     let requiresDedicatedAllocation: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryDedicatedRequirements>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryDedicatedRequirements>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryDedicatedRequirements()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_DEDICATED_REQUIREMENTS
         cStruct.pNext = nil
@@ -5112,7 +5112,7 @@ struct MemoryDedicatedAllocateInfo: CStructConvertible {
     let image: VkImage
     let buffer: VkBuffer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryDedicatedAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryDedicatedAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryDedicatedAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_DEDICATED_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -5127,7 +5127,7 @@ struct ImageViewUsageCreateInfo: CStructConvertible {
 
     let usage: ImageUsageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageViewUsageCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageViewUsageCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkImageViewUsageCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_USAGE_CREATE_INFO
         cStruct.pNext = nil
@@ -5141,7 +5141,7 @@ struct PipelineTessellationDomainOriginStateCreateInfo: CStructConvertible {
 
     let domainOrigin: TessellationDomainOrigin
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineTessellationDomainOriginStateCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineTessellationDomainOriginStateCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineTessellationDomainOriginStateCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_DOMAIN_ORIGIN_STATE_CREATE_INFO
         cStruct.pNext = nil
@@ -5155,7 +5155,7 @@ struct SamplerYcbcrConversionInfo: CStructConvertible {
 
     let conversion: VkSamplerYcbcrConversion
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerYcbcrConversionInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_INFO
         cStruct.pNext = nil
@@ -5176,8 +5176,8 @@ struct SamplerYcbcrConversionCreateInfo: CStructConvertible {
     let chromaFilter: Filter
     let forceExplicitReconstruction: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionCreateInfo>) throws -> R) rethrows -> R {
-        try self.components.withUnsafeCStructPointer { ptr_components in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionCreateInfo>) throws -> R) rethrows -> R {
+        try self.components.withCStruct { ptr_components in
             var cStruct = VkSamplerYcbcrConversionCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_CREATE_INFO
             cStruct.pNext = nil
@@ -5199,7 +5199,7 @@ struct BindImagePlaneMemoryInfo: CStructConvertible {
 
     let planeAspect: VkImageAspectFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBindImagePlaneMemoryInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBindImagePlaneMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindImagePlaneMemoryInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_IMAGE_PLANE_MEMORY_INFO
         cStruct.pNext = nil
@@ -5213,7 +5213,7 @@ struct ImagePlaneMemoryRequirementsInfo: CStructConvertible {
 
     let planeAspect: VkImageAspectFlagBits
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImagePlaneMemoryRequirementsInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImagePlaneMemoryRequirementsInfo>) throws -> R) rethrows -> R {
         var cStruct = VkImagePlaneMemoryRequirementsInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_PLANE_MEMORY_REQUIREMENTS_INFO
         cStruct.pNext = nil
@@ -5227,7 +5227,7 @@ struct PhysicalDeviceSamplerYcbcrConversionFeatures: CStructConvertible {
 
     let samplerYcbcrConversion: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSamplerYcbcrConversionFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSamplerYcbcrConversionFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSamplerYcbcrConversionFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES
         cStruct.pNext = nil
@@ -5241,7 +5241,7 @@ struct SamplerYcbcrConversionImageFormatProperties: CStructConvertible {
 
     let combinedImageSamplerDescriptorCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionImageFormatProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionImageFormatProperties>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerYcbcrConversionImageFormatProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES
         cStruct.pNext = nil
@@ -5255,7 +5255,7 @@ struct TextureLODGatherFormatPropertiesAMD: CStructConvertible {
 
     let supportsTextureGatherLODBiasAMD: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkTextureLODGatherFormatPropertiesAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkTextureLODGatherFormatPropertiesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkTextureLODGatherFormatPropertiesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD
         cStruct.pNext = nil
@@ -5271,7 +5271,7 @@ struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
     let offset: VkDeviceSize
     let flags: ConditionalRenderingFlagsEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkConditionalRenderingBeginInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkConditionalRenderingBeginInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkConditionalRenderingBeginInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT
         cStruct.pNext = nil
@@ -5287,7 +5287,7 @@ struct ProtectedSubmitInfo: CStructConvertible {
 
     let protectedSubmit: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkProtectedSubmitInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkProtectedSubmitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkProtectedSubmitInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_PROTECTED_SUBMIT_INFO
         cStruct.pNext = nil
@@ -5301,7 +5301,7 @@ struct PhysicalDeviceProtectedMemoryFeatures: CStructConvertible {
 
     let protectedMemory: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProtectedMemoryFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceProtectedMemoryFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceProtectedMemoryFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES
         cStruct.pNext = nil
@@ -5315,7 +5315,7 @@ struct PhysicalDeviceProtectedMemoryProperties: CStructConvertible {
 
     let protectedNoFault: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProtectedMemoryProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceProtectedMemoryProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceProtectedMemoryProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_PROPERTIES
         cStruct.pNext = nil
@@ -5331,7 +5331,7 @@ struct DeviceQueueInfo2: CStructConvertible {
     let queueFamilyIndex: UInt32
     let queueIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceQueueInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceQueueInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceQueueInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_INFO_2
         cStruct.pNext = nil
@@ -5349,7 +5349,7 @@ struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
     let coverageToColorEnable: Bool
     let coverageToColorLocation: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCoverageToColorStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCoverageToColorStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCoverageToColorStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -5366,7 +5366,7 @@ struct PhysicalDeviceSamplerFilterMinmaxProperties: CStructConvertible {
     let filterMinmaxSingleComponentFormats: Bool
     let filterMinmaxImageComponentMapping: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSamplerFilterMinmaxProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSamplerFilterMinmaxProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSamplerFilterMinmaxProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES
         cStruct.pNext = nil
@@ -5382,7 +5382,7 @@ struct SampleLocationEXT: CStructConvertible {
     let x: Float
     let y: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSampleLocationEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSampleLocationEXT>) throws -> R) rethrows -> R {
         var cStruct = VkSampleLocationEXT()
         cStruct.x = self.x
         cStruct.y = self.y
@@ -5398,8 +5398,8 @@ struct SampleLocationsInfoEXT: CStructConvertible {
     let sampleLocationsCount: UInt32
     let pSampleLocations: UnsafePointer<VkSampleLocationEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSampleLocationsInfoEXT>) throws -> R) rethrows -> R {
-        try self.sampleLocationGridSize.withUnsafeCStructPointer { ptr_sampleLocationGridSize in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSampleLocationsInfoEXT>) throws -> R) rethrows -> R {
+        try self.sampleLocationGridSize.withCStruct { ptr_sampleLocationGridSize in
             var cStruct = VkSampleLocationsInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT
             cStruct.pNext = nil
@@ -5418,8 +5418,8 @@ struct AttachmentSampleLocationsEXT: CStructConvertible {
     let attachmentIndex: UInt32
     let sampleLocationsInfo: SampleLocationsInfoEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentSampleLocationsEXT>) throws -> R) rethrows -> R {
-        try self.sampleLocationsInfo.withUnsafeCStructPointer { ptr_sampleLocationsInfo in
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentSampleLocationsEXT>) throws -> R) rethrows -> R {
+        try self.sampleLocationsInfo.withCStruct { ptr_sampleLocationsInfo in
             var cStruct = VkAttachmentSampleLocationsEXT()
             cStruct.attachmentIndex = self.attachmentIndex
             cStruct.sampleLocationsInfo = ptr_sampleLocationsInfo.pointee
@@ -5434,8 +5434,8 @@ struct SubpassSampleLocationsEXT: CStructConvertible {
     let subpassIndex: UInt32
     let sampleLocationsInfo: SampleLocationsInfoEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassSampleLocationsEXT>) throws -> R) rethrows -> R {
-        try self.sampleLocationsInfo.withUnsafeCStructPointer { ptr_sampleLocationsInfo in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassSampleLocationsEXT>) throws -> R) rethrows -> R {
+        try self.sampleLocationsInfo.withCStruct { ptr_sampleLocationsInfo in
             var cStruct = VkSubpassSampleLocationsEXT()
             cStruct.subpassIndex = self.subpassIndex
             cStruct.sampleLocationsInfo = ptr_sampleLocationsInfo.pointee
@@ -5452,7 +5452,7 @@ struct RenderPassSampleLocationsBeginInfoEXT: CStructConvertible {
     let postSubpassSampleLocationsCount: UInt32
     let pPostSubpassSampleLocations: UnsafePointer<VkSubpassSampleLocationsEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassSampleLocationsBeginInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassSampleLocationsBeginInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassSampleLocationsBeginInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_SAMPLE_LOCATIONS_BEGIN_INFO_EXT
         cStruct.pNext = nil
@@ -5470,8 +5470,8 @@ struct PipelineSampleLocationsStateCreateInfoEXT: CStructConvertible {
     let sampleLocationsEnable: Bool
     let sampleLocationsInfo: SampleLocationsInfoEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineSampleLocationsStateCreateInfoEXT>) throws -> R) rethrows -> R {
-        try self.sampleLocationsInfo.withUnsafeCStructPointer { ptr_sampleLocationsInfo in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineSampleLocationsStateCreateInfoEXT>) throws -> R) rethrows -> R {
+        try self.sampleLocationsInfo.withCStruct { ptr_sampleLocationsInfo in
             var cStruct = VkPipelineSampleLocationsStateCreateInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT
             cStruct.pNext = nil
@@ -5491,8 +5491,8 @@ struct PhysicalDeviceSampleLocationsPropertiesEXT: CStructConvertible {
     let sampleLocationSubPixelBits: UInt32
     let variableSampleLocations: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSampleLocationsPropertiesEXT>) throws -> R) rethrows -> R {
-        try self.maxSampleLocationGridSize.withUnsafeCStructPointer { ptr_maxSampleLocationGridSize in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSampleLocationsPropertiesEXT>) throws -> R) rethrows -> R {
+        try self.maxSampleLocationGridSize.withCStruct { ptr_maxSampleLocationGridSize in
             var cStruct = VkPhysicalDeviceSampleLocationsPropertiesEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT
             cStruct.pNext = nil
@@ -5511,8 +5511,8 @@ struct MultisamplePropertiesEXT: CStructConvertible {
 
     let maxSampleLocationGridSize: Extent2D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMultisamplePropertiesEXT>) throws -> R) rethrows -> R {
-        try self.maxSampleLocationGridSize.withUnsafeCStructPointer { ptr_maxSampleLocationGridSize in
+    func withCStruct<R>(_ body: (UnsafePointer<VkMultisamplePropertiesEXT>) throws -> R) rethrows -> R {
+        try self.maxSampleLocationGridSize.withCStruct { ptr_maxSampleLocationGridSize in
             var cStruct = VkMultisamplePropertiesEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_MULTISAMPLE_PROPERTIES_EXT
             cStruct.pNext = nil
@@ -5527,7 +5527,7 @@ struct SamplerReductionModeCreateInfo: CStructConvertible {
 
     let reductionMode: SamplerReductionMode
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSamplerReductionModeCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSamplerReductionModeCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerReductionModeCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SAMPLER_REDUCTION_MODE_CREATE_INFO
         cStruct.pNext = nil
@@ -5541,7 +5541,7 @@ struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT: CStructConvertible {
 
     let advancedBlendCoherentOperations: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT
         cStruct.pNext = nil
@@ -5560,7 +5560,7 @@ struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT: CStructConvertible {
     let advancedBlendCorrelatedOverlap: Bool
     let advancedBlendAllOperations: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -5581,7 +5581,7 @@ struct PipelineColorBlendAdvancedStateCreateInfoEXT: CStructConvertible {
     let dstPremultiplied: Bool
     let blendOverlap: BlendOverlapEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineColorBlendAdvancedStateCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineColorBlendAdvancedStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineColorBlendAdvancedStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -5598,7 +5598,7 @@ struct PhysicalDeviceInlineUniformBlockFeaturesEXT: CStructConvertible {
     let inlineUniformBlock: Bool
     let descriptorBindingInlineUniformBlockUpdateAfterBind: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceInlineUniformBlockFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT
         cStruct.pNext = nil
@@ -5617,7 +5617,7 @@ struct PhysicalDeviceInlineUniformBlockPropertiesEXT: CStructConvertible {
     let maxDescriptorSetInlineUniformBlocks: UInt32
     let maxDescriptorSetUpdateAfterBindInlineUniformBlocks: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceInlineUniformBlockPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -5636,7 +5636,7 @@ struct WriteDescriptorSetInlineUniformBlockEXT: CStructConvertible {
     let dataSize: UInt32
     let pData: UnsafeRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkWriteDescriptorSetInlineUniformBlockEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkWriteDescriptorSetInlineUniformBlockEXT>) throws -> R) rethrows -> R {
         var cStruct = VkWriteDescriptorSetInlineUniformBlockEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK_EXT
         cStruct.pNext = nil
@@ -5651,7 +5651,7 @@ struct DescriptorPoolInlineUniformBlockCreateInfoEXT: CStructConvertible {
 
     let maxInlineUniformBlockBindings: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorPoolInlineUniformBlockCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -5669,7 +5669,7 @@ struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
     let coverageModulationTableCount: UInt32
     let pCoverageModulationTable: UnsafePointer<Float>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCoverageModulationStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCoverageModulationStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCoverageModulationStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_MODULATION_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -5688,7 +5688,7 @@ struct ImageFormatListCreateInfo: CStructConvertible {
     let viewFormatCount: UInt32
     let pViewFormats: UnsafePointer<VkFormat>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageFormatListCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageFormatListCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkImageFormatListCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO
         cStruct.pNext = nil
@@ -5705,7 +5705,7 @@ struct ValidationCacheCreateInfoEXT: CStructConvertible {
     let initialDataSize: Int
     let pInitialData: UnsafeRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkValidationCacheCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkValidationCacheCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkValidationCacheCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_VALIDATION_CACHE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -5721,7 +5721,7 @@ struct ShaderModuleValidationCacheCreateInfoEXT: CStructConvertible {
 
     let validationCache: VkValidationCacheEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkShaderModuleValidationCacheCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkShaderModuleValidationCacheCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkShaderModuleValidationCacheCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -5736,7 +5736,7 @@ struct PhysicalDeviceMaintenance3Properties: CStructConvertible {
     let maxPerSetDescriptors: UInt32
     let maxMemoryAllocationSize: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMaintenance3Properties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMaintenance3Properties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMaintenance3Properties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES
         cStruct.pNext = nil
@@ -5751,7 +5751,7 @@ struct DescriptorSetLayoutSupport: CStructConvertible {
 
     let supported: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutSupport>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutSupport>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetLayoutSupport()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_SUPPORT
         cStruct.pNext = nil
@@ -5765,7 +5765,7 @@ struct PhysicalDeviceShaderDrawParametersFeatures: CStructConvertible {
 
     let shaderDrawParameters: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderDrawParametersFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderDrawParametersFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderDrawParametersFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES
         cStruct.pNext = nil
@@ -5780,7 +5780,7 @@ struct PhysicalDeviceShaderFloat16Int8Features: CStructConvertible {
     let shaderFloat16: Bool
     let shaderInt8: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderFloat16Int8Features>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderFloat16Int8Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderFloat16Int8Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES
         cStruct.pNext = nil
@@ -5811,7 +5811,7 @@ struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
     let shaderRoundingModeRTZFloat32: Bool
     let shaderRoundingModeRTZFloat64: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFloatControlsProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFloatControlsProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFloatControlsProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FLOAT_CONTROLS_PROPERTIES
         cStruct.pNext = nil
@@ -5841,7 +5841,7 @@ struct PhysicalDeviceHostQueryResetFeatures: CStructConvertible {
 
     let hostQueryReset: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceHostQueryResetFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceHostQueryResetFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceHostQueryResetFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES
         cStruct.pNext = nil
@@ -5859,7 +5859,7 @@ struct ShaderResourceUsageAMD: CStructConvertible {
     let ldsUsageSizeInBytes: Int
     let scratchMemUsageInBytes: Int
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkShaderResourceUsageAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkShaderResourceUsageAMD>) throws -> R) rethrows -> R {
         var cStruct = VkShaderResourceUsageAMD()
         cStruct.numUsedVgprs = self.numUsedVgprs
         cStruct.numUsedSgprs = self.numUsedSgprs
@@ -5881,8 +5881,8 @@ struct ShaderStatisticsInfoAMD: CStructConvertible {
     let numAvailableSgprs: UInt32
     let computeWorkGroupSize: (UInt32, UInt32, UInt32)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkShaderStatisticsInfoAMD>) throws -> R) rethrows -> R {
-        try self.resourceUsage.withUnsafeCStructPointer { ptr_resourceUsage in
+    func withCStruct<R>(_ body: (UnsafePointer<VkShaderStatisticsInfoAMD>) throws -> R) rethrows -> R {
+        try self.resourceUsage.withCStruct { ptr_resourceUsage in
             var cStruct = VkShaderStatisticsInfoAMD()
             cStruct.shaderStageMask = self.shaderStageMask.rawValue
             cStruct.resourceUsage = ptr_resourceUsage.pointee
@@ -5901,7 +5901,7 @@ struct DeviceQueueGlobalPriorityCreateInfoEXT: CStructConvertible {
 
     let globalPriority: QueueGlobalPriorityEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceQueueGlobalPriorityCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceQueueGlobalPriorityCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceQueueGlobalPriorityCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -5917,7 +5917,7 @@ struct DebugUtilsObjectNameInfoEXT: CStructConvertible {
     let objectHandle: UInt64
     let pObjectName: String
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsObjectNameInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugUtilsObjectNameInfoEXT>) throws -> R) rethrows -> R {
         try self.pObjectName.withCString { cString_pObjectName in
             var cStruct = VkDebugUtilsObjectNameInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT
@@ -5939,7 +5939,7 @@ struct DebugUtilsObjectTagInfoEXT: CStructConvertible {
     let tagSize: Int
     let pTag: UnsafeRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsObjectTagInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugUtilsObjectTagInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDebugUtilsObjectTagInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_TAG_INFO_EXT
         cStruct.pNext = nil
@@ -5958,7 +5958,7 @@ struct DebugUtilsLabelEXT: CStructConvertible {
     let pLabelName: String
     let color: (Float, Float, Float, Float)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsLabelEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugUtilsLabelEXT>) throws -> R) rethrows -> R {
         try self.pLabelName.withCString { cString_pLabelName in
             var cStruct = VkDebugUtilsLabelEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT
@@ -5979,7 +5979,7 @@ struct DebugUtilsMessengerCreateInfoEXT: CStructConvertible {
     let pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT
     let pUserData: UnsafeMutableRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsMessengerCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugUtilsMessengerCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDebugUtilsMessengerCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -6006,7 +6006,7 @@ struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     let objectCount: UInt32
     let pObjects: UnsafePointer<VkDebugUtilsObjectNameInfoEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDebugUtilsMessengerCallbackDataEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDebugUtilsMessengerCallbackDataEXT>) throws -> R) rethrows -> R {
         try self.pMessageIdName.withCString { cString_pMessageIdName in
             try self.pMessage.withCString { cString_pMessage in
                 var cStruct = VkDebugUtilsMessengerCallbackDataEXT()
@@ -6034,7 +6034,7 @@ struct ImportMemoryHostPointerInfoEXT: CStructConvertible {
     let handleType: VkExternalMemoryHandleTypeFlagBits
     let pHostPointer: UnsafeMutableRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImportMemoryHostPointerInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImportMemoryHostPointerInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkImportMemoryHostPointerInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_IMPORT_MEMORY_HOST_POINTER_INFO_EXT
         cStruct.pNext = nil
@@ -6049,7 +6049,7 @@ struct MemoryHostPointerPropertiesEXT: CStructConvertible {
 
     let memoryTypeBits: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryHostPointerPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryHostPointerPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryHostPointerPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_HOST_POINTER_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -6063,7 +6063,7 @@ struct PhysicalDeviceExternalMemoryHostPropertiesEXT: CStructConvertible {
 
     let minImportedHostPointerAlignment: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExternalMemoryHostPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_HOST_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -6085,7 +6085,7 @@ struct PhysicalDeviceConservativeRasterizationPropertiesEXT: CStructConvertible 
     let fullyCoveredFragmentShaderInputVariable: Bool
     let conservativeRasterizationPostDepthCoverage: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceConservativeRasterizationPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -6107,7 +6107,7 @@ struct CalibratedTimestampInfoEXT: CStructConvertible {
 
     let timeDomain: TimeDomainEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCalibratedTimestampInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCalibratedTimestampInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkCalibratedTimestampInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT
         cStruct.pNext = nil
@@ -6134,7 +6134,7 @@ struct PhysicalDeviceShaderCorePropertiesAMD: CStructConvertible {
     let maxVgprAllocation: UInt32
     let vgprAllocationGranularity: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderCorePropertiesAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderCorePropertiesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderCorePropertiesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_AMD
         cStruct.pNext = nil
@@ -6162,7 +6162,7 @@ struct PhysicalDeviceShaderCoreProperties2AMD: CStructConvertible {
     let shaderCoreFeatures: ShaderCorePropertiesFlagsAMD
     let activeComputeUnitCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderCoreProperties2AMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderCoreProperties2AMD>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderCoreProperties2AMD()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_2_AMD
         cStruct.pNext = nil
@@ -6179,7 +6179,7 @@ struct PipelineRasterizationConservativeStateCreateInfoEXT: CStructConvertible {
     let conservativeRasterizationMode: ConservativeRasterizationModeEXT
     let extraPrimitiveOverestimationSize: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationConservativeStateCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRasterizationConservativeStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationConservativeStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -6214,7 +6214,7 @@ struct PhysicalDeviceDescriptorIndexingFeatures: CStructConvertible {
     let descriptorBindingVariableDescriptorCount: Bool
     let runtimeDescriptorArray: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDescriptorIndexingFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDescriptorIndexingFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDescriptorIndexingFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES
         cStruct.pNext = nil
@@ -6269,7 +6269,7 @@ struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
     let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
     let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDescriptorIndexingProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDescriptorIndexingProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDescriptorIndexingProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_PROPERTIES
         cStruct.pNext = nil
@@ -6306,7 +6306,7 @@ struct DescriptorSetLayoutBindingFlagsCreateInfo: CStructConvertible {
     let bindingCount: UInt32
     let pBindingFlags: UnsafePointer<VkDescriptorBindingFlags>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBindingFlagsCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBindingFlagsCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetLayoutBindingFlagsCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO
         cStruct.pNext = nil
@@ -6322,7 +6322,7 @@ struct DescriptorSetVariableDescriptorCountAllocateInfo: CStructConvertible {
     let descriptorSetCount: UInt32
     let pDescriptorCounts: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetVariableDescriptorCountAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetVariableDescriptorCountAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetVariableDescriptorCountAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -6337,7 +6337,7 @@ struct DescriptorSetVariableDescriptorCountLayoutSupport: CStructConvertible {
 
     let maxVariableDescriptorCount: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDescriptorSetVariableDescriptorCountLayoutSupport>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetVariableDescriptorCountLayoutSupport>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorSetVariableDescriptorCountLayoutSupport()
         cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT
         cStruct.pNext = nil
@@ -6359,7 +6359,7 @@ struct AttachmentDescription2: CStructConvertible {
     let initialLayout: ImageLayout
     let finalLayout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentDescription2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentDescription2>) throws -> R) rethrows -> R {
         var cStruct = VkAttachmentDescription2()
         cStruct.sType = VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2
         cStruct.pNext = nil
@@ -6383,7 +6383,7 @@ struct AttachmentReference2: CStructConvertible {
     let layout: ImageLayout
     let aspectMask: ImageAspectFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentReference2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentReference2>) throws -> R) rethrows -> R {
         var cStruct = VkAttachmentReference2()
         cStruct.sType = VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2
         cStruct.pNext = nil
@@ -6409,8 +6409,8 @@ struct SubpassDescription2: CStructConvertible {
     let preserveAttachmentCount: UInt32
     let pPreserveAttachments: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassDescription2>) throws -> R) rethrows -> R {
-        try self.pDepthStencilAttachment.withUnsafeCStructPointer { ptr_pDepthStencilAttachment in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescription2>) throws -> R) rethrows -> R {
+        try self.pDepthStencilAttachment.withCStruct { ptr_pDepthStencilAttachment in
             var cStruct = VkSubpassDescription2()
             cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_2
             cStruct.pNext = nil
@@ -6442,7 +6442,7 @@ struct SubpassDependency2: CStructConvertible {
     let dependencyFlags: DependencyFlags
     let viewOffset: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassDependency2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDependency2>) throws -> R) rethrows -> R {
         var cStruct = VkSubpassDependency2()
         cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_DEPENDENCY_2
         cStruct.pNext = nil
@@ -6471,7 +6471,7 @@ struct RenderPassCreateInfo2: CStructConvertible {
     let correlatedViewMaskCount: UInt32
     let pCorrelatedViewMasks: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassCreateInfo2>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassCreateInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassCreateInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO_2
         cStruct.pNext = nil
@@ -6493,7 +6493,7 @@ struct SubpassBeginInfo: CStructConvertible {
 
     let contents: SubpassContents
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassBeginInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassBeginInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSubpassBeginInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_BEGIN_INFO
         cStruct.pNext = nil
@@ -6506,7 +6506,7 @@ struct SubpassEndInfo: CStructConvertible {
     typealias CStruct = VkSubpassEndInfo
 
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassEndInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassEndInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSubpassEndInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_END_INFO
         cStruct.pNext = nil
@@ -6519,7 +6519,7 @@ struct PhysicalDeviceTimelineSemaphoreFeatures: CStructConvertible {
 
     let timelineSemaphore: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTimelineSemaphoreFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTimelineSemaphoreFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTimelineSemaphoreFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES
         cStruct.pNext = nil
@@ -6533,7 +6533,7 @@ struct PhysicalDeviceTimelineSemaphoreProperties: CStructConvertible {
 
     let maxTimelineSemaphoreValueDifference: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTimelineSemaphoreProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTimelineSemaphoreProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTimelineSemaphoreProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES
         cStruct.pNext = nil
@@ -6548,7 +6548,7 @@ struct SemaphoreTypeCreateInfo: CStructConvertible {
     let semaphoreType: SemaphoreType
     let initialValue: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSemaphoreTypeCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreTypeCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreTypeCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO
         cStruct.pNext = nil
@@ -6566,7 +6566,7 @@ struct TimelineSemaphoreSubmitInfo: CStructConvertible {
     let signalSemaphoreValueCount: UInt32
     let pSignalSemaphoreValues: UnsafePointer<UInt64>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkTimelineSemaphoreSubmitInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkTimelineSemaphoreSubmitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkTimelineSemaphoreSubmitInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_TIMELINE_SEMAPHORE_SUBMIT_INFO
         cStruct.pNext = nil
@@ -6586,7 +6586,7 @@ struct SemaphoreWaitInfo: CStructConvertible {
     let pSemaphores: UnsafePointer<VkSemaphore?>
     let pValues: UnsafePointer<UInt64>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSemaphoreWaitInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreWaitInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreWaitInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_WAIT_INFO
         cStruct.pNext = nil
@@ -6604,7 +6604,7 @@ struct SemaphoreSignalInfo: CStructConvertible {
     let semaphore: VkSemaphore
     let value: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSemaphoreSignalInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreSignalInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreSignalInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO
         cStruct.pNext = nil
@@ -6620,7 +6620,7 @@ struct VertexInputBindingDivisorDescriptionEXT: CStructConvertible {
     let binding: UInt32
     let divisor: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkVertexInputBindingDivisorDescriptionEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkVertexInputBindingDivisorDescriptionEXT>) throws -> R) rethrows -> R {
         var cStruct = VkVertexInputBindingDivisorDescriptionEXT()
         cStruct.binding = self.binding
         cStruct.divisor = self.divisor
@@ -6634,7 +6634,7 @@ struct PipelineVertexInputDivisorStateCreateInfoEXT: CStructConvertible {
     let vertexBindingDivisorCount: UInt32
     let pVertexBindingDivisors: UnsafePointer<VkVertexInputBindingDivisorDescriptionEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineVertexInputDivisorStateCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineVertexInputDivisorStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineVertexInputDivisorStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -6649,7 +6649,7 @@ struct PhysicalDeviceVertexAttributeDivisorPropertiesEXT: CStructConvertible {
 
     let maxVertexAttribDivisor: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -6666,7 +6666,7 @@ struct PhysicalDevicePCIBusInfoPropertiesEXT: CStructConvertible {
     let pciDevice: UInt32
     let pciFunction: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePCIBusInfoPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePCIBusInfoPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePCIBusInfoPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -6683,7 +6683,7 @@ struct CommandBufferInheritanceConditionalRenderingInfoEXT: CStructConvertible {
 
     let conditionalRenderingEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceConditionalRenderingInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceConditionalRenderingInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkCommandBufferInheritanceConditionalRenderingInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT
         cStruct.pNext = nil
@@ -6699,7 +6699,7 @@ struct PhysicalDevice8BitStorageFeatures: CStructConvertible {
     let uniformAndStorageBuffer8BitAccess: Bool
     let storagePushConstant8: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevice8BitStorageFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevice8BitStorageFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevice8BitStorageFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES
         cStruct.pNext = nil
@@ -6716,7 +6716,7 @@ struct PhysicalDeviceConditionalRenderingFeaturesEXT: CStructConvertible {
     let conditionalRendering: Bool
     let inheritedConditionalRendering: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceConditionalRenderingFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceConditionalRenderingFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceConditionalRenderingFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT
         cStruct.pNext = nil
@@ -6733,7 +6733,7 @@ struct PhysicalDeviceVulkanMemoryModelFeatures: CStructConvertible {
     let vulkanMemoryModelDeviceScope: Bool
     let vulkanMemoryModelAvailabilityVisibilityChains: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkanMemoryModelFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkanMemoryModelFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkanMemoryModelFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES
         cStruct.pNext = nil
@@ -6750,7 +6750,7 @@ struct PhysicalDeviceShaderAtomicInt64Features: CStructConvertible {
     let shaderBufferInt64Atomics: Bool
     let shaderSharedInt64Atomics: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderAtomicInt64Features>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderAtomicInt64Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderAtomicInt64Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_INT64_FEATURES
         cStruct.pNext = nil
@@ -6766,7 +6766,7 @@ struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT: CStructConvertible {
     let vertexAttributeInstanceRateDivisor: Bool
     let vertexAttributeInstanceRateZeroDivisor: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT
         cStruct.pNext = nil
@@ -6781,7 +6781,7 @@ struct QueueFamilyCheckpointPropertiesNV: CStructConvertible {
 
     let checkpointExecutionStageMask: PipelineStageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkQueueFamilyCheckpointPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkQueueFamilyCheckpointPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkQueueFamilyCheckpointPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV
         cStruct.pNext = nil
@@ -6796,7 +6796,7 @@ struct CheckpointDataNV: CStructConvertible {
     let stage: VkPipelineStageFlagBits
     let pCheckpointMarker: UnsafeMutableRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCheckpointDataNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCheckpointDataNV>) throws -> R) rethrows -> R {
         var cStruct = VkCheckpointDataNV()
         cStruct.sType = VK_STRUCTURE_TYPE_CHECKPOINT_DATA_NV
         cStruct.pNext = nil
@@ -6814,7 +6814,7 @@ struct PhysicalDeviceDepthStencilResolveProperties: CStructConvertible {
     let independentResolveNone: Bool
     let independentResolve: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDepthStencilResolveProperties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDepthStencilResolveProperties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDepthStencilResolveProperties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_STENCIL_RESOLVE_PROPERTIES
         cStruct.pNext = nil
@@ -6833,8 +6833,8 @@ struct SubpassDescriptionDepthStencilResolve: CStructConvertible {
     let stencilResolveMode: VkResolveModeFlagBits
     let pDepthStencilResolveAttachment: AttachmentReference2
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSubpassDescriptionDepthStencilResolve>) throws -> R) rethrows -> R {
-        try self.pDepthStencilResolveAttachment.withUnsafeCStructPointer { ptr_pDepthStencilResolveAttachment in
+    func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescriptionDepthStencilResolve>) throws -> R) rethrows -> R {
+        try self.pDepthStencilResolveAttachment.withCStruct { ptr_pDepthStencilResolveAttachment in
             var cStruct = VkSubpassDescriptionDepthStencilResolve()
             cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_DEPTH_STENCIL_RESOLVE
             cStruct.pNext = nil
@@ -6851,7 +6851,7 @@ struct ImageViewASTCDecodeModeEXT: CStructConvertible {
 
     let decodeMode: Format
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageViewASTCDecodeModeEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageViewASTCDecodeModeEXT>) throws -> R) rethrows -> R {
         var cStruct = VkImageViewASTCDecodeModeEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_ASTC_DECODE_MODE_EXT
         cStruct.pNext = nil
@@ -6865,7 +6865,7 @@ struct PhysicalDeviceASTCDecodeFeaturesEXT: CStructConvertible {
 
     let decodeModeSharedExponent: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceASTCDecodeFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceASTCDecodeFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceASTCDecodeFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT
         cStruct.pNext = nil
@@ -6880,7 +6880,7 @@ struct PhysicalDeviceTransformFeedbackFeaturesEXT: CStructConvertible {
     let transformFeedback: Bool
     let geometryStreams: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTransformFeedbackFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTransformFeedbackFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTransformFeedbackFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT
         cStruct.pNext = nil
@@ -6904,7 +6904,7 @@ struct PhysicalDeviceTransformFeedbackPropertiesEXT: CStructConvertible {
     let transformFeedbackRasterizationStreamSelect: Bool
     let transformFeedbackDraw: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTransformFeedbackPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTransformFeedbackPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTransformFeedbackPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -6928,7 +6928,7 @@ struct PipelineRasterizationStateStreamCreateInfoEXT: CStructConvertible {
     let flags: PipelineRasterizationStateStreamCreateFlagsEXT
     let rasterizationStream: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationStateStreamCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRasterizationStateStreamCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationStateStreamCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_STREAM_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -6943,7 +6943,7 @@ struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV: CStructConvertible {
 
     let representativeFragmentTest: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV
         cStruct.pNext = nil
@@ -6957,7 +6957,7 @@ struct PipelineRepresentativeFragmentTestStateCreateInfoNV: CStructConvertible {
 
     let representativeFragmentTestEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRepresentativeFragmentTestStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_REPRESENTATIVE_FRAGMENT_TEST_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -6971,7 +6971,7 @@ struct PhysicalDeviceExclusiveScissorFeaturesNV: CStructConvertible {
 
     let exclusiveScissor: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceExclusiveScissorFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceExclusiveScissorFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceExclusiveScissorFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV
         cStruct.pNext = nil
@@ -6986,7 +6986,7 @@ struct PipelineViewportExclusiveScissorStateCreateInfoNV: CStructConvertible {
     let exclusiveScissorCount: UInt32
     let pExclusiveScissors: UnsafePointer<VkRect2D>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineViewportExclusiveScissorStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportExclusiveScissorStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineViewportExclusiveScissorStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_EXCLUSIVE_SCISSOR_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -7001,7 +7001,7 @@ struct PhysicalDeviceCornerSampledImageFeaturesNV: CStructConvertible {
 
     let cornerSampledImage: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCornerSampledImageFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceCornerSampledImageFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCornerSampledImageFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV
         cStruct.pNext = nil
@@ -7016,7 +7016,7 @@ struct PhysicalDeviceComputeShaderDerivativesFeaturesNV: CStructConvertible {
     let computeDerivativeGroupQuads: Bool
     let computeDerivativeGroupLinear: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceComputeShaderDerivativesFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV
         cStruct.pNext = nil
@@ -7031,7 +7031,7 @@ struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV: CStructConvertible {
 
     let fragmentShaderBarycentric: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV
         cStruct.pNext = nil
@@ -7045,7 +7045,7 @@ struct PhysicalDeviceShaderImageFootprintFeaturesNV: CStructConvertible {
 
     let imageFootprint: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderImageFootprintFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderImageFootprintFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderImageFootprintFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV
         cStruct.pNext = nil
@@ -7059,7 +7059,7 @@ struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: CStructConverti
 
     let dedicatedAllocationImageAliasing: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV
         cStruct.pNext = nil
@@ -7074,7 +7074,7 @@ struct ShadingRatePaletteNV: CStructConvertible {
     let shadingRatePaletteEntryCount: UInt32
     let pShadingRatePaletteEntries: UnsafePointer<VkShadingRatePaletteEntryNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkShadingRatePaletteNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkShadingRatePaletteNV>) throws -> R) rethrows -> R {
         var cStruct = VkShadingRatePaletteNV()
         cStruct.shadingRatePaletteEntryCount = self.shadingRatePaletteEntryCount
         cStruct.pShadingRatePaletteEntries = self.pShadingRatePaletteEntries
@@ -7089,7 +7089,7 @@ struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
     let viewportCount: UInt32
     let pShadingRatePalettes: UnsafePointer<VkShadingRatePaletteNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineViewportShadingRateImageStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportShadingRateImageStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineViewportShadingRateImageStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -7106,7 +7106,7 @@ struct PhysicalDeviceShadingRateImageFeaturesNV: CStructConvertible {
     let shadingRateImage: Bool
     let shadingRateCoarseSampleOrder: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShadingRateImageFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShadingRateImageFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShadingRateImageFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV
         cStruct.pNext = nil
@@ -7123,8 +7123,8 @@ struct PhysicalDeviceShadingRateImagePropertiesNV: CStructConvertible {
     let shadingRatePaletteSize: UInt32
     let shadingRateMaxCoarseSamples: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShadingRateImagePropertiesNV>) throws -> R) rethrows -> R {
-        try self.shadingRateTexelSize.withUnsafeCStructPointer { ptr_shadingRateTexelSize in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShadingRateImagePropertiesNV>) throws -> R) rethrows -> R {
+        try self.shadingRateTexelSize.withCStruct { ptr_shadingRateTexelSize in
             var cStruct = VkPhysicalDeviceShadingRateImagePropertiesNV()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_PROPERTIES_NV
             cStruct.pNext = nil
@@ -7143,7 +7143,7 @@ struct CoarseSampleLocationNV: CStructConvertible {
     let pixelY: UInt32
     let sample: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCoarseSampleLocationNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCoarseSampleLocationNV>) throws -> R) rethrows -> R {
         var cStruct = VkCoarseSampleLocationNV()
         cStruct.pixelX = self.pixelX
         cStruct.pixelY = self.pixelY
@@ -7160,7 +7160,7 @@ struct CoarseSampleOrderCustomNV: CStructConvertible {
     let sampleLocationCount: UInt32
     let pSampleLocations: UnsafePointer<VkCoarseSampleLocationNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCoarseSampleOrderCustomNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCoarseSampleOrderCustomNV>) throws -> R) rethrows -> R {
         var cStruct = VkCoarseSampleOrderCustomNV()
         cStruct.shadingRate = VkShadingRatePaletteEntryNV(rawValue: self.shadingRate.rawValue)
         cStruct.sampleCount = self.sampleCount
@@ -7177,7 +7177,7 @@ struct PipelineViewportCoarseSampleOrderStateCreateInfoNV: CStructConvertible {
     let customSampleOrderCount: UInt32
     let pCustomSampleOrders: UnsafePointer<VkCoarseSampleOrderCustomNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineViewportCoarseSampleOrderStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_COARSE_SAMPLE_ORDER_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -7194,7 +7194,7 @@ struct PhysicalDeviceMeshShaderFeaturesNV: CStructConvertible {
     let taskShader: Bool
     let meshShader: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMeshShaderFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMeshShaderFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMeshShaderFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV
         cStruct.pNext = nil
@@ -7221,7 +7221,7 @@ struct PhysicalDeviceMeshShaderPropertiesNV: CStructConvertible {
     let meshOutputPerVertexGranularity: UInt32
     let meshOutputPerPrimitiveGranularity: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMeshShaderPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMeshShaderPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMeshShaderPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV
         cStruct.pNext = nil
@@ -7248,7 +7248,7 @@ struct DrawMeshTasksIndirectCommandNV: CStructConvertible {
     let taskCount: UInt32
     let firstTask: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDrawMeshTasksIndirectCommandNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDrawMeshTasksIndirectCommandNV>) throws -> R) rethrows -> R {
         var cStruct = VkDrawMeshTasksIndirectCommandNV()
         cStruct.taskCount = self.taskCount
         cStruct.firstTask = self.firstTask
@@ -7265,7 +7265,7 @@ struct RayTracingShaderGroupCreateInfoNV: CStructConvertible {
     let anyHitShader: UInt32
     let intersectionShader: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRayTracingShaderGroupCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRayTracingShaderGroupCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkRayTracingShaderGroupCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -7291,7 +7291,7 @@ struct RayTracingPipelineCreateInfoNV: CStructConvertible {
     let basePipelineHandle: VkPipeline
     let basePipelineIndex: Int32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRayTracingPipelineCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRayTracingPipelineCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkRayTracingPipelineCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -7323,7 +7323,7 @@ struct GeometryTrianglesNV: CStructConvertible {
     let transformData: VkBuffer
     let transformOffset: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGeometryTrianglesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkGeometryTrianglesNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeometryTrianglesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GEOMETRY_TRIANGLES_NV
         cStruct.pNext = nil
@@ -7350,7 +7350,7 @@ struct GeometryAABBNV: CStructConvertible {
     let stride: UInt32
     let offset: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGeometryAABBNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkGeometryAABBNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeometryAABBNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GEOMETRY_AABB_NV
         cStruct.pNext = nil
@@ -7368,9 +7368,9 @@ struct GeometryDataNV: CStructConvertible {
     let triangles: GeometryTrianglesNV
     let aabbs: GeometryAABBNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGeometryDataNV>) throws -> R) rethrows -> R {
-        try self.triangles.withUnsafeCStructPointer { ptr_triangles in
-            try self.aabbs.withUnsafeCStructPointer { ptr_aabbs in
+    func withCStruct<R>(_ body: (UnsafePointer<VkGeometryDataNV>) throws -> R) rethrows -> R {
+        try self.triangles.withCStruct { ptr_triangles in
+            try self.aabbs.withCStruct { ptr_aabbs in
                 var cStruct = VkGeometryDataNV()
                 cStruct.triangles = ptr_triangles.pointee
                 cStruct.aabbs = ptr_aabbs.pointee
@@ -7387,8 +7387,8 @@ struct GeometryNV: CStructConvertible {
     let geometry: GeometryDataNV
     let flags: VkGeometryFlagsKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkGeometryNV>) throws -> R) rethrows -> R {
-        try self.geometry.withUnsafeCStructPointer { ptr_geometry in
+    func withCStruct<R>(_ body: (UnsafePointer<VkGeometryNV>) throws -> R) rethrows -> R {
+        try self.geometry.withCStruct { ptr_geometry in
             var cStruct = VkGeometryNV()
             cStruct.sType = VK_STRUCTURE_TYPE_GEOMETRY_NV
             cStruct.pNext = nil
@@ -7409,7 +7409,7 @@ struct AccelerationStructureInfoNV: CStructConvertible {
     let geometryCount: UInt32
     let pGeometries: UnsafePointer<VkGeometryNV>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAccelerationStructureInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkAccelerationStructureInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_INFO_NV
         cStruct.pNext = nil
@@ -7428,8 +7428,8 @@ struct AccelerationStructureCreateInfoNV: CStructConvertible {
     let compactedSize: VkDeviceSize
     let info: AccelerationStructureInfoNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAccelerationStructureCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.info.withUnsafeCStructPointer { ptr_info in
+    func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureCreateInfoNV>) throws -> R) rethrows -> R {
+        try self.info.withCStruct { ptr_info in
             var cStruct = VkAccelerationStructureCreateInfoNV()
             cStruct.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_NV
             cStruct.pNext = nil
@@ -7446,7 +7446,7 @@ struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible {
     let type: VkAccelerationStructureMemoryRequirementsTypeNV
     let accelerationStructure: VkAccelerationStructureNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAccelerationStructureMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkAccelerationStructureMemoryRequirementsInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_NV
         cStruct.pNext = nil
@@ -7468,7 +7468,7 @@ struct PhysicalDeviceRayTracingPropertiesNV: CStructConvertible {
     let maxTriangleCount: UInt64
     let maxDescriptorSetAccelerationStructures: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceRayTracingPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceRayTracingPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceRayTracingPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV
         cStruct.pNext = nil
@@ -7490,7 +7490,7 @@ struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
     let drmFormatModifierCount: UInt32
     let pDrmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDrmFormatModifierPropertiesListEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDrmFormatModifierPropertiesListEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDrmFormatModifierPropertiesListEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT
         cStruct.pNext = nil
@@ -7507,7 +7507,7 @@ struct DrmFormatModifierPropertiesEXT: CStructConvertible {
     let drmFormatModifierPlaneCount: UInt32
     let drmFormatModifierTilingFeatures: FormatFeatureFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDrmFormatModifierPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDrmFormatModifierPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkDrmFormatModifierPropertiesEXT()
         cStruct.drmFormatModifier = self.drmFormatModifier
         cStruct.drmFormatModifierPlaneCount = self.drmFormatModifierPlaneCount
@@ -7524,7 +7524,7 @@ struct PhysicalDeviceImageDrmFormatModifierInfoEXT: CStructConvertible {
     let queueFamilyIndexCount: UInt32
     let pQueueFamilyIndices: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceImageDrmFormatModifierInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_DRM_FORMAT_MODIFIER_INFO_EXT
         cStruct.pNext = nil
@@ -7542,7 +7542,7 @@ struct ImageDrmFormatModifierListCreateInfoEXT: CStructConvertible {
     let drmFormatModifierCount: UInt32
     let pDrmFormatModifiers: UnsafePointer<UInt64>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageDrmFormatModifierListCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageDrmFormatModifierListCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkImageDrmFormatModifierListCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_LIST_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -7559,7 +7559,7 @@ struct ImageDrmFormatModifierExplicitCreateInfoEXT: CStructConvertible {
     let drmFormatModifierPlaneCount: UInt32
     let pPlaneLayouts: UnsafePointer<VkSubresourceLayout>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageDrmFormatModifierExplicitCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageDrmFormatModifierExplicitCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkImageDrmFormatModifierExplicitCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_EXPLICIT_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -7575,7 +7575,7 @@ struct ImageDrmFormatModifierPropertiesEXT: CStructConvertible {
 
     let drmFormatModifier: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageDrmFormatModifierPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageDrmFormatModifierPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkImageDrmFormatModifierPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -7589,7 +7589,7 @@ struct ImageStencilUsageCreateInfo: CStructConvertible {
 
     let stencilUsage: ImageUsageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageStencilUsageCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageStencilUsageCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkImageStencilUsageCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO
         cStruct.pNext = nil
@@ -7603,7 +7603,7 @@ struct DeviceMemoryOverallocationCreateInfoAMD: CStructConvertible {
 
     let overallocationBehavior: MemoryOverallocationBehaviorAMD
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceMemoryOverallocationCreateInfoAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceMemoryOverallocationCreateInfoAMD>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceMemoryOverallocationCreateInfoAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD
         cStruct.pNext = nil
@@ -7619,7 +7619,7 @@ struct PhysicalDeviceFragmentDensityMapFeaturesEXT: CStructConvertible {
     let fragmentDensityMapDynamic: Bool
     let fragmentDensityMapNonSubsampledImages: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentDensityMapFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT
         cStruct.pNext = nil
@@ -7637,9 +7637,9 @@ struct PhysicalDeviceFragmentDensityMapPropertiesEXT: CStructConvertible {
     let maxFragmentDensityTexelSize: Extent2D
     let fragmentDensityInvocations: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>) throws -> R) rethrows -> R {
-        try self.minFragmentDensityTexelSize.withUnsafeCStructPointer { ptr_minFragmentDensityTexelSize in
-            try self.maxFragmentDensityTexelSize.withUnsafeCStructPointer { ptr_maxFragmentDensityTexelSize in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>) throws -> R) rethrows -> R {
+        try self.minFragmentDensityTexelSize.withCStruct { ptr_minFragmentDensityTexelSize in
+            try self.maxFragmentDensityTexelSize.withCStruct { ptr_maxFragmentDensityTexelSize in
                 var cStruct = VkPhysicalDeviceFragmentDensityMapPropertiesEXT()
                 cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_PROPERTIES_EXT
                 cStruct.pNext = nil
@@ -7657,8 +7657,8 @@ struct RenderPassFragmentDensityMapCreateInfoEXT: CStructConvertible {
 
     let fragmentDensityMapAttachment: AttachmentReference
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassFragmentDensityMapCreateInfoEXT>) throws -> R) rethrows -> R {
-        try self.fragmentDensityMapAttachment.withUnsafeCStructPointer { ptr_fragmentDensityMapAttachment in
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassFragmentDensityMapCreateInfoEXT>) throws -> R) rethrows -> R {
+        try self.fragmentDensityMapAttachment.withCStruct { ptr_fragmentDensityMapAttachment in
             var cStruct = VkRenderPassFragmentDensityMapCreateInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_CREATE_INFO_EXT
             cStruct.pNext = nil
@@ -7673,7 +7673,7 @@ struct PhysicalDeviceScalarBlockLayoutFeatures: CStructConvertible {
 
     let scalarBlockLayout: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceScalarBlockLayoutFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceScalarBlockLayoutFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceScalarBlockLayoutFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES
         cStruct.pNext = nil
@@ -7687,7 +7687,7 @@ struct SurfaceProtectedCapabilitiesKHR: CStructConvertible {
 
     let supportsProtected: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkSurfaceProtectedCapabilitiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkSurfaceProtectedCapabilitiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSurfaceProtectedCapabilitiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR
         cStruct.pNext = nil
@@ -7701,7 +7701,7 @@ struct PhysicalDeviceUniformBufferStandardLayoutFeatures: CStructConvertible {
 
     let uniformBufferStandardLayout: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceUniformBufferStandardLayoutFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES
         cStruct.pNext = nil
@@ -7715,7 +7715,7 @@ struct PhysicalDeviceDepthClipEnableFeaturesEXT: CStructConvertible {
 
     let depthClipEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDepthClipEnableFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDepthClipEnableFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDepthClipEnableFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT
         cStruct.pNext = nil
@@ -7730,7 +7730,7 @@ struct PipelineRasterizationDepthClipStateCreateInfoEXT: CStructConvertible {
     let flags: PipelineRasterizationDepthClipStateCreateFlagsEXT
     let depthClipEnable: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationDepthClipStateCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRasterizationDepthClipStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationDepthClipStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -7746,7 +7746,7 @@ struct PhysicalDeviceMemoryBudgetPropertiesEXT: CStructConvertible {
     let heapBudget: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
     let heapUsage: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryBudgetPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryBudgetPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMemoryBudgetPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_BUDGET_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -7761,7 +7761,7 @@ struct PhysicalDeviceMemoryPriorityFeaturesEXT: CStructConvertible {
 
     let memoryPriority: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryPriorityFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryPriorityFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceMemoryPriorityFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT
         cStruct.pNext = nil
@@ -7775,7 +7775,7 @@ struct MemoryPriorityAllocateInfoEXT: CStructConvertible {
 
     let priority: Float
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryPriorityAllocateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryPriorityAllocateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryPriorityAllocateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_PRIORITY_ALLOCATE_INFO_EXT
         cStruct.pNext = nil
@@ -7791,7 +7791,7 @@ struct PhysicalDeviceBufferDeviceAddressFeatures: CStructConvertible {
     let bufferDeviceAddressCaptureReplay: Bool
     let bufferDeviceAddressMultiDevice: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBufferDeviceAddressFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceBufferDeviceAddressFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBufferDeviceAddressFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES
         cStruct.pNext = nil
@@ -7809,7 +7809,7 @@ struct PhysicalDeviceBufferDeviceAddressFeaturesEXT: CStructConvertible {
     let bufferDeviceAddressCaptureReplay: Bool
     let bufferDeviceAddressMultiDevice: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT
         cStruct.pNext = nil
@@ -7825,7 +7825,7 @@ struct BufferDeviceAddressInfo: CStructConvertible {
 
     let buffer: VkBuffer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferDeviceAddressInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferDeviceAddressInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferDeviceAddressInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO
         cStruct.pNext = nil
@@ -7839,7 +7839,7 @@ struct BufferOpaqueCaptureAddressCreateInfo: CStructConvertible {
 
     let opaqueCaptureAddress: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferOpaqueCaptureAddressCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferOpaqueCaptureAddressCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferOpaqueCaptureAddressCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_OPAQUE_CAPTURE_ADDRESS_CREATE_INFO
         cStruct.pNext = nil
@@ -7853,7 +7853,7 @@ struct BufferDeviceAddressCreateInfoEXT: CStructConvertible {
 
     let deviceAddress: VkDeviceAddress
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkBufferDeviceAddressCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkBufferDeviceAddressCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkBufferDeviceAddressCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -7867,7 +7867,7 @@ struct PhysicalDeviceImageViewImageFormatInfoEXT: CStructConvertible {
 
     let imageViewType: ImageViewType
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceImageViewImageFormatInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceImageViewImageFormatInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceImageViewImageFormatInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT
         cStruct.pNext = nil
@@ -7882,7 +7882,7 @@ struct FilterCubicImageViewImageFormatPropertiesEXT: CStructConvertible {
     let filterCubic: Bool
     let filterCubicMinmax: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFilterCubicImageViewImageFormatPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFilterCubicImageViewImageFormatPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkFilterCubicImageViewImageFormatPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -7897,7 +7897,7 @@ struct PhysicalDeviceImagelessFramebufferFeatures: CStructConvertible {
 
     let imagelessFramebuffer: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceImagelessFramebufferFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceImagelessFramebufferFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceImagelessFramebufferFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES
         cStruct.pNext = nil
@@ -7912,7 +7912,7 @@ struct FramebufferAttachmentsCreateInfo: CStructConvertible {
     let attachmentImageInfoCount: UInt32
     let pAttachmentImageInfos: UnsafePointer<VkFramebufferAttachmentImageInfo>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFramebufferAttachmentsCreateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferAttachmentsCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkFramebufferAttachmentsCreateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO
         cStruct.pNext = nil
@@ -7933,7 +7933,7 @@ struct FramebufferAttachmentImageInfo: CStructConvertible {
     let viewFormatCount: UInt32
     let pViewFormats: UnsafePointer<VkFormat>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFramebufferAttachmentImageInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferAttachmentImageInfo>) throws -> R) rethrows -> R {
         var cStruct = VkFramebufferAttachmentImageInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENT_IMAGE_INFO
         cStruct.pNext = nil
@@ -7954,7 +7954,7 @@ struct RenderPassAttachmentBeginInfo: CStructConvertible {
     let attachmentCount: UInt32
     let pAttachments: UnsafePointer<VkImageView?>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassAttachmentBeginInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassAttachmentBeginInfo>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassAttachmentBeginInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_ATTACHMENT_BEGIN_INFO
         cStruct.pNext = nil
@@ -7969,7 +7969,7 @@ struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: CStructConvertible {
 
     let textureCompressionASTC_HDR: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES_EXT
         cStruct.pNext = nil
@@ -7984,7 +7984,7 @@ struct PhysicalDeviceCooperativeMatrixFeaturesNV: CStructConvertible {
     let cooperativeMatrix: Bool
     let cooperativeMatrixRobustBufferAccess: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCooperativeMatrixFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceCooperativeMatrixFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCooperativeMatrixFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV
         cStruct.pNext = nil
@@ -7999,7 +7999,7 @@ struct PhysicalDeviceCooperativeMatrixPropertiesNV: CStructConvertible {
 
     let cooperativeMatrixSupportedStages: ShaderStageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCooperativeMatrixPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceCooperativeMatrixPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCooperativeMatrixPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV
         cStruct.pNext = nil
@@ -8020,7 +8020,7 @@ struct CooperativeMatrixPropertiesNV: CStructConvertible {
     let DType: ComponentTypeNV
     let scope: ScopeNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCooperativeMatrixPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkCooperativeMatrixPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkCooperativeMatrixPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV
         cStruct.pNext = nil
@@ -8041,7 +8041,7 @@ struct PhysicalDeviceYcbcrImageArraysFeaturesEXT: CStructConvertible {
 
     let ycbcrImageArrays: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT
         cStruct.pNext = nil
@@ -8057,7 +8057,7 @@ struct ImageViewHandleInfoNVX: CStructConvertible {
     let descriptorType: DescriptorType
     let sampler: VkSampler
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkImageViewHandleInfoNVX>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkImageViewHandleInfoNVX>) throws -> R) rethrows -> R {
         var cStruct = VkImageViewHandleInfoNVX()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX
         cStruct.pNext = nil
@@ -8074,7 +8074,7 @@ struct PipelineCreationFeedbackEXT: CStructConvertible {
     let flags: PipelineCreationFeedbackFlagsEXT
     let duration: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCreationFeedbackEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCreationFeedbackEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCreationFeedbackEXT()
         cStruct.flags = self.flags.rawValue
         cStruct.duration = self.duration
@@ -8089,7 +8089,7 @@ struct PipelineCreationFeedbackCreateInfoEXT: CStructConvertible {
     let pipelineStageCreationFeedbackCount: UInt32
     let pPipelineStageCreationFeedbacks: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCreationFeedbackCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCreationFeedbackCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCreationFeedbackCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -8106,7 +8106,7 @@ struct PhysicalDevicePerformanceQueryFeaturesKHR: CStructConvertible {
     let performanceCounterQueryPools: Bool
     let performanceCounterMultipleQueryPools: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePerformanceQueryFeaturesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePerformanceQueryFeaturesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePerformanceQueryFeaturesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR
         cStruct.pNext = nil
@@ -8121,7 +8121,7 @@ struct PhysicalDevicePerformanceQueryPropertiesKHR: CStructConvertible {
 
     let allowCommandBufferQueryCopies: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePerformanceQueryPropertiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePerformanceQueryPropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePerformanceQueryPropertiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_PROPERTIES_KHR
         cStruct.pNext = nil
@@ -8138,7 +8138,7 @@ struct PerformanceCounterKHR: CStructConvertible {
     let storage: PerformanceCounterStorageKHR
     let uuid: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceCounterKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceCounterKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceCounterKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_KHR
         cStruct.pNext = nil
@@ -8158,7 +8158,7 @@ struct PerformanceCounterDescriptionKHR: CStructConvertible {
     let category: String
     let description: String
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceCounterDescriptionKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceCounterDescriptionKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceCounterDescriptionKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_DESCRIPTION_KHR
         cStruct.pNext = nil
@@ -8177,7 +8177,7 @@ struct QueryPoolPerformanceCreateInfoKHR: CStructConvertible {
     let counterIndexCount: UInt32
     let pCounterIndices: UnsafePointer<UInt32>
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkQueryPoolPerformanceCreateInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkQueryPoolPerformanceCreateInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkQueryPoolPerformanceCreateInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR
         cStruct.pNext = nil
@@ -8194,7 +8194,7 @@ struct AcquireProfilingLockInfoKHR: CStructConvertible {
     let flags: AcquireProfilingLockFlagsKHR
     let timeout: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAcquireProfilingLockInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAcquireProfilingLockInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkAcquireProfilingLockInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR
         cStruct.pNext = nil
@@ -8209,7 +8209,7 @@ struct PerformanceQuerySubmitInfoKHR: CStructConvertible {
 
     let counterPassIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceQuerySubmitInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceQuerySubmitInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceQuerySubmitInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_QUERY_SUBMIT_INFO_KHR
         cStruct.pNext = nil
@@ -8223,7 +8223,7 @@ struct HeadlessSurfaceCreateInfoEXT: CStructConvertible {
 
     let flags: HeadlessSurfaceCreateFlagsEXT
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkHeadlessSurfaceCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkHeadlessSurfaceCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkHeadlessSurfaceCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_HEADLESS_SURFACE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -8237,7 +8237,7 @@ struct PhysicalDeviceCoverageReductionModeFeaturesNV: CStructConvertible {
 
     let coverageReductionMode: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCoverageReductionModeFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceCoverageReductionModeFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCoverageReductionModeFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV
         cStruct.pNext = nil
@@ -8252,7 +8252,7 @@ struct PipelineCoverageReductionStateCreateInfoNV: CStructConvertible {
     let flags: PipelineCoverageReductionStateCreateFlagsNV
     let coverageReductionMode: CoverageReductionModeNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCoverageReductionStateCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCoverageReductionStateCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCoverageReductionStateCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_REDUCTION_STATE_CREATE_INFO_NV
         cStruct.pNext = nil
@@ -8270,7 +8270,7 @@ struct FramebufferMixedSamplesCombinationNV: CStructConvertible {
     let depthStencilSamples: SampleCountFlags
     let colorSamples: SampleCountFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkFramebufferMixedSamplesCombinationNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferMixedSamplesCombinationNV>) throws -> R) rethrows -> R {
         var cStruct = VkFramebufferMixedSamplesCombinationNV()
         cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV
         cStruct.pNext = nil
@@ -8287,7 +8287,7 @@ struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: CStructConvertible {
 
     let shaderIntegerFunctions2: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL
         cStruct.pNext = nil
@@ -8302,7 +8302,7 @@ struct PerformanceValueINTEL: CStructConvertible {
     let type: PerformanceValueTypeINTEL
     let data: VkPerformanceValueDataINTEL
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceValueINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceValueINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceValueINTEL()
         cStruct.type = VkPerformanceValueTypeINTEL(rawValue: self.type.rawValue)
         cStruct.data = self.data
@@ -8315,7 +8315,7 @@ struct InitializePerformanceApiInfoINTEL: CStructConvertible {
 
     let pUserData: UnsafeMutableRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkInitializePerformanceApiInfoINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkInitializePerformanceApiInfoINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkInitializePerformanceApiInfoINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_INITIALIZE_PERFORMANCE_API_INFO_INTEL
         cStruct.pNext = nil
@@ -8329,7 +8329,7 @@ struct QueryPoolPerformanceQueryCreateInfoINTEL: CStructConvertible {
 
     let performanceCountersSampling: QueryPoolSamplingModeINTEL
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkQueryPoolPerformanceQueryCreateInfoINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkQueryPoolPerformanceQueryCreateInfoINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkQueryPoolPerformanceQueryCreateInfoINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO_INTEL
         cStruct.pNext = nil
@@ -8343,7 +8343,7 @@ struct PerformanceMarkerInfoINTEL: CStructConvertible {
 
     let marker: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceMarkerInfoINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceMarkerInfoINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceMarkerInfoINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_MARKER_INFO_INTEL
         cStruct.pNext = nil
@@ -8357,7 +8357,7 @@ struct PerformanceStreamMarkerInfoINTEL: CStructConvertible {
 
     let marker: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceStreamMarkerInfoINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceStreamMarkerInfoINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceStreamMarkerInfoINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_STREAM_MARKER_INFO_INTEL
         cStruct.pNext = nil
@@ -8373,7 +8373,7 @@ struct PerformanceOverrideInfoINTEL: CStructConvertible {
     let enable: Bool
     let parameter: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceOverrideInfoINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceOverrideInfoINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceOverrideInfoINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_OVERRIDE_INFO_INTEL
         cStruct.pNext = nil
@@ -8389,7 +8389,7 @@ struct PerformanceConfigurationAcquireInfoINTEL: CStructConvertible {
 
     let type: PerformanceConfigurationTypeINTEL
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPerformanceConfigurationAcquireInfoINTEL>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPerformanceConfigurationAcquireInfoINTEL>) throws -> R) rethrows -> R {
         var cStruct = VkPerformanceConfigurationAcquireInfoINTEL()
         cStruct.sType = VK_STRUCTURE_TYPE_PERFORMANCE_CONFIGURATION_ACQUIRE_INFO_INTEL
         cStruct.pNext = nil
@@ -8404,7 +8404,7 @@ struct PhysicalDeviceShaderClockFeaturesKHR: CStructConvertible {
     let shaderSubgroupClock: Bool
     let shaderDeviceClock: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderClockFeaturesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderClockFeaturesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderClockFeaturesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR
         cStruct.pNext = nil
@@ -8419,7 +8419,7 @@ struct PhysicalDeviceIndexTypeUint8FeaturesEXT: CStructConvertible {
 
     let indexTypeUint8: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceIndexTypeUint8FeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_EXT
         cStruct.pNext = nil
@@ -8434,7 +8434,7 @@ struct PhysicalDeviceShaderSMBuiltinsPropertiesNV: CStructConvertible {
     let shaderSMCount: UInt32
     let shaderWarpsPerSM: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV
         cStruct.pNext = nil
@@ -8449,7 +8449,7 @@ struct PhysicalDeviceShaderSMBuiltinsFeaturesNV: CStructConvertible {
 
     let shaderSMBuiltins: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_FEATURES_NV
         cStruct.pNext = nil
@@ -8465,7 +8465,7 @@ struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT: CStructConvertible {
     let fragmentShaderPixelInterlock: Bool
     let fragmentShaderShadingRateInterlock: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT
         cStruct.pNext = nil
@@ -8481,7 +8481,7 @@ struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures: CStructConvertible {
 
     let separateDepthStencilLayouts: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES
         cStruct.pNext = nil
@@ -8495,7 +8495,7 @@ struct AttachmentReferenceStencilLayout: CStructConvertible {
 
     let stencilLayout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentReferenceStencilLayout>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentReferenceStencilLayout>) throws -> R) rethrows -> R {
         var cStruct = VkAttachmentReferenceStencilLayout()
         cStruct.sType = VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_STENCIL_LAYOUT
         cStruct.pNext = nil
@@ -8510,7 +8510,7 @@ struct AttachmentDescriptionStencilLayout: CStructConvertible {
     let stencilInitialLayout: ImageLayout
     let stencilFinalLayout: ImageLayout
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkAttachmentDescriptionStencilLayout>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkAttachmentDescriptionStencilLayout>) throws -> R) rethrows -> R {
         var cStruct = VkAttachmentDescriptionStencilLayout()
         cStruct.sType = VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_STENCIL_LAYOUT
         cStruct.pNext = nil
@@ -8525,7 +8525,7 @@ struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR: CStructConvertible
 
     let pipelineExecutableInfo: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR
         cStruct.pNext = nil
@@ -8539,7 +8539,7 @@ struct PipelineInfoKHR: CStructConvertible {
 
     let pipeline: VkPipeline
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR
         cStruct.pNext = nil
@@ -8556,7 +8556,7 @@ struct PipelineExecutablePropertiesKHR: CStructConvertible {
     let description: String
     let subgroupSize: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineExecutablePropertiesKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineExecutablePropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineExecutablePropertiesKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR
         cStruct.pNext = nil
@@ -8574,7 +8574,7 @@ struct PipelineExecutableInfoKHR: CStructConvertible {
     let pipeline: VkPipeline
     let executableIndex: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineExecutableInfoKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineExecutableInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineExecutableInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR
         cStruct.pNext = nil
@@ -8592,7 +8592,7 @@ struct PipelineExecutableStatisticKHR: CStructConvertible {
     let format: PipelineExecutableStatisticFormatKHR
     let value: VkPipelineExecutableStatisticValueKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineExecutableStatisticKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineExecutableStatisticKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineExecutableStatisticKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_STATISTIC_KHR
         cStruct.pNext = nil
@@ -8613,7 +8613,7 @@ struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
     let dataSize: Int
     let pData: UnsafeMutableRawPointer
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineExecutableInternalRepresentationKHR>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineExecutableInternalRepresentationKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineExecutableInternalRepresentationKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INTERNAL_REPRESENTATION_KHR
         cStruct.pNext = nil
@@ -8631,7 +8631,7 @@ struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: CStructConvertib
 
     let shaderDemoteToHelperInvocation: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT
         cStruct.pNext = nil
@@ -8645,7 +8645,7 @@ struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT: CStructConvertible {
 
     let texelBufferAlignment: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT
         cStruct.pNext = nil
@@ -8662,7 +8662,7 @@ struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT: CStructConvertible {
     let uniformTexelBufferOffsetAlignmentBytes: VkDeviceSize
     let uniformTexelBufferOffsetSingleTexelAlignment: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -8680,7 +8680,7 @@ struct PhysicalDeviceSubgroupSizeControlFeaturesEXT: CStructConvertible {
     let subgroupSizeControl: Bool
     let computeFullSubgroups: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES_EXT
         cStruct.pNext = nil
@@ -8698,7 +8698,7 @@ struct PhysicalDeviceSubgroupSizeControlPropertiesEXT: CStructConvertible {
     let maxComputeWorkgroupSubgroups: UInt32
     let requiredSubgroupSizeStages: ShaderStageFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -8715,7 +8715,7 @@ struct PipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: CStructConvertible 
 
     let requiredSubgroupSize: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -8729,7 +8729,7 @@ struct MemoryOpaqueCaptureAddressAllocateInfo: CStructConvertible {
 
     let opaqueCaptureAddress: UInt64
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkMemoryOpaqueCaptureAddressAllocateInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryOpaqueCaptureAddressAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryOpaqueCaptureAddressAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_OPAQUE_CAPTURE_ADDRESS_ALLOCATE_INFO
         cStruct.pNext = nil
@@ -8743,7 +8743,7 @@ struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
 
     let memory: VkDeviceMemory
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceMemoryOpaqueCaptureAddressInfo>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceMemoryOpaqueCaptureAddressInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceMemoryOpaqueCaptureAddressInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_MEMORY_OPAQUE_CAPTURE_ADDRESS_INFO
         cStruct.pNext = nil
@@ -8762,7 +8762,7 @@ struct PhysicalDeviceLineRasterizationFeaturesEXT: CStructConvertible {
     let stippledBresenhamLines: Bool
     let stippledSmoothLines: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceLineRasterizationFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceLineRasterizationFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceLineRasterizationFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_EXT
         cStruct.pNext = nil
@@ -8781,7 +8781,7 @@ struct PhysicalDeviceLineRasterizationPropertiesEXT: CStructConvertible {
 
     let lineSubPixelPrecisionBits: UInt32
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceLineRasterizationPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceLineRasterizationPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceLineRasterizationPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -8798,7 +8798,7 @@ struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
     let lineStippleFactor: UInt32
     let lineStipplePattern: UInt16
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineRasterizationLineStateCreateInfoEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineRasterizationLineStateCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineRasterizationLineStateCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_EXT
         cStruct.pNext = nil
@@ -8815,7 +8815,7 @@ struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT: CStructConvertible
 
     let pipelineCreationCacheControl: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES_EXT
         cStruct.pNext = nil
@@ -8840,7 +8840,7 @@ struct PhysicalDeviceVulkan11Features: CStructConvertible {
     let samplerYcbcrConversion: Bool
     let shaderDrawParameters: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan11Features>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan11Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkan11Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES
         cStruct.pNext = nil
@@ -8879,7 +8879,7 @@ struct PhysicalDeviceVulkan11Properties: CStructConvertible {
     let maxPerSetDescriptors: UInt32
     let maxMemoryAllocationSize: VkDeviceSize
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan11Properties>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan11Properties>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkan11Properties()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES
         cStruct.pNext = nil
@@ -8953,7 +8953,7 @@ struct PhysicalDeviceVulkan12Features: CStructConvertible {
     let shaderOutputLayer: Bool
     let subgroupBroadcastDynamicId: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan12Features>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan12Features>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceVulkan12Features()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES
         cStruct.pNext = nil
@@ -9064,8 +9064,8 @@ struct PhysicalDeviceVulkan12Properties: CStructConvertible {
     let maxTimelineSemaphoreValueDifference: UInt64
     let framebufferIntegerColorSampleCounts: SampleCountFlags
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan12Properties>) throws -> R) rethrows -> R {
-        try self.conformanceVersion.withUnsafeCStructPointer { ptr_conformanceVersion in
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceVulkan12Properties>) throws -> R) rethrows -> R {
+        try self.conformanceVersion.withCStruct { ptr_conformanceVersion in
             var cStruct = VkPhysicalDeviceVulkan12Properties()
             cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_PROPERTIES
             cStruct.pNext = nil
@@ -9131,7 +9131,7 @@ struct PipelineCompilerControlCreateInfoAMD: CStructConvertible {
 
     let compilerControlFlags: PipelineCompilerControlFlagsAMD
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPipelineCompilerControlCreateInfoAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCompilerControlCreateInfoAMD>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineCompilerControlCreateInfoAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COMPILER_CONTROL_CREATE_INFO_AMD
         cStruct.pNext = nil
@@ -9145,7 +9145,7 @@ struct PhysicalDeviceCoherentMemoryFeaturesAMD: CStructConvertible {
 
     let deviceCoherentMemory: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceCoherentMemoryFeaturesAMD>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceCoherentMemoryFeaturesAMD>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceCoherentMemoryFeaturesAMD()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD
         cStruct.pNext = nil
@@ -9163,7 +9163,7 @@ struct PhysicalDeviceToolPropertiesEXT: CStructConvertible {
     let description: String
     let layer: String
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceToolPropertiesEXT>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceToolPropertiesEXT>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceToolPropertiesEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES_EXT
         cStruct.pNext = nil
@@ -9181,7 +9181,7 @@ struct RenderPassTransformBeginInfoQCOM: CStructConvertible {
 
     let transform: VkSurfaceTransformFlagBitsKHR
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkRenderPassTransformBeginInfoQCOM>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassTransformBeginInfoQCOM>) throws -> R) rethrows -> R {
         var cStruct = VkRenderPassTransformBeginInfoQCOM()
         cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM
         cStruct.pNext = nil
@@ -9196,8 +9196,8 @@ struct CommandBufferInheritanceRenderPassTransformInfoQCOM: CStructConvertible {
     let transform: VkSurfaceTransformFlagBitsKHR
     let renderArea: Rect2D
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>) throws -> R) rethrows -> R {
-        try self.renderArea.withUnsafeCStructPointer { ptr_renderArea in
+    func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>) throws -> R) rethrows -> R {
+        try self.renderArea.withCStruct { ptr_renderArea in
             var cStruct = VkCommandBufferInheritanceRenderPassTransformInfoQCOM()
             cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM
             cStruct.pNext = nil
@@ -9213,7 +9213,7 @@ struct PhysicalDeviceDiagnosticsConfigFeaturesNV: CStructConvertible {
 
     let diagnosticsConfig: Bool
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceDiagnosticsConfigFeaturesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV
         cStruct.pNext = nil
@@ -9227,7 +9227,7 @@ struct DeviceDiagnosticsConfigCreateInfoNV: CStructConvertible {
 
     let flags: DeviceDiagnosticsConfigFlagsNV
 
-    func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkDeviceDiagnosticsConfigCreateInfoNV>) throws -> R) rethrows -> R {
+    func withCStruct<R>(_ body: (UnsafePointer<VkDeviceDiagnosticsConfigCreateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceDiagnosticsConfigCreateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_DIAGNOSTICS_CONFIG_CREATE_INFO_NV
         cStruct.pNext = nil

@@ -60,7 +60,7 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_struct_swift_to_c_method(self, struct: SwiftStruct):
-        with self.indent('func withUnsafeCStructPointer<R>'
+        with self.indent('func withCStruct<R>'
                          f'(_ body: (UnsafePointer<{struct.c_struct.name}>) throws -> R)'
                          ' rethrows -> R {', '}'):
 
