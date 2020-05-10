@@ -304,10 +304,10 @@ struct DeviceCreateInfo: CStructConvertible {
     let ppEnabledLayerNames: UnsafePointer<UnsafePointer<CChar>?>
     let enabledExtensionCount: UInt32
     let ppEnabledExtensionNames: UnsafePointer<UnsafePointer<CChar>?>
-    let pEnabledFeatures: PhysicalDeviceFeatures
+    let pEnabledFeatures: PhysicalDeviceFeatures?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDeviceCreateInfo>) throws -> R) rethrows -> R {
-        try self.pEnabledFeatures.withCStruct { ptr_pEnabledFeatures in
+        try self.pEnabledFeatures.withOptionalCStruct { ptr_pEnabledFeatures in
             var cStruct = VkDeviceCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO
             cStruct.pNext = nil
@@ -328,14 +328,14 @@ struct InstanceCreateInfo: CStructConvertible {
     typealias CStruct = VkInstanceCreateInfo
 
     let flags: InstanceCreateFlags
-    let pApplicationInfo: ApplicationInfo
+    let pApplicationInfo: ApplicationInfo?
     let enabledLayerCount: UInt32
     let ppEnabledLayerNames: UnsafePointer<UnsafePointer<CChar>?>
     let enabledExtensionCount: UInt32
     let ppEnabledExtensionNames: UnsafePointer<UnsafePointer<CChar>?>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkInstanceCreateInfo>) throws -> R) rethrows -> R {
-        try self.pApplicationInfo.withCStruct { ptr_pApplicationInfo in
+        try self.pApplicationInfo.withOptionalCStruct { ptr_pApplicationInfo in
             var cStruct = VkInstanceCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO
             cStruct.pNext = nil
@@ -1293,11 +1293,11 @@ struct PipelineShaderStageCreateInfo: CStructConvertible {
     let stage: VkShaderStageFlagBits
     let module: VkShaderModule
     let pName: String
-    let pSpecializationInfo: SpecializationInfo
+    let pSpecializationInfo: SpecializationInfo?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineShaderStageCreateInfo>) throws -> R) rethrows -> R {
         try self.pName.withCString { cString_pName in
-            try self.pSpecializationInfo.withCStruct { ptr_pSpecializationInfo in
+            try self.pSpecializationInfo.withOptionalCStruct { ptr_pSpecializationInfo in
                 var cStruct = VkPipelineShaderStageCreateInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO
                 cStruct.pNext = nil
@@ -1642,15 +1642,15 @@ struct GraphicsPipelineCreateInfo: CStructConvertible {
     let flags: PipelineCreateFlags
     let stageCount: UInt32
     let pStages: UnsafePointer<VkPipelineShaderStageCreateInfo>
-    let pVertexInputState: PipelineVertexInputStateCreateInfo
-    let pInputAssemblyState: PipelineInputAssemblyStateCreateInfo
-    let pTessellationState: PipelineTessellationStateCreateInfo
-    let pViewportState: PipelineViewportStateCreateInfo
+    let pVertexInputState: PipelineVertexInputStateCreateInfo?
+    let pInputAssemblyState: PipelineInputAssemblyStateCreateInfo?
+    let pTessellationState: PipelineTessellationStateCreateInfo?
+    let pViewportState: PipelineViewportStateCreateInfo?
     let pRasterizationState: PipelineRasterizationStateCreateInfo
-    let pMultisampleState: PipelineMultisampleStateCreateInfo
-    let pDepthStencilState: PipelineDepthStencilStateCreateInfo
-    let pColorBlendState: PipelineColorBlendStateCreateInfo
-    let pDynamicState: PipelineDynamicStateCreateInfo
+    let pMultisampleState: PipelineMultisampleStateCreateInfo?
+    let pDepthStencilState: PipelineDepthStencilStateCreateInfo?
+    let pColorBlendState: PipelineColorBlendStateCreateInfo?
+    let pDynamicState: PipelineDynamicStateCreateInfo?
     let layout: VkPipelineLayout
     let renderPass: VkRenderPass
     let subpass: UInt32
@@ -1658,15 +1658,15 @@ struct GraphicsPipelineCreateInfo: CStructConvertible {
     let basePipelineIndex: Int32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineCreateInfo>) throws -> R) rethrows -> R {
-        try self.pVertexInputState.withCStruct { ptr_pVertexInputState in
-            try self.pInputAssemblyState.withCStruct { ptr_pInputAssemblyState in
-                try self.pTessellationState.withCStruct { ptr_pTessellationState in
-                    try self.pViewportState.withCStruct { ptr_pViewportState in
+        try self.pVertexInputState.withOptionalCStruct { ptr_pVertexInputState in
+            try self.pInputAssemblyState.withOptionalCStruct { ptr_pInputAssemblyState in
+                try self.pTessellationState.withOptionalCStruct { ptr_pTessellationState in
+                    try self.pViewportState.withOptionalCStruct { ptr_pViewportState in
                         try self.pRasterizationState.withCStruct { ptr_pRasterizationState in
-                            try self.pMultisampleState.withCStruct { ptr_pMultisampleState in
-                                try self.pDepthStencilState.withCStruct { ptr_pDepthStencilState in
-                                    try self.pColorBlendState.withCStruct { ptr_pColorBlendState in
-                                        try self.pDynamicState.withCStruct { ptr_pDynamicState in
+                            try self.pMultisampleState.withOptionalCStruct { ptr_pMultisampleState in
+                                try self.pDepthStencilState.withOptionalCStruct { ptr_pDepthStencilState in
+                                    try self.pColorBlendState.withOptionalCStruct { ptr_pColorBlendState in
+                                        try self.pDynamicState.withOptionalCStruct { ptr_pDynamicState in
                                             var cStruct = VkGraphicsPipelineCreateInfo()
                                             cStruct.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO
                                             cStruct.pNext = nil
@@ -1862,10 +1862,10 @@ struct CommandBufferBeginInfo: CStructConvertible {
     typealias CStruct = VkCommandBufferBeginInfo
 
     let flags: CommandBufferUsageFlags
-    let pInheritanceInfo: CommandBufferInheritanceInfo
+    let pInheritanceInfo: CommandBufferInheritanceInfo?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferBeginInfo>) throws -> R) rethrows -> R {
-        try self.pInheritanceInfo.withCStruct { ptr_pInheritanceInfo in
+        try self.pInheritanceInfo.withOptionalCStruct { ptr_pInheritanceInfo in
             var cStruct = VkCommandBufferBeginInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO
             cStruct.pNext = nil
@@ -1982,12 +1982,12 @@ struct SubpassDescription: CStructConvertible {
     let colorAttachmentCount: UInt32
     let pColorAttachments: UnsafePointer<VkAttachmentReference>
     let pResolveAttachments: UnsafePointer<VkAttachmentReference>
-    let pDepthStencilAttachment: AttachmentReference
+    let pDepthStencilAttachment: AttachmentReference?
     let preserveAttachmentCount: UInt32
     let pPreserveAttachments: UnsafePointer<UInt32>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescription>) throws -> R) rethrows -> R {
-        try self.pDepthStencilAttachment.withCStruct { ptr_pDepthStencilAttachment in
+        try self.pDepthStencilAttachment.withOptionalCStruct { ptr_pDepthStencilAttachment in
             var cStruct = VkSubpassDescription()
             cStruct.flags = self.flags.rawValue
             cStruct.pipelineBindPoint = VkPipelineBindPoint(rawValue: self.pipelineBindPoint.rawValue)
@@ -3163,12 +3163,12 @@ struct GraphicsShaderGroupCreateInfoNV: CStructConvertible {
 
     let stageCount: UInt32
     let pStages: UnsafePointer<VkPipelineShaderStageCreateInfo>
-    let pVertexInputState: PipelineVertexInputStateCreateInfo
-    let pTessellationState: PipelineTessellationStateCreateInfo
+    let pVertexInputState: PipelineVertexInputStateCreateInfo?
+    let pTessellationState: PipelineTessellationStateCreateInfo?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsShaderGroupCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.pVertexInputState.withCStruct { ptr_pVertexInputState in
-            try self.pTessellationState.withCStruct { ptr_pTessellationState in
+        try self.pVertexInputState.withOptionalCStruct { ptr_pVertexInputState in
+            try self.pTessellationState.withOptionalCStruct { ptr_pTessellationState in
                 var cStruct = VkGraphicsShaderGroupCreateInfoNV()
                 cStruct.sType = VK_STRUCTURE_TYPE_GRAPHICS_SHADER_GROUP_CREATE_INFO_NV
                 cStruct.pNext = nil
@@ -6405,12 +6405,12 @@ struct SubpassDescription2: CStructConvertible {
     let colorAttachmentCount: UInt32
     let pColorAttachments: UnsafePointer<VkAttachmentReference2>
     let pResolveAttachments: UnsafePointer<VkAttachmentReference2>
-    let pDepthStencilAttachment: AttachmentReference2
+    let pDepthStencilAttachment: AttachmentReference2?
     let preserveAttachmentCount: UInt32
     let pPreserveAttachments: UnsafePointer<UInt32>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescription2>) throws -> R) rethrows -> R {
-        try self.pDepthStencilAttachment.withCStruct { ptr_pDepthStencilAttachment in
+        try self.pDepthStencilAttachment.withOptionalCStruct { ptr_pDepthStencilAttachment in
             var cStruct = VkSubpassDescription2()
             cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_2
             cStruct.pNext = nil
@@ -6831,10 +6831,10 @@ struct SubpassDescriptionDepthStencilResolve: CStructConvertible {
 
     let depthResolveMode: VkResolveModeFlagBits
     let stencilResolveMode: VkResolveModeFlagBits
-    let pDepthStencilResolveAttachment: AttachmentReference2
+    let pDepthStencilResolveAttachment: AttachmentReference2?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescriptionDepthStencilResolve>) throws -> R) rethrows -> R {
-        try self.pDepthStencilResolveAttachment.withCStruct { ptr_pDepthStencilResolveAttachment in
+        try self.pDepthStencilResolveAttachment.withOptionalCStruct { ptr_pDepthStencilResolveAttachment in
             var cStruct = VkSubpassDescriptionDepthStencilResolve()
             cStruct.sType = VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_DEPTH_STENCIL_RESOLVE
             cStruct.pNext = nil

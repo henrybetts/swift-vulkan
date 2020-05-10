@@ -133,3 +133,14 @@ class StructPointerConversion(TypeConversion, RequiresClosure):
 
     def get_c_value(self, swift_value: str, name: str = '') -> str:
         return f'ptr_{name}'
+
+
+class OptionalStructConversion(StructPointerConversion):
+    def get_swift_value(self, c_value: str) -> str:
+        return f'({c_value} != nil) ? {self.swift_struct}(cStruct: {c_value}) : nil'
+
+    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
+        return f'{swift_value}.withOptionalCStruct {{ ptr_{name} in', '}'
+
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
+        return f'ptr_{name}'
