@@ -201,9 +201,12 @@ class Importer:
                 else:
                     return 'UnsafeMutableRawPointer', tc.ImplicitConversion()
 
-            if not implicit_only:
-                if c_type.pointer_to.const and c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
+            if not implicit_only and c_type.pointer_to.const:
+                if c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
                     return 'String', tc.StringConversion()
+                if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
+                    swift_struct = self.imported_structs[c_type.pointer_to.name]
+                    return swift_struct, tc.StructPointerConversion(c_type.name, swift_struct)
 
             to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
             if self.is_pointer_type(c_type.pointer_to):
