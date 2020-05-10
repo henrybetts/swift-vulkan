@@ -43,14 +43,16 @@ class SwiftContext:
 class Importer:
     def __init__(self, c_context: CContext):
         self.c_context = c_context
-        self.imported_enums: Dict[str, SwiftEnum] = {}
-        self.imported_option_sets: Dict[str, SwiftOptionSet] = {}
-        self.imported_structs: Dict[str, SwiftStruct] = {}
+        self.imported_enums: Dict[str, str] = {}
+        self.imported_option_sets: Dict[str, str] = {}
+        self.imported_structs: Dict[str, str] = {}
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
         context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
         context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
+        for struct in self.c_context.structs:
+            self.import_struct_name(struct)
         context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
         return context
 
@@ -95,7 +97,7 @@ class Importer:
             for case in swift_enum.cases:
                 case.name = 'type' + case.name[0].upper() + case.name[1:]
 
-        self.imported_enums[c_enum.name] = swift_enum
+        self.imported_enums[c_enum.name] = swift_enum.name
         return swift_enum
 
     def import_bitmask(self, c_bitmask: CBitmask) -> SwiftOptionSet:
@@ -139,12 +141,20 @@ class Importer:
                 for case in option_set.cases:
                     case.name = 'type' + case.name[0].upper() + case.name[1:]
 
-        self.imported_option_sets[c_bitmask.name] = option_set
+        self.imported_option_sets[c_bitmask.name] = option_set.name
         return option_set
 
-    def import_struct(self, c_struct: CStruct) -> SwiftStruct:
-        struct = SwiftStruct(c_struct=c_struct, name=remove_vk_prefix(c_struct.name), members=[],
-                             c_value_generators=[], closure_generators=[])
+    def import_struct_name(self, c_struct) -> str:
+        name = remove_vk_prefix(c_struct.name)
+        self.imported_structs[c_struct.name] = name
+        return name
+
+    def import_struct(self, c_struct: CStruct):
+        struct = SwiftStruct(c_struct=c_struct,
+                             name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
+                             members=[],
+                             c_value_generators=[],
+                             closure_generators=[])
 
         for c_member in c_struct.members:
             if len(c_member.values) == 1:
@@ -164,7 +174,6 @@ class Importer:
             if isinstance(conversion, tc.RequiresClosure):
                 struct.closure_generators.append(conversion.get_closure_generator(c_member.name))
 
-        self.imported_structs[c_struct.name] = struct
         return struct
 
     def get_type_conversion(self, c_type: CType, implicit_only: bool = False) -> Tuple[str, tc.TypeConversion]:
@@ -176,13 +185,13 @@ class Importer:
                     return 'Bool', tc.BoolConversion()
                 if c_type.name in self.imported_enums:
                     swift_enum = self.imported_enums[c_type.name]
-                    return swift_enum.name, tc.EnumConversion(c_type.name, swift_enum.name)
+                    return swift_enum, tc.EnumConversion(c_type.name, swift_enum)
                 if c_type.name in self.imported_option_sets:
                     option_set = self.imported_option_sets[c_type.name]
-                    return option_set.name, tc.OptionSetConversion(option_set.name)
+                    return option_set, tc.OptionSetConversion(option_set)
                 if c_type.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.name]
-                    return swift_struct.name, tc.StructConversion(c_type.name, swift_struct.name)
+                    return swift_struct, tc.StructConversion(c_type.name, swift_struct)
             return c_type.name, tc.ImplicitConversion()
 
         elif c_type.pointer_to:

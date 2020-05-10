@@ -172,21 +172,25 @@ struct PhysicalDeviceProperties: CStructConvertible {
     let deviceType: PhysicalDeviceType
     let deviceName: (CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar, CChar)
     let pipelineCacheUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let limits: VkPhysicalDeviceLimits
-    let sparseProperties: VkPhysicalDeviceSparseProperties
+    let limits: PhysicalDeviceLimits
+    let sparseProperties: PhysicalDeviceSparseProperties
 
     func withUnsafeCStructPointer<R>(_ body: (UnsafePointer<VkPhysicalDeviceProperties>) throws -> R) rethrows -> R {
-        var cStruct = VkPhysicalDeviceProperties()
-        cStruct.apiVersion = self.apiVersion
-        cStruct.driverVersion = self.driverVersion
-        cStruct.vendorID = self.vendorID
-        cStruct.deviceID = self.deviceID
-        cStruct.deviceType = VkPhysicalDeviceType(rawValue: self.deviceType.rawValue)
-        cStruct.deviceName = self.deviceName
-        cStruct.pipelineCacheUUID = self.pipelineCacheUUID
-        cStruct.limits = self.limits
-        cStruct.sparseProperties = self.sparseProperties
-        return try body(&cStruct)
+        try self.limits.withUnsafeCStructPointer { ptr_limits in
+            try self.sparseProperties.withUnsafeCStructPointer { ptr_sparseProperties in
+                var cStruct = VkPhysicalDeviceProperties()
+                cStruct.apiVersion = self.apiVersion
+                cStruct.driverVersion = self.driverVersion
+                cStruct.vendorID = self.vendorID
+                cStruct.deviceID = self.deviceID
+                cStruct.deviceType = VkPhysicalDeviceType(rawValue: self.deviceType.rawValue)
+                cStruct.deviceName = self.deviceName
+                cStruct.pipelineCacheUUID = self.pipelineCacheUUID
+                cStruct.limits = ptr_limits.pointee
+                cStruct.sparseProperties = ptr_sparseProperties.pointee
+                return try body(&cStruct)
+            }
+        }
     }
 }
 
