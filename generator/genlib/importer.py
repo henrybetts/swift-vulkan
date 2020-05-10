@@ -45,6 +45,7 @@ class Importer:
         self.c_context = c_context
         self.imported_enums: Dict[str, SwiftEnum] = {}
         self.imported_option_sets: Dict[str, SwiftOptionSet] = {}
+        self.imported_structs: Dict[str, SwiftStruct] = {}
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
@@ -163,6 +164,7 @@ class Importer:
             if isinstance(conversion, tc.RequiresClosure):
                 struct.closure_generators.append(conversion.get_closure_generator(c_member.name))
 
+        self.imported_structs[c_struct.name] = struct
         return struct
 
     def get_type_conversion(self, c_type: CType, implicit_only: bool = False) -> Tuple[str, tc.TypeConversion]:
@@ -178,6 +180,9 @@ class Importer:
                 if c_type.name in self.imported_option_sets:
                     option_set = self.imported_option_sets[c_type.name]
                     return option_set.name, tc.OptionSetConversion(option_set.name)
+                if c_type.name in self.imported_structs:
+                    swift_struct = self.imported_structs[c_type.name]
+                    return swift_struct.name, tc.StructConversion(c_type.name, swift_struct.name)
             return c_type.name, tc.ImplicitConversion()
 
         elif c_type.pointer_to:

@@ -95,3 +95,18 @@ class StringConversion(TypeConversion, RequiresClosure):
 
     def get_c_value(self, swift_value: str, name: str = '') -> str:
         return f'cString_{name}'
+
+
+class StructConversion(TypeConversion, RequiresClosure):
+    def __init__(self, c_struct: str, swift_struct: str):
+        self.c_struct = c_struct
+        self.swift_struct = swift_struct
+
+    def get_swift_value(self, c_value: str) -> str:
+        return f'{self.swift_struct}(cStruct: {c_value})'
+
+    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
+        return f'{swift_value}.withUnsafeCStructPointer {{ ptr_{name} in', '}'
+
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
+        return f'ptr_{name}.pointee'
