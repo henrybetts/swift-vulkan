@@ -97,6 +97,14 @@ class StringConversion(TypeConversion, RequiresClosure):
         return f'cString_{name}'
 
 
+class CharArrayConversion(TypeConversion):
+    def get_swift_value(self, c_value: str) -> str:
+        return f'String(unsafeBytesOf: {c_value})'
+
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
+        return f'{swift_value}.unsafeBytesCopy()'
+
+
 class StructConversion(TypeConversion, RequiresClosure):
     def __init__(self, c_struct: str, swift_struct: str):
         self.c_struct = c_struct

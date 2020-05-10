@@ -217,6 +217,8 @@ class Importer:
                 return f'UnsafeMutablePointer<{to_type}>', tc.ImplicitConversion()
 
         elif c_type.array_of:
+            if c_type.array_of.name == 'char':
+                return 'String', tc.CharArrayConversion()
             of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True)
             return f'({", ".join([of_type] * c_type.length)})', tc.ImplicitConversion()
 
