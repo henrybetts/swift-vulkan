@@ -86,6 +86,19 @@ class OptionSetConversion(TypeConversion):
         return f'{swift_value}.rawValue'
 
 
+class OptionSetBitConversion(TypeConversion):
+    # TODO: Should perhaps generate a separate enum for these cases
+    def __init__(self, c_enum: str, option_set: str):
+        self.c_enum = c_enum
+        self.option_set = option_set
+
+    def get_swift_value(self, c_value: str) -> str:
+        return f'{self.option_set}(rawValue: {c_value}.rawValue)'
+
+    def get_c_value(self, swift_value: str, name: str = '') -> str:
+        return f'{self.c_enum}(rawValue: {swift_value}.rawValue)'
+
+
 class StringConversion(TypeConversion, RequiresClosure):
     def get_swift_value(self, c_value: str) -> str:
         return f'String(cString: {c_value})'

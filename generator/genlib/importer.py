@@ -45,6 +45,7 @@ class Importer:
         self.c_context = c_context
         self.imported_enums: Dict[str, str] = {}
         self.imported_option_sets: Dict[str, str] = {}
+        self.imported_option_set_bits: Dict[str, str] = {}
         self.imported_structs: Dict[str, str] = {}
 
     def import_all(self) -> SwiftContext:
@@ -141,6 +142,8 @@ class Importer:
                 for case in option_set.cases:
                     case.name = 'type' + case.name[0].upper() + case.name[1:]
 
+            self.imported_option_set_bits[c_bitmask.enum.name] = option_set.name
+
         self.imported_option_sets[c_bitmask.name] = option_set.name
         return option_set
 
@@ -189,6 +192,9 @@ class Importer:
                 if c_type.name in self.imported_option_sets:
                     option_set = self.imported_option_sets[c_type.name]
                     return option_set, tc.OptionSetConversion(option_set)
+                if c_type.name in self.imported_option_set_bits:
+                    option_set = self.imported_option_set_bits[c_type.name]
+                    return option_set, tc.OptionSetBitConversion(c_type.name, option_set)
                 if c_type.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.name]
                     return swift_struct, tc.StructConversion(c_type.name, swift_struct)
