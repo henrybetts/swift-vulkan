@@ -174,62 +174,62 @@ class Importer:
 
             struct.members.append(member)
             struct.c_value_generators.append(conversion.get_c_value_generator(c_member.name))
-            if isinstance(conversion, tc.RequiresClosure):
-                struct.closure_generators.append(conversion.get_closure_generator(c_member.name))
+            if conversion.requires_closure:
+                struct.closure_generators.append(conversion.get_c_closure_generator(c_member.name))
 
         return struct
 
-    def get_type_conversion(self, c_type: CType, implicit_only: bool = False) -> Tuple[str, tc.TypeConversion]:
+    def get_type_conversion(self, c_type: CType, implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
-                return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.ImplicitConversion()
+                return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.implicit_conversion
             if not implicit_only:
                 if c_type.name == 'VkBool32':
-                    return 'Bool', tc.BoolConversion()
+                    return 'Bool', tc.bool_conversion
                 if c_type.name in self.imported_enums:
                     swift_enum = self.imported_enums[c_type.name]
-                    return swift_enum, tc.EnumConversion(c_type.name, swift_enum)
+                    return swift_enum, tc.enum_conversion(c_type.name, swift_enum)
                 if c_type.name in self.imported_option_sets:
                     option_set = self.imported_option_sets[c_type.name]
-                    return option_set, tc.OptionSetConversion(option_set)
+                    return option_set, tc.option_set_conversion(option_set)
                 if c_type.name in self.imported_option_set_bits:
                     option_set = self.imported_option_set_bits[c_type.name]
-                    return option_set, tc.OptionSetBitConversion(c_type.name, option_set)
+                    return option_set, tc.option_set_bit_conversion(c_type.name, option_set)
                 if c_type.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.name]
-                    return swift_struct, tc.StructConversion(c_type.name, swift_struct)
-            return c_type.name, tc.ImplicitConversion()
+                    return swift_struct, tc.struct_conversion(swift_struct)
+            return c_type.name, tc.implicit_conversion
 
         elif c_type.pointer_to:
             if c_type.pointer_to.name == 'void':
                 if c_type.pointer_to.const:
-                    return 'UnsafeRawPointer', tc.ImplicitConversion()
+                    return 'UnsafeRawPointer', tc.implicit_conversion
                 else:
-                    return 'UnsafeMutableRawPointer', tc.ImplicitConversion()
+                    return 'UnsafeMutableRawPointer', tc.implicit_conversion
 
             if not implicit_only and c_type.pointer_to.const:
                 if c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
-                    return 'String', tc.StringConversion()
+                    return 'String', tc.string_conversion
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.pointer_to.name]
                     if c_type.optional:
-                        return swift_struct + '?', tc.OptionalStructConversion(c_type.name, swift_struct)
+                        return swift_struct + '?', tc.optional_struct_conversion(swift_struct)
                     else:
-                        return swift_struct, tc.StructPointerConversion(c_type.name, swift_struct)
+                        return swift_struct, tc.struct_pointer_conversion(swift_struct)
 
             to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
             if self.is_pointer_type(c_type.pointer_to):
                 to_type += '?'
             if c_type.pointer_to.const:
-                return f'UnsafePointer<{to_type}>', tc.ImplicitConversion()
+                return f'UnsafePointer<{to_type}>', tc.implicit_conversion
             else:
-                return f'UnsafeMutablePointer<{to_type}>', tc.ImplicitConversion()
+                return f'UnsafeMutablePointer<{to_type}>', tc.implicit_conversion
 
         elif c_type.array_of:
             if c_type.array_of.name == 'char':
-                return 'String', tc.CharArrayConversion()
+                return 'String', tc.char_array_conversion
             of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True)
-            return f'({", ".join([of_type] * c_type.length)})', tc.ImplicitConversion()
+            return f'({", ".join([of_type] * c_type.length)})', tc.implicit_conversion
 
     def is_pointer_type(self, c_type: CType) -> bool:
         return (c_type.pointer_to is not None

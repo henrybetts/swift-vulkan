@@ -1,4 +1,5 @@
 from typing import Callable, Dict, Tuple
+from string import Template
 
 IMPLICIT_TYPE_MAP = {
     'void': 'Void',
@@ -19,141 +20,100 @@ ValueGenerator = Callable[[Dict[str, str]], str]
 ClosureGenerator = Callable[[Dict[str, str]], Tuple[str, str]]
 
 
-class TypeConversion:
-    def get_swift_value(self, c_value: str) -> str:
-        raise NotImplementedError
+class Conversion:
+    def __init__(self, swift_value_template: str, c_value_template: str, c_closure_template: Tuple[str, str] = None):
+        self.c_value_template = c_value_template
+        self.c_closure_template = c_closure_template
+        self.swift_value_template = swift_value_template
 
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        raise NotImplementedError
+    @property
+    def requires_closure(self) -> bool:
+        return self.c_closure_template is not None
 
-    def get_c_value_generator(self, swift_name: str) -> ValueGenerator:
+    def get_c_value_generator(self, name: str) -> ValueGenerator:
         def generator(values_map: Dict[str, str]) -> str:
-            return self.get_c_value(values_map.get(swift_name, swift_name), swift_name)
+            return Template(self.c_value_template).substitute(name=name, value=values_map[name])
         return generator
 
-    def get_swift_value_generator(self, c_name: str) -> ValueGenerator:
-        def generator(values_map: Dict[str, str]) -> str:
-            return self.get_swift_value(values_map.get(c_name, c_name))
-        return generator
-
-
-class RequiresClosure:
-    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
-        raise NotImplementedError
-
-    def get_closure_generator(self, swift_name: str) -> ClosureGenerator:
+    def get_c_closure_generator(self, name: str) -> ClosureGenerator:
         def generator(values_map: Dict[str, str]) -> Tuple[str, str]:
-            return self.get_closure(values_map.get(swift_name, swift_name), swift_name)
+            return (
+                Template(self.c_closure_template[0]).substitute(name=name, value=values_map[name]),
+                Template(self.c_closure_template[1]).substitute(name=name, value=values_map[name])
+            )
+        return generator
+
+    def get_swift_value_generator(self, name: str) -> ValueGenerator:
+        def generator(values_map: Dict[str, str]) -> str:
+            return Template(self.swift_value_template).substitute(value=values_map[name])
         return generator
 
 
-class ImplicitConversion(TypeConversion):
-    def get_swift_value(self, c_value: str) -> str:
-        return c_value
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return swift_value
+implicit_conversion = Conversion(
+    swift_value_template='$value',
+    c_value_template='$value'
+)
 
 
-class BoolConversion(TypeConversion):
-    def get_swift_value(self, c_value: str) -> str:
-        return f'{c_value} == VK_TRUE'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'VkBool32({swift_value} ? VK_TRUE : VK_FALSE)'
+bool_conversion = Conversion(
+    swift_value_template='$value == VK_TRUE',
+    c_value_template='VkBool32($value ? VK_TRUE : VK_FALSE)'
+)
 
 
-class EnumConversion(TypeConversion):
-    def __init__(self, c_enum: str, swift_enum: str):
-        self.c_enum = c_enum
-        self.swift_enum = swift_enum
-
-    def get_swift_value(self, c_value: str) -> str:
-        return f'{self.swift_enum}(rawValue: {c_value}.rawValue)!'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'{self.c_enum}(rawValue: {swift_value}.rawValue)'
+def enum_conversion(c_enum: str, swift_enum: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'{swift_enum}(rawValue: $value.rawValue)!',
+        c_value_template=f'{c_enum}(rawValue: $value.rawValue)'
+    )
 
 
-class OptionSetConversion(TypeConversion):
-    def __init__(self, option_set: str):
-        self.option_set = option_set
-
-    def get_swift_value(self, c_value: str) -> str:
-        return f'{self.option_set}(rawValue: {c_value})'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'{swift_value}.rawValue'
+def option_set_conversion(option_set: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'{option_set}(rawValue: $value)',
+        c_value_template='$value.rawValue'
+    )
 
 
-class OptionSetBitConversion(TypeConversion):
-    # TODO: Should perhaps generate a separate enum for these cases
-    def __init__(self, c_enum: str, option_set: str):
-        self.c_enum = c_enum
-        self.option_set = option_set
-
-    def get_swift_value(self, c_value: str) -> str:
-        return f'{self.option_set}(rawValue: {c_value}.rawValue)'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'{self.c_enum}(rawValue: {swift_value}.rawValue)'
+def option_set_bit_conversion(c_enum: str, option_set: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'{option_set}(rawValue: $value.rawValue)',
+        c_value_template=f'{c_enum}(rawValue: $value.rawValue)'
+    )
 
 
-class StringConversion(TypeConversion, RequiresClosure):
-    def get_swift_value(self, c_value: str) -> str:
-        return f'String(cString: {c_value})'
-
-    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
-        return f'{swift_value}.withCString {{ cString_{name} in', '}'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'cString_{name}'
+string_conversion = Conversion(
+    swift_value_template='String(cString: $value)',
+    c_closure_template=('$value.withCString { cString_$name in', '}'),
+    c_value_template='cString_$name'
+)
 
 
-class CharArrayConversion(TypeConversion):
-    def get_swift_value(self, c_value: str) -> str:
-        return f'String(unsafeBytesOf: {c_value})'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'{swift_value}.unsafeBytesCopy()'
+char_array_conversion = Conversion(
+    swift_value_template='String(unsafeBytesOf: $value)',
+    c_value_template='$value.unsafeBytesCopy()'
+)
 
 
-class StructConversion(TypeConversion, RequiresClosure):
-    def __init__(self, c_struct: str, swift_struct: str):
-        self.c_struct = c_struct
-        self.swift_struct = swift_struct
-
-    def get_swift_value(self, c_value: str) -> str:
-        return f'{self.swift_struct}(cStruct: {c_value})'
-
-    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
-        return f'{swift_value}.withCStruct {{ ptr_{name} in', '}'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'ptr_{name}.pointee'
+def struct_conversion(swift_struct: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'{swift_struct}(cStruct: $value)',
+        c_closure_template=('$value.withCStruct { ptr_$name in', '}'),
+        c_value_template='ptr_$name.pointee'
+    )
 
 
-class StructPointerConversion(TypeConversion, RequiresClosure):
-    def __init__(self, c_struct: str, swift_struct: str):
-        self.c_struct = c_struct
-        self.swift_struct = swift_struct
-
-    def get_swift_value(self, c_value: str) -> str:
-        return f'{self.swift_struct}(cStruct: {c_value}.pointee)'
-
-    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
-        return f'{swift_value}.withCStruct {{ ptr_{name} in', '}'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'ptr_{name}'
+def struct_pointer_conversion(swift_struct: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'{swift_struct}(cStruct: $value.pointee)',
+        c_closure_template=('$value.withCStruct { ptr_$name in', '}'),
+        c_value_template='ptr_$name'
+    )
 
 
-class OptionalStructConversion(StructPointerConversion):
-    def get_swift_value(self, c_value: str) -> str:
-        return f'({c_value} != nil) ? {self.swift_struct}(cStruct: {c_value}) : nil'
-
-    def get_closure(self, swift_value: str, name: str = '') -> Tuple[str, str]:
-        return f'{swift_value}.withOptionalCStruct {{ ptr_{name} in', '}'
-
-    def get_c_value(self, swift_value: str, name: str = '') -> str:
-        return f'ptr_{name}'
+def optional_struct_conversion(swift_struct: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'($value != nil) ? {swift_struct}(cStruct: $value) : nil',
+        c_closure_template=('$value.withOptionalCStruct { ptr_$name in', '}'),
+        c_value_template='ptr_$name'
+    )
