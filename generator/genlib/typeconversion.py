@@ -49,6 +49,25 @@ class Conversion:
         return generator
 
 
+class ArrayConversion(Conversion):
+    def __init__(self, length: str, swift_value_template: str, c_value_template: str, c_length_template: str,
+                 c_closure_template: Tuple[str, str] = None):
+        super().__init__(swift_value_template, c_value_template, c_closure_template)
+        self.length = length
+        self.c_length_template = c_length_template
+
+    def get_c_length_generator(self, name: str) -> ValueGenerator:
+        def generator(values_map: Dict[str, str]) -> str:
+            return Template(self.c_length_template).substitute(name=name, value=values_map[name])
+        return generator
+
+    def get_swift_value_generator(self, name: str) -> ValueGenerator:
+        def generator(values_map: Dict[str, str]) -> str:
+            return Template(self.swift_value_template).substitute(value=values_map[name],
+                                                                  length=values_map[self.length])
+        return generator
+
+
 implicit_conversion = Conversion(
     swift_value_template='$value',
     c_value_template='$value'
@@ -116,4 +135,14 @@ def optional_struct_conversion(swift_struct: str) -> Conversion:
         swift_value_template=f'($value != nil) ? {swift_struct}(cStruct: $value) : nil',
         c_closure_template=('$value.withOptionalCStruct { ptr_$name in', '}'),
         c_value_template='ptr_$name'
+    )
+
+
+def array_conversion(length: str) -> ArrayConversion:
+    return ArrayConversion(
+        length=length,
+        swift_value_template='Array(unsafePointer: $value, count: Int($length))',
+        c_closure_template=('$value.withUnsafeBufferPointer { ptr_$name in', '}'),
+        c_value_template='ptr_$name.baseAddress',
+        c_length_template='UInt32(ptr_$name.count)'
     )

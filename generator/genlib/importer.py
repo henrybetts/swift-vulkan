@@ -159,27 +159,43 @@ class Importer:
                              c_value_generators=[],
                              closure_generators=[])
 
+        c_value_generators: Dict[str, tc.ValueGenerator] = {}
+        lengths: List[str] = []
+
         for c_member in c_struct.members:
+            if is_array_convertible(c_member.type, c_struct.members):
+                lengths.append(c_member.type.length)
+
+        for c_member in c_struct.members:
+            if c_member.name in lengths:
+                continue
+
             if len(c_member.values) == 1:
-                struct.c_value_generators.append(static_value_generator(c_member.values[0]))
+                c_value_generators.setdefault(c_member.name, static_value_generator(c_member.values[0]))
                 continue
 
             if c_member.name == 'pNext':
-                struct.c_value_generators.append(static_value_generator('nil'))
+                c_value_generators.setdefault(c_member.name, static_value_generator('nil'))
                 continue
 
-            swift_type, conversion = self.get_type_conversion(c_member.type)
-            member = SwiftStruct.Member(name=c_member.name, type_=swift_type,
-                                        value_generator=conversion.get_c_value_generator(c_member.name))
+            swift_type, conversion = self.get_type_conversion(c_member.type, members=c_struct.members)
+            c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(c_member.name))
 
-            struct.members.append(member)
-            struct.c_value_generators.append(conversion.get_c_value_generator(c_member.name))
             if conversion.requires_closure:
                 struct.closure_generators.append(conversion.get_c_closure_generator(c_member.name))
 
+            if isinstance(conversion, tc.ArrayConversion):
+                c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(c_member.name))
+
+            member = SwiftStruct.Member(name=c_member.name, type_=swift_type,
+                                        value_generator=conversion.get_swift_value_generator(c_member.name))
+            struct.members.append(member)
+
+        struct.c_value_generators = [c_value_generators[member.name] for member in c_struct.members]
         return struct
 
-    def get_type_conversion(self, c_type: CType, implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
+    def get_type_conversion(self, c_type: CType, members: List[CStruct.Member] = None,
+                            implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.implicit_conversion
@@ -210,6 +226,11 @@ class Importer:
             if not implicit_only and c_type.pointer_to.const:
                 if c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
                     return 'String', tc.string_conversion
+                if is_array_convertible(c_type, members):
+                    element_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
+                    if self.is_pointer_type(c_type.pointer_to):
+                        element_type += '?'
+                    return f'Array<{element_type}>', tc.array_conversion(c_type.length)
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.pointer_to.name]
                     if c_type.optional:
@@ -240,6 +261,15 @@ class Importer:
             if string.endswith(tag):
                 return string[:-len(tag)].rstrip('_'), tag
         return string, None
+
+
+def is_array_convertible(type_: CType, members: List[CStruct.Member] = None) -> bool:
+    if (members and type_.pointer_to and type_.pointer_to.const and type_.length
+            and type_.length != 'null-terminated' and type_.pointer_to.name != 'void'):
+        for member in members:
+            if type_.length == member.name and member.type.name == 'uint32_t':
+                return True
+    return False
 
 
 def remove_vk_prefix(string: str) -> str:
