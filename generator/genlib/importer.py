@@ -224,15 +224,14 @@ class Importer:
                     return 'UnsafeMutableRawPointer', tc.implicit_conversion
 
             if not implicit_only and c_type.pointer_to.const:
-                if c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
+                if is_string_convertible(c_type):
                     if c_type.optional:
                         return 'String?', tc.optional_string_conversion
                     else:
                         return 'String', tc.string_conversion
 
                 if is_array_convertible(c_type, members):
-                    if (c_type.pointer_to.pointer_to and c_type.pointer_to.pointer_to.name == 'char'
-                            and c_type.pointer_to.length == 'null-terminated' and c_type.pointer_to.pointer_to.const):
+                    if is_string_convertible(c_type.pointer_to) and not c_type.optional:
                         return 'Array<String>', tc.string_array_conversion(c_type.length)
 
                     if c_type.pointer_to.name and c_type.pointer_to.name in self.imported_structs:
@@ -274,6 +273,11 @@ class Importer:
             if string.endswith(tag):
                 return string[:-len(tag)].rstrip('_'), tag
         return string, None
+
+
+def is_string_convertible(type_: CType) -> bool:
+    return (type_.pointer_to and type_.pointer_to.name == 'char' and type_.length == 'null-terminated'
+            and type_.pointer_to.const)
 
 
 def is_array_convertible(type_: CType, members: List[CStruct.Member] = None) -> bool:
