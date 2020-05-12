@@ -1,146 +1,146 @@
 import CVulkan
 
 struct Instance {
-    let handle: VkInstance
+    let handle: VkInstance!
 }
 
 struct PhysicalDevice {
-    let handle: VkPhysicalDevice
+    let handle: VkPhysicalDevice!
 }
 
 struct Device {
-    let handle: VkDevice
+    let handle: VkDevice!
 }
 
 struct Queue {
-    let handle: VkQueue
+    let handle: VkQueue!
 }
 
 struct CommandBuffer {
-    let handle: VkCommandBuffer
+    let handle: VkCommandBuffer!
 }
 
 struct DeviceMemory {
-    let handle: VkDeviceMemory
+    let handle: VkDeviceMemory!
 }
 
 struct CommandPool {
-    let handle: VkCommandPool
+    let handle: VkCommandPool!
 }
 
 struct Buffer {
-    let handle: VkBuffer
+    let handle: VkBuffer!
 }
 
 struct BufferView {
-    let handle: VkBufferView
+    let handle: VkBufferView!
 }
 
 struct Image {
-    let handle: VkImage
+    let handle: VkImage!
 }
 
 struct ImageView {
-    let handle: VkImageView
+    let handle: VkImageView!
 }
 
 struct ShaderModule {
-    let handle: VkShaderModule
+    let handle: VkShaderModule!
 }
 
 struct Pipeline {
-    let handle: VkPipeline
+    let handle: VkPipeline!
 }
 
 struct PipelineLayout {
-    let handle: VkPipelineLayout
+    let handle: VkPipelineLayout!
 }
 
 struct Sampler {
-    let handle: VkSampler
+    let handle: VkSampler!
 }
 
 struct DescriptorSet {
-    let handle: VkDescriptorSet
+    let handle: VkDescriptorSet!
 }
 
 struct DescriptorSetLayout {
-    let handle: VkDescriptorSetLayout
+    let handle: VkDescriptorSetLayout!
 }
 
 struct DescriptorPool {
-    let handle: VkDescriptorPool
+    let handle: VkDescriptorPool!
 }
 
 struct Fence {
-    let handle: VkFence
+    let handle: VkFence!
 }
 
 struct Semaphore {
-    let handle: VkSemaphore
+    let handle: VkSemaphore!
 }
 
 struct Event {
-    let handle: VkEvent
+    let handle: VkEvent!
 }
 
 struct QueryPool {
-    let handle: VkQueryPool
+    let handle: VkQueryPool!
 }
 
 struct Framebuffer {
-    let handle: VkFramebuffer
+    let handle: VkFramebuffer!
 }
 
 struct RenderPass {
-    let handle: VkRenderPass
+    let handle: VkRenderPass!
 }
 
 struct PipelineCache {
-    let handle: VkPipelineCache
+    let handle: VkPipelineCache!
 }
 
 struct IndirectCommandsLayoutNV {
-    let handle: VkIndirectCommandsLayoutNV
+    let handle: VkIndirectCommandsLayoutNV!
 }
 
 struct DescriptorUpdateTemplate {
-    let handle: VkDescriptorUpdateTemplate
+    let handle: VkDescriptorUpdateTemplate!
 }
 
 struct SamplerYcbcrConversion {
-    let handle: VkSamplerYcbcrConversion
+    let handle: VkSamplerYcbcrConversion!
 }
 
 struct ValidationCacheEXT {
-    let handle: VkValidationCacheEXT
+    let handle: VkValidationCacheEXT!
 }
 
 struct PerformanceConfigurationINTEL {
-    let handle: VkPerformanceConfigurationINTEL
+    let handle: VkPerformanceConfigurationINTEL!
 }
 
 struct DisplayKHR {
-    let handle: VkDisplayKHR
+    let handle: VkDisplayKHR!
 }
 
 struct DisplayModeKHR {
-    let handle: VkDisplayModeKHR
+    let handle: VkDisplayModeKHR!
 }
 
 struct SurfaceKHR {
-    let handle: VkSurfaceKHR
+    let handle: VkSurfaceKHR!
 }
 
 struct SwapchainKHR {
-    let handle: VkSwapchainKHR
+    let handle: VkSwapchainKHR!
 }
 
 struct DebugReportCallbackEXT {
-    let handle: VkDebugReportCallbackEXT
+    let handle: VkDebugReportCallbackEXT!
 }
 
 struct DebugUtilsMessengerEXT {
-    let handle: VkDebugUtilsMessengerEXT
+    let handle: VkDebugUtilsMessengerEXT!
 }
 

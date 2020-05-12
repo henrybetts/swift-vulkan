@@ -54,19 +54,19 @@ class Importer:
         self.imported_option_sets: Dict[str, str] = {}
         self.imported_option_set_bits: Dict[str, str] = {}
         self.imported_structs: Dict[str, str] = {}
-        self.imported_handles: Dict[str, str] = {}
+        self.imported_classes: Dict[str, str] = {}
         self.pointer_types = [handle.name for handle in c_context.handles]
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
         context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
         context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
-        for struct in self.c_context.structs:
-            self.import_struct_name(struct)
-        context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
         for handle in self.c_context.handles:
             self.import_handle_name(handle)
         context.classes = [self.import_handle(handle) for handle in self.c_context.handles]
+        for struct in self.c_context.structs:
+            self.import_struct_name(struct)
+        context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
         return context
 
     def import_enum(self, c_enum: CEnum) -> SwiftEnum:
@@ -208,13 +208,13 @@ class Importer:
 
     def import_handle_name(self, handle: CHandle) -> str:
         name = remove_vk_prefix(handle.name)
-        self.imported_handles[handle.name] = name
+        self.imported_classes[handle.name] = name
         return name
 
     def import_handle(self, handle: CHandle) -> SwiftClass:
         return SwiftClass(
             c_handle=handle,
-            name=self.imported_handles.get(handle.name) or self.import_handle_name(handle)
+            name=self.imported_classes.get(handle.name) or self.import_handle_name(handle)
         )
 
     def get_type_conversion(self, c_type: CType, members: List[CStruct.Member] = None,
@@ -237,6 +237,12 @@ class Importer:
                 if c_type.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.name]
                     return swift_struct, tc.struct_conversion(swift_struct)
+                if c_type.name in self.imported_classes:
+                    cls = self.imported_classes[c_type.name]
+                    if c_type.optional:
+                        return cls + '?', tc.optional_class_conversion(cls)
+                    else:
+                        return cls, tc.class_conversion(cls)
             return c_type.name, tc.implicit_conversion
 
         elif c_type.pointer_to:

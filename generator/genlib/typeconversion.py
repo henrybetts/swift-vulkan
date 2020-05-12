@@ -144,6 +144,20 @@ def optional_struct_conversion(swift_struct: str) -> Conversion:
     )
 
 
+def class_conversion(swift_class: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'{swift_class}(handle: $value)',
+        c_value_template='$value.handle'
+    )
+
+
+def optional_class_conversion(swift_class: str) -> Conversion:
+    return Conversion(
+        swift_value_template=f'($value != nil) ? {swift_class}(handle: $value) : nil',
+        c_value_template='$value?.handle'
+    )
+
+
 def array_conversion(length: str) -> ArrayConversion:
     return ArrayConversion(
         length=length,

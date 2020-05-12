@@ -497,7 +497,7 @@ struct MemoryHeap: CStructConvertible {
 struct MappedMemoryRange: CStructConvertible {
     typealias CStruct = VkMappedMemoryRange
 
-    let memory: VkDeviceMemory
+    let memory: DeviceMemory
     let offset: VkDeviceSize
     let size: VkDeviceSize
 
@@ -505,7 +505,7 @@ struct MappedMemoryRange: CStructConvertible {
         var cStruct = VkMappedMemoryRange()
         cStruct.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE
         cStruct.pNext = nil
-        cStruct.memory = self.memory
+        cStruct.memory = self.memory.handle
         cStruct.offset = self.offset
         cStruct.size = self.size
         return try body(&cStruct)
@@ -553,13 +553,13 @@ struct ImageFormatProperties: CStructConvertible {
 struct DescriptorBufferInfo: CStructConvertible {
     typealias CStruct = VkDescriptorBufferInfo
 
-    let buffer: VkBuffer
+    let buffer: Buffer
     let offset: VkDeviceSize
     let range: VkDeviceSize
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorBufferInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorBufferInfo()
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         cStruct.offset = self.offset
         cStruct.range = self.range
         return try body(&cStruct)
@@ -569,14 +569,14 @@ struct DescriptorBufferInfo: CStructConvertible {
 struct DescriptorImageInfo: CStructConvertible {
     typealias CStruct = VkDescriptorImageInfo
 
-    let sampler: VkSampler
-    let imageView: VkImageView
+    let sampler: Sampler
+    let imageView: ImageView
     let imageLayout: ImageLayout
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorImageInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorImageInfo()
-        cStruct.sampler = self.sampler
-        cStruct.imageView = self.imageView
+        cStruct.sampler = self.sampler.handle
+        cStruct.imageView = self.imageView.handle
         cStruct.imageLayout = VkImageLayout(rawValue: self.imageLayout.rawValue)
         return try body(&cStruct)
     }
@@ -585,22 +585,22 @@ struct DescriptorImageInfo: CStructConvertible {
 struct WriteDescriptorSet: CStructConvertible {
     typealias CStruct = VkWriteDescriptorSet
 
-    let dstSet: VkDescriptorSet
+    let dstSet: DescriptorSet
     let dstBinding: UInt32
     let dstArrayElement: UInt32
     let descriptorType: DescriptorType
     let pImageInfo: Array<DescriptorImageInfo>
     let pBufferInfo: Array<DescriptorBufferInfo>
-    let pTexelBufferView: Array<VkBufferView?>
+    let pTexelBufferView: Array<BufferView>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkWriteDescriptorSet>) throws -> R) rethrows -> R {
         try self.pImageInfo.withCStructBufferPointer { ptr_pImageInfo in
             try self.pBufferInfo.withCStructBufferPointer { ptr_pBufferInfo in
-                try self.pTexelBufferView.withUnsafeBufferPointer { ptr_pTexelBufferView in
+                try self.pTexelBufferView.map{ $0.handle }.withUnsafeBufferPointer { ptr_pTexelBufferView in
                     var cStruct = VkWriteDescriptorSet()
                     cStruct.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET
                     cStruct.pNext = nil
-                    cStruct.dstSet = self.dstSet
+                    cStruct.dstSet = self.dstSet.handle
                     cStruct.dstBinding = self.dstBinding
                     cStruct.dstArrayElement = self.dstArrayElement
                     cStruct.descriptorCount = UInt32(ptr_pImageInfo.count)
@@ -618,10 +618,10 @@ struct WriteDescriptorSet: CStructConvertible {
 struct CopyDescriptorSet: CStructConvertible {
     typealias CStruct = VkCopyDescriptorSet
 
-    let srcSet: VkDescriptorSet
+    let srcSet: DescriptorSet
     let srcBinding: UInt32
     let srcArrayElement: UInt32
-    let dstSet: VkDescriptorSet
+    let dstSet: DescriptorSet
     let dstBinding: UInt32
     let dstArrayElement: UInt32
     let descriptorCount: UInt32
@@ -630,10 +630,10 @@ struct CopyDescriptorSet: CStructConvertible {
         var cStruct = VkCopyDescriptorSet()
         cStruct.sType = VK_STRUCTURE_TYPE_COPY_DESCRIPTOR_SET
         cStruct.pNext = nil
-        cStruct.srcSet = self.srcSet
+        cStruct.srcSet = self.srcSet.handle
         cStruct.srcBinding = self.srcBinding
         cStruct.srcArrayElement = self.srcArrayElement
-        cStruct.dstSet = self.dstSet
+        cStruct.dstSet = self.dstSet.handle
         cStruct.dstBinding = self.dstBinding
         cStruct.dstArrayElement = self.dstArrayElement
         cStruct.descriptorCount = self.descriptorCount
@@ -670,7 +670,7 @@ struct BufferViewCreateInfo: CStructConvertible {
     typealias CStruct = VkBufferViewCreateInfo
 
     let flags: BufferViewCreateFlags
-    let buffer: VkBuffer
+    let buffer: Buffer
     let format: Format
     let offset: VkDeviceSize
     let range: VkDeviceSize
@@ -680,7 +680,7 @@ struct BufferViewCreateInfo: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_VIEW_CREATE_INFO
         cStruct.pNext = nil
         cStruct.flags = self.flags.rawValue
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         cStruct.format = VkFormat(rawValue: self.format.rawValue)
         cStruct.offset = self.offset
         cStruct.range = self.range
@@ -765,7 +765,7 @@ struct BufferMemoryBarrier: CStructConvertible {
     let dstAccessMask: AccessFlags
     let srcQueueFamilyIndex: UInt32
     let dstQueueFamilyIndex: UInt32
-    let buffer: VkBuffer
+    let buffer: Buffer
     let offset: VkDeviceSize
     let size: VkDeviceSize
 
@@ -777,7 +777,7 @@ struct BufferMemoryBarrier: CStructConvertible {
         cStruct.dstAccessMask = self.dstAccessMask.rawValue
         cStruct.srcQueueFamilyIndex = self.srcQueueFamilyIndex
         cStruct.dstQueueFamilyIndex = self.dstQueueFamilyIndex
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         cStruct.offset = self.offset
         cStruct.size = self.size
         return try body(&cStruct)
@@ -793,7 +793,7 @@ struct ImageMemoryBarrier: CStructConvertible {
     let newLayout: ImageLayout
     let srcQueueFamilyIndex: UInt32
     let dstQueueFamilyIndex: UInt32
-    let image: VkImage
+    let image: Image
     let subresourceRange: ImageSubresourceRange
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageMemoryBarrier>) throws -> R) rethrows -> R {
@@ -807,7 +807,7 @@ struct ImageMemoryBarrier: CStructConvertible {
             cStruct.newLayout = VkImageLayout(rawValue: self.newLayout.rawValue)
             cStruct.srcQueueFamilyIndex = self.srcQueueFamilyIndex
             cStruct.dstQueueFamilyIndex = self.dstQueueFamilyIndex
-            cStruct.image = self.image
+            cStruct.image = self.image.handle
             cStruct.subresourceRange = ptr_subresourceRange.pointee
             return try body(&cStruct)
         }
@@ -879,7 +879,7 @@ struct ImageViewCreateInfo: CStructConvertible {
     typealias CStruct = VkImageViewCreateInfo
 
     let flags: ImageViewCreateFlags
-    let image: VkImage
+    let image: Image
     let viewType: ImageViewType
     let format: Format
     let components: ComponentMapping
@@ -892,7 +892,7 @@ struct ImageViewCreateInfo: CStructConvertible {
                 cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO
                 cStruct.pNext = nil
                 cStruct.flags = self.flags.rawValue
-                cStruct.image = self.image
+                cStruct.image = self.image.handle
                 cStruct.viewType = VkImageViewType(rawValue: self.viewType.rawValue)
                 cStruct.format = VkFormat(rawValue: self.format.rawValue)
                 cStruct.components = ptr_components.pointee
@@ -924,7 +924,7 @@ struct SparseMemoryBind: CStructConvertible {
 
     let resourceOffset: VkDeviceSize
     let size: VkDeviceSize
-    let memory: VkDeviceMemory
+    let memory: DeviceMemory?
     let memoryOffset: VkDeviceSize
     let flags: SparseMemoryBindFlags
 
@@ -932,7 +932,7 @@ struct SparseMemoryBind: CStructConvertible {
         var cStruct = VkSparseMemoryBind()
         cStruct.resourceOffset = self.resourceOffset
         cStruct.size = self.size
-        cStruct.memory = self.memory
+        cStruct.memory = self.memory?.handle
         cStruct.memoryOffset = self.memoryOffset
         cStruct.flags = self.flags.rawValue
         return try body(&cStruct)
@@ -945,7 +945,7 @@ struct SparseImageMemoryBind: CStructConvertible {
     let subresource: ImageSubresource
     let offset: Offset3D
     let extent: Extent3D
-    let memory: VkDeviceMemory
+    let memory: DeviceMemory?
     let memoryOffset: VkDeviceSize
     let flags: SparseMemoryBindFlags
 
@@ -957,7 +957,7 @@ struct SparseImageMemoryBind: CStructConvertible {
                     cStruct.subresource = ptr_subresource.pointee
                     cStruct.offset = ptr_offset.pointee
                     cStruct.extent = ptr_extent.pointee
-                    cStruct.memory = self.memory
+                    cStruct.memory = self.memory?.handle
                     cStruct.memoryOffset = self.memoryOffset
                     cStruct.flags = self.flags.rawValue
                     return try body(&cStruct)
@@ -970,13 +970,13 @@ struct SparseImageMemoryBind: CStructConvertible {
 struct SparseBufferMemoryBindInfo: CStructConvertible {
     typealias CStruct = VkSparseBufferMemoryBindInfo
 
-    let buffer: VkBuffer
+    let buffer: Buffer
     let pBinds: Array<SparseMemoryBind>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseBufferMemoryBindInfo>) throws -> R) rethrows -> R {
         try self.pBinds.withCStructBufferPointer { ptr_pBinds in
             var cStruct = VkSparseBufferMemoryBindInfo()
-            cStruct.buffer = self.buffer
+            cStruct.buffer = self.buffer.handle
             cStruct.bindCount = UInt32(ptr_pBinds.count)
             cStruct.pBinds = ptr_pBinds.baseAddress
             return try body(&cStruct)
@@ -987,13 +987,13 @@ struct SparseBufferMemoryBindInfo: CStructConvertible {
 struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
     typealias CStruct = VkSparseImageOpaqueMemoryBindInfo
 
-    let image: VkImage
+    let image: Image
     let pBinds: Array<SparseMemoryBind>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageOpaqueMemoryBindInfo>) throws -> R) rethrows -> R {
         try self.pBinds.withCStructBufferPointer { ptr_pBinds in
             var cStruct = VkSparseImageOpaqueMemoryBindInfo()
-            cStruct.image = self.image
+            cStruct.image = self.image.handle
             cStruct.bindCount = UInt32(ptr_pBinds.count)
             cStruct.pBinds = ptr_pBinds.baseAddress
             return try body(&cStruct)
@@ -1004,13 +1004,13 @@ struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
 struct SparseImageMemoryBindInfo: CStructConvertible {
     typealias CStruct = VkSparseImageMemoryBindInfo
 
-    let image: VkImage
+    let image: Image
     let pBinds: Array<SparseImageMemoryBind>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryBindInfo>) throws -> R) rethrows -> R {
         try self.pBinds.withCStructBufferPointer { ptr_pBinds in
             var cStruct = VkSparseImageMemoryBindInfo()
-            cStruct.image = self.image
+            cStruct.image = self.image.handle
             cStruct.bindCount = UInt32(ptr_pBinds.count)
             cStruct.pBinds = ptr_pBinds.baseAddress
             return try body(&cStruct)
@@ -1021,18 +1021,18 @@ struct SparseImageMemoryBindInfo: CStructConvertible {
 struct BindSparseInfo: CStructConvertible {
     typealias CStruct = VkBindSparseInfo
 
-    let pWaitSemaphores: Array<VkSemaphore?>
+    let pWaitSemaphores: Array<Semaphore>
     let pBufferBinds: Array<SparseBufferMemoryBindInfo>
     let pImageOpaqueBinds: Array<SparseImageOpaqueMemoryBindInfo>
     let pImageBinds: Array<SparseImageMemoryBindInfo>
-    let pSignalSemaphores: Array<VkSemaphore?>
+    let pSignalSemaphores: Array<Semaphore>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindSparseInfo>) throws -> R) rethrows -> R {
-        try self.pWaitSemaphores.withUnsafeBufferPointer { ptr_pWaitSemaphores in
+        try self.pWaitSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_pWaitSemaphores in
             try self.pBufferBinds.withCStructBufferPointer { ptr_pBufferBinds in
                 try self.pImageOpaqueBinds.withCStructBufferPointer { ptr_pImageOpaqueBinds in
                     try self.pImageBinds.withCStructBufferPointer { ptr_pImageBinds in
-                        try self.pSignalSemaphores.withUnsafeBufferPointer { ptr_pSignalSemaphores in
+                        try self.pSignalSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_pSignalSemaphores in
                             var cStruct = VkBindSparseInfo()
                             cStruct.sType = VK_STRUCTURE_TYPE_BIND_SPARSE_INFO
                             cStruct.pNext = nil
@@ -1189,10 +1189,10 @@ struct DescriptorSetLayoutBinding: CStructConvertible {
     let binding: UInt32
     let descriptorType: DescriptorType
     let stageFlags: ShaderStageFlags
-    let pImmutableSamplers: Array<VkSampler?>?
+    let pImmutableSamplers: Array<Sampler>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBinding>) throws -> R) rethrows -> R {
-        try self.pImmutableSamplers.withOptionalUnsafeBufferPointer { ptr_pImmutableSamplers in
+        try (self.pImmutableSamplers?.map{ $0.handle }).withOptionalUnsafeBufferPointer { ptr_pImmutableSamplers in
             var cStruct = VkDescriptorSetLayoutBinding()
             cStruct.binding = self.binding
             cStruct.descriptorType = VkDescriptorType(rawValue: self.descriptorType.rawValue)
@@ -1261,15 +1261,15 @@ struct DescriptorPoolCreateInfo: CStructConvertible {
 struct DescriptorSetAllocateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorSetAllocateInfo
 
-    let descriptorPool: VkDescriptorPool
-    let pSetLayouts: Array<VkDescriptorSetLayout?>
+    let descriptorPool: DescriptorPool
+    let pSetLayouts: Array<DescriptorSetLayout>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetAllocateInfo>) throws -> R) rethrows -> R {
-        try self.pSetLayouts.withUnsafeBufferPointer { ptr_pSetLayouts in
+        try self.pSetLayouts.map{ $0.handle }.withUnsafeBufferPointer { ptr_pSetLayouts in
             var cStruct = VkDescriptorSetAllocateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO
             cStruct.pNext = nil
-            cStruct.descriptorPool = self.descriptorPool
+            cStruct.descriptorPool = self.descriptorPool.handle
             cStruct.descriptorSetCount = UInt32(ptr_pSetLayouts.count)
             cStruct.pSetLayouts = ptr_pSetLayouts.baseAddress
             return try body(&cStruct)
@@ -1317,7 +1317,7 @@ struct PipelineShaderStageCreateInfo: CStructConvertible {
 
     let flags: PipelineShaderStageCreateFlags
     let stage: ShaderStageFlags
-    let module: VkShaderModule
+    let module: ShaderModule
     let pName: String
     let pSpecializationInfo: SpecializationInfo?
 
@@ -1329,7 +1329,7 @@ struct PipelineShaderStageCreateInfo: CStructConvertible {
                 cStruct.pNext = nil
                 cStruct.flags = self.flags.rawValue
                 cStruct.stage = VkShaderStageFlagBits(rawValue: self.stage.rawValue)
-                cStruct.module = self.module
+                cStruct.module = self.module.handle
                 cStruct.pName = cString_pName
                 cStruct.pSpecializationInfo = ptr_pSpecializationInfo
                 return try body(&cStruct)
@@ -1343,8 +1343,8 @@ struct ComputePipelineCreateInfo: CStructConvertible {
 
     let flags: PipelineCreateFlags
     let stage: PipelineShaderStageCreateInfo
-    let layout: VkPipelineLayout
-    let basePipelineHandle: VkPipeline
+    let layout: PipelineLayout
+    let basePipelineHandle: Pipeline?
     let basePipelineIndex: Int32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkComputePipelineCreateInfo>) throws -> R) rethrows -> R {
@@ -1354,8 +1354,8 @@ struct ComputePipelineCreateInfo: CStructConvertible {
             cStruct.pNext = nil
             cStruct.flags = self.flags.rawValue
             cStruct.stage = ptr_stage.pointee
-            cStruct.layout = self.layout
-            cStruct.basePipelineHandle = self.basePipelineHandle
+            cStruct.layout = self.layout.handle
+            cStruct.basePipelineHandle = self.basePipelineHandle?.handle
             cStruct.basePipelineIndex = self.basePipelineIndex
             return try body(&cStruct)
         }
@@ -1682,10 +1682,10 @@ struct GraphicsPipelineCreateInfo: CStructConvertible {
     let pDepthStencilState: PipelineDepthStencilStateCreateInfo?
     let pColorBlendState: PipelineColorBlendStateCreateInfo?
     let pDynamicState: PipelineDynamicStateCreateInfo?
-    let layout: VkPipelineLayout
-    let renderPass: VkRenderPass
+    let layout: PipelineLayout
+    let renderPass: RenderPass
     let subpass: UInt32
-    let basePipelineHandle: VkPipeline
+    let basePipelineHandle: Pipeline?
     let basePipelineIndex: Int32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineCreateInfo>) throws -> R) rethrows -> R {
@@ -1714,10 +1714,10 @@ struct GraphicsPipelineCreateInfo: CStructConvertible {
                                                 cStruct.pDepthStencilState = ptr_pDepthStencilState
                                                 cStruct.pColorBlendState = ptr_pColorBlendState
                                                 cStruct.pDynamicState = ptr_pDynamicState
-                                                cStruct.layout = self.layout
-                                                cStruct.renderPass = self.renderPass
+                                                cStruct.layout = self.layout.handle
+                                                cStruct.renderPass = self.renderPass.handle
                                                 cStruct.subpass = self.subpass
-                                                cStruct.basePipelineHandle = self.basePipelineHandle
+                                                cStruct.basePipelineHandle = self.basePipelineHandle?.handle
                                                 cStruct.basePipelineIndex = self.basePipelineIndex
                                                 return try body(&cStruct)
                                             }
@@ -1771,11 +1771,11 @@ struct PipelineLayoutCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineLayoutCreateInfo
 
     let flags: PipelineLayoutCreateFlags
-    let pSetLayouts: Array<VkDescriptorSetLayout?>
+    let pSetLayouts: Array<DescriptorSetLayout>
     let pPushConstantRanges: Array<PushConstantRange>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineLayoutCreateInfo>) throws -> R) rethrows -> R {
-        try self.pSetLayouts.withUnsafeBufferPointer { ptr_pSetLayouts in
+        try self.pSetLayouts.map{ $0.handle }.withUnsafeBufferPointer { ptr_pSetLayouts in
             try self.pPushConstantRanges.withCStructBufferPointer { ptr_pPushConstantRanges in
                 var cStruct = VkPipelineLayoutCreateInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO
@@ -1854,7 +1854,7 @@ struct CommandPoolCreateInfo: CStructConvertible {
 struct CommandBufferAllocateInfo: CStructConvertible {
     typealias CStruct = VkCommandBufferAllocateInfo
 
-    let commandPool: VkCommandPool
+    let commandPool: CommandPool
     let level: CommandBufferLevel
     let commandBufferCount: UInt32
 
@@ -1862,7 +1862,7 @@ struct CommandBufferAllocateInfo: CStructConvertible {
         var cStruct = VkCommandBufferAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO
         cStruct.pNext = nil
-        cStruct.commandPool = self.commandPool
+        cStruct.commandPool = self.commandPool.handle
         cStruct.level = VkCommandBufferLevel(rawValue: self.level.rawValue)
         cStruct.commandBufferCount = self.commandBufferCount
         return try body(&cStruct)
@@ -1872,9 +1872,9 @@ struct CommandBufferAllocateInfo: CStructConvertible {
 struct CommandBufferInheritanceInfo: CStructConvertible {
     typealias CStruct = VkCommandBufferInheritanceInfo
 
-    let renderPass: VkRenderPass
+    let renderPass: RenderPass?
     let subpass: UInt32
-    let framebuffer: VkFramebuffer
+    let framebuffer: Framebuffer?
     let occlusionQueryEnable: Bool
     let queryFlags: QueryControlFlags
     let pipelineStatistics: QueryPipelineStatisticFlags
@@ -1883,9 +1883,9 @@ struct CommandBufferInheritanceInfo: CStructConvertible {
         var cStruct = VkCommandBufferInheritanceInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO
         cStruct.pNext = nil
-        cStruct.renderPass = self.renderPass
+        cStruct.renderPass = self.renderPass?.handle
         cStruct.subpass = self.subpass
-        cStruct.framebuffer = self.framebuffer
+        cStruct.framebuffer = self.framebuffer?.handle
         cStruct.occlusionQueryEnable = VkBool32(self.occlusionQueryEnable ? VK_TRUE : VK_FALSE)
         cStruct.queryFlags = self.queryFlags.rawValue
         cStruct.pipelineStatistics = self.pipelineStatistics.rawValue
@@ -1914,8 +1914,8 @@ struct CommandBufferBeginInfo: CStructConvertible {
 struct RenderPassBeginInfo: CStructConvertible {
     typealias CStruct = VkRenderPassBeginInfo
 
-    let renderPass: VkRenderPass
-    let framebuffer: VkFramebuffer
+    let renderPass: RenderPass
+    let framebuffer: Framebuffer
     let renderArea: Rect2D
     let pClearValues: Array<VkClearValue>
 
@@ -1925,8 +1925,8 @@ struct RenderPassBeginInfo: CStructConvertible {
                 var cStruct = VkRenderPassBeginInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO
                 cStruct.pNext = nil
-                cStruct.renderPass = self.renderPass
-                cStruct.framebuffer = self.framebuffer
+                cStruct.renderPass = self.renderPass.handle
+                cStruct.framebuffer = self.framebuffer.handle
                 cStruct.renderArea = ptr_renderArea.pointee
                 cStruct.clearValueCount = UInt32(ptr_pClearValues.count)
                 cStruct.pClearValues = ptr_pClearValues.baseAddress
@@ -2526,19 +2526,19 @@ struct FramebufferCreateInfo: CStructConvertible {
     typealias CStruct = VkFramebufferCreateInfo
 
     let flags: FramebufferCreateFlags
-    let renderPass: VkRenderPass
-    let pAttachments: Array<VkImageView?>
+    let renderPass: RenderPass
+    let pAttachments: Array<ImageView>
     let width: UInt32
     let height: UInt32
     let layers: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferCreateInfo>) throws -> R) rethrows -> R {
-        try self.pAttachments.withUnsafeBufferPointer { ptr_pAttachments in
+        try self.pAttachments.map{ $0.handle }.withUnsafeBufferPointer { ptr_pAttachments in
             var cStruct = VkFramebufferCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO
             cStruct.pNext = nil
             cStruct.flags = self.flags.rawValue
-            cStruct.renderPass = self.renderPass
+            cStruct.renderPass = self.renderPass.handle
             cStruct.attachmentCount = UInt32(ptr_pAttachments.count)
             cStruct.pAttachments = ptr_pAttachments.baseAddress
             cStruct.width = self.width
@@ -2606,16 +2606,16 @@ struct DispatchIndirectCommand: CStructConvertible {
 struct SubmitInfo: CStructConvertible {
     typealias CStruct = VkSubmitInfo
 
-    let pWaitSemaphores: Array<VkSemaphore?>
+    let pWaitSemaphores: Array<Semaphore>
     let pWaitDstStageMask: Array<PipelineStageFlags>
-    let pCommandBuffers: Array<VkCommandBuffer?>
-    let pSignalSemaphores: Array<VkSemaphore?>
+    let pCommandBuffers: Array<CommandBuffer>
+    let pSignalSemaphores: Array<Semaphore>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubmitInfo>) throws -> R) rethrows -> R {
-        try self.pWaitSemaphores.withUnsafeBufferPointer { ptr_pWaitSemaphores in
+        try self.pWaitSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_pWaitSemaphores in
             try self.pWaitDstStageMask.map{ $0.rawValue }.withUnsafeBufferPointer { ptr_pWaitDstStageMask in
-                try self.pCommandBuffers.withUnsafeBufferPointer { ptr_pCommandBuffers in
-                    try self.pSignalSemaphores.withUnsafeBufferPointer { ptr_pSignalSemaphores in
+                try self.pCommandBuffers.map{ $0.handle }.withUnsafeBufferPointer { ptr_pCommandBuffers in
+                    try self.pSignalSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_pSignalSemaphores in
                         var cStruct = VkSubmitInfo()
                         cStruct.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO
                         cStruct.pNext = nil
@@ -2637,7 +2637,7 @@ struct SubmitInfo: CStructConvertible {
 struct DisplayPropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayPropertiesKHR
 
-    let display: VkDisplayKHR
+    let display: DisplayKHR
     let displayName: String
     let physicalDimensions: Extent2D
     let physicalResolution: Extent2D
@@ -2650,7 +2650,7 @@ struct DisplayPropertiesKHR: CStructConvertible {
             try self.physicalDimensions.withCStruct { ptr_physicalDimensions in
                 try self.physicalResolution.withCStruct { ptr_physicalResolution in
                     var cStruct = VkDisplayPropertiesKHR()
-                    cStruct.display = self.display
+                    cStruct.display = self.display.handle
                     cStruct.displayName = cString_displayName
                     cStruct.physicalDimensions = ptr_physicalDimensions.pointee
                     cStruct.physicalResolution = ptr_physicalResolution.pointee
@@ -2667,12 +2667,12 @@ struct DisplayPropertiesKHR: CStructConvertible {
 struct DisplayPlanePropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayPlanePropertiesKHR
 
-    let currentDisplay: VkDisplayKHR
+    let currentDisplay: DisplayKHR
     let currentStackIndex: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlanePropertiesKHR>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPlanePropertiesKHR()
-        cStruct.currentDisplay = self.currentDisplay
+        cStruct.currentDisplay = self.currentDisplay.handle
         cStruct.currentStackIndex = self.currentStackIndex
         return try body(&cStruct)
     }
@@ -2697,13 +2697,13 @@ struct DisplayModeParametersKHR: CStructConvertible {
 struct DisplayModePropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayModePropertiesKHR
 
-    let displayMode: VkDisplayModeKHR
+    let displayMode: DisplayModeKHR
     let parameters: DisplayModeParametersKHR
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModePropertiesKHR>) throws -> R) rethrows -> R {
         try self.parameters.withCStruct { ptr_parameters in
             var cStruct = VkDisplayModePropertiesKHR()
-            cStruct.displayMode = self.displayMode
+            cStruct.displayMode = self.displayMode.handle
             cStruct.parameters = ptr_parameters.pointee
             return try body(&cStruct)
         }
@@ -2776,7 +2776,7 @@ struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkDisplaySurfaceCreateInfoKHR
 
     let flags: DisplaySurfaceCreateFlagsKHR
-    let displayMode: VkDisplayModeKHR
+    let displayMode: DisplayModeKHR
     let planeIndex: UInt32
     let planeStackIndex: UInt32
     let transform: SurfaceTransformFlagsKHR
@@ -2790,7 +2790,7 @@ struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
             cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR
             cStruct.pNext = nil
             cStruct.flags = self.flags.rawValue
-            cStruct.displayMode = self.displayMode
+            cStruct.displayMode = self.displayMode.handle
             cStruct.planeIndex = self.planeIndex
             cStruct.planeStackIndex = self.planeStackIndex
             cStruct.transform = VkSurfaceTransformFlagBitsKHR(rawValue: self.transform.rawValue)
@@ -2878,7 +2878,7 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkSwapchainCreateInfoKHR
 
     let flags: SwapchainCreateFlagsKHR
-    let surface: VkSurfaceKHR
+    let surface: SurfaceKHR
     let minImageCount: UInt32
     let imageFormat: Format
     let imageColorSpace: ColorSpaceKHR
@@ -2891,7 +2891,7 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
     let compositeAlpha: CompositeAlphaFlagsKHR
     let presentMode: PresentModeKHR
     let clipped: Bool
-    let oldSwapchain: VkSwapchainKHR
+    let oldSwapchain: SwapchainKHR?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
         try self.imageExtent.withCStruct { ptr_imageExtent in
@@ -2900,7 +2900,7 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
                 cStruct.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR
                 cStruct.pNext = nil
                 cStruct.flags = self.flags.rawValue
-                cStruct.surface = self.surface
+                cStruct.surface = self.surface.handle
                 cStruct.minImageCount = self.minImageCount
                 cStruct.imageFormat = VkFormat(rawValue: self.imageFormat.rawValue)
                 cStruct.imageColorSpace = VkColorSpaceKHR(rawValue: self.imageColorSpace.rawValue)
@@ -2914,7 +2914,7 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
                 cStruct.compositeAlpha = VkCompositeAlphaFlagBitsKHR(rawValue: self.compositeAlpha.rawValue)
                 cStruct.presentMode = VkPresentModeKHR(rawValue: self.presentMode.rawValue)
                 cStruct.clipped = VkBool32(self.clipped ? VK_TRUE : VK_FALSE)
-                cStruct.oldSwapchain = self.oldSwapchain
+                cStruct.oldSwapchain = self.oldSwapchain?.handle
                 return try body(&cStruct)
             }
         }
@@ -2924,14 +2924,14 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
 struct PresentInfoKHR: CStructConvertible {
     typealias CStruct = VkPresentInfoKHR
 
-    let pWaitSemaphores: Array<VkSemaphore?>
-    let pSwapchains: Array<VkSwapchainKHR?>
+    let pWaitSemaphores: Array<Semaphore>
+    let pSwapchains: Array<SwapchainKHR>
     let pImageIndices: Array<UInt32>
     let pResults: UnsafeMutablePointer<VkResult>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPresentInfoKHR>) throws -> R) rethrows -> R {
-        try self.pWaitSemaphores.withUnsafeBufferPointer { ptr_pWaitSemaphores in
-            try self.pSwapchains.withUnsafeBufferPointer { ptr_pSwapchains in
+        try self.pWaitSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_pWaitSemaphores in
+            try self.pSwapchains.map{ $0.handle }.withUnsafeBufferPointer { ptr_pSwapchains in
                 try self.pImageIndices.withUnsafeBufferPointer { ptr_pImageIndices in
                     var cStruct = VkPresentInfoKHR()
                     cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR
@@ -3111,15 +3111,15 @@ struct DedicatedAllocationBufferCreateInfoNV: CStructConvertible {
 struct DedicatedAllocationMemoryAllocateInfoNV: CStructConvertible {
     typealias CStruct = VkDedicatedAllocationMemoryAllocateInfoNV
 
-    let image: VkImage
-    let buffer: VkBuffer
+    let image: Image?
+    let buffer: Buffer?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDedicatedAllocationMemoryAllocateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationMemoryAllocateInfoNV()
         cStruct.sType = VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV
         cStruct.pNext = nil
-        cStruct.image = self.image
-        cStruct.buffer = self.buffer
+        cStruct.image = self.image?.handle
+        cStruct.buffer = self.buffer?.handle
         return try body(&cStruct)
     }
 }
@@ -3245,11 +3245,11 @@ struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
     typealias CStruct = VkGraphicsPipelineShaderGroupsCreateInfoNV
 
     let pGroups: Array<GraphicsShaderGroupCreateInfoNV>
-    let pPipelines: Array<VkPipeline?>
+    let pPipelines: Array<Pipeline>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineShaderGroupsCreateInfoNV>) throws -> R) rethrows -> R {
         try self.pGroups.withCStructBufferPointer { ptr_pGroups in
-            try self.pPipelines.withUnsafeBufferPointer { ptr_pPipelines in
+            try self.pPipelines.map{ $0.handle }.withUnsafeBufferPointer { ptr_pPipelines in
                 var cStruct = VkGraphicsPipelineShaderGroupsCreateInfoNV()
                 cStruct.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_SHADER_GROUPS_CREATE_INFO_NV
                 cStruct.pNext = nil
@@ -3322,12 +3322,12 @@ struct SetStateFlagsIndirectCommandNV: CStructConvertible {
 struct IndirectCommandsStreamNV: CStructConvertible {
     typealias CStruct = VkIndirectCommandsStreamNV
 
-    let buffer: VkBuffer
+    let buffer: Buffer
     let offset: VkDeviceSize
 
     func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsStreamNV>) throws -> R) rethrows -> R {
         var cStruct = VkIndirectCommandsStreamNV()
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         cStruct.offset = self.offset
         return try body(&cStruct)
     }
@@ -3341,7 +3341,7 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
     let offset: UInt32
     let vertexBindingUnit: UInt32
     let vertexDynamicStride: Bool
-    let pushconstantPipelineLayout: VkPipelineLayout
+    let pushconstantPipelineLayout: PipelineLayout?
     let pushconstantShaderStageFlags: ShaderStageFlags
     let pushconstantOffset: UInt32
     let pushconstantSize: UInt32
@@ -3360,7 +3360,7 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
                 cStruct.offset = self.offset
                 cStruct.vertexBindingUnit = self.vertexBindingUnit
                 cStruct.vertexDynamicStride = VkBool32(self.vertexDynamicStride ? VK_TRUE : VK_FALSE)
-                cStruct.pushconstantPipelineLayout = self.pushconstantPipelineLayout
+                cStruct.pushconstantPipelineLayout = self.pushconstantPipelineLayout?.handle
                 cStruct.pushconstantShaderStageFlags = self.pushconstantShaderStageFlags.rawValue
                 cStruct.pushconstantOffset = self.pushconstantOffset
                 cStruct.pushconstantSize = self.pushconstantSize
@@ -3404,16 +3404,16 @@ struct GeneratedCommandsInfoNV: CStructConvertible {
     typealias CStruct = VkGeneratedCommandsInfoNV
 
     let pipelineBindPoint: PipelineBindPoint
-    let pipeline: VkPipeline
-    let indirectCommandsLayout: VkIndirectCommandsLayoutNV
+    let pipeline: Pipeline
+    let indirectCommandsLayout: IndirectCommandsLayoutNV
     let pStreams: Array<IndirectCommandsStreamNV>
     let sequencesCount: UInt32
-    let preprocessBuffer: VkBuffer
+    let preprocessBuffer: Buffer
     let preprocessOffset: VkDeviceSize
     let preprocessSize: VkDeviceSize
-    let sequencesCountBuffer: VkBuffer
+    let sequencesCountBuffer: Buffer?
     let sequencesCountOffset: VkDeviceSize
-    let sequencesIndexBuffer: VkBuffer
+    let sequencesIndexBuffer: Buffer?
     let sequencesIndexOffset: VkDeviceSize
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeneratedCommandsInfoNV>) throws -> R) rethrows -> R {
@@ -3422,17 +3422,17 @@ struct GeneratedCommandsInfoNV: CStructConvertible {
             cStruct.sType = VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV
             cStruct.pNext = nil
             cStruct.pipelineBindPoint = VkPipelineBindPoint(rawValue: self.pipelineBindPoint.rawValue)
-            cStruct.pipeline = self.pipeline
-            cStruct.indirectCommandsLayout = self.indirectCommandsLayout
+            cStruct.pipeline = self.pipeline.handle
+            cStruct.indirectCommandsLayout = self.indirectCommandsLayout.handle
             cStruct.streamCount = UInt32(ptr_pStreams.count)
             cStruct.pStreams = ptr_pStreams.baseAddress
             cStruct.sequencesCount = self.sequencesCount
-            cStruct.preprocessBuffer = self.preprocessBuffer
+            cStruct.preprocessBuffer = self.preprocessBuffer.handle
             cStruct.preprocessOffset = self.preprocessOffset
             cStruct.preprocessSize = self.preprocessSize
-            cStruct.sequencesCountBuffer = self.sequencesCountBuffer
+            cStruct.sequencesCountBuffer = self.sequencesCountBuffer?.handle
             cStruct.sequencesCountOffset = self.sequencesCountOffset
-            cStruct.sequencesIndexBuffer = self.sequencesIndexBuffer
+            cStruct.sequencesIndexBuffer = self.sequencesIndexBuffer?.handle
             cStruct.sequencesIndexOffset = self.sequencesIndexOffset
             return try body(&cStruct)
         }
@@ -3443,8 +3443,8 @@ struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
     typealias CStruct = VkGeneratedCommandsMemoryRequirementsInfoNV
 
     let pipelineBindPoint: PipelineBindPoint
-    let pipeline: VkPipeline
-    let indirectCommandsLayout: VkIndirectCommandsLayoutNV
+    let pipeline: Pipeline
+    let indirectCommandsLayout: IndirectCommandsLayoutNV
     let maxSequencesCount: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeneratedCommandsMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
@@ -3452,8 +3452,8 @@ struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_GENERATED_COMMANDS_MEMORY_REQUIREMENTS_INFO_NV
         cStruct.pNext = nil
         cStruct.pipelineBindPoint = VkPipelineBindPoint(rawValue: self.pipelineBindPoint.rawValue)
-        cStruct.pipeline = self.pipeline
-        cStruct.indirectCommandsLayout = self.indirectCommandsLayout
+        cStruct.pipeline = self.pipeline.handle
+        cStruct.indirectCommandsLayout = self.indirectCommandsLayout.handle
         cStruct.maxSequencesCount = self.maxSequencesCount
         return try body(&cStruct)
     }
@@ -3914,14 +3914,14 @@ struct MemoryFdPropertiesKHR: CStructConvertible {
 struct MemoryGetFdInfoKHR: CStructConvertible {
     typealias CStruct = VkMemoryGetFdInfoKHR
 
-    let memory: VkDeviceMemory
+    let memory: DeviceMemory
     let handleType: ExternalMemoryHandleTypeFlags
 
     func withCStruct<R>(_ body: (UnsafePointer<VkMemoryGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryGetFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR
         cStruct.pNext = nil
-        cStruct.memory = self.memory
+        cStruct.memory = self.memory.handle
         cStruct.handleType = VkExternalMemoryHandleTypeFlagBits(rawValue: self.handleType.rawValue)
         return try body(&cStruct)
     }
@@ -3976,7 +3976,7 @@ struct ExportSemaphoreCreateInfo: CStructConvertible {
 struct ImportSemaphoreFdInfoKHR: CStructConvertible {
     typealias CStruct = VkImportSemaphoreFdInfoKHR
 
-    let semaphore: VkSemaphore
+    let semaphore: Semaphore
     let flags: SemaphoreImportFlags
     let handleType: ExternalSemaphoreHandleTypeFlags
     let fd: Int32
@@ -3985,7 +3985,7 @@ struct ImportSemaphoreFdInfoKHR: CStructConvertible {
         var cStruct = VkImportSemaphoreFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_FD_INFO_KHR
         cStruct.pNext = nil
-        cStruct.semaphore = self.semaphore
+        cStruct.semaphore = self.semaphore.handle
         cStruct.flags = self.flags.rawValue
         cStruct.handleType = VkExternalSemaphoreHandleTypeFlagBits(rawValue: self.handleType.rawValue)
         cStruct.fd = self.fd
@@ -3996,14 +3996,14 @@ struct ImportSemaphoreFdInfoKHR: CStructConvertible {
 struct SemaphoreGetFdInfoKHR: CStructConvertible {
     typealias CStruct = VkSemaphoreGetFdInfoKHR
 
-    let semaphore: VkSemaphore
+    let semaphore: Semaphore
     let handleType: ExternalSemaphoreHandleTypeFlags
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreGetFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_GET_FD_INFO_KHR
         cStruct.pNext = nil
-        cStruct.semaphore = self.semaphore
+        cStruct.semaphore = self.semaphore.handle
         cStruct.handleType = VkExternalSemaphoreHandleTypeFlagBits(rawValue: self.handleType.rawValue)
         return try body(&cStruct)
     }
@@ -4058,7 +4058,7 @@ struct ExportFenceCreateInfo: CStructConvertible {
 struct ImportFenceFdInfoKHR: CStructConvertible {
     typealias CStruct = VkImportFenceFdInfoKHR
 
-    let fence: VkFence
+    let fence: Fence
     let flags: FenceImportFlags
     let handleType: ExternalFenceHandleTypeFlags
     let fd: Int32
@@ -4067,7 +4067,7 @@ struct ImportFenceFdInfoKHR: CStructConvertible {
         var cStruct = VkImportFenceFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMPORT_FENCE_FD_INFO_KHR
         cStruct.pNext = nil
-        cStruct.fence = self.fence
+        cStruct.fence = self.fence.handle
         cStruct.flags = self.flags.rawValue
         cStruct.handleType = VkExternalFenceHandleTypeFlagBits(rawValue: self.handleType.rawValue)
         cStruct.fd = self.fd
@@ -4078,14 +4078,14 @@ struct ImportFenceFdInfoKHR: CStructConvertible {
 struct FenceGetFdInfoKHR: CStructConvertible {
     typealias CStruct = VkFenceGetFdInfoKHR
 
-    let fence: VkFence
+    let fence: Fence
     let handleType: ExternalFenceHandleTypeFlags
 
     func withCStruct<R>(_ body: (UnsafePointer<VkFenceGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkFenceGetFdInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR
         cStruct.pNext = nil
-        cStruct.fence = self.fence
+        cStruct.fence = self.fence.handle
         cStruct.handleType = VkExternalFenceHandleTypeFlagBits(rawValue: self.handleType.rawValue)
         return try body(&cStruct)
     }
@@ -4285,16 +4285,16 @@ struct MemoryAllocateFlagsInfo: CStructConvertible {
 struct BindBufferMemoryInfo: CStructConvertible {
     typealias CStruct = VkBindBufferMemoryInfo
 
-    let buffer: VkBuffer
-    let memory: VkDeviceMemory
+    let buffer: Buffer
+    let memory: DeviceMemory
     let memoryOffset: VkDeviceSize
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindBufferMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindBufferMemoryInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_INFO
         cStruct.pNext = nil
-        cStruct.buffer = self.buffer
-        cStruct.memory = self.memory
+        cStruct.buffer = self.buffer.handle
+        cStruct.memory = self.memory.handle
         cStruct.memoryOffset = self.memoryOffset
         return try body(&cStruct)
     }
@@ -4320,16 +4320,16 @@ struct BindBufferMemoryDeviceGroupInfo: CStructConvertible {
 struct BindImageMemoryInfo: CStructConvertible {
     typealias CStruct = VkBindImageMemoryInfo
 
-    let image: VkImage
-    let memory: VkDeviceMemory
+    let image: Image
+    let memory: DeviceMemory
     let memoryOffset: VkDeviceSize
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemoryInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO
         cStruct.pNext = nil
-        cStruct.image = self.image
-        cStruct.memory = self.memory
+        cStruct.image = self.image.handle
+        cStruct.memory = self.memory.handle
         cStruct.memoryOffset = self.memoryOffset
         return try body(&cStruct)
     }
@@ -4452,13 +4452,13 @@ struct DeviceGroupPresentCapabilitiesKHR: CStructConvertible {
 struct ImageSwapchainCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkImageSwapchainCreateInfoKHR
 
-    let swapchain: VkSwapchainKHR
+    let swapchain: SwapchainKHR?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImageSwapchainCreateInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR
         cStruct.pNext = nil
-        cStruct.swapchain = self.swapchain
+        cStruct.swapchain = self.swapchain?.handle
         return try body(&cStruct)
     }
 }
@@ -4466,14 +4466,14 @@ struct ImageSwapchainCreateInfoKHR: CStructConvertible {
 struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
     typealias CStruct = VkBindImageMemorySwapchainInfoKHR
 
-    let swapchain: VkSwapchainKHR
+    let swapchain: SwapchainKHR
     let imageIndex: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemorySwapchainInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemorySwapchainInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_SWAPCHAIN_INFO_KHR
         cStruct.pNext = nil
-        cStruct.swapchain = self.swapchain
+        cStruct.swapchain = self.swapchain.handle
         cStruct.imageIndex = self.imageIndex
         return try body(&cStruct)
     }
@@ -4482,20 +4482,20 @@ struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
 struct AcquireNextImageInfoKHR: CStructConvertible {
     typealias CStruct = VkAcquireNextImageInfoKHR
 
-    let swapchain: VkSwapchainKHR
+    let swapchain: SwapchainKHR
     let timeout: UInt64
-    let semaphore: VkSemaphore
-    let fence: VkFence
+    let semaphore: Semaphore?
+    let fence: Fence?
     let deviceMask: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkAcquireNextImageInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkAcquireNextImageInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR
         cStruct.pNext = nil
-        cStruct.swapchain = self.swapchain
+        cStruct.swapchain = self.swapchain.handle
         cStruct.timeout = self.timeout
-        cStruct.semaphore = self.semaphore
-        cStruct.fence = self.fence
+        cStruct.semaphore = self.semaphore?.handle
+        cStruct.fence = self.fence?.handle
         cStruct.deviceMask = self.deviceMask
         return try body(&cStruct)
     }
@@ -4523,10 +4523,10 @@ struct DeviceGroupPresentInfoKHR: CStructConvertible {
 struct DeviceGroupDeviceCreateInfo: CStructConvertible {
     typealias CStruct = VkDeviceGroupDeviceCreateInfo
 
-    let pPhysicalDevices: Array<VkPhysicalDevice?>
+    let pPhysicalDevices: Array<PhysicalDevice>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupDeviceCreateInfo>) throws -> R) rethrows -> R {
-        try self.pPhysicalDevices.withUnsafeBufferPointer { ptr_pPhysicalDevices in
+        try self.pPhysicalDevices.map{ $0.handle }.withUnsafeBufferPointer { ptr_pPhysicalDevices in
             var cStruct = VkDeviceGroupDeviceCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO
             cStruct.pNext = nil
@@ -4579,9 +4579,9 @@ struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
     let flags: DescriptorUpdateTemplateCreateFlags
     let pDescriptorUpdateEntries: Array<DescriptorUpdateTemplateEntry>
     let templateType: DescriptorUpdateTemplateType
-    let descriptorSetLayout: VkDescriptorSetLayout
+    let descriptorSetLayout: DescriptorSetLayout
     let pipelineBindPoint: PipelineBindPoint
-    let pipelineLayout: VkPipelineLayout
+    let pipelineLayout: PipelineLayout
     let set: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorUpdateTemplateCreateInfo>) throws -> R) rethrows -> R {
@@ -4593,9 +4593,9 @@ struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
             cStruct.descriptorUpdateEntryCount = UInt32(ptr_pDescriptorUpdateEntries.count)
             cStruct.pDescriptorUpdateEntries = ptr_pDescriptorUpdateEntries.baseAddress
             cStruct.templateType = VkDescriptorUpdateTemplateType(rawValue: self.templateType.rawValue)
-            cStruct.descriptorSetLayout = self.descriptorSetLayout
+            cStruct.descriptorSetLayout = self.descriptorSetLayout.handle
             cStruct.pipelineBindPoint = VkPipelineBindPoint(rawValue: self.pipelineBindPoint.rawValue)
-            cStruct.pipelineLayout = self.pipelineLayout
+            cStruct.pipelineLayout = self.pipelineLayout.handle
             cStruct.set = self.set
             return try body(&cStruct)
         }
@@ -4898,13 +4898,13 @@ struct RenderPassInputAttachmentAspectCreateInfo: CStructConvertible {
 struct PhysicalDeviceSurfaceInfo2KHR: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSurfaceInfo2KHR
 
-    let surface: VkSurfaceKHR
+    let surface: SurfaceKHR
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSurfaceInfo2KHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSurfaceInfo2KHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SURFACE_INFO_2_KHR
         cStruct.pNext = nil
-        cStruct.surface = self.surface
+        cStruct.surface = self.surface.handle
         return try body(&cStruct)
     }
 }
@@ -4992,14 +4992,14 @@ struct DisplayModeProperties2KHR: CStructConvertible {
 struct DisplayPlaneInfo2KHR: CStructConvertible {
     typealias CStruct = VkDisplayPlaneInfo2KHR
 
-    let mode: VkDisplayModeKHR
+    let mode: DisplayModeKHR
     let planeIndex: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneInfo2KHR>) throws -> R) rethrows -> R {
         var cStruct = VkDisplayPlaneInfo2KHR()
         cStruct.sType = VK_STRUCTURE_TYPE_DISPLAY_PLANE_INFO_2_KHR
         cStruct.pNext = nil
-        cStruct.mode = self.mode
+        cStruct.mode = self.mode.handle
         cStruct.planeIndex = self.planeIndex
         return try body(&cStruct)
     }
@@ -5092,13 +5092,13 @@ struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures: CStructConvertible {
 struct BufferMemoryRequirementsInfo2: CStructConvertible {
     typealias CStruct = VkBufferMemoryRequirementsInfo2
 
-    let buffer: VkBuffer
+    let buffer: Buffer
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBufferMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkBufferMemoryRequirementsInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_REQUIREMENTS_INFO_2
         cStruct.pNext = nil
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         return try body(&cStruct)
     }
 }
@@ -5106,13 +5106,13 @@ struct BufferMemoryRequirementsInfo2: CStructConvertible {
 struct ImageMemoryRequirementsInfo2: CStructConvertible {
     typealias CStruct = VkImageMemoryRequirementsInfo2
 
-    let image: VkImage
+    let image: Image
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkImageMemoryRequirementsInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_REQUIREMENTS_INFO_2
         cStruct.pNext = nil
-        cStruct.image = self.image
+        cStruct.image = self.image.handle
         return try body(&cStruct)
     }
 }
@@ -5120,13 +5120,13 @@ struct ImageMemoryRequirementsInfo2: CStructConvertible {
 struct ImageSparseMemoryRequirementsInfo2: CStructConvertible {
     typealias CStruct = VkImageSparseMemoryRequirementsInfo2
 
-    let image: VkImage
+    let image: Image
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageSparseMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkImageSparseMemoryRequirementsInfo2()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_SPARSE_MEMORY_REQUIREMENTS_INFO_2
         cStruct.pNext = nil
-        cStruct.image = self.image
+        cStruct.image = self.image.handle
         return try body(&cStruct)
     }
 }
@@ -5196,15 +5196,15 @@ struct MemoryDedicatedRequirements: CStructConvertible {
 struct MemoryDedicatedAllocateInfo: CStructConvertible {
     typealias CStruct = VkMemoryDedicatedAllocateInfo
 
-    let image: VkImage
-    let buffer: VkBuffer
+    let image: Image?
+    let buffer: Buffer?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkMemoryDedicatedAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryDedicatedAllocateInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_MEMORY_DEDICATED_ALLOCATE_INFO
         cStruct.pNext = nil
-        cStruct.image = self.image
-        cStruct.buffer = self.buffer
+        cStruct.image = self.image?.handle
+        cStruct.buffer = self.buffer?.handle
         return try body(&cStruct)
     }
 }
@@ -5240,13 +5240,13 @@ struct PipelineTessellationDomainOriginStateCreateInfo: CStructConvertible {
 struct SamplerYcbcrConversionInfo: CStructConvertible {
     typealias CStruct = VkSamplerYcbcrConversionInfo
 
-    let conversion: VkSamplerYcbcrConversion
+    let conversion: SamplerYcbcrConversion
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerYcbcrConversionInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_INFO
         cStruct.pNext = nil
-        cStruct.conversion = self.conversion
+        cStruct.conversion = self.conversion.handle
         return try body(&cStruct)
     }
 }
@@ -5354,7 +5354,7 @@ struct TextureLODGatherFormatPropertiesAMD: CStructConvertible {
 struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
     typealias CStruct = VkConditionalRenderingBeginInfoEXT
 
-    let buffer: VkBuffer
+    let buffer: Buffer
     let offset: VkDeviceSize
     let flags: ConditionalRenderingFlagsEXT
 
@@ -5362,7 +5362,7 @@ struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
         var cStruct = VkConditionalRenderingBeginInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT
         cStruct.pNext = nil
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         cStruct.offset = self.offset
         cStruct.flags = self.flags.rawValue
         return try body(&cStruct)
@@ -5811,13 +5811,13 @@ struct ValidationCacheCreateInfoEXT: CStructConvertible {
 struct ShaderModuleValidationCacheCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkShaderModuleValidationCacheCreateInfoEXT
 
-    let validationCache: VkValidationCacheEXT
+    let validationCache: ValidationCacheEXT
 
     func withCStruct<R>(_ body: (UnsafePointer<VkShaderModuleValidationCacheCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkShaderModuleValidationCacheCreateInfoEXT()
         cStruct.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT
         cStruct.pNext = nil
-        cStruct.validationCache = self.validationCache
+        cStruct.validationCache = self.validationCache.handle
         return try body(&cStruct)
     }
 }
@@ -6690,11 +6690,11 @@ struct SemaphoreWaitInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreWaitInfo
 
     let flags: SemaphoreWaitFlags
-    let pSemaphores: Array<VkSemaphore?>
+    let pSemaphores: Array<Semaphore>
     let pValues: Array<UInt64>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreWaitInfo>) throws -> R) rethrows -> R {
-        try self.pSemaphores.withUnsafeBufferPointer { ptr_pSemaphores in
+        try self.pSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_pSemaphores in
             try self.pValues.withUnsafeBufferPointer { ptr_pValues in
                 var cStruct = VkSemaphoreWaitInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_WAIT_INFO
@@ -6712,14 +6712,14 @@ struct SemaphoreWaitInfo: CStructConvertible {
 struct SemaphoreSignalInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreSignalInfo
 
-    let semaphore: VkSemaphore
+    let semaphore: Semaphore
     let value: UInt64
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreSignalInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreSignalInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO
         cStruct.pNext = nil
-        cStruct.semaphore = self.semaphore
+        cStruct.semaphore = self.semaphore.handle
         cStruct.value = self.value
         return try body(&cStruct)
     }
@@ -7402,8 +7402,8 @@ struct RayTracingPipelineCreateInfoNV: CStructConvertible {
     let pStages: Array<PipelineShaderStageCreateInfo>
     let pGroups: Array<RayTracingShaderGroupCreateInfoNV>
     let maxRecursionDepth: UInt32
-    let layout: VkPipelineLayout
-    let basePipelineHandle: VkPipeline
+    let layout: PipelineLayout
+    let basePipelineHandle: Pipeline?
     let basePipelineIndex: Int32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkRayTracingPipelineCreateInfoNV>) throws -> R) rethrows -> R {
@@ -7418,8 +7418,8 @@ struct RayTracingPipelineCreateInfoNV: CStructConvertible {
                 cStruct.groupCount = UInt32(ptr_pGroups.count)
                 cStruct.pGroups = ptr_pGroups.baseAddress
                 cStruct.maxRecursionDepth = self.maxRecursionDepth
-                cStruct.layout = self.layout
-                cStruct.basePipelineHandle = self.basePipelineHandle
+                cStruct.layout = self.layout.handle
+                cStruct.basePipelineHandle = self.basePipelineHandle?.handle
                 cStruct.basePipelineIndex = self.basePipelineIndex
                 return try body(&cStruct)
             }
@@ -7430,32 +7430,32 @@ struct RayTracingPipelineCreateInfoNV: CStructConvertible {
 struct GeometryTrianglesNV: CStructConvertible {
     typealias CStruct = VkGeometryTrianglesNV
 
-    let vertexData: VkBuffer
+    let vertexData: Buffer?
     let vertexOffset: VkDeviceSize
     let vertexCount: UInt32
     let vertexStride: VkDeviceSize
     let vertexFormat: Format
-    let indexData: VkBuffer
+    let indexData: Buffer?
     let indexOffset: VkDeviceSize
     let indexCount: UInt32
     let indexType: IndexType
-    let transformData: VkBuffer
+    let transformData: Buffer?
     let transformOffset: VkDeviceSize
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeometryTrianglesNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeometryTrianglesNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GEOMETRY_TRIANGLES_NV
         cStruct.pNext = nil
-        cStruct.vertexData = self.vertexData
+        cStruct.vertexData = self.vertexData?.handle
         cStruct.vertexOffset = self.vertexOffset
         cStruct.vertexCount = self.vertexCount
         cStruct.vertexStride = self.vertexStride
         cStruct.vertexFormat = VkFormat(rawValue: self.vertexFormat.rawValue)
-        cStruct.indexData = self.indexData
+        cStruct.indexData = self.indexData?.handle
         cStruct.indexOffset = self.indexOffset
         cStruct.indexCount = self.indexCount
         cStruct.indexType = VkIndexType(rawValue: self.indexType.rawValue)
-        cStruct.transformData = self.transformData
+        cStruct.transformData = self.transformData?.handle
         cStruct.transformOffset = self.transformOffset
         return try body(&cStruct)
     }
@@ -7464,7 +7464,7 @@ struct GeometryTrianglesNV: CStructConvertible {
 struct GeometryAABBNV: CStructConvertible {
     typealias CStruct = VkGeometryAABBNV
 
-    let aabbData: VkBuffer
+    let aabbData: Buffer?
     let numAABBs: UInt32
     let stride: UInt32
     let offset: VkDeviceSize
@@ -7473,7 +7473,7 @@ struct GeometryAABBNV: CStructConvertible {
         var cStruct = VkGeometryAABBNV()
         cStruct.sType = VK_STRUCTURE_TYPE_GEOMETRY_AABB_NV
         cStruct.pNext = nil
-        cStruct.aabbData = self.aabbData
+        cStruct.aabbData = self.aabbData?.handle
         cStruct.numAABBs = self.numAABBs
         cStruct.stride = self.stride
         cStruct.offset = self.offset
@@ -7946,13 +7946,13 @@ struct PhysicalDeviceBufferDeviceAddressFeaturesEXT: CStructConvertible {
 struct BufferDeviceAddressInfo: CStructConvertible {
     typealias CStruct = VkBufferDeviceAddressInfo
 
-    let buffer: VkBuffer
+    let buffer: Buffer
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBufferDeviceAddressInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferDeviceAddressInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO
         cStruct.pNext = nil
-        cStruct.buffer = self.buffer
+        cStruct.buffer = self.buffer.handle
         return try body(&cStruct)
     }
 }
@@ -8076,10 +8076,10 @@ struct FramebufferAttachmentImageInfo: CStructConvertible {
 struct RenderPassAttachmentBeginInfo: CStructConvertible {
     typealias CStruct = VkRenderPassAttachmentBeginInfo
 
-    let pAttachments: Array<VkImageView?>
+    let pAttachments: Array<ImageView>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassAttachmentBeginInfo>) throws -> R) rethrows -> R {
-        try self.pAttachments.withUnsafeBufferPointer { ptr_pAttachments in
+        try self.pAttachments.map{ $0.handle }.withUnsafeBufferPointer { ptr_pAttachments in
             var cStruct = VkRenderPassAttachmentBeginInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_RENDER_PASS_ATTACHMENT_BEGIN_INFO
             cStruct.pNext = nil
@@ -8179,17 +8179,17 @@ struct PhysicalDeviceYcbcrImageArraysFeaturesEXT: CStructConvertible {
 struct ImageViewHandleInfoNVX: CStructConvertible {
     typealias CStruct = VkImageViewHandleInfoNVX
 
-    let imageView: VkImageView
+    let imageView: ImageView
     let descriptorType: DescriptorType
-    let sampler: VkSampler
+    let sampler: Sampler?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageViewHandleInfoNVX>) throws -> R) rethrows -> R {
         var cStruct = VkImageViewHandleInfoNVX()
         cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX
         cStruct.pNext = nil
-        cStruct.imageView = self.imageView
+        cStruct.imageView = self.imageView.handle
         cStruct.descriptorType = VkDescriptorType(rawValue: self.descriptorType.rawValue)
-        cStruct.sampler = self.sampler
+        cStruct.sampler = self.sampler?.handle
         return try body(&cStruct)
     }
 }
@@ -8664,13 +8664,13 @@ struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR: CStructConvertible
 struct PipelineInfoKHR: CStructConvertible {
     typealias CStruct = VkPipelineInfoKHR
 
-    let pipeline: VkPipeline
+    let pipeline: Pipeline
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR
         cStruct.pNext = nil
-        cStruct.pipeline = self.pipeline
+        cStruct.pipeline = self.pipeline.handle
         return try body(&cStruct)
     }
 }
@@ -8698,14 +8698,14 @@ struct PipelineExecutablePropertiesKHR: CStructConvertible {
 struct PipelineExecutableInfoKHR: CStructConvertible {
     typealias CStruct = VkPipelineExecutableInfoKHR
 
-    let pipeline: VkPipeline
+    let pipeline: Pipeline
     let executableIndex: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineExecutableInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineExecutableInfoKHR()
         cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR
         cStruct.pNext = nil
-        cStruct.pipeline = self.pipeline
+        cStruct.pipeline = self.pipeline.handle
         cStruct.executableIndex = self.executableIndex
         return try body(&cStruct)
     }
@@ -8868,13 +8868,13 @@ struct MemoryOpaqueCaptureAddressAllocateInfo: CStructConvertible {
 struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
     typealias CStruct = VkDeviceMemoryOpaqueCaptureAddressInfo
 
-    let memory: VkDeviceMemory
+    let memory: DeviceMemory
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDeviceMemoryOpaqueCaptureAddressInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceMemoryOpaqueCaptureAddressInfo()
         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_MEMORY_OPAQUE_CAPTURE_ADDRESS_INFO
         cStruct.pNext = nil
-        cStruct.memory = self.memory
+        cStruct.memory = self.memory.handle
         return try body(&cStruct)
     }
 }
