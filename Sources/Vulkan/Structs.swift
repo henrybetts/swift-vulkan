@@ -229,15 +229,15 @@ struct LayerProperties: CStructConvertible {
 struct ApplicationInfo: CStructConvertible {
     typealias CStruct = VkApplicationInfo
 
-    let pApplicationName: String
+    let pApplicationName: String?
     let applicationVersion: UInt32
-    let pEngineName: String
+    let pEngineName: String?
     let engineVersion: UInt32
     let apiVersion: UInt32
 
     func withCStruct<R>(_ body: (UnsafePointer<VkApplicationInfo>) throws -> R) rethrows -> R {
-        try self.pApplicationName.withCString { cString_pApplicationName in
-            try self.pEngineName.withCString { cString_pEngineName in
+        try self.pApplicationName.withOptionalCString { cString_pApplicationName in
+            try self.pEngineName.withOptionalCString { cString_pEngineName in
                 var cStruct = VkApplicationInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO
                 cStruct.pNext = nil
@@ -6088,7 +6088,7 @@ struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsMessengerCallbackDataEXT
 
     let flags: DebugUtilsMessengerCallbackDataFlagsEXT
-    let pMessageIdName: String
+    let pMessageIdName: String?
     let messageIdNumber: Int32
     let pMessage: String
     let pQueueLabels: Array<DebugUtilsLabelEXT>
@@ -6096,7 +6096,7 @@ struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     let pObjects: Array<DebugUtilsObjectNameInfoEXT>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDebugUtilsMessengerCallbackDataEXT>) throws -> R) rethrows -> R {
-        try self.pMessageIdName.withCString { cString_pMessageIdName in
+        try self.pMessageIdName.withOptionalCString { cString_pMessageIdName in
             try self.pMessage.withCString { cString_pMessage in
                 try self.pQueueLabels.withCStructBufferPointer { ptr_pQueueLabels in
                     try self.pCmdBufLabels.withCStructBufferPointer { ptr_pCmdBufLabels in

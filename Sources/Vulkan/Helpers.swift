@@ -10,6 +10,13 @@ extension Optional where Wrapped: CStructConvertible {
     }
 }
 
+extension Optional where Wrapped == String {
+    func withOptionalCString<R>(_ body: (UnsafePointer<CChar>?) throws -> R) rethrows -> R {
+        guard let s = self else { return try body(nil) }
+        return try s.withCString(body)
+    }
+}
+
 extension String {
     init<T>(unsafeBytesOf value: T) {
         self = withUnsafeBytes(of: value) { ptr in

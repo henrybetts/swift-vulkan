@@ -107,6 +107,12 @@ string_conversion = Conversion(
     c_value_template='cString_$name'
 )
 
+optional_string_conversion = Conversion(
+    swift_value_template='($value != nil) ? String(cString: $value) : nil',
+    c_closure_template=('$value.withOptionalCString { cString_$name in', '}'),
+    c_value_template='cString_$name'
+)
+
 
 char_array_conversion = Conversion(
     swift_value_template='String(unsafeBytesOf: $value)',
