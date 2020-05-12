@@ -156,3 +156,14 @@ def string_array_conversion(length: str) -> ArrayConversion:
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
     )
+
+
+def struct_array_conversion(swift_struct: str, length: str) -> ArrayConversion:
+    return ArrayConversion(
+        length=length,
+        swift_value_template='UnsafeBufferPointer(start: $value, count: Int($length))'
+                             f'.map{{ {swift_struct}(cStruct: $$0) }}',
+        c_closure_template=('$value.withCStructBufferPointer { ptr_$name in', '}'),
+        c_value_template='ptr_$name.baseAddress',
+        c_length_template='UInt32(ptr_$name.count)'
+    )

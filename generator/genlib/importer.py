@@ -226,14 +226,21 @@ class Importer:
             if not implicit_only and c_type.pointer_to.const:
                 if c_type.pointer_to.name == 'char' and c_type.length == 'null-terminated':
                     return 'String', tc.string_conversion
+
                 if is_array_convertible(c_type, members):
                     if (c_type.pointer_to.pointer_to and c_type.pointer_to.pointer_to.name == 'char'
                             and c_type.pointer_to.length == 'null-terminated' and c_type.pointer_to.pointer_to.const):
                         return 'Array<String>', tc.string_array_conversion(c_type.length)
+
+                    if c_type.pointer_to.name and c_type.pointer_to.name in self.imported_structs:
+                        swift_struct = self.imported_structs[c_type.pointer_to.name]
+                        return f'Array<{swift_struct}>', tc.struct_array_conversion(swift_struct, c_type.length)
+                    
                     element_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
                     if self.is_pointer_type(c_type.pointer_to):
                         element_type += '?'
                     return f'Array<{element_type}>', tc.array_conversion(c_type.length)
+
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.pointer_to.name]
                     if c_type.optional:
