@@ -184,3 +184,16 @@ def optional_struct_array_conversion(swift_struct: str, length: str) -> ArrayCon
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
     )
+
+
+def array_mapped_conversion(element_conversion: Conversion, length: str) -> ArrayConversion:
+    assert not element_conversion.requires_closure
+    swift_element = element_conversion.get_swift_value_generator('element')({'element': '$$0'})
+    c_element = element_conversion.get_c_value_generator('element')({'element': '$$0'})
+    return ArrayConversion(
+        length=length,
+        swift_value_template=f'UnsafeBufferPointer(start: $value, count: Int($count)).map{{ {swift_element} }}',
+        c_closure_template=(f'$value.map{{ {c_element} }}.withUnsafeBufferPointer {{ ptr_$name in', '}'),
+        c_value_template='ptr_$name.baseAddress',
+        c_length_template='UInt32(ptr_$name.count)'
+    )

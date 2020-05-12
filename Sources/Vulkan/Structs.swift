@@ -1593,10 +1593,10 @@ struct PipelineDynamicStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineDynamicStateCreateInfo
 
     let flags: PipelineDynamicStateCreateFlags
-    let pDynamicStates: Array<VkDynamicState>
+    let pDynamicStates: Array<DynamicState>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineDynamicStateCreateInfo>) throws -> R) rethrows -> R {
-        try self.pDynamicStates.withUnsafeBufferPointer { ptr_pDynamicStates in
+        try self.pDynamicStates.map{ VkDynamicState(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pDynamicStates in
             var cStruct = VkPipelineDynamicStateCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO
             cStruct.pNext = nil
@@ -2607,13 +2607,13 @@ struct SubmitInfo: CStructConvertible {
     typealias CStruct = VkSubmitInfo
 
     let pWaitSemaphores: Array<VkSemaphore?>
-    let pWaitDstStageMask: Array<VkPipelineStageFlags>
+    let pWaitDstStageMask: Array<PipelineStageFlags>
     let pCommandBuffers: Array<VkCommandBuffer?>
     let pSignalSemaphores: Array<VkSemaphore?>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubmitInfo>) throws -> R) rethrows -> R {
         try self.pWaitSemaphores.withUnsafeBufferPointer { ptr_pWaitSemaphores in
-            try self.pWaitDstStageMask.withUnsafeBufferPointer { ptr_pWaitDstStageMask in
+            try self.pWaitDstStageMask.map{ $0.rawValue }.withUnsafeBufferPointer { ptr_pWaitDstStageMask in
                 try self.pCommandBuffers.withUnsafeBufferPointer { ptr_pCommandBuffers in
                     try self.pSignalSemaphores.withUnsafeBufferPointer { ptr_pSignalSemaphores in
                         var cStruct = VkSubmitInfo()
@@ -2970,10 +2970,10 @@ struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
 struct ValidationFlagsEXT: CStructConvertible {
     typealias CStruct = VkValidationFlagsEXT
 
-    let pDisabledValidationChecks: Array<VkValidationCheckEXT>
+    let pDisabledValidationChecks: Array<ValidationCheckEXT>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkValidationFlagsEXT>) throws -> R) rethrows -> R {
-        try self.pDisabledValidationChecks.withUnsafeBufferPointer { ptr_pDisabledValidationChecks in
+        try self.pDisabledValidationChecks.map{ VkValidationCheckEXT(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pDisabledValidationChecks in
             var cStruct = VkValidationFlagsEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT
             cStruct.pNext = nil
@@ -2987,12 +2987,12 @@ struct ValidationFlagsEXT: CStructConvertible {
 struct ValidationFeaturesEXT: CStructConvertible {
     typealias CStruct = VkValidationFeaturesEXT
 
-    let pEnabledValidationFeatures: Array<VkValidationFeatureEnableEXT>
-    let pDisabledValidationFeatures: Array<VkValidationFeatureDisableEXT>
+    let pEnabledValidationFeatures: Array<ValidationFeatureEnableEXT>
+    let pDisabledValidationFeatures: Array<ValidationFeatureDisableEXT>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkValidationFeaturesEXT>) throws -> R) rethrows -> R {
-        try self.pEnabledValidationFeatures.withUnsafeBufferPointer { ptr_pEnabledValidationFeatures in
-            try self.pDisabledValidationFeatures.withUnsafeBufferPointer { ptr_pDisabledValidationFeatures in
+        try self.pEnabledValidationFeatures.map{ VkValidationFeatureEnableEXT(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pEnabledValidationFeatures in
+            try self.pDisabledValidationFeatures.map{ VkValidationFeatureDisableEXT(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pDisabledValidationFeatures in
                 var cStruct = VkValidationFeaturesEXT()
                 cStruct.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT
                 cStruct.pNext = nil
@@ -3346,11 +3346,11 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
     let pushconstantOffset: UInt32
     let pushconstantSize: UInt32
     let indirectStateFlags: IndirectStateFlagsNV
-    let pIndexTypes: Array<VkIndexType>
+    let pIndexTypes: Array<IndexType>
     let pIndexTypeValues: Array<UInt32>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutTokenNV>) throws -> R) rethrows -> R {
-        try self.pIndexTypes.withUnsafeBufferPointer { ptr_pIndexTypes in
+        try self.pIndexTypes.map{ VkIndexType(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pIndexTypes in
             try self.pIndexTypeValues.withUnsafeBufferPointer { ptr_pIndexTypeValues in
                 var cStruct = VkIndirectCommandsLayoutTokenNV()
                 cStruct.sType = VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_TOKEN_NV
@@ -5776,10 +5776,10 @@ struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
 struct ImageFormatListCreateInfo: CStructConvertible {
     typealias CStruct = VkImageFormatListCreateInfo
 
-    let pViewFormats: Array<VkFormat>
+    let pViewFormats: Array<Format>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageFormatListCreateInfo>) throws -> R) rethrows -> R {
-        try self.pViewFormats.withUnsafeBufferPointer { ptr_pViewFormats in
+        try self.pViewFormats.map{ VkFormat(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pViewFormats in
             var cStruct = VkImageFormatListCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO
             cStruct.pNext = nil
@@ -7184,10 +7184,10 @@ struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: CStructConverti
 struct ShadingRatePaletteNV: CStructConvertible {
     typealias CStruct = VkShadingRatePaletteNV
 
-    let pShadingRatePaletteEntries: Array<VkShadingRatePaletteEntryNV>
+    let pShadingRatePaletteEntries: Array<ShadingRatePaletteEntryNV>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkShadingRatePaletteNV>) throws -> R) rethrows -> R {
-        try self.pShadingRatePaletteEntries.withUnsafeBufferPointer { ptr_pShadingRatePaletteEntries in
+        try self.pShadingRatePaletteEntries.map{ VkShadingRatePaletteEntryNV(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pShadingRatePaletteEntries in
             var cStruct = VkShadingRatePaletteNV()
             cStruct.shadingRatePaletteEntryCount = UInt32(ptr_pShadingRatePaletteEntries.count)
             cStruct.pShadingRatePaletteEntries = ptr_pShadingRatePaletteEntries.baseAddress
@@ -8054,10 +8054,10 @@ struct FramebufferAttachmentImageInfo: CStructConvertible {
     let width: UInt32
     let height: UInt32
     let layerCount: UInt32
-    let pViewFormats: Array<VkFormat>
+    let pViewFormats: Array<Format>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferAttachmentImageInfo>) throws -> R) rethrows -> R {
-        try self.pViewFormats.withUnsafeBufferPointer { ptr_pViewFormats in
+        try self.pViewFormats.map{ VkFormat(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_pViewFormats in
             var cStruct = VkFramebufferAttachmentImageInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENT_IMAGE_INFO
             cStruct.pNext = nil
