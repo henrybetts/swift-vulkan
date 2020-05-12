@@ -75,7 +75,7 @@ class Generator(BaseGenerator):
 
     def generate_class(self, cls: SwiftClass):
         with self.indent(f'struct {cls.name} {{', '}'):
-            pass
+            self << f'let handle: {cls.c_handle.name}'
         self.linebreak()
 
     @contextmanager
