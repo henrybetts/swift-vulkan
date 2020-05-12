@@ -79,3 +79,10 @@ extension Array where Element: CStructConvertible {
         return try _withCStructBufferPointer(to: &cStructs, appending: &iterator, body)
     }
 }
+
+extension Optional {
+    func withOptionalCStructBufferPointer<T: CStructConvertible, R>(_ body: (UnsafeBufferPointer<T.CStruct>) throws -> R) rethrows -> R where Wrapped == Array<T>{
+        guard let array = self else { return try body(UnsafeBufferPointer(start: nil, count: 0)) }
+        return try array.withCStructBufferPointer(body)
+    }
+}

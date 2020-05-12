@@ -1458,12 +1458,12 @@ struct PipelineViewportStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineViewportStateCreateInfo
 
     let flags: PipelineViewportStateCreateFlags
-    let pViewports: Array<Viewport>
-    let pScissors: Array<Rect2D>
+    let pViewports: Array<Viewport>?
+    let pScissors: Array<Rect2D>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportStateCreateInfo>) throws -> R) rethrows -> R {
-        try self.pViewports.withCStructBufferPointer { ptr_pViewports in
-            try self.pScissors.withCStructBufferPointer { ptr_pScissors in
+        try self.pViewports.withOptionalCStructBufferPointer { ptr_pViewports in
+            try self.pScissors.withOptionalCStructBufferPointer { ptr_pScissors in
                 var cStruct = VkPipelineViewportStateCreateInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO
                 cStruct.pNext = nil
@@ -2015,14 +2015,14 @@ struct SubpassDescription: CStructConvertible {
     let pipelineBindPoint: PipelineBindPoint
     let pInputAttachments: Array<AttachmentReference>
     let pColorAttachments: Array<AttachmentReference>
-    let pResolveAttachments: Array<AttachmentReference>
+    let pResolveAttachments: Array<AttachmentReference>?
     let pDepthStencilAttachment: AttachmentReference?
     let pPreserveAttachments: Array<UInt32>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescription>) throws -> R) rethrows -> R {
         try self.pInputAttachments.withCStructBufferPointer { ptr_pInputAttachments in
             try self.pColorAttachments.withCStructBufferPointer { ptr_pColorAttachments in
-                try self.pResolveAttachments.withCStructBufferPointer { ptr_pResolveAttachments in
+                try self.pResolveAttachments.withOptionalCStructBufferPointer { ptr_pResolveAttachments in
                     try self.pDepthStencilAttachment.withOptionalCStruct { ptr_pDepthStencilAttachment in
                         try self.pPreserveAttachments.withUnsafeBufferPointer { ptr_pPreserveAttachments in
                             var cStruct = VkSubpassDescription()
@@ -3672,10 +3672,10 @@ struct PhysicalDeviceDriverProperties: CStructConvertible {
 struct PresentRegionsKHR: CStructConvertible {
     typealias CStruct = VkPresentRegionsKHR
 
-    let pRegions: Array<PresentRegionKHR>
+    let pRegions: Array<PresentRegionKHR>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionsKHR>) throws -> R) rethrows -> R {
-        try self.pRegions.withCStructBufferPointer { ptr_pRegions in
+        try self.pRegions.withOptionalCStructBufferPointer { ptr_pRegions in
             var cStruct = VkPresentRegionsKHR()
             cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR
             cStruct.pNext = nil
@@ -3689,10 +3689,10 @@ struct PresentRegionsKHR: CStructConvertible {
 struct PresentRegionKHR: CStructConvertible {
     typealias CStruct = VkPresentRegionKHR
 
-    let pRectangles: Array<RectLayerKHR>
+    let pRectangles: Array<RectLayerKHR>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionKHR>) throws -> R) rethrows -> R {
-        try self.pRectangles.withCStructBufferPointer { ptr_pRectangles in
+        try self.pRectangles.withOptionalCStructBufferPointer { ptr_pRectangles in
             var cStruct = VkPresentRegionKHR()
             cStruct.rectangleCount = UInt32(ptr_pRectangles.count)
             cStruct.pRectangles = ptr_pRectangles.baseAddress
@@ -4715,10 +4715,10 @@ struct PastPresentationTimingGOOGLE: CStructConvertible {
 struct PresentTimesInfoGOOGLE: CStructConvertible {
     typealias CStruct = VkPresentTimesInfoGOOGLE
 
-    let pTimes: Array<PresentTimeGOOGLE>
+    let pTimes: Array<PresentTimeGOOGLE>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPresentTimesInfoGOOGLE>) throws -> R) rethrows -> R {
-        try self.pTimes.withCStructBufferPointer { ptr_pTimes in
+        try self.pTimes.withOptionalCStructBufferPointer { ptr_pTimes in
             var cStruct = VkPresentTimesInfoGOOGLE()
             cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE
             cStruct.pNext = nil
@@ -4761,10 +4761,10 @@ struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportWScalingStateCreateInfoNV
 
     let viewportWScalingEnable: Bool
-    let pViewportWScalings: Array<ViewportWScalingNV>
+    let pViewportWScalings: Array<ViewportWScalingNV>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportWScalingStateCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.pViewportWScalings.withCStructBufferPointer { ptr_pViewportWScalings in
+        try self.pViewportWScalings.withOptionalCStructBufferPointer { ptr_pViewportWScalings in
             var cStruct = VkPipelineViewportWScalingStateCreateInfoNV()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV
             cStruct.pNext = nil
@@ -4832,10 +4832,10 @@ struct PipelineDiscardRectangleStateCreateInfoEXT: CStructConvertible {
 
     let flags: PipelineDiscardRectangleStateCreateFlagsEXT
     let discardRectangleMode: DiscardRectangleModeEXT
-    let pDiscardRectangles: Array<Rect2D>
+    let pDiscardRectangles: Array<Rect2D>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineDiscardRectangleStateCreateInfoEXT>) throws -> R) rethrows -> R {
-        try self.pDiscardRectangles.withCStructBufferPointer { ptr_pDiscardRectangles in
+        try self.pDiscardRectangles.withOptionalCStructBufferPointer { ptr_pDiscardRectangles in
             var cStruct = VkPipelineDiscardRectangleStateCreateInfoEXT()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_DISCARD_RECTANGLE_STATE_CREATE_INFO_EXT
             cStruct.pNext = nil
@@ -6499,14 +6499,14 @@ struct SubpassDescription2: CStructConvertible {
     let viewMask: UInt32
     let pInputAttachments: Array<AttachmentReference2>
     let pColorAttachments: Array<AttachmentReference2>
-    let pResolveAttachments: Array<AttachmentReference2>
+    let pResolveAttachments: Array<AttachmentReference2>?
     let pDepthStencilAttachment: AttachmentReference2?
     let pPreserveAttachments: Array<UInt32>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubpassDescription2>) throws -> R) rethrows -> R {
         try self.pInputAttachments.withCStructBufferPointer { ptr_pInputAttachments in
             try self.pColorAttachments.withCStructBufferPointer { ptr_pColorAttachments in
-                try self.pResolveAttachments.withCStructBufferPointer { ptr_pResolveAttachments in
+                try self.pResolveAttachments.withOptionalCStructBufferPointer { ptr_pResolveAttachments in
                     try self.pDepthStencilAttachment.withOptionalCStruct { ptr_pDepthStencilAttachment in
                         try self.pPreserveAttachments.withUnsafeBufferPointer { ptr_pPreserveAttachments in
                             var cStruct = VkSubpassDescription2()
@@ -7095,10 +7095,10 @@ struct PhysicalDeviceExclusiveScissorFeaturesNV: CStructConvertible {
 struct PipelineViewportExclusiveScissorStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportExclusiveScissorStateCreateInfoNV
 
-    let pExclusiveScissors: Array<Rect2D>
+    let pExclusiveScissors: Array<Rect2D>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportExclusiveScissorStateCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.pExclusiveScissors.withCStructBufferPointer { ptr_pExclusiveScissors in
+        try self.pExclusiveScissors.withOptionalCStructBufferPointer { ptr_pExclusiveScissors in
             var cStruct = VkPipelineViewportExclusiveScissorStateCreateInfoNV()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_EXCLUSIVE_SCISSOR_STATE_CREATE_INFO_NV
             cStruct.pNext = nil
@@ -7200,10 +7200,10 @@ struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportShadingRateImageStateCreateInfoNV
 
     let shadingRateImageEnable: Bool
-    let pShadingRatePalettes: Array<ShadingRatePaletteNV>
+    let pShadingRatePalettes: Array<ShadingRatePaletteNV>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineViewportShadingRateImageStateCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.pShadingRatePalettes.withCStructBufferPointer { ptr_pShadingRatePalettes in
+        try self.pShadingRatePalettes.withOptionalCStructBufferPointer { ptr_pShadingRatePalettes in
             var cStruct = VkPipelineViewportShadingRateImageStateCreateInfoNV()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV
             cStruct.pNext = nil
