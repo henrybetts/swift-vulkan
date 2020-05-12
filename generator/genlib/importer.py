@@ -243,16 +243,23 @@ class Importer:
                             return f'Array<{swift_struct}>', \
                                    tc.struct_array_conversion(swift_struct, c_type.length)
 
-                    if c_type.pointer_to.name and not c_type.optional:
+                    if c_type.pointer_to.name:
                         element_type, element_conversion = self.get_type_conversion(c_type.pointer_to)
                         if element_conversion != tc.implicit_conversion:
-                            return f'Array<{element_type}>', \
-                                   tc.array_mapped_conversion(element_conversion, c_type.length)
+                            if c_type.optional:
+                                return f'Array<{element_type}>?', \
+                                       tc.optional_array_mapped_conversion(element_conversion, c_type.length)
+                            else:
+                                return f'Array<{element_type}>', \
+                                       tc.array_mapped_conversion(element_conversion, c_type.length)
 
                     element_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
                     if self.is_pointer_type(c_type.pointer_to):
                         element_type += '?'
-                    return f'Array<{element_type}>', tc.array_conversion(c_type.length)
+                    if c_type.optional:
+                        return f'Array<{element_type}>?', tc.optional_array_conversion(c_type.length)
+                    else:
+                        return f'Array<{element_type}>', tc.array_conversion(c_type.length)
 
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.pointer_to.name]

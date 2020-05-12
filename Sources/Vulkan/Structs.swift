@@ -1189,10 +1189,10 @@ struct DescriptorSetLayoutBinding: CStructConvertible {
     let binding: UInt32
     let descriptorType: DescriptorType
     let stageFlags: ShaderStageFlags
-    let pImmutableSamplers: Array<VkSampler?>
+    let pImmutableSamplers: Array<VkSampler?>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBinding>) throws -> R) rethrows -> R {
-        try self.pImmutableSamplers.withUnsafeBufferPointer { ptr_pImmutableSamplers in
+        try self.pImmutableSamplers.withOptionalUnsafeBufferPointer { ptr_pImmutableSamplers in
             var cStruct = VkDescriptorSetLayoutBinding()
             cStruct.binding = self.binding
             cStruct.descriptorType = VkDescriptorType(rawValue: self.descriptorType.rawValue)
@@ -5756,10 +5756,10 @@ struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
     let flags: PipelineCoverageModulationStateCreateFlagsNV
     let coverageModulationMode: CoverageModulationModeNV
     let coverageModulationTableEnable: Bool
-    let pCoverageModulationTable: Array<Float>
+    let pCoverageModulationTable: Array<Float>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineCoverageModulationStateCreateInfoNV>) throws -> R) rethrows -> R {
-        try self.pCoverageModulationTable.withUnsafeBufferPointer { ptr_pCoverageModulationTable in
+        try self.pCoverageModulationTable.withOptionalUnsafeBufferPointer { ptr_pCoverageModulationTable in
             var cStruct = VkPipelineCoverageModulationStateCreateInfoNV()
             cStruct.sType = VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_MODULATION_STATE_CREATE_INFO_NV
             cStruct.pNext = nil
@@ -6398,10 +6398,10 @@ struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
 struct DescriptorSetLayoutBindingFlagsCreateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorSetLayoutBindingFlagsCreateInfo
 
-    let pBindingFlags: Array<VkDescriptorBindingFlags>
+    let pBindingFlags: Array<DescriptorBindingFlags>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBindingFlagsCreateInfo>) throws -> R) rethrows -> R {
-        try self.pBindingFlags.withUnsafeBufferPointer { ptr_pBindingFlags in
+        try (self.pBindingFlags?.map{ $0.rawValue }).withOptionalUnsafeBufferPointer { ptr_pBindingFlags in
             var cStruct = VkDescriptorSetLayoutBindingFlagsCreateInfo()
             cStruct.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO
             cStruct.pNext = nil
@@ -6667,12 +6667,12 @@ struct SemaphoreTypeCreateInfo: CStructConvertible {
 struct TimelineSemaphoreSubmitInfo: CStructConvertible {
     typealias CStruct = VkTimelineSemaphoreSubmitInfo
 
-    let pWaitSemaphoreValues: Array<UInt64>
-    let pSignalSemaphoreValues: Array<UInt64>
+    let pWaitSemaphoreValues: Array<UInt64>?
+    let pSignalSemaphoreValues: Array<UInt64>?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkTimelineSemaphoreSubmitInfo>) throws -> R) rethrows -> R {
-        try self.pWaitSemaphoreValues.withUnsafeBufferPointer { ptr_pWaitSemaphoreValues in
-            try self.pSignalSemaphoreValues.withUnsafeBufferPointer { ptr_pSignalSemaphoreValues in
+        try self.pWaitSemaphoreValues.withOptionalUnsafeBufferPointer { ptr_pWaitSemaphoreValues in
+            try self.pSignalSemaphoreValues.withOptionalUnsafeBufferPointer { ptr_pSignalSemaphoreValues in
                 var cStruct = VkTimelineSemaphoreSubmitInfo()
                 cStruct.sType = VK_STRUCTURE_TYPE_TIMELINE_SEMAPHORE_SUBMIT_INFO
                 cStruct.pNext = nil

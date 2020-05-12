@@ -85,4 +85,9 @@ extension Optional {
         guard let array = self else { return try body(UnsafeBufferPointer(start: nil, count: 0)) }
         return try array.withCStructBufferPointer(body)
     }
+    
+    func withOptionalUnsafeBufferPointer<T, R>(_ body: (UnsafeBufferPointer<T>) throws -> R) rethrows -> R where Wrapped == Array<T> {
+        guard let array = self else { return try body(UnsafeBufferPointer(start: nil, count: 0)) }
+        return try array.withUnsafeBufferPointer(body)
+    }
 }
