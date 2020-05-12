@@ -44,6 +44,12 @@ class CStruct:
         self.members = members or []
 
 
+class CHandle:
+    def __init__(self, name: str, parent: 'CHandle' = None):
+        self.name = name
+        self.parent = parent
+
+
 class CExtension:
     def __init__(self, name: str, supported: str = None, platform: str = None,
                  types: List[str] = None, enums: List[CEnum] = None):
@@ -58,7 +64,7 @@ class CContext:
     def __init__(self):
         self.extensions: List[CExtension] = []
         self.extension_tags: List[str] = []
-        self.handles: List[str] = []
+        self.handles: List[CHandle] = []
         self.enums: List[CEnum] = []
         self.bitmasks: List[CBitmask] = []
         self.structs: List[CStruct] = []
@@ -100,12 +106,23 @@ class CContext:
             self.extension_tags.append(tag.attrib['name'])
 
     def parse_handles(self, tree: ElementTree):
-        for handle in tree.findall('./types/type[@category="handle"]'):
-            if 'alias' in handle.attrib:
+        handles: Dict[str, CHandle] = {}
+        parents: Dict[str, str] = {}
+
+        for e_handle in tree.findall('./types/type[@category="handle"]'):
+            if 'alias' in e_handle.attrib:
                 continue
-            handle_name = handle.find('./name').text
+            handle_name = e_handle.find('./name').text
             if not self.should_ignore_type(handle_name):
-                self.handles.append(handle_name)
+                handle = CHandle(handle_name)
+                self.handles.append(handle)
+                handles[handle_name] = handle
+
+        for handle_name, handle in handles.items():
+            try:
+                handle.parent = handles[parents[handle_name]]
+            except KeyError:
+                pass
 
     def parse_enums(self, tree: ElementTree):
         for e_enum in tree.findall('./enums[@type="enum"]'):

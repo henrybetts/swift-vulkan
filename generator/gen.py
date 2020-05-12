@@ -24,3 +24,9 @@ if __name__ == '__main__':
         generator.generate_imports()
         for struct in swift_context.structs:
             generator.generate_struct(struct)
+
+    with open('../Sources/Vulkan/Classes.swift', 'w') as f:
+        generator = Generator(f)
+        generator.generate_imports()
+        for cls in swift_context.classes:
+            generator.generate_class(cls)

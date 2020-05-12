@@ -1,4 +1,4 @@
-from .parser import CContext, CEnum, CBitmask, CStruct, CType
+from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle
 from . import typeconversion as tc
 from typing import Optional, Tuple, List, Dict
 
@@ -33,11 +33,18 @@ class SwiftStruct:
         self.c_struct = c_struct
 
 
+class SwiftClass:
+    def __init__(self, c_handle: CHandle, name: str):
+        self.c_handle = c_handle
+        self.name = name
+
+
 class SwiftContext:
     def __init__(self):
         self.enums: List[SwiftEnum] = []
         self.option_sets: List[SwiftOptionSet] = []
         self.structs: List[SwiftStruct] = []
+        self.classes: List[SwiftClass] = []
 
 
 class Importer:
@@ -47,6 +54,8 @@ class Importer:
         self.imported_option_sets: Dict[str, str] = {}
         self.imported_option_set_bits: Dict[str, str] = {}
         self.imported_structs: Dict[str, str] = {}
+        self.imported_handles: Dict[str, str] = {}
+        self.pointer_types = [handle.name for handle in c_context.handles]
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
@@ -55,6 +64,9 @@ class Importer:
         for struct in self.c_context.structs:
             self.import_struct_name(struct)
         context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
+        for handle in self.c_context.handles:
+            self.import_handle_name(handle)
+        context.classes = [self.import_handle(handle) for handle in self.c_context.handles]
         return context
 
     def import_enum(self, c_enum: CEnum) -> SwiftEnum:
@@ -152,7 +164,7 @@ class Importer:
         self.imported_structs[c_struct.name] = name
         return name
 
-    def import_struct(self, c_struct: CStruct):
+    def import_struct(self, c_struct: CStruct) -> SwiftStruct:
         struct = SwiftStruct(c_struct=c_struct,
                              name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
                              members=[],
@@ -193,6 +205,17 @@ class Importer:
 
         struct.c_value_generators = [c_value_generators[member.name] for member in c_struct.members]
         return struct
+
+    def import_handle_name(self, handle: CHandle) -> str:
+        name = remove_vk_prefix(handle.name)
+        self.imported_handles[handle.name] = name
+        return name
+
+    def import_handle(self, handle: CHandle) -> SwiftClass:
+        return SwiftClass(
+            c_handle=handle,
+            name=self.imported_handles.get(handle.name) or self.import_handle_name(handle)
+        )
 
     def get_type_conversion(self, c_type: CType, members: List[CStruct.Member] = None,
                             implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
@@ -284,7 +307,7 @@ class Importer:
 
     def is_pointer_type(self, c_type: CType) -> bool:
         return (c_type.pointer_to is not None
-                or (c_type.name and c_type.name in self.c_context.handles))
+                or (c_type.name and c_type.name in self.pointer_types))
 
     def pop_extension_tag(self, string: str) -> Tuple[str, Optional[str]]:
         for tag in self.c_context.extension_tags:

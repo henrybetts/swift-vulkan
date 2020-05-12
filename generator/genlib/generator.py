@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass
 from typing import TextIO, List, Tuple
 
 
@@ -72,6 +72,11 @@ class Generator(BaseGenerator):
                 for member, generator in zip(struct.c_struct.members, struct.c_value_generators):
                     self << f'cStruct.{member.name} = {generator(swift_values_map)}'
                 self << 'return try body(&cStruct)'
+
+    def generate_class(self, cls: SwiftClass):
+        with self.indent(f'struct {cls.name} {{', '}'):
+            pass
+        self.linebreak()
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):
