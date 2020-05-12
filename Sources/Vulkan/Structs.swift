@@ -300,14 +300,14 @@ struct DeviceCreateInfo: CStructConvertible {
 
     let flags: DeviceCreateFlags
     let pQueueCreateInfos: Array<VkDeviceQueueCreateInfo>
-    let ppEnabledLayerNames: Array<UnsafePointer<CChar>?>
-    let ppEnabledExtensionNames: Array<UnsafePointer<CChar>?>
+    let ppEnabledLayerNames: Array<String>
+    let ppEnabledExtensionNames: Array<String>
     let pEnabledFeatures: PhysicalDeviceFeatures?
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDeviceCreateInfo>) throws -> R) rethrows -> R {
         try self.pQueueCreateInfos.withUnsafeBufferPointer { ptr_pQueueCreateInfos in
-            try self.ppEnabledLayerNames.withUnsafeBufferPointer { ptr_ppEnabledLayerNames in
-                try self.ppEnabledExtensionNames.withUnsafeBufferPointer { ptr_ppEnabledExtensionNames in
+            try self.ppEnabledLayerNames.withCStringBufferPointer { ptr_ppEnabledLayerNames in
+                try self.ppEnabledExtensionNames.withCStringBufferPointer { ptr_ppEnabledExtensionNames in
                     try self.pEnabledFeatures.withOptionalCStruct { ptr_pEnabledFeatures in
                         var cStruct = VkDeviceCreateInfo()
                         cStruct.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO
@@ -333,13 +333,13 @@ struct InstanceCreateInfo: CStructConvertible {
 
     let flags: InstanceCreateFlags
     let pApplicationInfo: ApplicationInfo?
-    let ppEnabledLayerNames: Array<UnsafePointer<CChar>?>
-    let ppEnabledExtensionNames: Array<UnsafePointer<CChar>?>
+    let ppEnabledLayerNames: Array<String>
+    let ppEnabledExtensionNames: Array<String>
 
     func withCStruct<R>(_ body: (UnsafePointer<VkInstanceCreateInfo>) throws -> R) rethrows -> R {
         try self.pApplicationInfo.withOptionalCStruct { ptr_pApplicationInfo in
-            try self.ppEnabledLayerNames.withUnsafeBufferPointer { ptr_ppEnabledLayerNames in
-                try self.ppEnabledExtensionNames.withUnsafeBufferPointer { ptr_ppEnabledExtensionNames in
+            try self.ppEnabledLayerNames.withCStringBufferPointer { ptr_ppEnabledLayerNames in
+                try self.ppEnabledExtensionNames.withCStringBufferPointer { ptr_ppEnabledExtensionNames in
                     var cStruct = VkInstanceCreateInfo()
                     cStruct.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO
                     cStruct.pNext = nil

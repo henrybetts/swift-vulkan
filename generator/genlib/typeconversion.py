@@ -146,3 +146,13 @@ def array_conversion(length: str) -> ArrayConversion:
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
     )
+
+
+def string_array_conversion(length: str) -> ArrayConversion:
+    return ArrayConversion(
+        length=length,
+        swift_value_template='UnsafeBufferPointer(start: $value, count: Int($length)).map{ String(cString: $$0) }',
+        c_closure_template=('$value.withCStringBufferPointer { ptr_$name in', '}'),
+        c_value_template='ptr_$name.baseAddress',
+        c_length_template='UInt32(ptr_$name.count)'
+    )
