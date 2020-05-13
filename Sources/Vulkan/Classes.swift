@@ -7,18 +7,14 @@ class Instance {
         self.handle = handle
     }
 
-    func createInstance(pCreateInfo: InstanceCreateInfo, pAllocator: AllocationCallbacks?, pInstance: UnsafeMutablePointer<VkInstance?>) -> VkResult {
+    func createInstance(pCreateInfo: InstanceCreateInfo, pInstance: UnsafeMutablePointer<VkInstance?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateInstance(ptr_pCreateInfo, ptr_pAllocator, pInstance)
-            }
+            vkCreateInstance(ptr_pCreateInfo, nil, pInstance)
         }
     }
 
-    func destroyInstance(instance: Instance?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyInstance(instance?.handle, ptr_pAllocator)
-        }
+    func destroyInstance(instance: Instance?) -> Void {
+        vkDestroyInstance(instance?.handle, nil)
     }
 
     func enumeratePhysicalDevices(instance: Instance, pPhysicalDeviceCount: UnsafeMutablePointer<UInt32>, pPhysicalDevices: UnsafeMutablePointer<VkPhysicalDevice?>) -> VkResult {
@@ -45,19 +41,15 @@ class Instance {
         }
     }
 
-    func createDisplayPlaneSurfaceKHR(instance: Instance, pCreateInfo: DisplaySurfaceCreateInfoKHR, pAllocator: AllocationCallbacks?, pSurface: UnsafeMutablePointer<VkSurfaceKHR?>) -> VkResult {
+    func createDisplayPlaneSurfaceKHR(instance: Instance, pCreateInfo: DisplaySurfaceCreateInfoKHR, pSurface: UnsafeMutablePointer<VkSurfaceKHR?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDisplayPlaneSurfaceKHR(instance.handle, ptr_pCreateInfo, ptr_pAllocator, pSurface)
-            }
+            vkCreateDisplayPlaneSurfaceKHR(instance.handle, ptr_pCreateInfo, nil, pSurface)
         }
     }
 
-    func createDebugReportCallbackEXT(instance: Instance, pCreateInfo: DebugReportCallbackCreateInfoEXT, pAllocator: AllocationCallbacks?, pCallback: UnsafeMutablePointer<VkDebugReportCallbackEXT?>) -> VkResult {
+    func createDebugReportCallbackEXT(instance: Instance, pCreateInfo: DebugReportCallbackCreateInfoEXT, pCallback: UnsafeMutablePointer<VkDebugReportCallbackEXT?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDebugReportCallbackEXT(instance.handle, ptr_pCreateInfo, ptr_pAllocator, pCallback)
-            }
+            vkCreateDebugReportCallbackEXT(instance.handle, ptr_pCreateInfo, nil, pCallback)
         }
     }
 
@@ -73,11 +65,9 @@ class Instance {
         vkEnumeratePhysicalDeviceGroups(instance.handle, pPhysicalDeviceGroupCount, pPhysicalDeviceGroupProperties)
     }
 
-    func createDebugUtilsMessengerEXT(instance: Instance, pCreateInfo: DebugUtilsMessengerCreateInfoEXT, pAllocator: AllocationCallbacks?, pMessenger: UnsafeMutablePointer<VkDebugUtilsMessengerEXT?>) -> VkResult {
+    func createDebugUtilsMessengerEXT(instance: Instance, pCreateInfo: DebugUtilsMessengerCreateInfoEXT, pMessenger: UnsafeMutablePointer<VkDebugUtilsMessengerEXT?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDebugUtilsMessengerEXT(instance.handle, ptr_pCreateInfo, ptr_pAllocator, pMessenger)
-            }
+            vkCreateDebugUtilsMessengerEXT(instance.handle, ptr_pCreateInfo, nil, pMessenger)
         }
     }
 
@@ -87,11 +77,9 @@ class Instance {
         }
     }
 
-    func createHeadlessSurfaceEXT(instance: Instance, pCreateInfo: HeadlessSurfaceCreateInfoEXT, pAllocator: AllocationCallbacks?, pSurface: UnsafeMutablePointer<VkSurfaceKHR?>) -> VkResult {
+    func createHeadlessSurfaceEXT(instance: Instance, pCreateInfo: HeadlessSurfaceCreateInfoEXT, pSurface: UnsafeMutablePointer<VkSurfaceKHR?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateHeadlessSurfaceEXT(instance.handle, ptr_pCreateInfo, ptr_pAllocator, pSurface)
-            }
+            vkCreateHeadlessSurfaceEXT(instance.handle, ptr_pCreateInfo, nil, pSurface)
         }
     }
 }
@@ -129,11 +117,9 @@ class PhysicalDevice {
         vkGetPhysicalDeviceImageFormatProperties(physicalDevice.handle, VkFormat(rawValue: format.rawValue), VkImageType(rawValue: type.rawValue), VkImageTiling(rawValue: tiling.rawValue), usage.rawValue, flags.rawValue, pImageFormatProperties)
     }
 
-    func createDevice(physicalDevice: PhysicalDevice, pCreateInfo: DeviceCreateInfo, pAllocator: AllocationCallbacks?, pDevice: UnsafeMutablePointer<VkDevice?>) -> VkResult {
+    func createDevice(physicalDevice: PhysicalDevice, pCreateInfo: DeviceCreateInfo, pDevice: UnsafeMutablePointer<VkDevice?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDevice(physicalDevice.handle, ptr_pCreateInfo, ptr_pAllocator, pDevice)
-            }
+            vkCreateDevice(physicalDevice.handle, ptr_pCreateInfo, nil, pDevice)
         }
     }
 
@@ -313,10 +299,8 @@ class Device {
         }
     }
 
-    func destroyDevice(device: Device?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyDevice(device?.handle, ptr_pAllocator)
-        }
+    func destroyDevice(device: Device?) -> Void {
+        vkDestroyDevice(device?.handle, nil)
     }
 
     func getDeviceQueue(device: Device, queueFamilyIndex: UInt32, queueIndex: UInt32, pQueue: UnsafeMutablePointer<VkQueue?>) -> Void {
@@ -327,18 +311,14 @@ class Device {
         vkDeviceWaitIdle(device.handle)
     }
 
-    func allocateMemory(device: Device, pAllocateInfo: MemoryAllocateInfo, pAllocator: AllocationCallbacks?, pMemory: UnsafeMutablePointer<VkDeviceMemory?>) -> VkResult {
+    func allocateMemory(device: Device, pAllocateInfo: MemoryAllocateInfo, pMemory: UnsafeMutablePointer<VkDeviceMemory?>) -> VkResult {
         pAllocateInfo.withCStruct { ptr_pAllocateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkAllocateMemory(device.handle, ptr_pAllocateInfo, ptr_pAllocator, pMemory)
-            }
+            vkAllocateMemory(device.handle, ptr_pAllocateInfo, nil, pMemory)
         }
     }
 
-    func freeMemory(device: Device, memory: DeviceMemory?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkFreeMemory(device.handle, memory?.handle, ptr_pAllocator)
-        }
+    func freeMemory(device: Device, memory: DeviceMemory?) -> Void {
+        vkFreeMemory(device.handle, memory?.handle, nil)
     }
 
     func flushMappedMemoryRanges(device: Device, pMemoryRanges: Array<MappedMemoryRange>) -> VkResult {
@@ -353,11 +333,9 @@ class Device {
         }
     }
 
-    func createFence(device: Device, pCreateInfo: FenceCreateInfo, pAllocator: AllocationCallbacks?, pFence: UnsafeMutablePointer<VkFence?>) -> VkResult {
+    func createFence(device: Device, pCreateInfo: FenceCreateInfo, pFence: UnsafeMutablePointer<VkFence?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateFence(device.handle, ptr_pCreateInfo, ptr_pAllocator, pFence)
-            }
+            vkCreateFence(device.handle, ptr_pCreateInfo, nil, pFence)
         }
     }
 
@@ -373,123 +351,93 @@ class Device {
         }
     }
 
-    func createSemaphore(device: Device, pCreateInfo: SemaphoreCreateInfo, pAllocator: AllocationCallbacks?, pSemaphore: UnsafeMutablePointer<VkSemaphore?>) -> VkResult {
+    func createSemaphore(device: Device, pCreateInfo: SemaphoreCreateInfo, pSemaphore: UnsafeMutablePointer<VkSemaphore?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateSemaphore(device.handle, ptr_pCreateInfo, ptr_pAllocator, pSemaphore)
-            }
+            vkCreateSemaphore(device.handle, ptr_pCreateInfo, nil, pSemaphore)
         }
     }
 
-    func createEvent(device: Device, pCreateInfo: EventCreateInfo, pAllocator: AllocationCallbacks?, pEvent: UnsafeMutablePointer<VkEvent?>) -> VkResult {
+    func createEvent(device: Device, pCreateInfo: EventCreateInfo, pEvent: UnsafeMutablePointer<VkEvent?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateEvent(device.handle, ptr_pCreateInfo, ptr_pAllocator, pEvent)
-            }
+            vkCreateEvent(device.handle, ptr_pCreateInfo, nil, pEvent)
         }
     }
 
-    func createQueryPool(device: Device, pCreateInfo: QueryPoolCreateInfo, pAllocator: AllocationCallbacks?, pQueryPool: UnsafeMutablePointer<VkQueryPool?>) -> VkResult {
+    func createQueryPool(device: Device, pCreateInfo: QueryPoolCreateInfo, pQueryPool: UnsafeMutablePointer<VkQueryPool?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateQueryPool(device.handle, ptr_pCreateInfo, ptr_pAllocator, pQueryPool)
-            }
+            vkCreateQueryPool(device.handle, ptr_pCreateInfo, nil, pQueryPool)
         }
     }
 
-    func createBuffer(device: Device, pCreateInfo: BufferCreateInfo, pAllocator: AllocationCallbacks?, pBuffer: UnsafeMutablePointer<VkBuffer?>) -> VkResult {
+    func createBuffer(device: Device, pCreateInfo: BufferCreateInfo, pBuffer: UnsafeMutablePointer<VkBuffer?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateBuffer(device.handle, ptr_pCreateInfo, ptr_pAllocator, pBuffer)
-            }
+            vkCreateBuffer(device.handle, ptr_pCreateInfo, nil, pBuffer)
         }
     }
 
-    func createBufferView(device: Device, pCreateInfo: BufferViewCreateInfo, pAllocator: AllocationCallbacks?, pView: UnsafeMutablePointer<VkBufferView?>) -> VkResult {
+    func createBufferView(device: Device, pCreateInfo: BufferViewCreateInfo, pView: UnsafeMutablePointer<VkBufferView?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateBufferView(device.handle, ptr_pCreateInfo, ptr_pAllocator, pView)
-            }
+            vkCreateBufferView(device.handle, ptr_pCreateInfo, nil, pView)
         }
     }
 
-    func createImage(device: Device, pCreateInfo: ImageCreateInfo, pAllocator: AllocationCallbacks?, pImage: UnsafeMutablePointer<VkImage?>) -> VkResult {
+    func createImage(device: Device, pCreateInfo: ImageCreateInfo, pImage: UnsafeMutablePointer<VkImage?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateImage(device.handle, ptr_pCreateInfo, ptr_pAllocator, pImage)
-            }
+            vkCreateImage(device.handle, ptr_pCreateInfo, nil, pImage)
         }
     }
 
-    func createImageView(device: Device, pCreateInfo: ImageViewCreateInfo, pAllocator: AllocationCallbacks?, pView: UnsafeMutablePointer<VkImageView?>) -> VkResult {
+    func createImageView(device: Device, pCreateInfo: ImageViewCreateInfo, pView: UnsafeMutablePointer<VkImageView?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateImageView(device.handle, ptr_pCreateInfo, ptr_pAllocator, pView)
-            }
+            vkCreateImageView(device.handle, ptr_pCreateInfo, nil, pView)
         }
     }
 
-    func createShaderModule(device: Device, pCreateInfo: ShaderModuleCreateInfo, pAllocator: AllocationCallbacks?, pShaderModule: UnsafeMutablePointer<VkShaderModule?>) -> VkResult {
+    func createShaderModule(device: Device, pCreateInfo: ShaderModuleCreateInfo, pShaderModule: UnsafeMutablePointer<VkShaderModule?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateShaderModule(device.handle, ptr_pCreateInfo, ptr_pAllocator, pShaderModule)
-            }
+            vkCreateShaderModule(device.handle, ptr_pCreateInfo, nil, pShaderModule)
         }
     }
 
-    func createPipelineCache(device: Device, pCreateInfo: PipelineCacheCreateInfo, pAllocator: AllocationCallbacks?, pPipelineCache: UnsafeMutablePointer<VkPipelineCache?>) -> VkResult {
+    func createPipelineCache(device: Device, pCreateInfo: PipelineCacheCreateInfo, pPipelineCache: UnsafeMutablePointer<VkPipelineCache?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreatePipelineCache(device.handle, ptr_pCreateInfo, ptr_pAllocator, pPipelineCache)
-            }
+            vkCreatePipelineCache(device.handle, ptr_pCreateInfo, nil, pPipelineCache)
         }
     }
 
-    func createGraphicsPipelines(device: Device, pipelineCache: PipelineCache?, pCreateInfos: Array<GraphicsPipelineCreateInfo>, pAllocator: AllocationCallbacks?, pPipelines: UnsafeMutablePointer<VkPipeline?>) -> VkResult {
+    func createGraphicsPipelines(device: Device, pipelineCache: PipelineCache?, pCreateInfos: Array<GraphicsPipelineCreateInfo>, pPipelines: UnsafeMutablePointer<VkPipeline?>) -> VkResult {
         pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateGraphicsPipelines(device.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, ptr_pAllocator, pPipelines)
-            }
+            vkCreateGraphicsPipelines(device.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pPipelines)
         }
     }
 
-    func createComputePipelines(device: Device, pipelineCache: PipelineCache?, pCreateInfos: Array<ComputePipelineCreateInfo>, pAllocator: AllocationCallbacks?, pPipelines: UnsafeMutablePointer<VkPipeline?>) -> VkResult {
+    func createComputePipelines(device: Device, pipelineCache: PipelineCache?, pCreateInfos: Array<ComputePipelineCreateInfo>, pPipelines: UnsafeMutablePointer<VkPipeline?>) -> VkResult {
         pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateComputePipelines(device.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, ptr_pAllocator, pPipelines)
-            }
+            vkCreateComputePipelines(device.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pPipelines)
         }
     }
 
-    func createPipelineLayout(device: Device, pCreateInfo: PipelineLayoutCreateInfo, pAllocator: AllocationCallbacks?, pPipelineLayout: UnsafeMutablePointer<VkPipelineLayout?>) -> VkResult {
+    func createPipelineLayout(device: Device, pCreateInfo: PipelineLayoutCreateInfo, pPipelineLayout: UnsafeMutablePointer<VkPipelineLayout?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreatePipelineLayout(device.handle, ptr_pCreateInfo, ptr_pAllocator, pPipelineLayout)
-            }
+            vkCreatePipelineLayout(device.handle, ptr_pCreateInfo, nil, pPipelineLayout)
         }
     }
 
-    func createSampler(device: Device, pCreateInfo: SamplerCreateInfo, pAllocator: AllocationCallbacks?, pSampler: UnsafeMutablePointer<VkSampler?>) -> VkResult {
+    func createSampler(device: Device, pCreateInfo: SamplerCreateInfo, pSampler: UnsafeMutablePointer<VkSampler?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateSampler(device.handle, ptr_pCreateInfo, ptr_pAllocator, pSampler)
-            }
+            vkCreateSampler(device.handle, ptr_pCreateInfo, nil, pSampler)
         }
     }
 
-    func createDescriptorSetLayout(device: Device, pCreateInfo: DescriptorSetLayoutCreateInfo, pAllocator: AllocationCallbacks?, pSetLayout: UnsafeMutablePointer<VkDescriptorSetLayout?>) -> VkResult {
+    func createDescriptorSetLayout(device: Device, pCreateInfo: DescriptorSetLayoutCreateInfo, pSetLayout: UnsafeMutablePointer<VkDescriptorSetLayout?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDescriptorSetLayout(device.handle, ptr_pCreateInfo, ptr_pAllocator, pSetLayout)
-            }
+            vkCreateDescriptorSetLayout(device.handle, ptr_pCreateInfo, nil, pSetLayout)
         }
     }
 
-    func createDescriptorPool(device: Device, pCreateInfo: DescriptorPoolCreateInfo, pAllocator: AllocationCallbacks?, pDescriptorPool: UnsafeMutablePointer<VkDescriptorPool?>) -> VkResult {
+    func createDescriptorPool(device: Device, pCreateInfo: DescriptorPoolCreateInfo, pDescriptorPool: UnsafeMutablePointer<VkDescriptorPool?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDescriptorPool(device.handle, ptr_pCreateInfo, ptr_pAllocator, pDescriptorPool)
-            }
+            vkCreateDescriptorPool(device.handle, ptr_pCreateInfo, nil, pDescriptorPool)
         }
     }
 
@@ -507,27 +455,21 @@ class Device {
         }
     }
 
-    func createFramebuffer(device: Device, pCreateInfo: FramebufferCreateInfo, pAllocator: AllocationCallbacks?, pFramebuffer: UnsafeMutablePointer<VkFramebuffer?>) -> VkResult {
+    func createFramebuffer(device: Device, pCreateInfo: FramebufferCreateInfo, pFramebuffer: UnsafeMutablePointer<VkFramebuffer?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateFramebuffer(device.handle, ptr_pCreateInfo, ptr_pAllocator, pFramebuffer)
-            }
+            vkCreateFramebuffer(device.handle, ptr_pCreateInfo, nil, pFramebuffer)
         }
     }
 
-    func createRenderPass(device: Device, pCreateInfo: RenderPassCreateInfo, pAllocator: AllocationCallbacks?, pRenderPass: UnsafeMutablePointer<VkRenderPass?>) -> VkResult {
+    func createRenderPass(device: Device, pCreateInfo: RenderPassCreateInfo, pRenderPass: UnsafeMutablePointer<VkRenderPass?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateRenderPass(device.handle, ptr_pCreateInfo, ptr_pAllocator, pRenderPass)
-            }
+            vkCreateRenderPass(device.handle, ptr_pCreateInfo, nil, pRenderPass)
         }
     }
 
-    func createCommandPool(device: Device, pCreateInfo: CommandPoolCreateInfo, pAllocator: AllocationCallbacks?, pCommandPool: UnsafeMutablePointer<VkCommandPool?>) -> VkResult {
+    func createCommandPool(device: Device, pCreateInfo: CommandPoolCreateInfo, pCommandPool: UnsafeMutablePointer<VkCommandPool?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateCommandPool(device.handle, ptr_pCreateInfo, ptr_pAllocator, pCommandPool)
-            }
+            vkCreateCommandPool(device.handle, ptr_pCreateInfo, nil, pCommandPool)
         }
     }
 
@@ -537,26 +479,20 @@ class Device {
         }
     }
 
-    func createSharedSwapchainsKHR(device: Device, pCreateInfos: Array<SwapchainCreateInfoKHR>, pAllocator: AllocationCallbacks?, pSwapchains: UnsafeMutablePointer<VkSwapchainKHR?>) -> VkResult {
+    func createSharedSwapchainsKHR(device: Device, pCreateInfos: Array<SwapchainCreateInfoKHR>, pSwapchains: UnsafeMutablePointer<VkSwapchainKHR?>) -> VkResult {
         pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateSharedSwapchainsKHR(device.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, ptr_pAllocator, pSwapchains)
-            }
+            vkCreateSharedSwapchainsKHR(device.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pSwapchains)
         }
     }
 
-    func createSwapchainKHR(device: Device, pCreateInfo: SwapchainCreateInfoKHR, pAllocator: AllocationCallbacks?, pSwapchain: UnsafeMutablePointer<VkSwapchainKHR?>) -> VkResult {
+    func createSwapchainKHR(device: Device, pCreateInfo: SwapchainCreateInfoKHR, pSwapchain: UnsafeMutablePointer<VkSwapchainKHR?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateSwapchainKHR(device.handle, ptr_pCreateInfo, ptr_pAllocator, pSwapchain)
-            }
+            vkCreateSwapchainKHR(device.handle, ptr_pCreateInfo, nil, pSwapchain)
         }
     }
 
-    func destroySwapchainKHR(device: Device, swapchain: SwapchainKHR?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroySwapchainKHR(device.handle, swapchain?.handle, ptr_pAllocator)
-        }
+    func destroySwapchainKHR(device: Device, swapchain: SwapchainKHR?) -> Void {
+        vkDestroySwapchainKHR(device.handle, swapchain?.handle, nil)
     }
 
     func getSwapchainImagesKHR(device: Device, swapchain: SwapchainKHR, pSwapchainImageCount: UnsafeMutablePointer<UInt32>, pSwapchainImages: UnsafeMutablePointer<VkImage?>) -> VkResult {
@@ -585,11 +521,9 @@ class Device {
         }
     }
 
-    func createIndirectCommandsLayoutNV(device: Device, pCreateInfo: IndirectCommandsLayoutCreateInfoNV, pAllocator: AllocationCallbacks?, pIndirectCommandsLayout: UnsafeMutablePointer<VkIndirectCommandsLayoutNV?>) -> VkResult {
+    func createIndirectCommandsLayoutNV(device: Device, pCreateInfo: IndirectCommandsLayoutCreateInfoNV, pIndirectCommandsLayout: UnsafeMutablePointer<VkIndirectCommandsLayoutNV?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateIndirectCommandsLayoutNV(device.handle, ptr_pCreateInfo, ptr_pAllocator, pIndirectCommandsLayout)
-            }
+            vkCreateIndirectCommandsLayoutNV(device.handle, ptr_pCreateInfo, nil, pIndirectCommandsLayout)
         }
     }
 
@@ -633,19 +567,15 @@ class Device {
         }
     }
 
-    func registerDeviceEventEXT(device: Device, pDeviceEventInfo: DeviceEventInfoEXT, pAllocator: AllocationCallbacks?, pFence: UnsafeMutablePointer<VkFence?>) -> VkResult {
+    func registerDeviceEventEXT(device: Device, pDeviceEventInfo: DeviceEventInfoEXT, pFence: UnsafeMutablePointer<VkFence?>) -> VkResult {
         pDeviceEventInfo.withCStruct { ptr_pDeviceEventInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkRegisterDeviceEventEXT(device.handle, ptr_pDeviceEventInfo, ptr_pAllocator, pFence)
-            }
+            vkRegisterDeviceEventEXT(device.handle, ptr_pDeviceEventInfo, nil, pFence)
         }
     }
 
-    func registerDisplayEventEXT(device: Device, display: DisplayKHR, pDisplayEventInfo: DisplayEventInfoEXT, pAllocator: AllocationCallbacks?, pFence: UnsafeMutablePointer<VkFence?>) -> VkResult {
+    func registerDisplayEventEXT(device: Device, display: DisplayKHR, pDisplayEventInfo: DisplayEventInfoEXT, pFence: UnsafeMutablePointer<VkFence?>) -> VkResult {
         pDisplayEventInfo.withCStruct { ptr_pDisplayEventInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkRegisterDisplayEventEXT(device.handle, display.handle, ptr_pDisplayEventInfo, ptr_pAllocator, pFence)
-            }
+            vkRegisterDisplayEventEXT(device.handle, display.handle, ptr_pDisplayEventInfo, nil, pFence)
         }
     }
 
@@ -683,11 +613,9 @@ class Device {
         }
     }
 
-    func createDescriptorUpdateTemplate(device: Device, pCreateInfo: DescriptorUpdateTemplateCreateInfo, pAllocator: AllocationCallbacks?, pDescriptorUpdateTemplate: UnsafeMutablePointer<VkDescriptorUpdateTemplate?>) -> VkResult {
+    func createDescriptorUpdateTemplate(device: Device, pCreateInfo: DescriptorUpdateTemplateCreateInfo, pDescriptorUpdateTemplate: UnsafeMutablePointer<VkDescriptorUpdateTemplate?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDescriptorUpdateTemplate(device.handle, ptr_pCreateInfo, ptr_pAllocator, pDescriptorUpdateTemplate)
-            }
+            vkCreateDescriptorUpdateTemplate(device.handle, ptr_pCreateInfo, nil, pDescriptorUpdateTemplate)
         }
     }
 
@@ -729,11 +657,9 @@ class Device {
         }
     }
 
-    func createSamplerYcbcrConversion(device: Device, pCreateInfo: SamplerYcbcrConversionCreateInfo, pAllocator: AllocationCallbacks?, pYcbcrConversion: UnsafeMutablePointer<VkSamplerYcbcrConversion?>) -> VkResult {
+    func createSamplerYcbcrConversion(device: Device, pCreateInfo: SamplerYcbcrConversionCreateInfo, pYcbcrConversion: UnsafeMutablePointer<VkSamplerYcbcrConversion?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateSamplerYcbcrConversion(device.handle, ptr_pCreateInfo, ptr_pAllocator, pYcbcrConversion)
-            }
+            vkCreateSamplerYcbcrConversion(device.handle, ptr_pCreateInfo, nil, pYcbcrConversion)
         }
     }
 
@@ -743,11 +669,9 @@ class Device {
         }
     }
 
-    func createValidationCacheEXT(device: Device, pCreateInfo: ValidationCacheCreateInfoEXT, pAllocator: AllocationCallbacks?, pValidationCache: UnsafeMutablePointer<VkValidationCacheEXT?>) -> VkResult {
+    func createValidationCacheEXT(device: Device, pCreateInfo: ValidationCacheCreateInfoEXT, pValidationCache: UnsafeMutablePointer<VkValidationCacheEXT?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateValidationCacheEXT(device.handle, ptr_pCreateInfo, ptr_pAllocator, pValidationCache)
-            }
+            vkCreateValidationCacheEXT(device.handle, ptr_pCreateInfo, nil, pValidationCache)
         }
     }
 
@@ -783,11 +707,9 @@ class Device {
         vkGetMemoryHostPointerPropertiesEXT(device.handle, VkExternalMemoryHandleTypeFlagBits(rawValue: handleType.rawValue), pHostPointer, pMemoryHostPointerProperties)
     }
 
-    func createRenderPass2(device: Device, pCreateInfo: RenderPassCreateInfo2, pAllocator: AllocationCallbacks?, pRenderPass: UnsafeMutablePointer<VkRenderPass?>) -> VkResult {
+    func createRenderPass2(device: Device, pCreateInfo: RenderPassCreateInfo2, pRenderPass: UnsafeMutablePointer<VkRenderPass?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateRenderPass2(device.handle, ptr_pCreateInfo, ptr_pAllocator, pRenderPass)
-            }
+            vkCreateRenderPass2(device.handle, ptr_pCreateInfo, nil, pRenderPass)
         }
     }
 
@@ -803,11 +725,9 @@ class Device {
         }
     }
 
-    func createAccelerationStructureNV(device: Device, pCreateInfo: AccelerationStructureCreateInfoNV, pAllocator: AllocationCallbacks?, pAccelerationStructure: UnsafeMutablePointer<VkAccelerationStructureNV>) -> VkResult {
+    func createAccelerationStructureNV(device: Device, pCreateInfo: AccelerationStructureCreateInfoNV, pAccelerationStructure: UnsafeMutablePointer<VkAccelerationStructureNV>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateAccelerationStructureNV(device.handle, ptr_pCreateInfo, ptr_pAllocator, pAccelerationStructure)
-            }
+            vkCreateAccelerationStructureNV(device.handle, ptr_pCreateInfo, nil, pAccelerationStructure)
         }
     }
 
@@ -821,11 +741,9 @@ class Device {
         vkGetAccelerationStructureHandleNV(device.handle, accelerationStructure, dataSize, pData)
     }
 
-    func createRayTracingPipelinesNV(device: Device, pipelineCache: PipelineCache?, pCreateInfos: Array<RayTracingPipelineCreateInfoNV>, pAllocator: AllocationCallbacks?, pPipelines: UnsafeMutablePointer<VkPipeline?>) -> VkResult {
+    func createRayTracingPipelinesNV(device: Device, pipelineCache: PipelineCache?, pCreateInfos: Array<RayTracingPipelineCreateInfoNV>, pPipelines: UnsafeMutablePointer<VkPipeline?>) -> VkResult {
         pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateRayTracingPipelinesNV(device.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, ptr_pAllocator, pPipelines)
-            }
+            vkCreateRayTracingPipelinesNV(device.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pPipelines)
         }
     }
 
@@ -1481,10 +1399,8 @@ class CommandPool {
         self.device = device
     }
 
-    func destroyCommandPool(device: Device, commandPool: CommandPool?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyCommandPool(device.handle, commandPool?.handle, ptr_pAllocator)
-        }
+    func destroyCommandPool(device: Device, commandPool: CommandPool?) -> Void {
+        vkDestroyCommandPool(device.handle, commandPool?.handle, nil)
     }
 
     func resetCommandPool(device: Device, commandPool: CommandPool, flags: CommandPoolResetFlags) -> VkResult {
@@ -1519,10 +1435,8 @@ class Buffer {
         vkBindBufferMemory(device.handle, buffer.handle, memory.handle, memoryOffset)
     }
 
-    func destroyBuffer(device: Device, buffer: Buffer?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyBuffer(device.handle, buffer?.handle, ptr_pAllocator)
-        }
+    func destroyBuffer(device: Device, buffer: Buffer?) -> Void {
+        vkDestroyBuffer(device.handle, buffer?.handle, nil)
     }
 }
 
@@ -1535,10 +1449,8 @@ class BufferView {
         self.device = device
     }
 
-    func destroyBufferView(device: Device, bufferView: BufferView?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyBufferView(device.handle, bufferView?.handle, ptr_pAllocator)
-        }
+    func destroyBufferView(device: Device, bufferView: BufferView?) -> Void {
+        vkDestroyBufferView(device.handle, bufferView?.handle, nil)
     }
 }
 
@@ -1563,10 +1475,8 @@ class Image {
         vkGetImageSparseMemoryRequirements(device.handle, image.handle, pSparseMemoryRequirementCount, pSparseMemoryRequirements)
     }
 
-    func destroyImage(device: Device, image: Image?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyImage(device.handle, image?.handle, ptr_pAllocator)
-        }
+    func destroyImage(device: Device, image: Image?) -> Void {
+        vkDestroyImage(device.handle, image?.handle, nil)
     }
 
     func getImageSubresourceLayout(device: Device, image: Image, pSubresource: ImageSubresource, pLayout: UnsafeMutablePointer<VkSubresourceLayout>) -> Void {
@@ -1589,10 +1499,8 @@ class ImageView {
         self.device = device
     }
 
-    func destroyImageView(device: Device, imageView: ImageView?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyImageView(device.handle, imageView?.handle, ptr_pAllocator)
-        }
+    func destroyImageView(device: Device, imageView: ImageView?) -> Void {
+        vkDestroyImageView(device.handle, imageView?.handle, nil)
     }
 }
 
@@ -1605,10 +1513,8 @@ class ShaderModule {
         self.device = device
     }
 
-    func destroyShaderModule(device: Device, shaderModule: ShaderModule?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyShaderModule(device.handle, shaderModule?.handle, ptr_pAllocator)
-        }
+    func destroyShaderModule(device: Device, shaderModule: ShaderModule?) -> Void {
+        vkDestroyShaderModule(device.handle, shaderModule?.handle, nil)
     }
 }
 
@@ -1621,10 +1527,8 @@ class Pipeline {
         self.device = device
     }
 
-    func destroyPipeline(device: Device, pipeline: Pipeline?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyPipeline(device.handle, pipeline?.handle, ptr_pAllocator)
-        }
+    func destroyPipeline(device: Device, pipeline: Pipeline?) -> Void {
+        vkDestroyPipeline(device.handle, pipeline?.handle, nil)
     }
 
     func getShaderInfoAMD(device: Device, pipeline: Pipeline, shaderStage: ShaderStageFlags, infoType: ShaderInfoTypeAMD, pInfoSize: UnsafeMutablePointer<Int>, pInfo: UnsafeMutableRawPointer) -> VkResult {
@@ -1645,10 +1549,8 @@ class PipelineLayout {
         self.device = device
     }
 
-    func destroyPipelineLayout(device: Device, pipelineLayout: PipelineLayout?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyPipelineLayout(device.handle, pipelineLayout?.handle, ptr_pAllocator)
-        }
+    func destroyPipelineLayout(device: Device, pipelineLayout: PipelineLayout?) -> Void {
+        vkDestroyPipelineLayout(device.handle, pipelineLayout?.handle, nil)
     }
 }
 
@@ -1661,10 +1563,8 @@ class Sampler {
         self.device = device
     }
 
-    func destroySampler(device: Device, sampler: Sampler?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroySampler(device.handle, sampler?.handle, ptr_pAllocator)
-        }
+    func destroySampler(device: Device, sampler: Sampler?) -> Void {
+        vkDestroySampler(device.handle, sampler?.handle, nil)
     }
 }
 
@@ -1691,10 +1591,8 @@ class DescriptorSetLayout {
         self.device = device
     }
 
-    func destroyDescriptorSetLayout(device: Device, descriptorSetLayout: DescriptorSetLayout?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyDescriptorSetLayout(device.handle, descriptorSetLayout?.handle, ptr_pAllocator)
-        }
+    func destroyDescriptorSetLayout(device: Device, descriptorSetLayout: DescriptorSetLayout?) -> Void {
+        vkDestroyDescriptorSetLayout(device.handle, descriptorSetLayout?.handle, nil)
     }
 }
 
@@ -1707,10 +1605,8 @@ class DescriptorPool {
         self.device = device
     }
 
-    func destroyDescriptorPool(device: Device, descriptorPool: DescriptorPool?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyDescriptorPool(device.handle, descriptorPool?.handle, ptr_pAllocator)
-        }
+    func destroyDescriptorPool(device: Device, descriptorPool: DescriptorPool?) -> Void {
+        vkDestroyDescriptorPool(device.handle, descriptorPool?.handle, nil)
     }
 
     func resetDescriptorPool(device: Device, descriptorPool: DescriptorPool, flags: DescriptorPoolResetFlags) -> VkResult {
@@ -1733,10 +1629,8 @@ class Fence {
         self.device = device
     }
 
-    func destroyFence(device: Device, fence: Fence?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyFence(device.handle, fence?.handle, ptr_pAllocator)
-        }
+    func destroyFence(device: Device, fence: Fence?) -> Void {
+        vkDestroyFence(device.handle, fence?.handle, nil)
     }
 
     func getFenceStatus(device: Device, fence: Fence) -> VkResult {
@@ -1753,10 +1647,8 @@ class Semaphore {
         self.device = device
     }
 
-    func destroySemaphore(device: Device, semaphore: Semaphore?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroySemaphore(device.handle, semaphore?.handle, ptr_pAllocator)
-        }
+    func destroySemaphore(device: Device, semaphore: Semaphore?) -> Void {
+        vkDestroySemaphore(device.handle, semaphore?.handle, nil)
     }
 
     func getSemaphoreCounterValue(device: Device, semaphore: Semaphore, pValue: UnsafeMutablePointer<UInt64>) -> VkResult {
@@ -1773,10 +1665,8 @@ class Event {
         self.device = device
     }
 
-    func destroyEvent(device: Device, event: Event?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyEvent(device.handle, event?.handle, ptr_pAllocator)
-        }
+    func destroyEvent(device: Device, event: Event?) -> Void {
+        vkDestroyEvent(device.handle, event?.handle, nil)
     }
 
     func getEventStatus(device: Device, event: Event) -> VkResult {
@@ -1801,10 +1691,8 @@ class QueryPool {
         self.device = device
     }
 
-    func destroyQueryPool(device: Device, queryPool: QueryPool?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyQueryPool(device.handle, queryPool?.handle, ptr_pAllocator)
-        }
+    func destroyQueryPool(device: Device, queryPool: QueryPool?) -> Void {
+        vkDestroyQueryPool(device.handle, queryPool?.handle, nil)
     }
 
     func getQueryPoolResults(device: Device, queryPool: QueryPool, firstQuery: UInt32, queryCount: UInt32, dataSize: Int, pData: UnsafeMutableRawPointer, stride: VkDeviceSize, flags: QueryResultFlags) -> VkResult {
@@ -1825,10 +1713,8 @@ class Framebuffer {
         self.device = device
     }
 
-    func destroyFramebuffer(device: Device, framebuffer: Framebuffer?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyFramebuffer(device.handle, framebuffer?.handle, ptr_pAllocator)
-        }
+    func destroyFramebuffer(device: Device, framebuffer: Framebuffer?) -> Void {
+        vkDestroyFramebuffer(device.handle, framebuffer?.handle, nil)
     }
 }
 
@@ -1841,10 +1727,8 @@ class RenderPass {
         self.device = device
     }
 
-    func destroyRenderPass(device: Device, renderPass: RenderPass?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyRenderPass(device.handle, renderPass?.handle, ptr_pAllocator)
-        }
+    func destroyRenderPass(device: Device, renderPass: RenderPass?) -> Void {
+        vkDestroyRenderPass(device.handle, renderPass?.handle, nil)
     }
 
     func getRenderAreaGranularity(device: Device, renderPass: RenderPass, pGranularity: UnsafeMutablePointer<VkExtent2D>) -> Void {
@@ -1861,10 +1745,8 @@ class PipelineCache {
         self.device = device
     }
 
-    func destroyPipelineCache(device: Device, pipelineCache: PipelineCache?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyPipelineCache(device.handle, pipelineCache?.handle, ptr_pAllocator)
-        }
+    func destroyPipelineCache(device: Device, pipelineCache: PipelineCache?) -> Void {
+        vkDestroyPipelineCache(device.handle, pipelineCache?.handle, nil)
     }
 
     func getPipelineCacheData(device: Device, pipelineCache: PipelineCache, pDataSize: UnsafeMutablePointer<Int>, pData: UnsafeMutableRawPointer) -> VkResult {
@@ -1887,10 +1769,8 @@ class IndirectCommandsLayoutNV {
         self.device = device
     }
 
-    func destroyIndirectCommandsLayoutNV(device: Device, indirectCommandsLayout: IndirectCommandsLayoutNV, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyIndirectCommandsLayoutNV(device.handle, indirectCommandsLayout.handle, ptr_pAllocator)
-        }
+    func destroyIndirectCommandsLayoutNV(device: Device, indirectCommandsLayout: IndirectCommandsLayoutNV) -> Void {
+        vkDestroyIndirectCommandsLayoutNV(device.handle, indirectCommandsLayout.handle, nil)
     }
 }
 
@@ -1903,10 +1783,8 @@ class DescriptorUpdateTemplate {
         self.device = device
     }
 
-    func destroyDescriptorUpdateTemplate(device: Device, descriptorUpdateTemplate: DescriptorUpdateTemplate?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyDescriptorUpdateTemplate(device.handle, descriptorUpdateTemplate?.handle, ptr_pAllocator)
-        }
+    func destroyDescriptorUpdateTemplate(device: Device, descriptorUpdateTemplate: DescriptorUpdateTemplate?) -> Void {
+        vkDestroyDescriptorUpdateTemplate(device.handle, descriptorUpdateTemplate?.handle, nil)
     }
 }
 
@@ -1919,10 +1797,8 @@ class SamplerYcbcrConversion {
         self.device = device
     }
 
-    func destroySamplerYcbcrConversion(device: Device, ycbcrConversion: SamplerYcbcrConversion?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroySamplerYcbcrConversion(device.handle, ycbcrConversion?.handle, ptr_pAllocator)
-        }
+    func destroySamplerYcbcrConversion(device: Device, ycbcrConversion: SamplerYcbcrConversion?) -> Void {
+        vkDestroySamplerYcbcrConversion(device.handle, ycbcrConversion?.handle, nil)
     }
 }
 
@@ -1935,10 +1811,8 @@ class ValidationCacheEXT {
         self.device = device
     }
 
-    func destroyValidationCacheEXT(device: Device, validationCache: ValidationCacheEXT?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyValidationCacheEXT(device.handle, validationCache?.handle, ptr_pAllocator)
-        }
+    func destroyValidationCacheEXT(device: Device, validationCache: ValidationCacheEXT?) -> Void {
+        vkDestroyValidationCacheEXT(device.handle, validationCache?.handle, nil)
     }
 
     func getValidationCacheDataEXT(device: Device, validationCache: ValidationCacheEXT, pDataSize: UnsafeMutablePointer<Int>, pData: UnsafeMutableRawPointer) -> VkResult {
@@ -1979,11 +1853,9 @@ class DisplayKHR {
         vkGetDisplayModePropertiesKHR(physicalDevice.handle, display.handle, pPropertyCount, pProperties)
     }
 
-    func createDisplayModeKHR(physicalDevice: PhysicalDevice, display: DisplayKHR, pCreateInfo: DisplayModeCreateInfoKHR, pAllocator: AllocationCallbacks?, pMode: UnsafeMutablePointer<VkDisplayModeKHR?>) -> VkResult {
+    func createDisplayModeKHR(physicalDevice: PhysicalDevice, display: DisplayKHR, pCreateInfo: DisplayModeCreateInfoKHR, pMode: UnsafeMutablePointer<VkDisplayModeKHR?>) -> VkResult {
         pCreateInfo.withCStruct { ptr_pCreateInfo in
-            pAllocator.withOptionalCStruct { ptr_pAllocator in
-                vkCreateDisplayModeKHR(physicalDevice.handle, display.handle, ptr_pCreateInfo, ptr_pAllocator, pMode)
-            }
+            vkCreateDisplayModeKHR(physicalDevice.handle, display.handle, ptr_pCreateInfo, nil, pMode)
         }
     }
 
@@ -2019,10 +1891,8 @@ class SurfaceKHR {
         self.instance = instance
     }
 
-    func destroySurfaceKHR(instance: Instance, surface: SurfaceKHR?, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroySurfaceKHR(instance.handle, surface?.handle, ptr_pAllocator)
-        }
+    func destroySurfaceKHR(instance: Instance, surface: SurfaceKHR?) -> Void {
+        vkDestroySurfaceKHR(instance.handle, surface?.handle, nil)
     }
 }
 
@@ -2045,10 +1915,8 @@ class DebugReportCallbackEXT {
         self.instance = instance
     }
 
-    func destroyDebugReportCallbackEXT(instance: Instance, callback: DebugReportCallbackEXT, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyDebugReportCallbackEXT(instance.handle, callback.handle, ptr_pAllocator)
-        }
+    func destroyDebugReportCallbackEXT(instance: Instance, callback: DebugReportCallbackEXT) -> Void {
+        vkDestroyDebugReportCallbackEXT(instance.handle, callback.handle, nil)
     }
 }
 
@@ -2061,10 +1929,8 @@ class DebugUtilsMessengerEXT {
         self.instance = instance
     }
 
-    func destroyDebugUtilsMessengerEXT(instance: Instance, messenger: DebugUtilsMessengerEXT, pAllocator: AllocationCallbacks?) -> Void {
-        pAllocator.withOptionalCStruct { ptr_pAllocator in
-            vkDestroyDebugUtilsMessengerEXT(instance.handle, messenger.handle, ptr_pAllocator)
-        }
+    func destroyDebugUtilsMessengerEXT(instance: Instance, messenger: DebugUtilsMessengerEXT) -> Void {
+        vkDestroyDebugUtilsMessengerEXT(instance.handle, messenger.handle, nil)
     }
 }
 

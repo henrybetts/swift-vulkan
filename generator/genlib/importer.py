@@ -270,7 +270,7 @@ class Importer:
                 c_value_generators.setdefault(c_member.name, static_value_generator(c_member.values[0]))
                 continue
 
-            if c_member.name == 'pNext':
+            if c_member.name in ('pNext', 'pAllocator'):
                 c_value_generators.setdefault(c_member.name, static_value_generator('nil'))
                 continue
 
