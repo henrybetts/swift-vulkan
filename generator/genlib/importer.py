@@ -1,4 +1,4 @@
-from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle
+from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle, CMember
 from . import typeconversion as tc
 from typing import Optional, Tuple, List, Dict
 
@@ -222,7 +222,7 @@ class Importer:
         self.imported_classes[handle.name] = cls
         return cls
 
-    def get_type_conversion(self, c_type: CType, members: List[CStruct.Member] = None,
+    def get_type_conversion(self, c_type: CType, members: List[CMember] = None,
                             implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
@@ -332,7 +332,7 @@ def is_string_convertible(type_: CType) -> bool:
             and type_.pointer_to.const)
 
 
-def is_array_convertible(type_: CType, members: List[CStruct.Member] = None) -> bool:
+def is_array_convertible(type_: CType, members: List[CMember] = None) -> bool:
     if (members and type_.pointer_to and type_.pointer_to.const and type_.length
             and type_.length != 'null-terminated' and type_.pointer_to.name != 'void'):
         for member in members:

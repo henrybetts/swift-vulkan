@@ -32,14 +32,15 @@ class CType:
         self.optional = optional
 
 
-class CStruct:
-    class Member:
-        def __init__(self, name: str, type_: CType, values: List[str] = None):
-            self.name = name
-            self.type = type_
-            self.values = values or []
+class CMember:
+    def __init__(self, name: str, type_: CType, values: List[str] = None):
+        self.name = name
+        self.type = type_
+        self.values = values or []
 
-    def __init__(self, name: str, members: List[Member] = None):
+
+class CStruct:
+    def __init__(self, name: str, members: List[CMember] = None):
         self.name = name
         self.members = members or []
 
@@ -193,53 +194,7 @@ class CContext:
             c_struct = CStruct(struct.attrib['name'])
 
             for member in struct.findall('./member'):
-                e_type = member.find('./type')
-                type_string = (member.text or '') + e_type.text + (e_type.tail or '')
-
-                e_name = member.find('./name')
-                name = e_name.text
-
-                array_size: int = None
-                if e_name.tail and e_name.tail.startswith('['):
-                    match = re.match('\[\s*(\d+)\s*\]', e_name.tail)
-                    if match:
-                        array_size = int(match.group(1))
-                    else:
-                        e_enum = member.find('./enum')
-                        array_size = int(tree.find(f'./enums/enum[@name="{e_enum.text}"]').attrib['value'])
-
-                type_strings = type_string.split('*')
-
-                first_type = type_strings[0].split()
-                is_const = False
-                if 'const' in first_type:
-                    first_type.remove('const')
-                    is_const = True
-                if 'struct' in first_type:
-                    first_type.remove('struct')
-                c_type = CType(name=' '.join(first_type), const=is_const)
-
-                pointers = type_strings[1:]
-                lengths = member.attrib['len'].split(',') if 'len' in member.attrib else []
-                optionals = member.attrib['optional'].split(',') if 'optional' in member.attrib else []
-
-                if len(optionals) > len(pointers):
-                    c_type.optional = optionals.pop(-1) == 'true'
-
-                lengths = reversed(lengths[:len(pointers)])
-                optionals = reversed(optionals[:len(pointers)])
-
-                for pointer, length, optional in zip_longest(pointers, lengths, optionals):
-                    c_type = CType(pointer_to=c_type, length=length, const='const' in pointer,
-                                   optional=optional == 'true')
-
-                if array_size is not None:
-                    c_type = CType(array_of=c_type, length=array_size)
-
-                values_string = member.get('values')
-                values = values_string.split(',') if values_string else []
-
-                c_struct.members.append(CStruct.Member(name, c_type, values))
+                c_struct.members.append(parse_member(member, tree))
 
             self.structs.append(c_struct)
 
@@ -263,3 +218,53 @@ def parse_enum_value(e_enum: ElementTree, extension_number: int = None) -> str:
         return str(2 ** int(e_enum.attrib['bitpos']))
     else:
         return e_enum.attrib['value']
+
+
+def parse_member(member: ElementTree, tree: ElementTree) -> CMember:
+    e_type = member.find('./type')
+    type_string = (member.text or '') + e_type.text + (e_type.tail or '')
+
+    e_name = member.find('./name')
+    name = e_name.text
+
+    array_size: int = None
+    if e_name.tail and e_name.tail.startswith('['):
+        match = re.match('\[\s*(\d+)\s*\]', e_name.tail)
+        if match:
+            array_size = int(match.group(1))
+        else:
+            e_enum = member.find('./enum')
+            array_size = int(tree.find(f'./enums/enum[@name="{e_enum.text}"]').attrib['value'])
+
+    type_strings = type_string.split('*')
+
+    first_type = type_strings[0].split()
+    is_const = False
+    if 'const' in first_type:
+        first_type.remove('const')
+        is_const = True
+    if 'struct' in first_type:
+        first_type.remove('struct')
+    c_type = CType(name=' '.join(first_type), const=is_const)
+
+    pointers = type_strings[1:]
+    lengths = member.attrib['len'].split(',') if 'len' in member.attrib else []
+    optionals = member.attrib['optional'].split(',') if 'optional' in member.attrib else []
+
+    if len(optionals) > len(pointers):
+        c_type.optional = optionals.pop(-1) == 'true'
+
+    lengths = reversed(lengths[:len(pointers)])
+    optionals = reversed(optionals[:len(pointers)])
+
+    for pointer, length, optional in zip_longest(pointers, lengths, optionals):
+        c_type = CType(pointer_to=c_type, length=length, const='const' in pointer,
+                       optional=optional == 'true')
+
+    if array_size is not None:
+        c_type = CType(array_of=c_type, length=array_size)
+
+    values_string = member.get('values')
+    values = values_string.split(',') if values_string else []
+
+    return CMember(name, c_type, values)
