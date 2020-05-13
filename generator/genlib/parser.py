@@ -117,6 +117,7 @@ class CContext:
                 handle = CHandle(handle_name)
                 self.handles.append(handle)
                 handles[handle_name] = handle
+                parents[handle_name] = e_handle.get('parent')
 
         for handle_name, handle in handles.items():
             try:

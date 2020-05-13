@@ -34,9 +34,11 @@ class SwiftStruct:
 
 
 class SwiftClass:
-    def __init__(self, c_handle: CHandle, name: str):
+    def __init__(self, c_handle: CHandle, name: str, reference_name: str, parent: 'SwiftClass' = None):
         self.c_handle = c_handle
         self.name = name
+        self.reference_name = reference_name
+        self.parent = parent
 
 
 class SwiftContext:
@@ -54,15 +56,13 @@ class Importer:
         self.imported_option_sets: Dict[str, str] = {}
         self.imported_option_set_bits: Dict[str, str] = {}
         self.imported_structs: Dict[str, str] = {}
-        self.imported_classes: Dict[str, str] = {}
+        self.imported_classes: Dict[str, SwiftClass] = {}
         self.pointer_types = [handle.name for handle in c_context.handles]
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
         context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
         context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
-        for handle in self.c_context.handles:
-            self.import_handle_name(handle)
         context.classes = [self.import_handle(handle) for handle in self.c_context.handles]
         for struct in self.c_context.structs:
             self.import_struct_name(struct)
@@ -206,16 +206,21 @@ class Importer:
         struct.c_value_generators = [c_value_generators[member.name] for member in c_struct.members]
         return struct
 
-    def import_handle_name(self, handle: CHandle) -> str:
-        name = remove_vk_prefix(handle.name)
-        self.imported_classes[handle.name] = name
-        return name
-
     def import_handle(self, handle: CHandle) -> SwiftClass:
-        return SwiftClass(
+        if handle.name in self.imported_classes:
+            return self.imported_classes[handle.name]
+
+        name = remove_vk_prefix(handle.name)
+        reference_name, _ = self.pop_extension_tag(name)
+        reference_name = reference_name[0].lower() + reference_name[1:]
+        cls = SwiftClass(
             c_handle=handle,
-            name=self.imported_classes.get(handle.name) or self.import_handle_name(handle)
+            name=name,
+            reference_name=reference_name,
+            parent=self.import_handle(handle.parent) if handle.parent else None
         )
+        self.imported_classes[handle.name] = cls
+        return cls
 
     def get_type_conversion(self, c_type: CType, members: List[CStruct.Member] = None,
                             implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
@@ -238,7 +243,7 @@ class Importer:
                     swift_struct = self.imported_structs[c_type.name]
                     return swift_struct, tc.struct_conversion(swift_struct)
                 if c_type.name in self.imported_classes:
-                    cls = self.imported_classes[c_type.name]
+                    cls = self.imported_classes[c_type.name].name
                     if c_type.optional:
                         return cls + '?', tc.optional_class_conversion(cls)
                     else:

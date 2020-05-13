@@ -74,9 +74,23 @@ class Generator(BaseGenerator):
                 self << 'return try body(&cStruct)'
 
     def generate_class(self, cls: SwiftClass):
-        with self.indent(f'struct {cls.name} {{', '}'):
+        with self.indent(f'class {cls.name} {{', '}'):
             self << f'let handle: {cls.c_handle.name}!'
+            if cls.parent:
+                self << f'let {cls.parent.reference_name}: {cls.parent.name}'
+            self.linebreak()
+            self.generate_class_init(cls)
         self.linebreak()
+
+    def generate_class_init(self, cls: SwiftClass):
+        param_string = f'handle: {cls.c_handle.name}!'
+        if cls.parent:
+            param_string += f', {cls.parent.reference_name}: {cls.parent.name}'
+
+        with self.indent(f'init({param_string}) {{', '}'):
+            self << 'self.handle = handle'
+            if cls.parent:
+                self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):

@@ -1,146 +1,360 @@
 import CVulkan
 
-struct Instance {
+class Instance {
     let handle: VkInstance!
+
+    init(handle: VkInstance!) {
+        self.handle = handle
+    }
 }
 
-struct PhysicalDevice {
+class PhysicalDevice {
     let handle: VkPhysicalDevice!
+    let instance: Instance
+
+    init(handle: VkPhysicalDevice!, instance: Instance) {
+        self.handle = handle
+        self.instance = instance
+    }
 }
 
-struct Device {
+class Device {
     let handle: VkDevice!
+    let physicalDevice: PhysicalDevice
+
+    init(handle: VkDevice!, physicalDevice: PhysicalDevice) {
+        self.handle = handle
+        self.physicalDevice = physicalDevice
+    }
 }
 
-struct Queue {
+class Queue {
     let handle: VkQueue!
+    let device: Device
+
+    init(handle: VkQueue!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct CommandBuffer {
+class CommandBuffer {
     let handle: VkCommandBuffer!
+    let commandPool: CommandPool
+
+    init(handle: VkCommandBuffer!, commandPool: CommandPool) {
+        self.handle = handle
+        self.commandPool = commandPool
+    }
 }
 
-struct DeviceMemory {
+class DeviceMemory {
     let handle: VkDeviceMemory!
+    let device: Device
+
+    init(handle: VkDeviceMemory!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct CommandPool {
+class CommandPool {
     let handle: VkCommandPool!
+    let device: Device
+
+    init(handle: VkCommandPool!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Buffer {
+class Buffer {
     let handle: VkBuffer!
+    let device: Device
+
+    init(handle: VkBuffer!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct BufferView {
+class BufferView {
     let handle: VkBufferView!
+    let device: Device
+
+    init(handle: VkBufferView!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Image {
+class Image {
     let handle: VkImage!
+    let device: Device
+
+    init(handle: VkImage!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct ImageView {
+class ImageView {
     let handle: VkImageView!
+    let device: Device
+
+    init(handle: VkImageView!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct ShaderModule {
+class ShaderModule {
     let handle: VkShaderModule!
+    let device: Device
+
+    init(handle: VkShaderModule!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Pipeline {
+class Pipeline {
     let handle: VkPipeline!
+    let device: Device
+
+    init(handle: VkPipeline!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct PipelineLayout {
+class PipelineLayout {
     let handle: VkPipelineLayout!
+    let device: Device
+
+    init(handle: VkPipelineLayout!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Sampler {
+class Sampler {
     let handle: VkSampler!
+    let device: Device
+
+    init(handle: VkSampler!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct DescriptorSet {
+class DescriptorSet {
     let handle: VkDescriptorSet!
+    let descriptorPool: DescriptorPool
+
+    init(handle: VkDescriptorSet!, descriptorPool: DescriptorPool) {
+        self.handle = handle
+        self.descriptorPool = descriptorPool
+    }
 }
 
-struct DescriptorSetLayout {
+class DescriptorSetLayout {
     let handle: VkDescriptorSetLayout!
+    let device: Device
+
+    init(handle: VkDescriptorSetLayout!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct DescriptorPool {
+class DescriptorPool {
     let handle: VkDescriptorPool!
+    let device: Device
+
+    init(handle: VkDescriptorPool!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Fence {
+class Fence {
     let handle: VkFence!
+    let device: Device
+
+    init(handle: VkFence!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Semaphore {
+class Semaphore {
     let handle: VkSemaphore!
+    let device: Device
+
+    init(handle: VkSemaphore!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Event {
+class Event {
     let handle: VkEvent!
+    let device: Device
+
+    init(handle: VkEvent!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct QueryPool {
+class QueryPool {
     let handle: VkQueryPool!
+    let device: Device
+
+    init(handle: VkQueryPool!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct Framebuffer {
+class Framebuffer {
     let handle: VkFramebuffer!
+    let device: Device
+
+    init(handle: VkFramebuffer!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct RenderPass {
+class RenderPass {
     let handle: VkRenderPass!
+    let device: Device
+
+    init(handle: VkRenderPass!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct PipelineCache {
+class PipelineCache {
     let handle: VkPipelineCache!
+    let device: Device
+
+    init(handle: VkPipelineCache!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct IndirectCommandsLayoutNV {
+class IndirectCommandsLayoutNV {
     let handle: VkIndirectCommandsLayoutNV!
+    let device: Device
+
+    init(handle: VkIndirectCommandsLayoutNV!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct DescriptorUpdateTemplate {
+class DescriptorUpdateTemplate {
     let handle: VkDescriptorUpdateTemplate!
+    let device: Device
+
+    init(handle: VkDescriptorUpdateTemplate!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct SamplerYcbcrConversion {
+class SamplerYcbcrConversion {
     let handle: VkSamplerYcbcrConversion!
+    let device: Device
+
+    init(handle: VkSamplerYcbcrConversion!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct ValidationCacheEXT {
+class ValidationCacheEXT {
     let handle: VkValidationCacheEXT!
+    let device: Device
+
+    init(handle: VkValidationCacheEXT!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct PerformanceConfigurationINTEL {
+class PerformanceConfigurationINTEL {
     let handle: VkPerformanceConfigurationINTEL!
+    let device: Device
+
+    init(handle: VkPerformanceConfigurationINTEL!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
 }
 
-struct DisplayKHR {
+class DisplayKHR {
     let handle: VkDisplayKHR!
+    let physicalDevice: PhysicalDevice
+
+    init(handle: VkDisplayKHR!, physicalDevice: PhysicalDevice) {
+        self.handle = handle
+        self.physicalDevice = physicalDevice
+    }
 }
 
-struct DisplayModeKHR {
+class DisplayModeKHR {
     let handle: VkDisplayModeKHR!
+    let display: DisplayKHR
+
+    init(handle: VkDisplayModeKHR!, display: DisplayKHR) {
+        self.handle = handle
+        self.display = display
+    }
 }
 
-struct SurfaceKHR {
+class SurfaceKHR {
     let handle: VkSurfaceKHR!
+    let instance: Instance
+
+    init(handle: VkSurfaceKHR!, instance: Instance) {
+        self.handle = handle
+        self.instance = instance
+    }
 }
 
-struct SwapchainKHR {
+class SwapchainKHR {
     let handle: VkSwapchainKHR!
+    let surface: SurfaceKHR
+
+    init(handle: VkSwapchainKHR!, surface: SurfaceKHR) {
+        self.handle = handle
+        self.surface = surface
+    }
 }
 
-struct DebugReportCallbackEXT {
+class DebugReportCallbackEXT {
     let handle: VkDebugReportCallbackEXT!
+    let instance: Instance
+
+    init(handle: VkDebugReportCallbackEXT!, instance: Instance) {
+        self.handle = handle
+        self.instance = instance
+    }
 }
 
-struct DebugUtilsMessengerEXT {
+class DebugUtilsMessengerEXT {
     let handle: VkDebugUtilsMessengerEXT!
+    let instance: Instance
+
+    init(handle: VkDebugUtilsMessengerEXT!, instance: Instance) {
+        self.handle = handle
+        self.instance = instance
+    }
 }
 
