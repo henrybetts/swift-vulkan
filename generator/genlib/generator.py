@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand
 from typing import TextIO, List, Tuple
 
 
@@ -78,8 +78,14 @@ class Generator(BaseGenerator):
             self << f'let handle: {cls.c_handle.name}!'
             if cls.parent:
                 self << f'let {cls.parent.reference_name}: {cls.parent.name}'
+
             self.linebreak()
             self.generate_class_init(cls)
+
+            for command in cls.commands:
+                self.linebreak()
+                self.generate_command(command)
+
         self.linebreak()
 
     def generate_class_init(self, cls: SwiftClass):
@@ -91,6 +97,12 @@ class Generator(BaseGenerator):
             self << 'self.handle = handle'
             if cls.parent:
                 self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
+
+    def generate_command(self, command: SwiftCommand):
+        param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
+        with self.indent(f'func {command.name}({param_string}) -> {command.return_type} {{', '}'):
+            param_string = ', '.join([param.name for param in command.c_command.params])
+            self << f'return {command.c_command.name}({param_string})'
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):

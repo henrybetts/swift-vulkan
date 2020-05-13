@@ -51,14 +51,22 @@ class CHandle:
         self.parent = parent
 
 
+class CCommand:
+    def __init__(self, name: str, return_type: CType, params: List[CMember] = None):
+        self.name = name
+        self.return_type = return_type
+        self.params = params or []
+
+
 class CExtension:
     def __init__(self, name: str, supported: str = None, platform: str = None,
-                 types: List[str] = None, enums: List[CEnum] = None):
+                 types: List[str] = None, enums: List[CEnum] = None, commands: List[str] = None):
         self.name = name
         self.supported = supported
         self.platform = platform
         self.types = types or []
         self.enums = enums or []
+        self.commands = commands or []
 
 
 class CContext:
@@ -69,6 +77,7 @@ class CContext:
         self.enums: List[CEnum] = []
         self.bitmasks: List[CBitmask] = []
         self.structs: List[CStruct] = []
+        self.commands: List[CCommand] = []
 
     def parse(self, source):
         tree = ElementTree.parse(source)
@@ -81,6 +90,7 @@ class CContext:
         self.parse_enums(tree)
         self.parse_bitmasks(tree)
         self.parse_structs(tree)
+        self.parse_commands(tree)
 
     def parse_extensions(self, tree: ElementTree):
         for e_extension in tree.findall('./extensions/extension'):
@@ -98,7 +108,8 @@ class CContext:
                 supported=e_extension.get('supported'),
                 platform=e_extension.get('platform'),
                 types=[t.attrib['name'] for t in e_extension.findall('./require/type')],
-                enums=[CEnum(enum_name, cases) for enum_name, cases in enums.items()]
+                enums=[CEnum(enum_name, cases) for enum_name, cases in enums.items()],
+                commands=[c.attrib['name'] for c in e_extension.findall('./require/command')],
             )
             self.extensions.append(c_extension)
 
@@ -114,7 +125,7 @@ class CContext:
             if 'alias' in e_handle.attrib:
                 continue
             handle_name = e_handle.find('./name').text
-            if not self.should_ignore_type(handle_name):
+            if not self.should_ignore(type_=handle_name):
                 handle = CHandle(handle_name)
                 self.handles.append(handle)
                 handles[handle_name] = handle
@@ -130,7 +141,7 @@ class CContext:
         for e_enum in tree.findall('./enums[@type="enum"]'):
             enum_name = e_enum.attrib['name']
 
-            if self.should_ignore_type(enum_name):
+            if self.should_ignore(type_=enum_name):
                 continue
 
             cases = {}
@@ -157,7 +168,7 @@ class CContext:
 
             bitmask_name = e_bitmask.find('./name').text
 
-            if self.should_ignore_type(bitmask_name):
+            if self.should_ignore(type_=bitmask_name):
                 continue
 
             c_bitmask = CBitmask(bitmask_name)
@@ -188,7 +199,7 @@ class CContext:
             if 'alias' in struct.attrib:
                 continue
 
-            if self.should_ignore_type(struct.attrib['name']):
+            if self.should_ignore(type_=struct.attrib['name']):
                 continue
 
             c_struct = CStruct(struct.attrib['name'])
@@ -198,9 +209,25 @@ class CContext:
 
             self.structs.append(c_struct)
 
-    def should_ignore_type(self, type_name: str) -> bool:
+    def parse_commands(self, tree: ElementTree):
+        for e_command in tree.findall('./commands/command'):
+            if 'alias' in e_command.attrib:
+                continue
+
+            proto = parse_member(e_command.find('./proto'), tree)
+
+            if self.should_ignore(command=proto.name):
+                continue
+
+            c_command = CCommand(proto.name, proto.type)
+            for e_param in e_command.findall('./param'):
+                c_command.params.append(parse_member(e_param, tree))
+
+            self.commands.append(c_command)
+
+    def should_ignore(self, type_: str = None, command: str = None) -> bool:
         for extension in self.extensions:
-            if type_name in extension.types:
+            if (type_ and type_ in extension.types) or (command and command in extension.commands):
                 if extension.supported == 'disabled' or extension.platform:
                     return True
         return False

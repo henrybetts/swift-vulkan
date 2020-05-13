@@ -1,4 +1,4 @@
-from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle, CMember
+from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle, CMember, CCommand
 from . import typeconversion as tc
 from typing import Optional, Tuple, List, Dict
 
@@ -33,12 +33,36 @@ class SwiftStruct:
         self.c_struct = c_struct
 
 
+class SwiftCommand:
+    class Param:
+        def __init__(self, name: str, type_: str):
+            self.name = name
+            self.type = type_
+
+    def __init__(self, c_command: CCommand, name: str, return_type: str, params: List[Param]):
+        self.c_command = c_command
+        self.name = name
+        self.return_type = return_type
+        self.params = params
+
+
 class SwiftClass:
-    def __init__(self, c_handle: CHandle, name: str, reference_name: str, parent: 'SwiftClass' = None):
+    def __init__(self, c_handle: CHandle, name: str, reference_name: str, parent: 'SwiftClass' = None,
+                 commands: List[SwiftCommand] = None):
         self.c_handle = c_handle
         self.name = name
         self.reference_name = reference_name
         self.parent = parent
+        self.commands = commands or []
+
+    @property
+    def ancestors(self) -> List['SwiftClass']:
+        ancestors: List[SwiftClass] = []
+        current_class = self
+        while current_class.parent:
+            current_class = current_class.parent
+            ancestors.append(current_class)
+        return ancestors
 
 
 class SwiftContext:
@@ -67,6 +91,8 @@ class Importer:
         for struct in self.c_context.structs:
             self.import_struct_name(struct)
         context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
+        for command in self.c_context.commands:
+            self.import_command(command)
         return context
 
     def import_enum(self, c_enum: CEnum) -> SwiftEnum:
@@ -221,6 +247,39 @@ class Importer:
         )
         self.imported_classes[handle.name] = cls
         return cls
+
+    def import_command(self, c_command: CCommand) -> SwiftCommand:
+        name = remove_vk_prefix(c_command.name)
+        name = name[0].lower() + name[1:]
+        command = SwiftCommand(
+            c_command=c_command,
+            name=remove_vk_prefix(name),
+            return_type=self.get_type_conversion(c_command.return_type, implicit_only=True)[0],
+            params=[SwiftCommand.Param(param.name, self.get_type_conversion(param.type, implicit_only=True)[0])
+                    for param in c_command.params]
+        )
+
+        class_params = self.get_class_params(c_command)
+        if not class_params:
+            self.imported_classes['VkInstance'].commands.append(command)
+        else:
+            class_params[-1][1].commands.append(command)
+
+        return command
+
+    def get_class_params(self, command: CCommand) -> List[Tuple[CMember, SwiftClass]]:
+        class_params: List[Tuple[CMember, SwiftClass]] = []
+        previous_class: SwiftClass = None
+        for param in command.params:
+            if param.type.name and param.type.name in self.imported_classes:
+                if not param.type.optional or command.name.startswith('vkDestroy'):
+                    cls = self.imported_classes[param.type.name]
+                    if not previous_class or previous_class in cls.ancestors:
+                        previous_class = cls
+                        class_params.append((param, cls))
+                        continue
+            break
+        return class_params
 
     def get_type_conversion(self, c_type: CType, members: List[CMember] = None,
                             implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
