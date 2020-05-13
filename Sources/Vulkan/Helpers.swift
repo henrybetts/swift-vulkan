@@ -1,3 +1,12 @@
+import CVulkan
+
+
+func checkResult(_ result: VkResult) throws {
+    if result.rawValue < 0 {
+        throw Result(rawValue: result.rawValue)!
+    }
+}
+
 protocol CStructConvertible {
     associatedtype CStruct
     func withCStruct<R>(_ body: (UnsafePointer<CStruct>) throws -> R) rethrows -> R

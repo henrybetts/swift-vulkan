@@ -37,7 +37,10 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_enum(self, enum: SwiftEnum):
-        with self.indent(f'enum {enum.name}: {enum.raw_type} {{', '}'):
+        types = [enum.raw_type]
+        if enum.error:
+            types.append('Error')
+        with self.indent(f'enum {enum.name}: {", ".join(types)} {{', '}'):
             for case in enum.cases:
                 self << f'case {safe_name(case.name)} = {case.value}'
         self.linebreak()
@@ -103,10 +106,18 @@ class Generator(BaseGenerator):
         closures = [gen(swift_values_map) for gen in command.closure_generators]
 
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
-        with self.indent(f'func {command.name}({param_string}) -> {command.return_type} {{', '}'):
-            with self.closures(closures):
+        throws_string = ' throws' if command.throws else ''
+
+        with self.indent(f'func {command.name}({param_string}){throws_string} -> {command.return_type} {{', '}'):
+            with self.closures(closures, throws=command.throws):
                 param_string = ', '.join([gen(swift_values_map) for gen in command.c_value_generators])
-                self << f'{command.c_command.name}({param_string})'
+                call_string = f'{command.c_command.name}({param_string})'
+
+                if command.throws:
+                    with self.indent('try checkResult(', ')'):
+                        self << call_string
+                else:
+                    self << call_string
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):

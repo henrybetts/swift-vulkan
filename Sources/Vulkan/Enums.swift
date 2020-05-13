@@ -774,7 +774,7 @@ enum SubpassContents: UInt32 {
     case secondaryCommandBuffers = 1
 }
 
-enum Result: Int32 {
+enum Result: Int32, Error {
     case success = 0
     case notReady = 1
     case timeout = 2

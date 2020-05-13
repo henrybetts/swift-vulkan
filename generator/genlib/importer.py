@@ -4,10 +4,11 @@ from typing import Optional, Tuple, List, Dict
 
 
 class SwiftEnum(CEnum):
-    def __init__(self, c_enum: CEnum, raw_type: str, **kwargs):
+    def __init__(self, c_enum: CEnum, raw_type: str, error: bool = False, **kwargs):
         super().__init__(**kwargs)
         self.c_enum = c_enum
         self.raw_type = raw_type
+        self.error = error
 
 
 class SwiftOptionSet(CEnum):
@@ -35,11 +36,12 @@ class SwiftStruct:
 
 
 class SwiftCommand:
-    def __init__(self, c_command: CCommand, name: str, return_type: str, params: List[SwiftMember],
+    def __init__(self, c_command: CCommand, name: str, return_type: str, throws: bool, params: List[SwiftMember],
                  c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
+        self.throws = throws
         self.params = params
         self.c_value_generators = c_value_generators
         self.closure_generators = closure_generators
@@ -99,7 +101,8 @@ class Importer:
             name=remove_vk_prefix(c_enum.name),
             cases=[],
             c_enum=c_enum,
-            raw_type='UInt32'
+            raw_type='UInt32',
+            error=c_enum.name == 'VkResult'
         )
 
         prefix, enum_tag = self.pop_extension_tag(swift_enum.name)
@@ -219,11 +222,14 @@ class Importer:
         name = name[0].lower() + name[1:]
 
         params, c_value_generators, closure_generators = self.get_member_conversions(c_command.params)
+        throws = c_command.return_type.name == 'VkResult'
+        return_type = 'Void' if throws else self.get_type_conversion(c_command.return_type, implicit_only=True)[0]
 
         command = SwiftCommand(
             c_command=c_command,
             name=remove_vk_prefix(name),
-            return_type=self.get_type_conversion(c_command.return_type, implicit_only=True)[0],
+            return_type=return_type,
+            throws=throws,
             params=params,
             c_value_generators=c_value_generators,
             closure_generators=closure_generators
