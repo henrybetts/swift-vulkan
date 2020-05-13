@@ -17,14 +17,15 @@ class SwiftOptionSet(CEnum):
         self.raw_type = raw_type
 
 
-class SwiftStruct:
-    class Member:
-        def __init__(self, name: str, type_: str, value_generator: tc.ValueGenerator):
-            self.name = name
-            self.type = type_
-            self.value_generator = value_generator
+class SwiftMember:
+    def __init__(self, name: str, type_: str, value_generator: tc.ValueGenerator):
+        self.name = name
+        self.type = type_
+        self.value_generator = value_generator
 
-    def __init__(self, c_struct: CStruct, name: str, members: List[Member],
+
+class SwiftStruct:
+    def __init__(self, c_struct: CStruct, name: str, members: List[SwiftMember],
                  c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
         self.name = name
         self.members = members
@@ -34,16 +35,14 @@ class SwiftStruct:
 
 
 class SwiftCommand:
-    class Param:
-        def __init__(self, name: str, type_: str):
-            self.name = name
-            self.type = type_
-
-    def __init__(self, c_command: CCommand, name: str, return_type: str, params: List[Param]):
+    def __init__(self, c_command: CCommand, name: str, return_type: str, params: List[SwiftMember],
+                 c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
         self.params = params
+        self.c_value_generators = c_value_generators
+        self.closure_generators = closure_generators
 
 
 class SwiftClass:
@@ -191,45 +190,12 @@ class Importer:
         return name
 
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
+        members, c_value_generators, closure_generators = self.get_member_conversions(c_struct.members)
         struct = SwiftStruct(c_struct=c_struct,
                              name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
-                             members=[],
-                             c_value_generators=[],
-                             closure_generators=[])
-
-        c_value_generators: Dict[str, tc.ValueGenerator] = {}
-        lengths: List[str] = []
-
-        for c_member in c_struct.members:
-            if is_array_convertible(c_member.type, c_struct.members):
-                lengths.append(c_member.type.length)
-
-        for c_member in c_struct.members:
-            if c_member.name in lengths:
-                continue
-
-            if len(c_member.values) == 1:
-                c_value_generators.setdefault(c_member.name, static_value_generator(c_member.values[0]))
-                continue
-
-            if c_member.name == 'pNext':
-                c_value_generators.setdefault(c_member.name, static_value_generator('nil'))
-                continue
-
-            swift_type, conversion = self.get_type_conversion(c_member.type, members=c_struct.members)
-            c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(c_member.name))
-
-            if conversion.requires_closure:
-                struct.closure_generators.append(conversion.get_c_closure_generator(c_member.name))
-
-            if isinstance(conversion, tc.ArrayConversion):
-                c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(c_member.name))
-
-            member = SwiftStruct.Member(name=c_member.name, type_=swift_type,
-                                        value_generator=conversion.get_swift_value_generator(c_member.name))
-            struct.members.append(member)
-
-        struct.c_value_generators = [c_value_generators[member.name] for member in c_struct.members]
+                             members=members,
+                             c_value_generators=c_value_generators,
+                             closure_generators=closure_generators)
         return struct
 
     def import_handle(self, handle: CHandle) -> SwiftClass:
@@ -251,12 +217,16 @@ class Importer:
     def import_command(self, c_command: CCommand) -> SwiftCommand:
         name = remove_vk_prefix(c_command.name)
         name = name[0].lower() + name[1:]
+
+        params, c_value_generators, closure_generators = self.get_member_conversions(c_command.params)
+
         command = SwiftCommand(
             c_command=c_command,
             name=remove_vk_prefix(name),
             return_type=self.get_type_conversion(c_command.return_type, implicit_only=True)[0],
-            params=[SwiftCommand.Param(param.name, self.get_type_conversion(param.type, implicit_only=True)[0])
-                    for param in c_command.params]
+            params=params,
+            c_value_generators=c_value_generators,
+            closure_generators=closure_generators
         )
 
         class_params = self.get_class_params(c_command)
@@ -280,6 +250,46 @@ class Importer:
                         continue
             break
         return class_params
+
+    def get_member_conversions(self, c_members: List[CMember]) -> Tuple[List[SwiftMember], List[tc.ValueGenerator],
+                                                                        List[tc.ClosureGenerator]]:
+        members: List[SwiftMember] = []
+        c_value_generators: Dict[str, tc.ValueGenerator] = {}
+        c_closure_generators: List[tc.ClosureGenerator] = []
+        lengths: List[str] = []
+
+        for c_member in c_members:
+            if is_array_convertible(c_member.type, c_members):
+                lengths.append(c_member.type.length)
+
+        for c_member in c_members:
+            if c_member.name in lengths:
+                continue
+
+            if len(c_member.values) == 1:
+                c_value_generators.setdefault(c_member.name, static_value_generator(c_member.values[0]))
+                continue
+
+            if c_member.name == 'pNext':
+                c_value_generators.setdefault(c_member.name, static_value_generator('nil'))
+                continue
+
+            swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members)
+            c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(c_member.name))
+
+            if conversion.requires_closure:
+                c_closure_generators.append(conversion.get_c_closure_generator(c_member.name))
+
+            if isinstance(conversion, tc.ArrayConversion):
+                c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(c_member.name))
+
+            member = SwiftMember(name=c_member.name, type_=swift_type,
+                                 value_generator=conversion.get_swift_value_generator(c_member.name))
+            members.append(member)
+
+        return (members,
+                [c_value_generators[member.name] for member in c_members],
+                c_closure_generators)
 
     def get_type_conversion(self, c_type: CType, members: List[CMember] = None,
                             implicit_only: bool = False) -> Tuple[str, tc.Conversion]:

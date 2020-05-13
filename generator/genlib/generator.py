@@ -99,10 +99,14 @@ class Generator(BaseGenerator):
                 self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
 
     def generate_command(self, command: SwiftCommand):
+        swift_values_map = {param.name: param.name for param in command.params}
+        closures = [gen(swift_values_map) for gen in command.closure_generators]
+
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
         with self.indent(f'func {command.name}({param_string}) -> {command.return_type} {{', '}'):
-            param_string = ', '.join([param.name for param in command.c_command.params])
-            self << f'return {command.c_command.name}({param_string})'
+            with self.closures(closures):
+                param_string = ', '.join([gen(swift_values_map) for gen in command.c_value_generators])
+                self << f'{command.c_command.name}({param_string})'
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):
