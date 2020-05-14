@@ -7,7 +7,7 @@ class Instance {
         self.handle = handle
     }
 
-    func createInstance(pCreateInfo: InstanceCreateInfo, pInstance: UnsafeMutablePointer<VkInstance?>) throws -> Void {
+    static func createInstance(pCreateInfo: InstanceCreateInfo, pInstance: UnsafeMutablePointer<VkInstance?>) throws -> Void {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
             try checkResult(
                 vkCreateInstance(ptr_pCreateInfo, nil, pInstance)
@@ -15,7 +15,7 @@ class Instance {
         }
     }
 
-    func destroyInstance(instance: Instance?) -> Void {
+    static func destroyInstance(instance: Instance?) -> Void {
         vkDestroyInstance(instance?.handle, nil)
     }
 
@@ -25,29 +25,29 @@ class Instance {
         )
     }
 
-    func getInstanceProcAddr(instance: Instance?, pName: String) -> PFN_vkVoidFunction {
+    static func getInstanceProcAddr(instance: Instance?, pName: String) -> PFN_vkVoidFunction {
         pName.withCString { cString_pName in
             vkGetInstanceProcAddr(instance?.handle, cString_pName)
         }
     }
 
-    func destroyDevice(device: Device?) -> Void {
+    static func destroyDevice(device: Device?) -> Void {
         vkDestroyDevice(device?.handle, nil)
     }
 
-    func enumerateInstanceVersion(pApiVersion: UnsafeMutablePointer<UInt32>) throws -> Void {
+    static func enumerateInstanceVersion(pApiVersion: UnsafeMutablePointer<UInt32>) throws -> Void {
         try checkResult(
             vkEnumerateInstanceVersion(pApiVersion)
         )
     }
 
-    func enumerateInstanceLayerProperties(pPropertyCount: UnsafeMutablePointer<UInt32>, pProperties: UnsafeMutablePointer<VkLayerProperties>) throws -> Void {
+    static func enumerateInstanceLayerProperties(pPropertyCount: UnsafeMutablePointer<UInt32>, pProperties: UnsafeMutablePointer<VkLayerProperties>) throws -> Void {
         try checkResult(
             vkEnumerateInstanceLayerProperties(pPropertyCount, pProperties)
         )
     }
 
-    func enumerateInstanceExtensionProperties(pLayerName: String?, pPropertyCount: UnsafeMutablePointer<UInt32>, pProperties: UnsafeMutablePointer<VkExtensionProperties>) throws -> Void {
+    static func enumerateInstanceExtensionProperties(pLayerName: String?, pPropertyCount: UnsafeMutablePointer<UInt32>, pProperties: UnsafeMutablePointer<VkExtensionProperties>) throws -> Void {
         try pLayerName.withOptionalCString { cString_pLayerName in
             try checkResult(
                 vkEnumerateInstanceExtensionProperties(cString_pLayerName, pPropertyCount, pProperties)

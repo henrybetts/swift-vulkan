@@ -110,8 +110,10 @@ class Generator(BaseGenerator):
 
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
         throws_string = ' throws' if command.throws else ''
+        static_string = 'static ' if not command.class_params else ''
 
-        with self.indent(f'func {command.name}({param_string}){throws_string} -> {command.return_type} {{', '}'):
+        with self.indent(f'{static_string}func {command.name}({param_string})'
+                         f'{throws_string} -> {command.return_type} {{', '}'):
             with self.closures(closures, throws=command.throws):
                 param_string = ', '.join([gen(swift_values_map) for gen in command.c_value_generators])
                 call_string = f'{command.c_command.name}({param_string})'
