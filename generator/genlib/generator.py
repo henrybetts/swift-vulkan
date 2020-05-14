@@ -87,7 +87,7 @@ class Generator(BaseGenerator):
 
             for command in cls.commands:
                 self.linebreak()
-                self.generate_command(command)
+                self.generate_command(command, cls)
 
         self.linebreak()
 
@@ -101,8 +101,11 @@ class Generator(BaseGenerator):
             if cls.parent:
                 self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
 
-    def generate_command(self, command: SwiftCommand):
+    def generate_command(self, command: SwiftCommand, cls: SwiftClass):
         swift_values_map = {param.name: param.name for param in command.params}
+        swift_values_map.update(
+            {param: get_class_chain(cls, target_class) for param, target_class in command.class_params.items()}
+        )
         closures = [gen(swift_values_map) for gen in command.closure_generators]
 
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
@@ -131,6 +134,14 @@ class Generator(BaseGenerator):
         for closure in reversed(closures):
             self.indent_size -= 1
             self << closure[1]
+
+
+def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:
+    chain = 'self'
+    while current_class != target_class:
+        current_class = current_class.parent
+        chain += f'.{current_class.reference_name}'
+    return chain
 
 
 def safe_name(name: str) -> str:

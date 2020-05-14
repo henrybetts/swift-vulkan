@@ -36,12 +36,14 @@ class SwiftStruct:
 
 
 class SwiftCommand:
-    def __init__(self, c_command: CCommand, name: str, return_type: str, throws: bool, params: List[SwiftMember],
+    def __init__(self, c_command: CCommand, name: str, return_type: str, throws: bool,
+                 class_params: Dict[str, 'SwiftClass'], params: List[SwiftMember],
                  c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
         self.throws = throws
+        self.class_params = class_params
         self.params = params
         self.c_value_generators = c_value_generators
         self.closure_generators = closure_generators
@@ -221,6 +223,7 @@ class Importer:
         name = remove_vk_prefix(c_command.name)
         name = name[0].lower() + name[1:]
 
+        class_params = self.get_class_params(c_command)
         params, c_value_generators, closure_generators = self.get_member_conversions(c_command.params)
         throws = c_command.return_type.name == 'VkResult'
         return_type = 'Void' if throws else self.get_type_conversion(c_command.return_type, implicit_only=True)[0]
@@ -230,12 +233,12 @@ class Importer:
             name=remove_vk_prefix(name),
             return_type=return_type,
             throws=throws,
-            params=params,
+            class_params={param.name: cls for param, cls in class_params},
+            params=params[len(class_params):],
             c_value_generators=c_value_generators,
             closure_generators=closure_generators
         )
 
-        class_params = self.get_class_params(c_command)
         if not class_params:
             self.imported_classes['VkInstance'].commands.append(command)
         else:
@@ -248,7 +251,7 @@ class Importer:
         previous_class: SwiftClass = None
         for param in command.params:
             if param.type.name and param.type.name in self.imported_classes:
-                if not param.type.optional or command.name.startswith('vkDestroy'):
+                if not param.type.optional:  # or command.name.startswith('vkDestroy'):
                     cls = self.imported_classes[param.type.name]
                     if not previous_class or previous_class in cls.ancestors:
                         previous_class = cls
