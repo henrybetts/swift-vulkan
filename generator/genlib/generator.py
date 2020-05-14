@@ -115,14 +115,31 @@ class Generator(BaseGenerator):
         with self.indent(f'{static_string}func {command.name}({param_string})'
                          f'{throws_string} -> {command.return_type} {{', '}'):
             with self.closures(closures, throws=command.throws):
-                param_string = ', '.join([gen(swift_values_map) for gen in command.c_value_generators])
+                params = []
+                for param in command.c_command.params:
+                    if param.name == command.output_param:
+                        params.append('&out')
+                    else:
+                        params.append(command.c_value_generators[param.name](swift_values_map))
+                param_string = ', '.join(params)
                 call_string = f'{command.c_command.name}({param_string})'
 
-                if command.throws:
-                    with self.indent('try checkResult(', ')'):
+                if command.output_param:
+                    self << f'var out = {command.output_param_initializer}'
+                    if command.throws:
+                        with self.indent('try checkResult(', ')'):
+                            self << call_string
+                    else:
                         self << call_string
+                    self << f'return {command.return_conversion.get_swift_value_generator("out")({"out": "out"})}'
+
                 else:
-                    self << call_string
+                    result_string = command.return_conversion.get_swift_value_generator('return')({'return': call_string})
+                    if command.throws:
+                        with self.indent('try checkResult(', ')'):
+                            self << result_string
+                    else:
+                        self << result_string
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):

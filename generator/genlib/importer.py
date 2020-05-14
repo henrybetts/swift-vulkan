@@ -38,7 +38,8 @@ class SwiftStruct:
 class SwiftCommand:
     def __init__(self, c_command: CCommand, name: str, return_type: str, throws: bool,
                  class_params: Dict[str, 'SwiftClass'], params: List[SwiftMember],
-                 c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
+                 c_value_generators: Dict[str, tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
+                 return_conversion: tc.Conversion, output_param: str = None, output_param_initializer: str = None):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
@@ -47,6 +48,9 @@ class SwiftCommand:
         self.params = params
         self.c_value_generators = c_value_generators
         self.closure_generators = closure_generators
+        self.return_conversion = return_conversion
+        self.output_param = output_param
+        self.output_param_initializer = output_param_initializer
 
 
 class SwiftClass:
@@ -223,26 +227,52 @@ class Importer:
         name = remove_vk_prefix(c_command.name)
         name = name[0].lower() + name[1:]
 
-        class_params = self.get_class_params(c_command)
-        params, c_value_generators, closure_generators = self.get_member_conversions(c_command.params)
-        throws = c_command.return_type.name == 'VkResult'
-        return_type = 'Void' if throws else self.get_type_conversion(c_command.return_type, implicit_only=True)[0]
+        c_return_type = c_command.return_type
+        throws = False
+        if c_return_type.name == 'VkResult':
+            throws = True
+            c_return_type = CType(name='void')
+
+        return_type, return_conversion = self.get_type_conversion(c_return_type)
+
+        output_param: CMember = None
+        output_param_name: str = None
+        output_param_initializer: str = None
+        if c_return_type.name == 'void':
+            output_params = get_output_params(c_command)
+            if len(output_params) == 1 and not output_params[0].type.length:
+                output_param = output_params[0]
+                output_param_name = output_param.name
+                return_type, return_conversion = self.get_type_conversion(output_param.type.pointer_to)
+                implicit_type, _ = self.get_type_conversion(output_param.type.pointer_to, implicit_only=True)
+                if self.is_pointer_type(output_param.type.pointer_to):
+                    output_param_initializer = f'Optional<{implicit_type}>(nilLiteral: ())'
+                else:
+                    output_param_initializer = f'{implicit_type}()'
+
+        class_params_and_classes = self.get_class_params(c_command)
+        class_params = [param for param, _ in class_params_and_classes]
+        c_input_params = [param for param in c_command.params if param != output_param]
+        params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params)
 
         command = SwiftCommand(
             c_command=c_command,
             name=remove_vk_prefix(name),
             return_type=return_type,
             throws=throws,
-            class_params={param.name: cls for param, cls in class_params},
+            class_params={param.name: cls for param, cls in class_params_and_classes},
             params=params[len(class_params):],
-            c_value_generators=c_value_generators,
-            closure_generators=closure_generators
+            c_value_generators={param.name: gen for param, gen in zip(c_input_params, c_value_generators)},
+            closure_generators=closure_generators,
+            return_conversion=return_conversion,
+            output_param=output_param_name,
+            output_param_initializer=output_param_initializer
         )
 
-        if not class_params:
+        if not class_params_and_classes:
             self.imported_classes['VkInstance'].commands.append(command)
         else:
-            class_params[-1][1].commands.append(command)
+            class_params_and_classes[-1][1].commands.append(command)
 
         return command
 
@@ -321,11 +351,12 @@ class Importer:
                     swift_struct = self.imported_structs[c_type.name]
                     return swift_struct, tc.struct_conversion(swift_struct)
                 if c_type.name in self.imported_classes:
-                    cls = self.imported_classes[c_type.name].name
+                    cls = self.imported_classes[c_type.name]
+                    parent_name = cls.parent.reference_name if cls.parent else None
                     if c_type.optional:
-                        return cls + '?', tc.optional_class_conversion(cls)
+                        return cls.name + '?', tc.optional_class_conversion(cls.name, parent_name)
                     else:
-                        return cls, tc.class_conversion(cls)
+                        return cls.name, tc.class_conversion(cls.name, parent_name)
             return c_type.name, tc.implicit_conversion
 
         elif c_type.pointer_to:
@@ -403,6 +434,14 @@ class Importer:
             if string.endswith(tag):
                 return string[:-len(tag)].rstrip('_'), tag
         return string, None
+
+
+def get_output_params(command: CCommand) -> List[CMember]:
+    output_params: List[CMember] = []
+    for param in command.params:
+        if param.type.pointer_to and not param.type.pointer_to.const and param.type.pointer_to.name != 'void':
+            output_params.append(param)
+    return output_params
 
 
 def is_string_convertible(type_: CType) -> bool:

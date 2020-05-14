@@ -144,16 +144,18 @@ def optional_struct_conversion(swift_struct: str) -> Conversion:
     )
 
 
-def class_conversion(swift_class: str) -> Conversion:
+def class_conversion(swift_class: str, parent_name: str = None) -> Conversion:
+    class_params = f'handle: $value, {parent_name}: self' if parent_name else 'handle: $value'
     return Conversion(
-        swift_value_template=f'{swift_class}(handle: $value)',
+        swift_value_template=f'{swift_class}({class_params})',
         c_value_template='$value.handle'
     )
 
 
-def optional_class_conversion(swift_class: str) -> Conversion:
+def optional_class_conversion(swift_class: str, parent_name: str = None) -> Conversion:
+    class_params = f'handle: $value, {parent_name}: self' if parent_name else 'handle: $value'
     return Conversion(
-        swift_value_template=f'($value != nil) ? {swift_class}(handle: $value) : nil',
+        swift_value_template=f'($value != nil) ? {swift_class}({class_params}) : nil',
         c_value_template='$value?.handle'
     )
 
