@@ -1394,7 +1394,9 @@ class CommandBuffer {
     }
 
     func cmdSetBlendConstants(blendConstants: (Float, Float, Float, Float)) -> Void {
-        vkCmdSetBlendConstants(self.handle, blendConstants)
+        withUnsafeBytes(of: blendConstants) { ptr_blendConstants in
+            vkCmdSetBlendConstants(self.handle, ptr_blendConstants.bindMemory(to: Float.self).baseAddress)
+        }
     }
 
     func cmdSetDepthBounds(minDepthBounds: Float, maxDepthBounds: Float) -> Void {

@@ -263,7 +263,8 @@ class Importer:
         class_params_and_classes = self.get_class_params(c_command)
         class_params = [param for param, _ in class_params_and_classes]
         c_input_params = [param for param in c_command.params if param != output_param]
-        params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params)
+        params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params,
+                                                                                     convert_array_to_pointer=True)
 
         command = SwiftCommand(
             c_command=c_command,
@@ -300,8 +301,8 @@ class Importer:
             break
         return class_params
 
-    def get_member_conversions(self, c_members: List[CMember]) -> Tuple[List[SwiftMember], List[tc.ValueGenerator],
-                                                                        List[tc.ClosureGenerator]]:
+    def get_member_conversions(self, c_members: List[CMember], convert_array_to_pointer: bool = False
+                               ) -> Tuple[List[SwiftMember], List[tc.ValueGenerator], List[tc.ClosureGenerator]]:
         members: List[SwiftMember] = []
         c_value_generators: Dict[str, tc.ValueGenerator] = {}
         c_closure_generators: List[tc.ClosureGenerator] = []
@@ -323,7 +324,8 @@ class Importer:
                 c_value_generators.setdefault(c_member.name, static_value_generator('nil'))
                 continue
 
-            swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members)
+            swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
+                                                              convert_array_to_pointer=convert_array_to_pointer)
             c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(c_member.name))
 
             if conversion.requires_closure:
@@ -340,8 +342,8 @@ class Importer:
                 [c_value_generators[member.name] for member in c_members],
                 c_closure_generators)
 
-    def get_type_conversion(self, c_type: CType, members: List[CMember] = None,
-                            implicit_only: bool = False) -> Tuple[str, tc.Conversion]:
+    def get_type_conversion(self, c_type: CType, members: List[CMember] = None, implicit_only: bool = False,
+                            convert_array_to_pointer: bool = False) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.implicit_conversion
@@ -435,7 +437,11 @@ class Importer:
             of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True)
             if self.is_pointer_type(c_type.array_of):
                 of_type += '?'
-            return f'({", ".join([of_type] * c_type.length)})', tc.implicit_conversion
+            swift_type = f'({", ".join([of_type] * c_type.length)})'
+            if convert_array_to_pointer:
+                return swift_type, tc.tuple_pointer_conversion(of_type)
+            else:
+                return swift_type, tc.implicit_conversion
 
     def is_pointer_type(self, c_type: CType) -> bool:
         return (c_type.pointer_to is not None

@@ -237,3 +237,11 @@ def optional_array_mapped_conversion(element_conversion: Conversion, length: str
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
     )
+
+
+def tuple_pointer_conversion(element_type: str) -> Conversion:
+    return Conversion(
+        swift_value_template='',
+        c_closure_template=('withUnsafeBytes(of: $value) { ptr_$name in', '}'),
+        c_value_template=f'ptr_$name.bindMemory(to: {element_type}.self).baseAddress'
+    )
