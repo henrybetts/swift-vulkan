@@ -226,11 +226,17 @@ class Importer:
         name = remove_vk_prefix(handle.name)
         reference_name, _ = self.pop_extension_tag(name)
         reference_name = reference_name[0].lower() + reference_name[1:]
+
+        if handle.name == 'VkSwapchainKHR':
+            parent = self.imported_classes['VkDevice']
+        else:
+            parent = self.import_handle(handle.parent) if handle.parent else None
+
         cls = SwiftClass(
             c_handle=handle,
             name=name,
             reference_name=reference_name,
-            parent=self.import_handle(handle.parent) if handle.parent else None
+            parent=parent
         )
         self.imported_classes[handle.name] = cls
         return cls

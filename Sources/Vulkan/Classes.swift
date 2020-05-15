@@ -787,26 +787,12 @@ class Device {
             try checkResult(
                 vkCreateSwapchainKHR(self.handle, ptr_pCreateInfo, nil, &out)
             )
-            return SwapchainKHR(handle: out, surface: self)
+            return SwapchainKHR(handle: out, device: self)
         }
     }
 
     func destroySwapchainKHR(swapchain: SwapchainKHR?) -> Void {
         vkDestroySwapchainKHR(self.handle, swapchain?.handle, nil)
-    }
-
-    func getSwapchainImagesKHR(swapchain: SwapchainKHR, pSwapchainImageCount: UnsafeMutablePointer<UInt32>, pSwapchainImages: UnsafeMutablePointer<VkImage?>) throws -> Void {
-        try checkResult(
-            vkGetSwapchainImagesKHR(self.handle, swapchain.handle, pSwapchainImageCount, pSwapchainImages)
-        )
-    }
-
-    func acquireNextImageKHR(swapchain: SwapchainKHR, timeout: UInt64, semaphore: Semaphore?, fence: Fence?) throws -> UInt32 {
-        var out = UInt32()
-        try checkResult(
-            vkAcquireNextImageKHR(self.handle, swapchain.handle, timeout, semaphore?.handle, fence?.handle, &out)
-        )
-        return out
     }
 
     func debugMarkerSetObjectNameEXT(pNameInfo: DebugMarkerObjectNameInfoEXT) throws -> Void {
@@ -925,14 +911,6 @@ class Device {
         }
     }
 
-    func getSwapchainCounterEXT(swapchain: SwapchainKHR, counter: SurfaceCounterFlagsEXT) throws -> UInt64 {
-        var out = UInt64()
-        try checkResult(
-            vkGetSwapchainCounterEXT(self.handle, swapchain.handle, VkSurfaceCounterFlagBitsEXT(rawValue: counter.rawValue), &out)
-        )
-        return out
-    }
-
     func getDeviceGroupPeerMemoryFeatures(heapIndex: UInt32, localDeviceIndex: UInt32, remoteDeviceIndex: UInt32) -> PeerMemoryFeatureFlags {
         var out = VkPeerMemoryFeatureFlags()
         vkGetDeviceGroupPeerMemoryFeatures(self.handle, heapIndex, localDeviceIndex, remoteDeviceIndex, &out)
@@ -1003,26 +981,6 @@ class Device {
         }
     }
 
-    func getSwapchainStatusKHR(swapchain: SwapchainKHR) throws -> Void {
-        try checkResult(
-            vkGetSwapchainStatusKHR(self.handle, swapchain.handle)
-        )
-    }
-
-    func getRefreshCycleDurationGOOGLE(swapchain: SwapchainKHR) throws -> RefreshCycleDurationGOOGLE {
-        var out = VkRefreshCycleDurationGOOGLE()
-        try checkResult(
-            vkGetRefreshCycleDurationGOOGLE(self.handle, swapchain.handle, &out)
-        )
-        return RefreshCycleDurationGOOGLE(cStruct: out)
-    }
-
-    func getPastPresentationTimingGOOGLE(swapchain: SwapchainKHR, pPresentationTimingCount: UnsafeMutablePointer<UInt32>, pPresentationTimings: UnsafeMutablePointer<VkPastPresentationTimingGOOGLE>) throws -> Void {
-        try checkResult(
-            vkGetPastPresentationTimingGOOGLE(self.handle, swapchain.handle, pPresentationTimingCount, pPresentationTimings)
-        )
-    }
-
     func getBufferMemoryRequirements2(pInfo: BufferMemoryRequirementsInfo2) -> MemoryRequirements2 {
         pInfo.withCStruct { ptr_pInfo in
             var out = VkMemoryRequirements2()
@@ -1087,10 +1045,6 @@ class Device {
             vkGetDescriptorSetLayoutSupport(self.handle, ptr_pCreateInfo, &out)
             return DescriptorSetLayoutSupport(cStruct: out)
         }
-    }
-
-    func setLocalDimmingAMD(swapChain: SwapchainKHR, localDimmingEnable: Bool) -> Void {
-        vkSetLocalDimmingAMD(self.handle, swapChain.handle, VkBool32(localDimmingEnable ? VK_TRUE : VK_FALSE))
     }
 
     func getCalibratedTimestampsEXT(pTimestampInfos: Array<CalibratedTimestampInfoEXT>, pTimestamps: UnsafeMutablePointer<UInt64>, pMaxDeviation: UnsafeMutablePointer<UInt64>) throws -> Void {
@@ -2364,11 +2318,57 @@ class SurfaceKHR {
 
 class SwapchainKHR {
     let handle: VkSwapchainKHR!
-    let surface: SurfaceKHR
+    let device: Device
 
-    init(handle: VkSwapchainKHR!, surface: SurfaceKHR) {
+    init(handle: VkSwapchainKHR!, device: Device) {
         self.handle = handle
-        self.surface = surface
+        self.device = device
+    }
+
+    func getSwapchainImagesKHR(pSwapchainImageCount: UnsafeMutablePointer<UInt32>, pSwapchainImages: UnsafeMutablePointer<VkImage?>) throws -> Void {
+        try checkResult(
+            vkGetSwapchainImagesKHR(self.device.handle, self.handle, pSwapchainImageCount, pSwapchainImages)
+        )
+    }
+
+    func acquireNextImageKHR(timeout: UInt64, semaphore: Semaphore?, fence: Fence?) throws -> UInt32 {
+        var out = UInt32()
+        try checkResult(
+            vkAcquireNextImageKHR(self.device.handle, self.handle, timeout, semaphore?.handle, fence?.handle, &out)
+        )
+        return out
+    }
+
+    func getSwapchainCounterEXT(counter: SurfaceCounterFlagsEXT) throws -> UInt64 {
+        var out = UInt64()
+        try checkResult(
+            vkGetSwapchainCounterEXT(self.device.handle, self.handle, VkSurfaceCounterFlagBitsEXT(rawValue: counter.rawValue), &out)
+        )
+        return out
+    }
+
+    func getSwapchainStatusKHR() throws -> Void {
+        try checkResult(
+            vkGetSwapchainStatusKHR(self.device.handle, self.handle)
+        )
+    }
+
+    func getRefreshCycleDurationGOOGLE() throws -> RefreshCycleDurationGOOGLE {
+        var out = VkRefreshCycleDurationGOOGLE()
+        try checkResult(
+            vkGetRefreshCycleDurationGOOGLE(self.device.handle, self.handle, &out)
+        )
+        return RefreshCycleDurationGOOGLE(cStruct: out)
+    }
+
+    func getPastPresentationTimingGOOGLE(pPresentationTimingCount: UnsafeMutablePointer<UInt32>, pPresentationTimings: UnsafeMutablePointer<VkPastPresentationTimingGOOGLE>) throws -> Void {
+        try checkResult(
+            vkGetPastPresentationTimingGOOGLE(self.device.handle, self.handle, pPresentationTimingCount, pPresentationTimings)
+        )
+    }
+
+    func setLocalDimmingAMD(localDimmingEnable: Bool) -> Void {
+        vkSetLocalDimmingAMD(self.device.handle, self.handle, VkBool32(localDimmingEnable ? VK_TRUE : VK_FALSE))
     }
 }
 
