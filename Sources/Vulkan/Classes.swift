@@ -9,7 +9,7 @@ class Instance {
 
     static func createInstance(pCreateInfo: InstanceCreateInfo) throws -> Instance {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkInstance>(nilLiteral: ())
+            var out: VkInstance!
             try checkResult(
                 vkCreateInstance(ptr_pCreateInfo, nil, &out)
             )
@@ -61,7 +61,7 @@ class Instance {
 
     func createDisplayPlaneSurfaceKHR(pCreateInfo: DisplaySurfaceCreateInfoKHR) throws -> SurfaceKHR {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkSurfaceKHR>(nilLiteral: ())
+            var out: VkSurfaceKHR!
             try checkResult(
                 vkCreateDisplayPlaneSurfaceKHR(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -75,7 +75,7 @@ class Instance {
 
     func createDebugReportCallbackEXT(pCreateInfo: DebugReportCallbackCreateInfoEXT) throws -> DebugReportCallbackEXT {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDebugReportCallbackEXT>(nilLiteral: ())
+            var out: VkDebugReportCallbackEXT!
             try checkResult(
                 vkCreateDebugReportCallbackEXT(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -99,7 +99,7 @@ class Instance {
 
     func createDebugUtilsMessengerEXT(pCreateInfo: DebugUtilsMessengerCreateInfoEXT) throws -> DebugUtilsMessengerEXT {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDebugUtilsMessengerEXT>(nilLiteral: ())
+            var out: VkDebugUtilsMessengerEXT!
             try checkResult(
                 vkCreateDebugUtilsMessengerEXT(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -115,7 +115,7 @@ class Instance {
 
     func createHeadlessSurfaceEXT(pCreateInfo: HeadlessSurfaceCreateInfoEXT) throws -> SurfaceKHR {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkSurfaceKHR>(nilLiteral: ())
+            var out: VkSurfaceKHR!
             try checkResult(
                 vkCreateHeadlessSurfaceEXT(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -171,7 +171,7 @@ class PhysicalDevice {
 
     func createDevice(pCreateInfo: DeviceCreateInfo) throws -> Device {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDevice>(nilLiteral: ())
+            var out: VkDevice!
             try checkResult(
                 vkCreateDevice(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -434,7 +434,7 @@ class Device {
     }
 
     func getDeviceQueue(queueFamilyIndex: UInt32, queueIndex: UInt32) -> Queue {
-        var out = Optional<VkQueue>(nilLiteral: ())
+        var out: VkQueue!
         vkGetDeviceQueue(self.handle, queueFamilyIndex, queueIndex, &out)
         return Queue(handle: out, device: self)
     }
@@ -447,7 +447,7 @@ class Device {
 
     func allocateMemory(pAllocateInfo: MemoryAllocateInfo) throws -> DeviceMemory {
         try pAllocateInfo.withCStruct { ptr_pAllocateInfo in
-            var out = Optional<VkDeviceMemory>(nilLiteral: ())
+            var out: VkDeviceMemory!
             try checkResult(
                 vkAllocateMemory(self.handle, ptr_pAllocateInfo, nil, &out)
             )
@@ -477,7 +477,7 @@ class Device {
 
     func createFence(pCreateInfo: FenceCreateInfo) throws -> Fence {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkFence>(nilLiteral: ())
+            var out: VkFence!
             try checkResult(
                 vkCreateFence(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -507,7 +507,7 @@ class Device {
 
     func createSemaphore(pCreateInfo: SemaphoreCreateInfo) throws -> Semaphore {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkSemaphore>(nilLiteral: ())
+            var out: VkSemaphore!
             try checkResult(
                 vkCreateSemaphore(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -521,7 +521,7 @@ class Device {
 
     func createEvent(pCreateInfo: EventCreateInfo) throws -> Event {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkEvent>(nilLiteral: ())
+            var out: VkEvent!
             try checkResult(
                 vkCreateEvent(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -535,7 +535,7 @@ class Device {
 
     func createQueryPool(pCreateInfo: QueryPoolCreateInfo) throws -> QueryPool {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkQueryPool>(nilLiteral: ())
+            var out: VkQueryPool!
             try checkResult(
                 vkCreateQueryPool(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -549,7 +549,7 @@ class Device {
 
     func createBuffer(pCreateInfo: BufferCreateInfo) throws -> Buffer {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkBuffer>(nilLiteral: ())
+            var out: VkBuffer!
             try checkResult(
                 vkCreateBuffer(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -563,7 +563,7 @@ class Device {
 
     func createBufferView(pCreateInfo: BufferViewCreateInfo) throws -> BufferView {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkBufferView>(nilLiteral: ())
+            var out: VkBufferView!
             try checkResult(
                 vkCreateBufferView(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -577,7 +577,7 @@ class Device {
 
     func createImage(pCreateInfo: ImageCreateInfo) throws -> Image {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkImage>(nilLiteral: ())
+            var out: VkImage!
             try checkResult(
                 vkCreateImage(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -591,7 +591,7 @@ class Device {
 
     func createImageView(pCreateInfo: ImageViewCreateInfo) throws -> ImageView {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkImageView>(nilLiteral: ())
+            var out: VkImageView!
             try checkResult(
                 vkCreateImageView(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -605,7 +605,7 @@ class Device {
 
     func createShaderModule(pCreateInfo: ShaderModuleCreateInfo) throws -> ShaderModule {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkShaderModule>(nilLiteral: ())
+            var out: VkShaderModule!
             try checkResult(
                 vkCreateShaderModule(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -619,7 +619,7 @@ class Device {
 
     func createPipelineCache(pCreateInfo: PipelineCacheCreateInfo) throws -> PipelineCache {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkPipelineCache>(nilLiteral: ())
+            var out: VkPipelineCache!
             try checkResult(
                 vkCreatePipelineCache(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -653,7 +653,7 @@ class Device {
 
     func createPipelineLayout(pCreateInfo: PipelineLayoutCreateInfo) throws -> PipelineLayout {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkPipelineLayout>(nilLiteral: ())
+            var out: VkPipelineLayout!
             try checkResult(
                 vkCreatePipelineLayout(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -667,7 +667,7 @@ class Device {
 
     func createSampler(pCreateInfo: SamplerCreateInfo) throws -> Sampler {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkSampler>(nilLiteral: ())
+            var out: VkSampler!
             try checkResult(
                 vkCreateSampler(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -681,7 +681,7 @@ class Device {
 
     func createDescriptorSetLayout(pCreateInfo: DescriptorSetLayoutCreateInfo) throws -> DescriptorSetLayout {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDescriptorSetLayout>(nilLiteral: ())
+            var out: VkDescriptorSetLayout!
             try checkResult(
                 vkCreateDescriptorSetLayout(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -695,7 +695,7 @@ class Device {
 
     func createDescriptorPool(pCreateInfo: DescriptorPoolCreateInfo) throws -> DescriptorPool {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDescriptorPool>(nilLiteral: ())
+            var out: VkDescriptorPool!
             try checkResult(
                 vkCreateDescriptorPool(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -725,7 +725,7 @@ class Device {
 
     func createFramebuffer(pCreateInfo: FramebufferCreateInfo) throws -> Framebuffer {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkFramebuffer>(nilLiteral: ())
+            var out: VkFramebuffer!
             try checkResult(
                 vkCreateFramebuffer(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -739,7 +739,7 @@ class Device {
 
     func createRenderPass(pCreateInfo: RenderPassCreateInfo) throws -> RenderPass {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkRenderPass>(nilLiteral: ())
+            var out: VkRenderPass!
             try checkResult(
                 vkCreateRenderPass(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -753,7 +753,7 @@ class Device {
 
     func createCommandPool(pCreateInfo: CommandPoolCreateInfo) throws -> CommandPool {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkCommandPool>(nilLiteral: ())
+            var out: VkCommandPool!
             try checkResult(
                 vkCreateCommandPool(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -783,7 +783,7 @@ class Device {
 
     func createSwapchainKHR(pCreateInfo: SwapchainCreateInfoKHR) throws -> SwapchainKHR {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkSwapchainKHR>(nilLiteral: ())
+            var out: VkSwapchainKHR!
             try checkResult(
                 vkCreateSwapchainKHR(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -835,7 +835,7 @@ class Device {
 
     func createIndirectCommandsLayoutNV(pCreateInfo: IndirectCommandsLayoutCreateInfoNV) throws -> IndirectCommandsLayoutNV {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkIndirectCommandsLayoutNV>(nilLiteral: ())
+            var out: VkIndirectCommandsLayoutNV!
             try checkResult(
                 vkCreateIndirectCommandsLayoutNV(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -907,7 +907,7 @@ class Device {
 
     func registerDeviceEventEXT(pDeviceEventInfo: DeviceEventInfoEXT) throws -> Fence {
         try pDeviceEventInfo.withCStruct { ptr_pDeviceEventInfo in
-            var out = Optional<VkFence>(nilLiteral: ())
+            var out: VkFence!
             try checkResult(
                 vkRegisterDeviceEventEXT(self.handle, ptr_pDeviceEventInfo, nil, &out)
             )
@@ -917,7 +917,7 @@ class Device {
 
     func registerDisplayEventEXT(display: DisplayKHR, pDisplayEventInfo: DisplayEventInfoEXT) throws -> Fence {
         try pDisplayEventInfo.withCStruct { ptr_pDisplayEventInfo in
-            var out = Optional<VkFence>(nilLiteral: ())
+            var out: VkFence!
             try checkResult(
                 vkRegisterDisplayEventEXT(self.handle, display.handle, ptr_pDisplayEventInfo, nil, &out)
             )
@@ -983,7 +983,7 @@ class Device {
 
     func createDescriptorUpdateTemplate(pCreateInfo: DescriptorUpdateTemplateCreateInfo) throws -> DescriptorUpdateTemplate {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDescriptorUpdateTemplate>(nilLiteral: ())
+            var out: VkDescriptorUpdateTemplate!
             try checkResult(
                 vkCreateDescriptorUpdateTemplate(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -1047,7 +1047,7 @@ class Device {
 
     func createSamplerYcbcrConversion(pCreateInfo: SamplerYcbcrConversionCreateInfo) throws -> SamplerYcbcrConversion {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkSamplerYcbcrConversion>(nilLiteral: ())
+            var out: VkSamplerYcbcrConversion!
             try checkResult(
                 vkCreateSamplerYcbcrConversion(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -1061,7 +1061,7 @@ class Device {
 
     func getDeviceQueue2(pQueueInfo: DeviceQueueInfo2) -> Queue {
         pQueueInfo.withCStruct { ptr_pQueueInfo in
-            var out = Optional<VkQueue>(nilLiteral: ())
+            var out: VkQueue!
             vkGetDeviceQueue2(self.handle, ptr_pQueueInfo, &out)
             return Queue(handle: out, device: self)
         }
@@ -1069,7 +1069,7 @@ class Device {
 
     func createValidationCacheEXT(pCreateInfo: ValidationCacheCreateInfoEXT) throws -> ValidationCacheEXT {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkValidationCacheEXT>(nilLiteral: ())
+            var out: VkValidationCacheEXT!
             try checkResult(
                 vkCreateValidationCacheEXT(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -1127,7 +1127,7 @@ class Device {
 
     func createRenderPass2(pCreateInfo: RenderPassCreateInfo2) throws -> RenderPass {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkRenderPass>(nilLiteral: ())
+            var out: VkRenderPass!
             try checkResult(
                 vkCreateRenderPass2(self.handle, ptr_pCreateInfo, nil, &out)
             )
@@ -1227,7 +1227,7 @@ class Device {
 
     func acquirePerformanceConfigurationINTEL(pAcquireInfo: PerformanceConfigurationAcquireInfoINTEL) throws -> PerformanceConfigurationINTEL {
         try pAcquireInfo.withCStruct { ptr_pAcquireInfo in
-            var out = Optional<VkPerformanceConfigurationINTEL>(nilLiteral: ())
+            var out: VkPerformanceConfigurationINTEL!
             try checkResult(
                 vkAcquirePerformanceConfigurationINTEL(self.handle, ptr_pAcquireInfo, &out)
             )
@@ -1856,7 +1856,7 @@ class DeviceMemory {
     }
 
     func mapMemory(offset: VkDeviceSize, size: VkDeviceSize, flags: MemoryMapFlags) throws -> UnsafeMutableRawPointer {
-        var out = Optional<UnsafeMutableRawPointer>(nilLiteral: ())
+        var out: UnsafeMutableRawPointer!
         try checkResult(
             vkMapMemory(self.device.handle, self.handle, offset, size, flags.rawValue, &out)
         )
@@ -2313,7 +2313,7 @@ class DisplayKHR {
 
     func createDisplayModeKHR(pCreateInfo: DisplayModeCreateInfoKHR) throws -> DisplayModeKHR {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = Optional<VkDisplayModeKHR>(nilLiteral: ())
+            var out: VkDisplayModeKHR!
             try checkResult(
                 vkCreateDisplayModeKHR(self.physicalDevice.handle, self.handle, ptr_pCreateInfo, nil, &out)
             )

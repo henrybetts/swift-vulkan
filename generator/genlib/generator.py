@@ -137,7 +137,10 @@ class Generator(BaseGenerator):
                 call_string = f'{command.c_command.name}({param_string})'
 
                 if command.output_param:
-                    self << f'var out = {command.output_param_initializer}'
+                    if command.unwrap_output_param:
+                        self << f'var out: {command.output_param_implicit_type}!'
+                    else:
+                        self << f'var out = {command.output_param_implicit_type}()'
                     if command.throws:
                         with self.indent('try checkResult(', ')'):
                             self << call_string

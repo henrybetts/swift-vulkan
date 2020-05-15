@@ -41,7 +41,8 @@ class SwiftCommand:
     def __init__(self, c_command: CCommand, name: str, return_type: str, throws: bool,
                  class_params: Dict[str, 'SwiftClass'], params: List[SwiftMember],
                  c_value_generators: Dict[str, tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
-                 return_conversion: tc.Conversion, output_param: str = None, output_param_initializer: str = None):
+                 return_conversion: tc.Conversion, output_param: str = None, output_param_implicit_type: str = None,
+                 unwrap_output_param: bool = False):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
@@ -52,7 +53,8 @@ class SwiftCommand:
         self.closure_generators = closure_generators
         self.return_conversion = return_conversion
         self.output_param = output_param
-        self.output_param_initializer = output_param_initializer
+        self.output_param_implicit_type = output_param_implicit_type
+        self.unwrap_output_param = unwrap_output_param
 
 
 class SwiftClass:
@@ -247,18 +249,17 @@ class Importer:
 
         output_param: CMember = None
         output_param_name: str = None
-        output_param_initializer: str = None
+        output_param_implicit_type: str = None
+        unwrap_output_param = False
         if c_return_type.name == 'void':
             output_params = get_output_params(c_command)
             if len(output_params) == 1 and not output_params[0].type.length:
                 output_param = output_params[0]
                 output_param_name = output_param.name
                 return_type, return_conversion = self.get_type_conversion(output_param.type.pointer_to)
-                implicit_type, _ = self.get_type_conversion(output_param.type.pointer_to, implicit_only=True)
-                if self.is_pointer_type(output_param.type.pointer_to):
-                    output_param_initializer = f'Optional<{implicit_type}>(nilLiteral: ())'
-                else:
-                    output_param_initializer = f'{implicit_type}()'
+                output_param_implicit_type, _ = self.get_type_conversion(output_param.type.pointer_to,
+                                                                         implicit_only=True)
+                unwrap_output_param = self.is_pointer_type(output_param.type.pointer_to)
 
         class_params_and_classes = self.get_class_params(c_command)
         class_params = [param for param, _ in class_params_and_classes]
@@ -277,7 +278,8 @@ class Importer:
             closure_generators=closure_generators,
             return_conversion=return_conversion,
             output_param=output_param_name,
-            output_param_initializer=output_param_initializer
+            output_param_implicit_type=output_param_implicit_type,
+            unwrap_output_param=unwrap_output_param
         )
 
         if not class_params_and_classes:
