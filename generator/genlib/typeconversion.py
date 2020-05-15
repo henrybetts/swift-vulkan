@@ -138,7 +138,7 @@ def struct_pointer_conversion(swift_struct: str) -> Conversion:
 
 def optional_struct_conversion(swift_struct: str) -> Conversion:
     return Conversion(
-        swift_value_template=f'($value != nil) ? {swift_struct}(cStruct: $value) : nil',
+        swift_value_template=f'($value != nil) ? {swift_struct}(cStruct: $value.pointee) : nil',
         c_closure_template=('$value.withOptionalCStruct { ptr_$name in', '}'),
         c_value_template='ptr_$name'
     )
@@ -163,7 +163,7 @@ def optional_class_conversion(swift_class: str, parent_name: str = None) -> Conv
 def array_conversion(length: str) -> ArrayConversion:
     return ArrayConversion(
         length=length,
-        swift_value_template='Array(unsafePointer: $value, count: Int($length))',
+        swift_value_template='Array(UnsafeBufferPointer(start: $value, count: Int($length)))',
         c_closure_template=('$value.withUnsafeBufferPointer { ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
@@ -173,7 +173,7 @@ def array_conversion(length: str) -> ArrayConversion:
 def optional_array_conversion(length: str) -> ArrayConversion:
     return ArrayConversion(
         length=length,
-        swift_value_template='($value != nil) ? Array(unsafePointer: $value, count: Int($length)) : nil',
+        swift_value_template='($value != nil) ? Array(UnsafeBufferPointer(start: $value, count: Int($length))) : nil',
         c_closure_template=('$value.withOptionalUnsafeBufferPointer { ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
@@ -183,7 +183,7 @@ def optional_array_conversion(length: str) -> ArrayConversion:
 def string_array_conversion(length: str) -> ArrayConversion:
     return ArrayConversion(
         length=length,
-        swift_value_template='UnsafeBufferPointer(start: $value, count: Int($length)).map{ String(cString: $$0) }',
+        swift_value_template='UnsafeBufferPointer(start: $value, count: Int($length)).map{ String(cString: $$0!) }',
         c_closure_template=('$value.withCStringBufferPointer { ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
@@ -218,7 +218,7 @@ def array_mapped_conversion(element_conversion: Conversion, length: str) -> Arra
     c_element = element_conversion.get_c_value_generator('element')({'element': '$$0'})
     return ArrayConversion(
         length=length,
-        swift_value_template=f'UnsafeBufferPointer(start: $value, count: Int($count)).map{{ {swift_element} }}',
+        swift_value_template=f'UnsafeBufferPointer(start: $value, count: Int($length)).map{{ {swift_element} }}',
         c_closure_template=(f'$value.map{{ {c_element} }}.withUnsafeBufferPointer {{ ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
@@ -231,7 +231,7 @@ def optional_array_mapped_conversion(element_conversion: Conversion, length: str
     c_element = element_conversion.get_c_value_generator('element')({'element': '$$0'})
     return ArrayConversion(
         length=length,
-        swift_value_template='(value != nil) ? UnsafeBufferPointer(start: $value, count: Int($count))'
+        swift_value_template='($value != nil) ? UnsafeBufferPointer(start: $value, count: Int($length))'
                              f'.map{{ {swift_element} }} : nil',
         c_closure_template=(f'($value?.map{{ {c_element} }}).withOptionalUnsafeBufferPointer {{ ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',

@@ -27,12 +27,14 @@ class SwiftMember:
 
 class SwiftStruct:
     def __init__(self, c_struct: CStruct, name: str, members: List[SwiftMember],
-                 c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator]):
+                 c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
+                 convertible_from_c_struct: bool = True):
         self.name = name
         self.members = members
         self.c_value_generators = c_value_generators
         self.closure_generators = closure_generators
         self.c_struct = c_struct
+        self.convertible_from_c_struct = convertible_from_c_struct
 
 
 class SwiftCommand:
@@ -199,12 +201,20 @@ class Importer:
         return name
 
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
+        convertible_from_c_struct = True
+        for member in c_struct.members:
+            if ((member.type.name and member.type.name in self.imported_classes)
+                    or (member.type.pointer_to and member.type.pointer_to.name
+                        and member.type.pointer_to.name in self.imported_classes)):
+                convertible_from_c_struct = False
+
         members, c_value_generators, closure_generators = self.get_member_conversions(c_struct.members)
         struct = SwiftStruct(c_struct=c_struct,
                              name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
                              members=members,
                              c_value_generators=c_value_generators,
-                             closure_generators=closure_generators)
+                             closure_generators=closure_generators,
+                             convertible_from_c_struct=convertible_from_c_struct)
         return struct
 
     def import_handle(self, handle: CHandle) -> SwiftClass:

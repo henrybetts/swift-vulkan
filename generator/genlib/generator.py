@@ -59,8 +59,20 @@ class Generator(BaseGenerator):
             for member in struct.members:
                 self << f'let {safe_name(member.name)}: {member.type}'
             self.linebreak()
+            self.generate_struct_c_to_swift_method(struct)
+            self.linebreak()
             self.generate_struct_swift_to_c_method(struct)
         self.linebreak()
+
+    def generate_struct_c_to_swift_method(self, struct: SwiftStruct):
+        with self.indent(f'init(cStruct: {struct.c_struct.name}) {{', '}'):
+            if not struct.convertible_from_c_struct:
+                self << 'fatalError("This initializer should be removed.")'
+                return
+            
+            c_values_map = {member.name: f'cStruct.{member.name}' for member in struct.c_struct.members}
+            for member in struct.members:
+                self << f'self.{member.name} = {member.value_generator(c_values_map)}'
 
     def generate_struct_swift_to_c_method(self, struct: SwiftStruct):
         with self.indent('func withCStruct<R>'

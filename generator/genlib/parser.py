@@ -40,9 +40,10 @@ class CMember:
 
 
 class CStruct:
-    def __init__(self, name: str, members: List[CMember] = None):
+    def __init__(self, name: str, members: List[CMember] = None, returned_only=False):
         self.name = name
         self.members = members or []
+        self.returned_only = returned_only
 
 
 class CHandle:
@@ -202,7 +203,7 @@ class CContext:
             if self.should_ignore(type_=struct.attrib['name']):
                 continue
 
-            c_struct = CStruct(struct.attrib['name'])
+            c_struct = CStruct(struct.attrib['name'], returned_only=struct.get('returnedonly') == 'true')
 
             for member in struct.findall('./member'):
                 c_struct.members.append(parse_member(member, tree))
