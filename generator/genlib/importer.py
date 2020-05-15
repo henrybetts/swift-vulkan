@@ -433,6 +433,8 @@ class Importer:
             if c_type.array_of.name == 'char':
                 return 'String', tc.char_array_conversion
             of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True)
+            if self.is_pointer_type(c_type.array_of):
+                of_type += '?'
             return f'({", ".join([of_type] * c_type.length)})', tc.implicit_conversion
 
     def is_pointer_type(self, c_type: CType) -> bool:
