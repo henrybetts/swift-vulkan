@@ -131,6 +131,10 @@ class Generator(BaseGenerator):
                 for param in command.c_command.params:
                     if param.name == command.output_param:
                         params.append('&out')
+                    elif param.name == command.enumeration_pointer_param:
+                        params.append(command.enumeration_pointer_param)
+                    elif param.name == command.enumeration_count_param:
+                        params.append(command.enumeration_count_param)
                     else:
                         params.append(command.c_value_generators[param.name](swift_values_map))
                 param_string = ', '.join(params)
@@ -148,6 +152,11 @@ class Generator(BaseGenerator):
                         self << call_string
                     self << f'return {command.return_conversion.get_swift_value_generator("out")({"out": "out"})}'
 
+                elif command.enumeration_pointer_param:
+                    try_string = 'try ' if command.throws else ''
+                    with self.indent(f'{try_string}enumerate {{ {command.enumeration_pointer_param}, '
+                                     f'{command.enumeration_count_param} in', '}'):
+                        self << call_string
                 else:
                     result_string = command.return_conversion.get_swift_value_generator('return')({'return': call_string})
                     if command.throws:

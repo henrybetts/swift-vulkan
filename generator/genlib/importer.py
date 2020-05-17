@@ -42,7 +42,8 @@ class SwiftCommand:
                  class_params: Dict[str, 'SwiftClass'], params: List[SwiftMember],
                  c_value_generators: Dict[str, tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
                  return_conversion: tc.Conversion, output_param: str = None, output_param_implicit_type: str = None,
-                 unwrap_output_param: bool = False):
+                 unwrap_output_param: bool = False, enumeration_pointer_param: str = None,
+                 enumeration_count_param: str = None):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
@@ -55,6 +56,8 @@ class SwiftCommand:
         self.output_param = output_param
         self.output_param_implicit_type = output_param_implicit_type
         self.unwrap_output_param = unwrap_output_param
+        self.enumeration_pointer_param = enumeration_pointer_param
+        self.enumeration_count_param = enumeration_count_param
 
 
 class SwiftClass:
@@ -253,23 +256,32 @@ class Importer:
 
         return_type, return_conversion = self.get_type_conversion(c_return_type)
 
-        output_param: CMember = None
-        output_param_name: str = None
+        output_param: str = None
         output_param_implicit_type: str = None
         unwrap_output_param = False
+        enumeration_pointer_param: str = None
+        enumeration_count_param: str = None
         if c_return_type.name == 'void':
             output_params = get_output_params(c_command)
             if len(output_params) == 1 and not output_params[0].type.length:
-                output_param = output_params[0]
-                output_param_name = output_param.name
-                return_type, return_conversion = self.get_type_conversion(output_param.type.pointer_to)
-                output_param_implicit_type, _ = self.get_type_conversion(output_param.type.pointer_to,
+                output_param = output_params[0].name
+                return_type, return_conversion = self.get_type_conversion(output_params[0].type.pointer_to)
+                output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
                                                                          implicit_only=True)
-                unwrap_output_param = self.is_pointer_type(output_param.type.pointer_to)
+                unwrap_output_param = self.is_pointer_type(output_params[0].type.pointer_to)
+            elif len(output_params) == 2 and output_params[1].type.length == output_params[0].name:
+                enumeration_pointer_param = output_params[1].name
+                enumeration_count_param = output_params[0].name
+                element_type, _ = self.get_type_conversion(output_params[1].type.pointer_to, implicit_only=True)
+                if self.is_pointer_type(output_params[1].type.pointer_to):
+                    element_type += '?'
+                return_type = f'Array<{element_type}>'
+                return_conversion = tc.implicit_conversion
 
         class_params_and_classes = self.get_class_params(c_command)
         class_params = [param for param, _ in class_params_and_classes]
-        c_input_params = [param for param in c_command.params if param != output_param]
+        output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
+        c_input_params = [param for param in c_command.params if param.name not in output_params]
         params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params,
                                                                                      convert_array_to_pointer=True)
 
@@ -283,9 +295,11 @@ class Importer:
             c_value_generators={param.name: gen for param, gen in zip(c_input_params, c_value_generators)},
             closure_generators=closure_generators,
             return_conversion=return_conversion,
-            output_param=output_param_name,
+            output_param=output_param,
             output_param_implicit_type=output_param_implicit_type,
-            unwrap_output_param=unwrap_output_param
+            unwrap_output_param=unwrap_output_param,
+            enumeration_pointer_param=enumeration_pointer_param,
+            enumeration_count_param=enumeration_count_param
         )
 
         if not class_params_and_classes:

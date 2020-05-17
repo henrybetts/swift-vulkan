@@ -100,3 +100,39 @@ extension Optional {
         return try array.withUnsafeBufferPointer(body)
     }
 }
+
+func enumerate<R>(_ body: (UnsafeMutablePointer<R>?, UnsafeMutablePointer<UInt32>) -> VkResult) throws -> [R] {
+    var count: UInt32 = 0
+    var result = VK_SUCCESS
+    var array: [R]
+    
+    repeat {
+        try checkResult(body(nil, &count))
+    
+        if (count == 0) {
+            return []
+        }
+    
+        array = Array<R>(unsafeUninitializedCapacity: Int(count)) { buffer, initializedCount in
+            result = body(buffer.baseAddress!, &count)
+            initializedCount = Int(count)
+        }
+    } while result == VK_INCOMPLETE
+    
+    try checkResult(result)
+    return array
+}
+
+func enumerate<R>(_ body: (UnsafeMutablePointer<R>?, UnsafeMutablePointer<UInt32>) -> Void) -> [R] {
+    var count: UInt32 = 0
+    body(nil, &count)
+    
+    if (count == 0) {
+        return []
+    }
+    
+    return Array<R>(unsafeUninitializedCapacity: Int(count)) { buffer, initializedCount in
+        body(buffer.baseAddress!, &count)
+        initializedCount = Int(count)
+    }
+}
