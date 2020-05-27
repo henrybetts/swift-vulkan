@@ -245,6 +245,10 @@ class Importer:
         return cls
 
     def import_command(self, c_command: CCommand) -> SwiftCommand:
+        class_params_and_classes = self.get_class_params(c_command)
+        current_class = class_params_and_classes[-1][1] if class_params_and_classes \
+            else self.imported_classes['VkInstance']
+
         name = remove_vk_prefix(c_command.name)
         name = name[0].lower() + name[1:]
 
@@ -254,7 +258,7 @@ class Importer:
             throws = True
             c_return_type = CType(name='void')
 
-        return_type, return_conversion = self.get_type_conversion(c_return_type)
+        return_type, return_conversion = self.get_type_conversion(c_return_type, current_class=current_class)
 
         output_param: str = None
         output_param_implicit_type: str = None
@@ -272,9 +276,9 @@ class Importer:
             elif len(output_params) == 2 and output_params[1].type.length == output_params[0].name:
                 enumeration_pointer_param = output_params[1].name
                 enumeration_count_param = output_params[0].name
-                return_type, return_conversion = self.get_array_conversion(output_params[1].type, ignore_optional=True)
+                return_type, return_conversion = self.get_array_conversion(output_params[1].type, ignore_optional=True,
+                                                                           current_class=current_class)
 
-        class_params_and_classes = self.get_class_params(c_command)
         class_params = [param for param, _ in class_params_and_classes]
         output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
         c_input_params = [param for param in c_command.params if param.name not in output_params]
@@ -298,11 +302,7 @@ class Importer:
             enumeration_count_param=enumeration_count_param
         )
 
-        if not class_params_and_classes:
-            self.imported_classes['VkInstance'].commands.append(command)
-        else:
-            class_params_and_classes[-1][1].commands.append(command)
-
+        current_class.commands.append(command)
         return command
 
     def get_class_params(self, command: CCommand) -> List[Tuple[CMember, SwiftClass]]:
@@ -361,7 +361,8 @@ class Importer:
                 c_closure_generators)
 
     def get_type_conversion(self, c_type: CType, members: List[CMember] = None, implicit_only: bool = False,
-                            convert_array_to_pointer: bool = False) -> Tuple[str, tc.Conversion]:
+                            convert_array_to_pointer: bool = False,
+                            current_class: SwiftClass = None) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.implicit_conversion
@@ -383,10 +384,12 @@ class Importer:
                 if c_type.name in self.imported_classes:
                     cls = self.imported_classes[c_type.name]
                     parent_name = cls.parent.reference_name if cls.parent else None
+                    parent_value = get_class_chain(current_class, cls.parent) if current_class and cls.parent \
+                        else 'self'
                     if c_type.optional:
-                        return cls.name + '?', tc.optional_class_conversion(cls.name, parent_name)
+                        return cls.name + '?', tc.optional_class_conversion(cls.name, parent_name, parent_value)
                     else:
-                        return cls.name, tc.class_conversion(cls.name, parent_name)
+                        return cls.name, tc.class_conversion(cls.name, parent_name, parent_value)
             return c_type.name, tc.implicit_conversion
 
         elif c_type.pointer_to:
@@ -404,7 +407,7 @@ class Importer:
                         return 'String', tc.string_conversion
 
                 if is_array_convertible(c_type, members):
-                    return self.get_array_conversion(c_type)
+                    return self.get_array_conversion(c_type, current_class=current_class)
 
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.pointer_to.name]
@@ -433,7 +436,8 @@ class Importer:
             else:
                 return swift_type, tc.implicit_conversion
 
-    def get_array_conversion(self, c_type: CType, ignore_optional: bool = False) -> Tuple[str, tc.ArrayConversion]:
+    def get_array_conversion(self, c_type: CType, ignore_optional: bool = False,
+                             current_class: SwiftClass = None) -> Tuple[str, tc.ArrayConversion]:
         if is_string_convertible(c_type.pointer_to) and not (c_type.optional or ignore_optional):
             return 'Array<String>', tc.string_array_conversion(c_type.length)
 
@@ -447,7 +451,7 @@ class Importer:
                        tc.optional_struct_array_conversion(swift_struct, c_type.length)
 
         if c_type.pointer_to.name:
-            element_type, element_conversion = self.get_type_conversion(c_type.pointer_to)
+            element_type, element_conversion = self.get_type_conversion(c_type.pointer_to, current_class=current_class)
             if element_conversion != tc.implicit_conversion:
                 if not c_type.optional or ignore_optional:
                     return f'Array<{element_type}>', \
@@ -518,3 +522,11 @@ def static_value_generator(static_value: str) -> tc.ValueGenerator:
     def generator(_) -> str:
         return static_value
     return generator
+
+
+def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:
+    chain = 'self'
+    while current_class != target_class:
+        current_class = current_class.parent
+        chain += f'.{current_class.reference_name}'
+    return chain

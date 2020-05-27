@@ -2342,7 +2342,7 @@ class SwapchainKHR {
     func getSwapchainImagesKHR() throws -> Array<Image> {
         try enumerate { pSwapchainImages, pSwapchainImageCount in
             vkGetSwapchainImagesKHR(self.device.handle, self.handle, pSwapchainImageCount, pSwapchainImages)
-        }.map { Image(handle: $0, device: self) }
+        }.map { Image(handle: $0, device: self.device) }
     }
 
     func acquireNextImageKHR(timeout: UInt64, semaphore: Semaphore?, fence: Fence?) throws -> UInt32 {

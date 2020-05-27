@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, get_class_chain
 from typing import TextIO, List, Tuple
 from . import typeconversion as tc
 
@@ -181,14 +181,6 @@ class Generator(BaseGenerator):
         for closure in reversed(closures):
             self.indent_size -= 1
             self << closure[1]
-
-
-def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:
-    chain = 'self'
-    while current_class != target_class:
-        current_class = current_class.parent
-        chain += f'.{current_class.reference_name}'
-    return chain
 
 
 def safe_name(name: str) -> str:
