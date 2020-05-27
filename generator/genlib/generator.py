@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand
 from typing import TextIO, List, Tuple
+from . import typeconversion as tc
 
 
 class BaseGenerator:
@@ -153,9 +154,12 @@ class Generator(BaseGenerator):
                     self << f'return {command.return_conversion.get_swift_value_generator("out")({"out": "out"})}'
 
                 elif command.enumeration_pointer_param:
+                    assert isinstance(command.return_conversion, tc.ArrayConversion)
+                    conversion = command.return_conversion
+                    map_string = f'.map {{ {conversion.swift_map_template} }}' if conversion.swift_map_template else ''
                     try_string = 'try ' if command.throws else ''
                     with self.indent(f'{try_string}enumerate {{ {command.enumeration_pointer_param}, '
-                                     f'{command.enumeration_count_param} in', '}'):
+                                     f'{command.enumeration_count_param} in', f'}}{map_string}'):
                         self << call_string
                 else:
                     result_string = command.return_conversion.get_swift_value_generator('return')({'return': call_string})

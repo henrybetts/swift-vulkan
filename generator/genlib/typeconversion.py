@@ -51,10 +51,11 @@ class Conversion:
 
 class ArrayConversion(Conversion):
     def __init__(self, length: str, swift_value_template: str, c_value_template: str, c_length_template: str,
-                 c_closure_template: Tuple[str, str] = None):
+                 c_closure_template: Tuple[str, str] = None, swift_map_template: str = None):
         super().__init__(swift_value_template, c_value_template, c_closure_template)
         self.length = length
         self.c_length_template = c_length_template
+        self.swift_map_template = swift_map_template
 
     def get_c_length_generator(self, name: str) -> ValueGenerator:
         def generator(values_map: Dict[str, str]) -> str:
@@ -183,7 +184,8 @@ def optional_array_conversion(length: str) -> ArrayConversion:
 def string_array_conversion(length: str) -> ArrayConversion:
     return ArrayConversion(
         length=length,
-        swift_value_template='UnsafeBufferPointer(start: $value, count: Int($length)).map{ String(cString: $$0!) }',
+        swift_value_template=f'UnsafeBufferPointer(start: $value, count: Int($length)).map{{ String(cString: $$0!) }}',
+        swift_map_template='String(cString: $0!)',
         c_closure_template=('$value.withCStringBufferPointer { ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
@@ -195,6 +197,7 @@ def struct_array_conversion(swift_struct: str, length: str) -> ArrayConversion:
         length=length,
         swift_value_template='UnsafeBufferPointer(start: $value, count: Int($length))'
                              f'.map{{ {swift_struct}(cStruct: $$0) }}',
+        swift_map_template=f'{swift_struct}(cStruct: $0)',
         c_closure_template=('$value.withCStructBufferPointer { ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
@@ -216,9 +219,11 @@ def array_mapped_conversion(element_conversion: Conversion, length: str) -> Arra
     assert not element_conversion.requires_closure
     swift_element = element_conversion.get_swift_value_generator('element')({'element': '$$0'})
     c_element = element_conversion.get_c_value_generator('element')({'element': '$$0'})
+    swift_map_template = element_conversion.get_swift_value_generator('element')({'element': '$0'})
     return ArrayConversion(
         length=length,
         swift_value_template=f'UnsafeBufferPointer(start: $value, count: Int($length)).map{{ {swift_element} }}',
+        swift_map_template=swift_map_template,
         c_closure_template=(f'$value.map{{ {c_element} }}.withUnsafeBufferPointer {{ ptr_$name in', '}'),
         c_value_template='ptr_$name.baseAddress',
         c_length_template='UInt32(ptr_$name.count)'
