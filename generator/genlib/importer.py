@@ -393,12 +393,21 @@ class Importer:
                 if c_type.name in self.imported_classes:
                     cls = self.imported_classes[c_type.name]
                     parent_name = cls.parent.reference_name if cls.parent else None
-                    parent_value = get_class_chain(current_class, cls.parent) if current_class and cls.parent \
-                        else 'self'
+
+                    if cls.name == 'CommandBuffer':
+                        parent_value = 'pAllocateInfo.commandPool'
+                    elif cls.name == 'DescriptorSet':
+                        parent_value = 'pAllocateInfo.descriptorPool'
+                    elif current_class and cls.parent:
+                        parent_value = get_class_chain(current_class, cls.parent)
+                    else:
+                        parent_value = 'self'
+
                     if c_type.optional:
                         return cls.name + '?', tc.optional_class_conversion(cls.name, parent_name, parent_value)
                     else:
                         return cls.name, tc.class_conversion(cls.name, parent_name, parent_value)
+
             return c_type.name, tc.implicit_conversion
 
         elif c_type.pointer_to:

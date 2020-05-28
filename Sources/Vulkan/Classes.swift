@@ -725,7 +725,7 @@ class Device {
                 try checkResult(
                     vkAllocateDescriptorSets(self.handle, ptr_pAllocateInfo, out.baseAddress)
                 )
-            }.map { DescriptorSet(handle: $0, descriptorPool: self) }
+            }.map { DescriptorSet(handle: $0, descriptorPool: pAllocateInfo.descriptorPool) }
         }
     }
 
@@ -785,7 +785,7 @@ class Device {
                 try checkResult(
                     vkAllocateCommandBuffers(self.handle, ptr_pAllocateInfo, out.baseAddress)
                 )
-            }.map { CommandBuffer(handle: $0, commandPool: self) }
+            }.map { CommandBuffer(handle: $0, commandPool: pAllocateInfo.commandPool) }
         }
     }
 
