@@ -149,7 +149,12 @@ class Generator(BaseGenerator):
                         conversion = command.return_conversion
                         map_string = f'.map {{ {conversion.swift_map_template} }}' \
                             if conversion.swift_map_template else ''
-                        count_value = command.c_value_generators[conversion.length](swift_values_map)
+                        length_path = conversion.length.split('::')
+                        count_value = command.c_value_generators[length_path[0]](swift_values_map)
+                        if len(length_path) > 1:
+                            count_value = '.'.join(
+                                [count_value, 'pointee'] + length_path[1:]
+                            )
                         with self.closures([(
                                 f'Array<{command.output_param_implicit_type}>'
                                 f'(unsafeUninitializedCapacity: Int({count_value})) {{ '

@@ -719,11 +719,13 @@ class Device {
         vkDestroyDescriptorPool(self.handle, descriptorPool?.handle, nil)
     }
 
-    func allocateDescriptorSets(pAllocateInfo: DescriptorSetAllocateInfo, pDescriptorSets: UnsafeMutablePointer<VkDescriptorSet?>) throws -> Void {
+    func allocateDescriptorSets(pAllocateInfo: DescriptorSetAllocateInfo) throws -> Array<DescriptorSet> {
         try pAllocateInfo.withCStruct { ptr_pAllocateInfo in
-            try checkResult(
-                vkAllocateDescriptorSets(self.handle, ptr_pAllocateInfo, pDescriptorSets)
-            )
+            try Array<VkDescriptorSet?>(unsafeUninitializedCapacity: Int(ptr_pAllocateInfo.pointee.descriptorSetCount)) { out, initializedCount in
+                try checkResult(
+                    vkAllocateDescriptorSets(self.handle, ptr_pAllocateInfo, out.baseAddress)
+                )
+            }.map { DescriptorSet(handle: $0, descriptorPool: self) }
         }
     }
 
@@ -777,11 +779,13 @@ class Device {
         vkDestroyCommandPool(self.handle, commandPool?.handle, nil)
     }
 
-    func allocateCommandBuffers(pAllocateInfo: CommandBufferAllocateInfo, pCommandBuffers: UnsafeMutablePointer<VkCommandBuffer?>) throws -> Void {
+    func allocateCommandBuffers(pAllocateInfo: CommandBufferAllocateInfo) throws -> Array<CommandBuffer> {
         try pAllocateInfo.withCStruct { ptr_pAllocateInfo in
-            try checkResult(
-                vkAllocateCommandBuffers(self.handle, ptr_pAllocateInfo, pCommandBuffers)
-            )
+            try Array<VkCommandBuffer?>(unsafeUninitializedCapacity: Int(ptr_pAllocateInfo.pointee.commandBufferCount)) { out, initializedCount in
+                try checkResult(
+                    vkAllocateCommandBuffers(self.handle, ptr_pAllocateInfo, out.baseAddress)
+                )
+            }.map { CommandBuffer(handle: $0, commandPool: self) }
         }
     }
 

@@ -502,12 +502,9 @@ def is_string_convertible(type_: CType) -> bool:
 
 
 def is_array_convertible(type_: CType, members: List[CMember] = None, ignore_const: bool = False) -> bool:
-    if (members and type_.pointer_to and (type_.pointer_to.const or ignore_const) and type_.length
-            and type_.length != 'null-terminated' and type_.pointer_to.name != 'void'):
-        for member in members:
-            if type_.length == member.name and member.type.name == 'uint32_t':
-                return True
-    return False
+    return (members and type_.pointer_to and (type_.pointer_to.const or ignore_const)
+            and type_.length and type_.length != 'null-terminated' and 'latexmath' not in type_.length
+            and type_.pointer_to.name != 'void')
 
 
 def remove_vk_prefix(string: str) -> str:
