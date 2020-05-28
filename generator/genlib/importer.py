@@ -267,12 +267,21 @@ class Importer:
         enumeration_count_param: str = None
         if c_return_type.name == 'void':
             output_params = get_output_params(c_command)
-            if len(output_params) == 1 and not output_params[0].type.length:
-                output_param = output_params[0].name
-                return_type, return_conversion = self.get_type_conversion(output_params[0].type.pointer_to)
-                output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
-                                                                         implicit_only=True)
-                unwrap_output_param = self.is_pointer_type(output_params[0].type.pointer_to)
+            if len(output_params) == 1:
+                if is_array_convertible(output_params[0].type, c_command.params, ignore_const=True):
+                    output_param = output_params[0].name
+                    return_type, return_conversion = self.get_array_conversion(output_params[0].type)
+                    output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
+                                                                             implicit_only=True)
+                    if self.is_pointer_type(output_params[0].type.pointer_to):
+                        output_param_implicit_type += '?'
+                elif not output_params[0].type.length:
+                    output_param = output_params[0].name
+                    return_type, return_conversion = self.get_type_conversion(output_params[0].type.pointer_to)
+                    output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
+                                                                             implicit_only=True)
+                    unwrap_output_param = self.is_pointer_type(output_params[0].type.pointer_to)
+
             elif len(output_params) == 2 and output_params[1].type.length == output_params[0].name:
                 enumeration_pointer_param = output_params[1].name
                 enumeration_count_param = output_params[0].name
@@ -492,8 +501,8 @@ def is_string_convertible(type_: CType) -> bool:
             and type_.pointer_to.const)
 
 
-def is_array_convertible(type_: CType, members: List[CMember] = None) -> bool:
-    if (members and type_.pointer_to and type_.pointer_to.const and type_.length
+def is_array_convertible(type_: CType, members: List[CMember] = None, ignore_const: bool = False) -> bool:
+    if (members and type_.pointer_to and (type_.pointer_to.const or ignore_const) and type_.length
             and type_.length != 'null-terminated' and type_.pointer_to.name != 'void'):
         for member in members:
             if type_.length == member.name and member.type.name == 'uint32_t':

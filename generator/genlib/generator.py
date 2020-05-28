@@ -131,7 +131,10 @@ class Generator(BaseGenerator):
                 params = []
                 for param in command.c_command.params:
                     if param.name == command.output_param:
-                        params.append('&out')
+                        if isinstance(command.return_conversion, tc.ArrayConversion):
+                            params.append('out.baseAddress')
+                        else:
+                            params.append('&out')
                     elif param.name == command.enumeration_pointer_param:
                         params.append(command.enumeration_pointer_param)
                     elif param.name == command.enumeration_count_param:
@@ -142,16 +145,33 @@ class Generator(BaseGenerator):
                 call_string = f'{command.c_command.name}({param_string})'
 
                 if command.output_param:
-                    if command.unwrap_output_param:
-                        self << f'var out: {command.output_param_implicit_type}!'
+                    if isinstance(command.return_conversion, tc.ArrayConversion):
+                        conversion = command.return_conversion
+                        map_string = f'.map {{ {conversion.swift_map_template} }}' \
+                            if conversion.swift_map_template else ''
+                        count_value = command.c_value_generators[conversion.length](swift_values_map)
+                        with self.closures([(
+                                f'Array<{command.output_param_implicit_type}>'
+                                f'(unsafeUninitializedCapacity: Int({count_value})) {{ '
+                                f'out, initializedCount in',
+                                f'}}{map_string}'
+                        )], throws=command.throws):
+                            if command.throws:
+                                with self.indent('try checkResult(', ')'):
+                                    self << call_string
+                            else:
+                                self << call_string
                     else:
-                        self << f'var out = {command.output_param_implicit_type}()'
-                    if command.throws:
-                        with self.indent('try checkResult(', ')'):
+                        if command.unwrap_output_param:
+                            self << f'var out: {command.output_param_implicit_type}!'
+                        else:
+                            self << f'var out = {command.output_param_implicit_type}()'
+                        if command.throws:
+                            with self.indent('try checkResult(', ')'):
+                                self << call_string
+                        else:
                             self << call_string
-                    else:
-                        self << call_string
-                    self << f'return {command.return_conversion.get_swift_value_generator("out")({"out": "out"})}'
+                        self << f'return {command.return_conversion.get_swift_value_generator("out")({"out": "out"})}'
 
                 elif command.enumeration_pointer_param:
                     assert isinstance(command.return_conversion, tc.ArrayConversion)

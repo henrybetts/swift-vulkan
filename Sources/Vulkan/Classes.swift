@@ -639,19 +639,23 @@ class Device {
         vkDestroyPipelineCache(self.handle, pipelineCache?.handle, nil)
     }
 
-    func createGraphicsPipelines(pipelineCache: PipelineCache?, pCreateInfos: Array<GraphicsPipelineCreateInfo>, pPipelines: UnsafeMutablePointer<VkPipeline?>) throws -> Void {
+    func createGraphicsPipelines(pipelineCache: PipelineCache?, pCreateInfos: Array<GraphicsPipelineCreateInfo>) throws -> Array<Pipeline> {
         try pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            try checkResult(
-                vkCreateGraphicsPipelines(self.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pPipelines)
-            )
+            try Array<VkPipeline?>(unsafeUninitializedCapacity: Int(UInt32(ptr_pCreateInfos.count))) { out, initializedCount in
+                try checkResult(
+                    vkCreateGraphicsPipelines(self.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, out.baseAddress)
+                )
+            }.map { Pipeline(handle: $0, device: self) }
         }
     }
 
-    func createComputePipelines(pipelineCache: PipelineCache?, pCreateInfos: Array<ComputePipelineCreateInfo>, pPipelines: UnsafeMutablePointer<VkPipeline?>) throws -> Void {
+    func createComputePipelines(pipelineCache: PipelineCache?, pCreateInfos: Array<ComputePipelineCreateInfo>) throws -> Array<Pipeline> {
         try pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            try checkResult(
-                vkCreateComputePipelines(self.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pPipelines)
-            )
+            try Array<VkPipeline?>(unsafeUninitializedCapacity: Int(UInt32(ptr_pCreateInfos.count))) { out, initializedCount in
+                try checkResult(
+                    vkCreateComputePipelines(self.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, out.baseAddress)
+                )
+            }.map { Pipeline(handle: $0, device: self) }
         }
     }
 
@@ -781,11 +785,13 @@ class Device {
         }
     }
 
-    func createSharedSwapchainsKHR(pCreateInfos: Array<SwapchainCreateInfoKHR>, pSwapchains: UnsafeMutablePointer<VkSwapchainKHR?>) throws -> Void {
+    func createSharedSwapchainsKHR(pCreateInfos: Array<SwapchainCreateInfoKHR>) throws -> Array<SwapchainKHR> {
         try pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            try checkResult(
-                vkCreateSharedSwapchainsKHR(self.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pSwapchains)
-            )
+            try Array<VkSwapchainKHR?>(unsafeUninitializedCapacity: Int(UInt32(ptr_pCreateInfos.count))) { out, initializedCount in
+                try checkResult(
+                    vkCreateSharedSwapchainsKHR(self.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, out.baseAddress)
+                )
+            }.map { SwapchainKHR(handle: $0, device: self) }
         }
     }
 
@@ -1139,11 +1145,13 @@ class Device {
         )
     }
 
-    func createRayTracingPipelinesNV(pipelineCache: PipelineCache?, pCreateInfos: Array<RayTracingPipelineCreateInfoNV>, pPipelines: UnsafeMutablePointer<VkPipeline?>) throws -> Void {
+    func createRayTracingPipelinesNV(pipelineCache: PipelineCache?, pCreateInfos: Array<RayTracingPipelineCreateInfoNV>) throws -> Array<Pipeline> {
         try pCreateInfos.withCStructBufferPointer { ptr_pCreateInfos in
-            try checkResult(
-                vkCreateRayTracingPipelinesNV(self.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, pPipelines)
-            )
+            try Array<VkPipeline?>(unsafeUninitializedCapacity: Int(UInt32(ptr_pCreateInfos.count))) { out, initializedCount in
+                try checkResult(
+                    vkCreateRayTracingPipelinesNV(self.handle, pipelineCache?.handle, UInt32(ptr_pCreateInfos.count), ptr_pCreateInfos.baseAddress, nil, out.baseAddress)
+                )
+            }.map { Pipeline(handle: $0, device: self) }
         }
     }
 
