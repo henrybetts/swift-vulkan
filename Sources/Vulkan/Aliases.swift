@@ -1,0 +1,3 @@
+typealias DescriptorUpdateTemplateKHR = DescriptorUpdateTemplate
+typealias SamplerYcbcrConversionKHR = SamplerYcbcrConversion
+typealias AccelerationStructureNV = AccelerationStructureKHR

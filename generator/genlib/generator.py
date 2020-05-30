@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, get_class_chain
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, SwiftAlias, get_class_chain
 from typing import TextIO, List, Tuple
 from . import typeconversion as tc
 
@@ -193,6 +193,9 @@ class Generator(BaseGenerator):
                             self << result_string
                     else:
                         self << result_string
+
+    def generate_alias(self, alias: SwiftAlias):
+        self << f'typealias {alias.name} = {alias.alias}'
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):

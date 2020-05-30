@@ -1,5 +1,5 @@
 from xml.etree import ElementTree
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Optional
 import re
 from itertools import zip_longest
 
@@ -47,9 +47,10 @@ class CStruct:
 
 
 class CHandle:
-    def __init__(self, name: str, parent: 'CHandle' = None):
+    def __init__(self, name: str, parent: 'CHandle' = None, protect: str = None):
         self.name = name
         self.parent = parent
+        self.protect = protect
 
 
 class CCommand:
@@ -60,18 +61,27 @@ class CCommand:
 
 
 class CExtension:
-    def __init__(self, name: str, supported: str = None, platform: str = None,
+    def __init__(self, name: str, supported: str = None, platform: str = None, protect: str = None,
                  types: List[str] = None, enums: List[CEnum] = None, commands: List[str] = None):
         self.name = name
         self.supported = supported
         self.platform = platform
+        self.protect = protect
         self.types = types or []
         self.enums = enums or []
         self.commands = commands or []
 
 
+class CAlias:
+    def __init__(self, name: str, alias: str, protect: str = None):
+        self.name = name
+        self.alias = alias
+        self.protect = protect
+
+
 class CContext:
     def __init__(self):
+        self.platform_protects: Dict[str, str] = {}
         self.extensions: List[CExtension] = []
         self.extension_tags: List[str] = []
         self.handles: List[CHandle] = []
@@ -79,12 +89,14 @@ class CContext:
         self.bitmasks: List[CBitmask] = []
         self.structs: List[CStruct] = []
         self.commands: List[CCommand] = []
+        self.aliases: List[CAlias] = []
 
     def parse(self, source):
         tree = ElementTree.parse(source)
         self.parse_tree(tree)
 
     def parse_tree(self, tree: ElementTree):
+        self.parse_platforms(tree)
         self.parse_extensions(tree)
         self.parse_extension_tags(tree)
         self.parse_handles(tree)
@@ -92,6 +104,10 @@ class CContext:
         self.parse_bitmasks(tree)
         self.parse_structs(tree)
         self.parse_commands(tree)
+
+    def parse_platforms(self, tree: ElementTree):
+        for platform in tree.findall('./platforms/platform'):
+            self.platform_protects[platform.attrib['name']] = platform.attrib['protect']
 
     def parse_extensions(self, tree: ElementTree):
         for e_extension in tree.findall('./extensions/extension'):
@@ -104,10 +120,13 @@ class CContext:
                 c_case = CEnum.Case(e_enum.attrib['name'], parse_enum_value(e_enum, extension_number))
                 enums.setdefault(e_enum.attrib['extends'], []).append(c_case)
 
+            platform = e_extension.get('platform')
+
             c_extension = CExtension(
                 name=e_extension.attrib['name'],
                 supported=e_extension.get('supported'),
-                platform=e_extension.get('platform'),
+                platform=platform,
+                protect=self.platform_protects[platform] if platform else None,
                 types=[t.attrib['name'] for t in e_extension.findall('./require/type')],
                 enums=[CEnum(enum_name, cases) for enum_name, cases in enums.items()],
                 commands=[c.attrib['name'] for c in e_extension.findall('./require/command')],
@@ -124,13 +143,19 @@ class CContext:
 
         for e_handle in tree.findall('./types/type[@category="handle"]'):
             if 'alias' in e_handle.attrib:
+                handle_name = e_handle.attrib['name']
+                alias = handles[e_handle.attrib['alias']]
+                protect = self.find_protect(type_=handle_name)
+                self.aliases.append(CAlias(handle_name, alias.name, protect))
+                if alias.protect and not protect:
+                    alias.protect = None
                 continue
+
             handle_name = e_handle.find('./name').text
-            if not self.should_ignore(type_=handle_name):
-                handle = CHandle(handle_name)
-                self.handles.append(handle)
-                handles[handle_name] = handle
-                parents[handle_name] = e_handle.get('parent')
+            handle = CHandle(handle_name, protect=self.find_protect(type_=handle_name))
+            self.handles.append(handle)
+            handles[handle_name] = handle
+            parents[handle_name] = e_handle.get('parent')
 
         for handle_name, handle in handles.items():
             try:
@@ -226,11 +251,20 @@ class CContext:
 
             self.commands.append(c_command)
 
-    def should_ignore(self, type_: str = None, command: str = None) -> bool:
+    def find_extension(self, type_: str = None, command: str = None) -> Optional[CExtension]:
         for extension in self.extensions:
             if (type_ and type_ in extension.types) or (command and command in extension.commands):
-                if extension.supported == 'disabled' or extension.platform:
-                    return True
+                return extension
+
+    def find_protect(self, type_: str = None, command: str = None) -> Optional[str]:
+        extension = self.find_extension(type_, command)
+        if extension:
+            return extension.protect
+
+    def should_ignore(self, type_: str = None, command: str = None) -> bool:
+        extension = self.find_extension(type_, command)
+        if extension and (extension.supported == 'disabled' or extension.platform):
+            return True
         return False
 
 

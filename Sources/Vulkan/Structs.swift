@@ -9831,11 +9831,10 @@ struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible {
     typealias CStruct = VkAccelerationStructureMemoryRequirementsInfoNV
 
     let type: VkAccelerationStructureMemoryRequirementsTypeNV
-    let accelerationStructure: VkAccelerationStructureNV
+    let accelerationStructure: AccelerationStructureNV
 
     init(cStruct: VkAccelerationStructureMemoryRequirementsInfoNV) {
-        self.type = cStruct.type
-        self.accelerationStructure = cStruct.accelerationStructure
+        fatalError("This initializer should be removed.")
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
@@ -9843,7 +9842,7 @@ struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible {
         cStruct.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_NV
         cStruct.pNext = nil
         cStruct.type = self.type
-        cStruct.accelerationStructure = self.accelerationStructure
+        cStruct.accelerationStructure = self.accelerationStructure.handle
         return try body(&cStruct)
     }
 }

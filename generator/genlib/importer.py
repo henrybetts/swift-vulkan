@@ -1,4 +1,4 @@
-from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle, CMember, CCommand
+from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle, CMember, CCommand, CAlias
 from . import typeconversion as tc
 from typing import Optional, Tuple, List, Dict
 
@@ -79,12 +79,20 @@ class SwiftClass:
         return ancestors
 
 
+class SwiftAlias:
+    def __init__(self, c_alias: CAlias, name: str, alias: str):
+        self.c_alias = c_alias
+        self.name = name
+        self.alias = alias
+
+
 class SwiftContext:
     def __init__(self):
         self.enums: List[SwiftEnum] = []
         self.option_sets: List[SwiftOptionSet] = []
         self.structs: List[SwiftStruct] = []
         self.classes: List[SwiftClass] = []
+        self.aliases: List[SwiftAlias] = []
 
 
 class Importer:
@@ -95,13 +103,15 @@ class Importer:
         self.imported_option_set_bits: Dict[str, str] = {}
         self.imported_structs: Dict[str, str] = {}
         self.imported_classes: Dict[str, SwiftClass] = {}
-        self.pointer_types = [handle.name for handle in c_context.handles]
+        self.imported_aliases: Dict[str, SwiftAlias] = {}
+        self.pointer_types = [handle.name for handle in c_context.handles] + [alias.name for alias in c_context.aliases]
 
     def import_all(self) -> SwiftContext:
         context = SwiftContext()
         context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
         context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
-        context.classes = [self.import_handle(handle) for handle in self.c_context.handles]
+        context.classes = [self.import_handle(handle) for handle in self.c_context.handles if not handle.protect]
+        context.aliases = [self.import_alias(alias) for alias in self.c_context.aliases if not alias.protect]
         for struct in self.c_context.structs:
             self.import_struct_name(struct)
         context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
@@ -208,10 +218,17 @@ class Importer:
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
         convertible_from_c_struct = True
         for member in c_struct.members:
-            if ((member.type.name and member.type.name in self.imported_classes)
-                    or (member.type.pointer_to and member.type.pointer_to.name
-                        and member.type.pointer_to.name in self.imported_classes)):
+            if member.type.name:
+                c_name = member.type.name
+            elif member.type.pointer_to and member.type.pointer_to.name:
+                c_name = member.type.pointer_to.name
+            else:
+                continue
+            if c_name in self.imported_aliases:
+                c_name = self.imported_aliases[c_name].c_alias.alias
+            if c_name in self.imported_classes:
                 convertible_from_c_struct = False
+                break
 
         members, c_value_generators, closure_generators = self.get_member_conversions(c_struct.members)
         struct = SwiftStruct(c_struct=c_struct,
@@ -314,6 +331,11 @@ class Importer:
         current_class.commands.append(command)
         return command
 
+    def import_alias(self, c_alias: CAlias) -> SwiftAlias:
+        alias = SwiftAlias(c_alias, remove_vk_prefix(c_alias.name), self.imported_classes[c_alias.alias].name)
+        self.imported_aliases[c_alias.name] = alias
+        return alias
+
     def get_class_params(self, command: CCommand) -> List[Tuple[CMember, SwiftClass]]:
         class_params: List[Tuple[CMember, SwiftClass]] = []
         previous_class: SwiftClass = None
@@ -390,8 +412,13 @@ class Importer:
                 if c_type.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.name]
                     return swift_struct, tc.struct_conversion(swift_struct)
-                if c_type.name in self.imported_classes:
-                    cls = self.imported_classes[c_type.name]
+
+                alias = self.imported_aliases.get(c_type.name)
+                c_name = alias.c_alias.alias if alias else c_type.name
+
+                if c_name in self.imported_classes:
+                    cls = self.imported_classes[c_name]
+                    cls_name = alias.name if alias else cls.name
                     parent_name = cls.parent.reference_name if cls.parent else None
 
                     if cls.name == 'CommandBuffer':
@@ -404,9 +431,9 @@ class Importer:
                         parent_value = 'self'
 
                     if c_type.optional:
-                        return cls.name + '?', tc.optional_class_conversion(cls.name, parent_name, parent_value)
+                        return cls_name + '?', tc.optional_class_conversion(cls_name, parent_name, parent_value)
                     else:
-                        return cls.name, tc.class_conversion(cls.name, parent_name, parent_value)
+                        return cls_name, tc.class_conversion(cls_name, parent_name, parent_value)
 
             return c_type.name, tc.implicit_conversion
 

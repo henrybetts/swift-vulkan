@@ -1125,13 +1125,13 @@ class Device {
         }
     }
 
-    func createAccelerationStructureNV(pCreateInfo: AccelerationStructureCreateInfoNV) throws -> VkAccelerationStructureNV {
+    func createAccelerationStructureNV(pCreateInfo: AccelerationStructureCreateInfoNV) throws -> AccelerationStructureNV {
         try pCreateInfo.withCStruct { ptr_pCreateInfo in
-            var out = VkAccelerationStructureNV()
+            var out: VkAccelerationStructureNV!
             try checkResult(
                 vkCreateAccelerationStructureNV(self.handle, ptr_pCreateInfo, nil, &out)
             )
-            return out
+            return AccelerationStructureNV(handle: out, device: self)
         }
     }
 
@@ -1141,12 +1141,6 @@ class Device {
             vkGetAccelerationStructureMemoryRequirementsNV(self.handle, ptr_pInfo, &out)
             return out
         }
-    }
-
-    func getAccelerationStructureHandleNV(accelerationStructure: VkAccelerationStructureKHR, dataSize: Int, pData: UnsafeMutableRawPointer) throws -> Void {
-        try checkResult(
-            vkGetAccelerationStructureHandleNV(self.handle, accelerationStructure, dataSize, pData)
-        )
     }
 
     func createRayTracingPipelinesNV(pipelineCache: PipelineCache?, pCreateInfos: Array<RayTracingPipelineCreateInfoNV>) throws -> Array<Pipeline> {
@@ -1781,13 +1775,13 @@ class CommandBuffer {
         vkCmdDrawMeshTasksIndirectCountNV(self.handle, buffer.handle, offset, countBuffer.handle, countBufferOffset, maxDrawCount, stride)
     }
 
-    func cmdCopyAccelerationStructureNV(dst: VkAccelerationStructureKHR, src: VkAccelerationStructureKHR, mode: VkCopyAccelerationStructureModeKHR) -> Void {
-        vkCmdCopyAccelerationStructureNV(self.handle, dst, src, mode)
+    func cmdCopyAccelerationStructureNV(dst: AccelerationStructureKHR, src: AccelerationStructureKHR, mode: VkCopyAccelerationStructureModeKHR) -> Void {
+        vkCmdCopyAccelerationStructureNV(self.handle, dst.handle, src.handle, mode)
     }
 
-    func cmdBuildAccelerationStructureNV(pInfo: AccelerationStructureInfoNV, instanceData: Buffer?, instanceOffset: VkDeviceSize, update: Bool, dst: VkAccelerationStructureKHR, src: VkAccelerationStructureKHR, scratch: Buffer, scratchOffset: VkDeviceSize) -> Void {
+    func cmdBuildAccelerationStructureNV(pInfo: AccelerationStructureInfoNV, instanceData: Buffer?, instanceOffset: VkDeviceSize, update: Bool, dst: AccelerationStructureKHR, src: AccelerationStructureKHR?, scratch: Buffer, scratchOffset: VkDeviceSize) -> Void {
         pInfo.withCStruct { ptr_pInfo in
-            vkCmdBuildAccelerationStructureNV(self.handle, ptr_pInfo, instanceData?.handle, instanceOffset, VkBool32(update ? VK_TRUE : VK_FALSE), dst, src, scratch.handle, scratchOffset)
+            vkCmdBuildAccelerationStructureNV(self.handle, ptr_pInfo, instanceData?.handle, instanceOffset, VkBool32(update ? VK_TRUE : VK_FALSE), dst.handle, src?.handle, scratch.handle, scratchOffset)
         }
     }
 
@@ -2257,6 +2251,22 @@ class ValidationCacheEXT {
                 vkMergeValidationCachesEXT(self.device.handle, self.handle, UInt32(ptr_pSrcCaches.count), ptr_pSrcCaches.baseAddress)
             )
         }
+    }
+}
+
+class AccelerationStructureKHR {
+    let handle: VkAccelerationStructureKHR!
+    let device: Device
+
+    init(handle: VkAccelerationStructureKHR!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
+
+    func getAccelerationStructureHandleNV(dataSize: Int, pData: UnsafeMutableRawPointer) throws -> Void {
+        try checkResult(
+            vkGetAccelerationStructureHandleNV(self.device.handle, self.handle, dataSize, pData)
+        )
     }
 }
 

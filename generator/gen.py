@@ -30,3 +30,8 @@ if __name__ == '__main__':
         generator.generate_imports()
         for cls in swift_context.classes:
             generator.generate_class(cls)
+
+    with open('../Sources/Vulkan/Aliases.swift', 'w') as f:
+        generator = Generator(f)
+        for alias in swift_context.aliases:
+            generator.generate_alias(alias)
