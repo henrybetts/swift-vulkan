@@ -375,15 +375,17 @@ class Importer:
 
             swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
                                                               convert_array_to_pointer=convert_array_to_pointer)
-            c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(c_member.name))
+            swift_name = get_member_name(c_member.name, c_member.type)
+
+            c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(swift_name))
 
             if conversion.requires_closure:
-                c_closure_generators.append(conversion.get_c_closure_generator(c_member.name))
+                c_closure_generators.append(conversion.get_c_closure_generator(swift_name))
 
             if isinstance(conversion, tc.ArrayConversion):
-                c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(c_member.name))
+                c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(swift_name))
 
-            member = SwiftMember(name=c_member.name, type_=swift_type,
+            member = SwiftMember(name=swift_name, type_=swift_type,
                                  value_generator=conversion.get_swift_value_generator(c_member.name))
             members.append(member)
 
@@ -422,9 +424,9 @@ class Importer:
                     parent_name = cls.parent.reference_name if cls.parent else None
 
                     if cls.name == 'CommandBuffer':
-                        parent_value = 'pAllocateInfo.commandPool'
+                        parent_value = 'allocateInfo.commandPool'
                     elif cls.name == 'DescriptorSet':
-                        parent_value = 'pAllocateInfo.descriptorPool'
+                        parent_value = 'allocateInfo.descriptorPool'
                     elif current_class and cls.parent:
                         parent_value = get_class_chain(current_class, cls.parent)
                     else:
@@ -572,3 +574,9 @@ def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:
         current_class = current_class.parent
         chain += f'.{current_class.reference_name}'
     return chain
+
+
+def get_member_name(c_name: str, c_type: CType) -> str:
+    if c_type.pointer_to and c_name.startswith('p'):
+        return get_member_name(c_name[1].lower() + c_name[2:], c_type.pointer_to)
+    return c_name
