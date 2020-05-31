@@ -272,6 +272,8 @@ class Importer:
         name = remove_vk_prefix(c_command.name)
         name = re.sub(f'({class_name_without_extension})([A-Z]\w*)?$', r'\2', name)
         name = name[0].lower() + name[1:]
+        if name.startswith('enumerate'):
+            name = 'get' + name[9:]
 
         c_return_type = c_command.return_type
         throws = False

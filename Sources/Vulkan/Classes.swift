@@ -21,7 +21,7 @@ class Instance {
         vkDestroyInstance(instance?.handle, nil)
     }
 
-    func enumeratePhysicalDevices() throws -> Array<PhysicalDevice> {
+    func getPhysicalDevices() throws -> Array<PhysicalDevice> {
         try enumerate { pPhysicalDevices, pPhysicalDeviceCount in
             vkEnumeratePhysicalDevices(self.handle, pPhysicalDeviceCount, pPhysicalDevices)
         }.map { PhysicalDevice(handle: $0, instance: self) }
@@ -37,7 +37,7 @@ class Instance {
         vkDestroyDevice(device?.handle, nil)
     }
 
-    static func enumerateVersion() throws -> Version {
+    static func getVersion() throws -> Version {
         var out = UInt32()
         try checkResult(
             vkEnumerateInstanceVersion(&out)
@@ -45,13 +45,13 @@ class Instance {
         return Version(rawValue: out)
     }
 
-    static func enumerateLayerProperties() throws -> Array<LayerProperties> {
+    static func getLayerProperties() throws -> Array<LayerProperties> {
         try enumerate { pProperties, pPropertyCount in
             vkEnumerateInstanceLayerProperties(pPropertyCount, pProperties)
         }.map { LayerProperties(cStruct: $0) }
     }
 
-    static func enumerateExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
+    static func getExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
         try layerName.withOptionalCString { cString_layerName in
             try enumerate { pProperties, pPropertyCount in
                 vkEnumerateInstanceExtensionProperties(cString_layerName, pPropertyCount, pProperties)
@@ -91,7 +91,7 @@ class Instance {
         }
     }
 
-    func enumeratePhysicalDeviceGroups() throws -> Array<PhysicalDeviceGroupProperties> {
+    func getPhysicalDeviceGroups() throws -> Array<PhysicalDeviceGroupProperties> {
         try enumerate { pPhysicalDeviceGroupProperties, pPhysicalDeviceGroupCount in
             vkEnumeratePhysicalDeviceGroups(self.handle, pPhysicalDeviceGroupCount, pPhysicalDeviceGroupProperties)
         }.map { PhysicalDeviceGroupProperties(cStruct: $0) }
@@ -181,13 +181,13 @@ class PhysicalDevice {
         }
     }
 
-    func enumerateDeviceLayerProperties() throws -> Array<LayerProperties> {
+    func getDeviceLayerProperties() throws -> Array<LayerProperties> {
         try enumerate { pProperties, pPropertyCount in
             vkEnumerateDeviceLayerProperties(self.handle, pPropertyCount, pProperties)
         }.map { LayerProperties(cStruct: $0) }
     }
 
-    func enumerateDeviceExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
+    func getDeviceExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
         try layerName.withOptionalCString { cString_layerName in
             try enumerate { pProperties, pPropertyCount in
                 vkEnumerateDeviceExtensionProperties(self.handle, cString_layerName, pPropertyCount, pProperties)
@@ -399,7 +399,7 @@ class PhysicalDevice {
         }.map { CooperativeMatrixPropertiesNV(cStruct: $0) }
     }
 
-    func enumerateQueueFamilyPerformanceQueryCountersKHR(queueFamilyIndex: UInt32, counterCount: UnsafeMutablePointer<UInt32>, counters: UnsafeMutablePointer<VkPerformanceCounterKHR>, counterDescriptions: UnsafeMutablePointer<VkPerformanceCounterDescriptionKHR>) throws -> Void {
+    func getQueueFamilyPerformanceQueryCountersKHR(queueFamilyIndex: UInt32, counterCount: UnsafeMutablePointer<UInt32>, counters: UnsafeMutablePointer<VkPerformanceCounterKHR>, counterDescriptions: UnsafeMutablePointer<VkPerformanceCounterDescriptionKHR>) throws -> Void {
         try checkResult(
             vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(self.handle, queueFamilyIndex, counterCount, counters, counterDescriptions)
         )
