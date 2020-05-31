@@ -7,7 +7,7 @@ class Instance {
         self.handle = handle
     }
 
-    static func createInstance(createInfo: InstanceCreateInfo) throws -> Instance {
+    static func create(createInfo: InstanceCreateInfo) throws -> Instance {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkInstance!
             try checkResult(
@@ -17,7 +17,7 @@ class Instance {
         }
     }
 
-    static func destroyInstance(instance: Instance?) -> Void {
+    static func destroy(instance: Instance?) -> Void {
         vkDestroyInstance(instance?.handle, nil)
     }
 
@@ -27,7 +27,7 @@ class Instance {
         }.map { PhysicalDevice(handle: $0, instance: self) }
     }
 
-    static func getInstanceProcAddr(instance: Instance?, name: String) -> PFN_vkVoidFunction {
+    static func getProcAddr(instance: Instance?, name: String) -> PFN_vkVoidFunction {
         name.withCString { cString_name in
             vkGetInstanceProcAddr(instance?.handle, cString_name)
         }
@@ -37,7 +37,7 @@ class Instance {
         vkDestroyDevice(device?.handle, nil)
     }
 
-    static func enumerateInstanceVersion() throws -> UInt32 {
+    static func enumerateVersion() throws -> UInt32 {
         var out = UInt32()
         try checkResult(
             vkEnumerateInstanceVersion(&out)
@@ -45,13 +45,13 @@ class Instance {
         return out
     }
 
-    static func enumerateInstanceLayerProperties() throws -> Array<LayerProperties> {
+    static func enumerateLayerProperties() throws -> Array<LayerProperties> {
         try enumerate { pProperties, pPropertyCount in
             vkEnumerateInstanceLayerProperties(pPropertyCount, pProperties)
         }.map { LayerProperties(cStruct: $0) }
     }
 
-    static func enumerateInstanceExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
+    static func enumerateExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
         try layerName.withOptionalCString { cString_layerName in
             try enumerate { pProperties, pPropertyCount in
                 vkEnumerateInstanceExtensionProperties(cString_layerName, pPropertyCount, pProperties)
@@ -133,37 +133,37 @@ class PhysicalDevice {
         self.instance = instance
     }
 
-    func getPhysicalDeviceProperties() -> PhysicalDeviceProperties {
+    func getProperties() -> PhysicalDeviceProperties {
         var out = VkPhysicalDeviceProperties()
         vkGetPhysicalDeviceProperties(self.handle, &out)
         return PhysicalDeviceProperties(cStruct: out)
     }
 
-    func getPhysicalDeviceQueueFamilyProperties() -> Array<QueueFamilyProperties> {
+    func getQueueFamilyProperties() -> Array<QueueFamilyProperties> {
         enumerate { pQueueFamilyProperties, pQueueFamilyPropertyCount in
             vkGetPhysicalDeviceQueueFamilyProperties(self.handle, pQueueFamilyPropertyCount, pQueueFamilyProperties)
         }.map { QueueFamilyProperties(cStruct: $0) }
     }
 
-    func getPhysicalDeviceMemoryProperties() -> PhysicalDeviceMemoryProperties {
+    func getMemoryProperties() -> PhysicalDeviceMemoryProperties {
         var out = VkPhysicalDeviceMemoryProperties()
         vkGetPhysicalDeviceMemoryProperties(self.handle, &out)
         return PhysicalDeviceMemoryProperties(cStruct: out)
     }
 
-    func getPhysicalDeviceFeatures() -> PhysicalDeviceFeatures {
+    func getFeatures() -> PhysicalDeviceFeatures {
         var out = VkPhysicalDeviceFeatures()
         vkGetPhysicalDeviceFeatures(self.handle, &out)
         return PhysicalDeviceFeatures(cStruct: out)
     }
 
-    func getPhysicalDeviceFormatProperties(format: Format) -> FormatProperties {
+    func getFormatProperties(format: Format) -> FormatProperties {
         var out = VkFormatProperties()
         vkGetPhysicalDeviceFormatProperties(self.handle, VkFormat(rawValue: format.rawValue), &out)
         return FormatProperties(cStruct: out)
     }
 
-    func getPhysicalDeviceImageFormatProperties(format: Format, type: ImageType, tiling: ImageTiling, usage: ImageUsageFlags, flags: ImageCreateFlags) throws -> ImageFormatProperties {
+    func getImageFormatProperties(format: Format, type: ImageType, tiling: ImageTiling, usage: ImageUsageFlags, flags: ImageCreateFlags) throws -> ImageFormatProperties {
         var out = VkImageFormatProperties()
         try checkResult(
             vkGetPhysicalDeviceImageFormatProperties(self.handle, VkFormat(rawValue: format.rawValue), VkImageType(rawValue: type.rawValue), VkImageTiling(rawValue: tiling.rawValue), usage.rawValue, flags.rawValue, &out)
@@ -195,19 +195,19 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceSparseImageFormatProperties(format: Format, type: ImageType, samples: SampleCountFlags, usage: ImageUsageFlags, tiling: ImageTiling) -> Array<SparseImageFormatProperties> {
+    func getSparseImageFormatProperties(format: Format, type: ImageType, samples: SampleCountFlags, usage: ImageUsageFlags, tiling: ImageTiling) -> Array<SparseImageFormatProperties> {
         enumerate { pProperties, pPropertyCount in
             vkGetPhysicalDeviceSparseImageFormatProperties(self.handle, VkFormat(rawValue: format.rawValue), VkImageType(rawValue: type.rawValue), VkSampleCountFlagBits(rawValue: samples.rawValue), usage.rawValue, VkImageTiling(rawValue: tiling.rawValue), pPropertyCount, pProperties)
         }.map { SparseImageFormatProperties(cStruct: $0) }
     }
 
-    func getPhysicalDeviceDisplayPropertiesKHR() throws -> Array<DisplayPropertiesKHR> {
+    func getDisplayPropertiesKHR() throws -> Array<DisplayPropertiesKHR> {
         try enumerate { pProperties, pPropertyCount in
             vkGetPhysicalDeviceDisplayPropertiesKHR(self.handle, pPropertyCount, pProperties)
         }.map { DisplayPropertiesKHR(cStruct: $0) }
     }
 
-    func getPhysicalDeviceDisplayPlanePropertiesKHR() throws -> Array<DisplayPlanePropertiesKHR> {
+    func getDisplayPlanePropertiesKHR() throws -> Array<DisplayPlanePropertiesKHR> {
         try enumerate { pProperties, pPropertyCount in
             vkGetPhysicalDeviceDisplayPlanePropertiesKHR(self.handle, pPropertyCount, pProperties)
         }.map { DisplayPlanePropertiesKHR(cStruct: $0) }
@@ -219,7 +219,7 @@ class PhysicalDevice {
         }.map { DisplayKHR(handle: $0, physicalDevice: self) }
     }
 
-    func getPhysicalDeviceSurfaceSupportKHR(queueFamilyIndex: UInt32, surface: SurfaceKHR) throws -> Bool {
+    func getSurfaceSupportKHR(queueFamilyIndex: UInt32, surface: SurfaceKHR) throws -> Bool {
         var out = VkBool32()
         try checkResult(
             vkGetPhysicalDeviceSurfaceSupportKHR(self.handle, queueFamilyIndex, surface.handle, &out)
@@ -227,7 +227,7 @@ class PhysicalDevice {
         return out == VK_TRUE
     }
 
-    func getPhysicalDeviceSurfaceCapabilitiesKHR(surface: SurfaceKHR) throws -> SurfaceCapabilitiesKHR {
+    func getSurfaceCapabilitiesKHR(surface: SurfaceKHR) throws -> SurfaceCapabilitiesKHR {
         var out = VkSurfaceCapabilitiesKHR()
         try checkResult(
             vkGetPhysicalDeviceSurfaceCapabilitiesKHR(self.handle, surface.handle, &out)
@@ -235,19 +235,19 @@ class PhysicalDevice {
         return SurfaceCapabilitiesKHR(cStruct: out)
     }
 
-    func getPhysicalDeviceSurfaceFormatsKHR(surface: SurfaceKHR) throws -> Array<SurfaceFormatKHR> {
+    func getSurfaceFormatsKHR(surface: SurfaceKHR) throws -> Array<SurfaceFormatKHR> {
         try enumerate { pSurfaceFormats, pSurfaceFormatCount in
             vkGetPhysicalDeviceSurfaceFormatsKHR(self.handle, surface.handle, pSurfaceFormatCount, pSurfaceFormats)
         }.map { SurfaceFormatKHR(cStruct: $0) }
     }
 
-    func getPhysicalDeviceSurfacePresentModesKHR(surface: SurfaceKHR) throws -> Array<PresentModeKHR> {
+    func getSurfacePresentModesKHR(surface: SurfaceKHR) throws -> Array<PresentModeKHR> {
         try enumerate { pPresentModes, pPresentModeCount in
             vkGetPhysicalDeviceSurfacePresentModesKHR(self.handle, surface.handle, pPresentModeCount, pPresentModes)
         }.map { PresentModeKHR(rawValue: $0.rawValue)! }
     }
 
-    func getPhysicalDeviceExternalImageFormatPropertiesNV(format: Format, type: ImageType, tiling: ImageTiling, usage: ImageUsageFlags, flags: ImageCreateFlags, externalHandleType: ExternalMemoryHandleTypeFlagsNV) throws -> ExternalImageFormatPropertiesNV {
+    func getExternalImageFormatPropertiesNV(format: Format, type: ImageType, tiling: ImageTiling, usage: ImageUsageFlags, flags: ImageCreateFlags, externalHandleType: ExternalMemoryHandleTypeFlagsNV) throws -> ExternalImageFormatPropertiesNV {
         var out = VkExternalImageFormatPropertiesNV()
         try checkResult(
             vkGetPhysicalDeviceExternalImageFormatPropertiesNV(self.handle, VkFormat(rawValue: format.rawValue), VkImageType(rawValue: type.rawValue), VkImageTiling(rawValue: tiling.rawValue), usage.rawValue, flags.rawValue, externalHandleType.rawValue, &out)
@@ -255,25 +255,25 @@ class PhysicalDevice {
         return ExternalImageFormatPropertiesNV(cStruct: out)
     }
 
-    func getPhysicalDeviceFeatures2() -> PhysicalDeviceFeatures2 {
+    func getFeatures2() -> PhysicalDeviceFeatures2 {
         var out = VkPhysicalDeviceFeatures2()
         vkGetPhysicalDeviceFeatures2(self.handle, &out)
         return PhysicalDeviceFeatures2(cStruct: out)
     }
 
-    func getPhysicalDeviceProperties2() -> PhysicalDeviceProperties2 {
+    func getProperties2() -> PhysicalDeviceProperties2 {
         var out = VkPhysicalDeviceProperties2()
         vkGetPhysicalDeviceProperties2(self.handle, &out)
         return PhysicalDeviceProperties2(cStruct: out)
     }
 
-    func getPhysicalDeviceFormatProperties2(format: Format) -> FormatProperties2 {
+    func getFormatProperties2(format: Format) -> FormatProperties2 {
         var out = VkFormatProperties2()
         vkGetPhysicalDeviceFormatProperties2(self.handle, VkFormat(rawValue: format.rawValue), &out)
         return FormatProperties2(cStruct: out)
     }
 
-    func getPhysicalDeviceImageFormatProperties2(imageFormatInfo: PhysicalDeviceImageFormatInfo2) throws -> ImageFormatProperties2 {
+    func getImageFormatProperties2(imageFormatInfo: PhysicalDeviceImageFormatInfo2) throws -> ImageFormatProperties2 {
         try imageFormatInfo.withCStruct { ptr_imageFormatInfo in
             var out = VkImageFormatProperties2()
             try checkResult(
@@ -283,19 +283,19 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceQueueFamilyProperties2() -> Array<QueueFamilyProperties2> {
+    func getQueueFamilyProperties2() -> Array<QueueFamilyProperties2> {
         enumerate { pQueueFamilyProperties, pQueueFamilyPropertyCount in
             vkGetPhysicalDeviceQueueFamilyProperties2(self.handle, pQueueFamilyPropertyCount, pQueueFamilyProperties)
         }.map { QueueFamilyProperties2(cStruct: $0) }
     }
 
-    func getPhysicalDeviceMemoryProperties2() -> PhysicalDeviceMemoryProperties2 {
+    func getMemoryProperties2() -> PhysicalDeviceMemoryProperties2 {
         var out = VkPhysicalDeviceMemoryProperties2()
         vkGetPhysicalDeviceMemoryProperties2(self.handle, &out)
         return PhysicalDeviceMemoryProperties2(cStruct: out)
     }
 
-    func getPhysicalDeviceSparseImageFormatProperties2(formatInfo: PhysicalDeviceSparseImageFormatInfo2) -> Array<SparseImageFormatProperties2> {
+    func getSparseImageFormatProperties2(formatInfo: PhysicalDeviceSparseImageFormatInfo2) -> Array<SparseImageFormatProperties2> {
         formatInfo.withCStruct { ptr_formatInfo in
             enumerate { pProperties, pPropertyCount in
                 vkGetPhysicalDeviceSparseImageFormatProperties2(self.handle, ptr_formatInfo, pPropertyCount, pProperties)
@@ -303,7 +303,7 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceExternalBufferProperties(externalBufferInfo: PhysicalDeviceExternalBufferInfo) -> ExternalBufferProperties {
+    func getExternalBufferProperties(externalBufferInfo: PhysicalDeviceExternalBufferInfo) -> ExternalBufferProperties {
         externalBufferInfo.withCStruct { ptr_externalBufferInfo in
             var out = VkExternalBufferProperties()
             vkGetPhysicalDeviceExternalBufferProperties(self.handle, ptr_externalBufferInfo, &out)
@@ -311,7 +311,7 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceExternalSemaphoreProperties(externalSemaphoreInfo: PhysicalDeviceExternalSemaphoreInfo) -> ExternalSemaphoreProperties {
+    func getExternalSemaphoreProperties(externalSemaphoreInfo: PhysicalDeviceExternalSemaphoreInfo) -> ExternalSemaphoreProperties {
         externalSemaphoreInfo.withCStruct { ptr_externalSemaphoreInfo in
             var out = VkExternalSemaphoreProperties()
             vkGetPhysicalDeviceExternalSemaphoreProperties(self.handle, ptr_externalSemaphoreInfo, &out)
@@ -319,7 +319,7 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceExternalFenceProperties(externalFenceInfo: PhysicalDeviceExternalFenceInfo) -> ExternalFenceProperties {
+    func getExternalFenceProperties(externalFenceInfo: PhysicalDeviceExternalFenceInfo) -> ExternalFenceProperties {
         externalFenceInfo.withCStruct { ptr_externalFenceInfo in
             var out = VkExternalFenceProperties()
             vkGetPhysicalDeviceExternalFenceProperties(self.handle, ptr_externalFenceInfo, &out)
@@ -327,7 +327,7 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceSurfaceCapabilities2EXT(surface: SurfaceKHR) throws -> SurfaceCapabilities2EXT {
+    func getSurfaceCapabilities2EXT(surface: SurfaceKHR) throws -> SurfaceCapabilities2EXT {
         var out = VkSurfaceCapabilities2EXT()
         try checkResult(
             vkGetPhysicalDeviceSurfaceCapabilities2EXT(self.handle, surface.handle, &out)
@@ -335,19 +335,19 @@ class PhysicalDevice {
         return SurfaceCapabilities2EXT(cStruct: out)
     }
 
-    func getPhysicalDevicePresentRectanglesKHR(surface: SurfaceKHR) throws -> Array<Rect2D> {
+    func getPresentRectanglesKHR(surface: SurfaceKHR) throws -> Array<Rect2D> {
         try enumerate { pRects, pRectCount in
             vkGetPhysicalDevicePresentRectanglesKHR(self.handle, surface.handle, pRectCount, pRects)
         }.map { Rect2D(cStruct: $0) }
     }
 
-    func getPhysicalDeviceMultisamplePropertiesEXT(samples: SampleCountFlags) -> MultisamplePropertiesEXT {
+    func getMultisamplePropertiesEXT(samples: SampleCountFlags) -> MultisamplePropertiesEXT {
         var out = VkMultisamplePropertiesEXT()
         vkGetPhysicalDeviceMultisamplePropertiesEXT(self.handle, VkSampleCountFlagBits(rawValue: samples.rawValue), &out)
         return MultisamplePropertiesEXT(cStruct: out)
     }
 
-    func getPhysicalDeviceSurfaceCapabilities2KHR(surfaceInfo: PhysicalDeviceSurfaceInfo2KHR) throws -> SurfaceCapabilities2KHR {
+    func getSurfaceCapabilities2KHR(surfaceInfo: PhysicalDeviceSurfaceInfo2KHR) throws -> SurfaceCapabilities2KHR {
         try surfaceInfo.withCStruct { ptr_surfaceInfo in
             var out = VkSurfaceCapabilities2KHR()
             try checkResult(
@@ -357,7 +357,7 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceSurfaceFormats2KHR(surfaceInfo: PhysicalDeviceSurfaceInfo2KHR) throws -> Array<SurfaceFormat2KHR> {
+    func getSurfaceFormats2KHR(surfaceInfo: PhysicalDeviceSurfaceInfo2KHR) throws -> Array<SurfaceFormat2KHR> {
         try surfaceInfo.withCStruct { ptr_surfaceInfo in
             try enumerate { pSurfaceFormats, pSurfaceFormatCount in
                 vkGetPhysicalDeviceSurfaceFormats2KHR(self.handle, ptr_surfaceInfo, pSurfaceFormatCount, pSurfaceFormats)
@@ -365,13 +365,13 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceDisplayProperties2KHR() throws -> Array<DisplayProperties2KHR> {
+    func getDisplayProperties2KHR() throws -> Array<DisplayProperties2KHR> {
         try enumerate { pProperties, pPropertyCount in
             vkGetPhysicalDeviceDisplayProperties2KHR(self.handle, pPropertyCount, pProperties)
         }.map { DisplayProperties2KHR(cStruct: $0) }
     }
 
-    func getPhysicalDeviceDisplayPlaneProperties2KHR() throws -> Array<DisplayPlaneProperties2KHR> {
+    func getDisplayPlaneProperties2KHR() throws -> Array<DisplayPlaneProperties2KHR> {
         try enumerate { pProperties, pPropertyCount in
             vkGetPhysicalDeviceDisplayPlaneProperties2KHR(self.handle, pPropertyCount, pProperties)
         }.map { DisplayPlaneProperties2KHR(cStruct: $0) }
@@ -387,25 +387,25 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceCalibrateableTimeDomainsEXT() throws -> Array<TimeDomainEXT> {
+    func getCalibrateableTimeDomainsEXT() throws -> Array<TimeDomainEXT> {
         try enumerate { pTimeDomains, pTimeDomainCount in
             vkGetPhysicalDeviceCalibrateableTimeDomainsEXT(self.handle, pTimeDomainCount, pTimeDomains)
         }.map { TimeDomainEXT(rawValue: $0.rawValue)! }
     }
 
-    func getPhysicalDeviceCooperativeMatrixPropertiesNV() throws -> Array<CooperativeMatrixPropertiesNV> {
+    func getCooperativeMatrixPropertiesNV() throws -> Array<CooperativeMatrixPropertiesNV> {
         try enumerate { pProperties, pPropertyCount in
             vkGetPhysicalDeviceCooperativeMatrixPropertiesNV(self.handle, pPropertyCount, pProperties)
         }.map { CooperativeMatrixPropertiesNV(cStruct: $0) }
     }
 
-    func enumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(queueFamilyIndex: UInt32, counterCount: UnsafeMutablePointer<UInt32>, counters: UnsafeMutablePointer<VkPerformanceCounterKHR>, counterDescriptions: UnsafeMutablePointer<VkPerformanceCounterDescriptionKHR>) throws -> Void {
+    func enumerateQueueFamilyPerformanceQueryCountersKHR(queueFamilyIndex: UInt32, counterCount: UnsafeMutablePointer<UInt32>, counters: UnsafeMutablePointer<VkPerformanceCounterKHR>, counterDescriptions: UnsafeMutablePointer<VkPerformanceCounterDescriptionKHR>) throws -> Void {
         try checkResult(
             vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(self.handle, queueFamilyIndex, counterCount, counters, counterDescriptions)
         )
     }
 
-    func getPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR(performanceQueryCreateInfo: QueryPoolPerformanceCreateInfoKHR) -> UInt32 {
+    func getQueueFamilyPerformanceQueryPassesKHR(performanceQueryCreateInfo: QueryPoolPerformanceCreateInfoKHR) -> UInt32 {
         performanceQueryCreateInfo.withCStruct { ptr_performanceQueryCreateInfo in
             var out = UInt32()
             vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR(self.handle, ptr_performanceQueryCreateInfo, &out)
@@ -413,13 +413,13 @@ class PhysicalDevice {
         }
     }
 
-    func getPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV() throws -> Array<FramebufferMixedSamplesCombinationNV> {
+    func getSupportedFramebufferMixedSamplesCombinationsNV() throws -> Array<FramebufferMixedSamplesCombinationNV> {
         try enumerate { pCombinations, pCombinationCount in
             vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(self.handle, pCombinationCount, pCombinations)
         }.map { FramebufferMixedSamplesCombinationNV(cStruct: $0) }
     }
 
-    func getPhysicalDeviceToolPropertiesEXT() throws -> Array<PhysicalDeviceToolPropertiesEXT> {
+    func getToolPropertiesEXT() throws -> Array<PhysicalDeviceToolPropertiesEXT> {
         try enumerate { pToolProperties, pToolCount in
             vkGetPhysicalDeviceToolPropertiesEXT(self.handle, pToolCount, pToolProperties)
         }.map { PhysicalDeviceToolPropertiesEXT(cStruct: $0) }
@@ -435,19 +435,19 @@ class Device {
         self.physicalDevice = physicalDevice
     }
 
-    func getDeviceProcAddr(name: String) -> PFN_vkVoidFunction {
+    func getProcAddr(name: String) -> PFN_vkVoidFunction {
         name.withCString { cString_name in
             vkGetDeviceProcAddr(self.handle, cString_name)
         }
     }
 
-    func getDeviceQueue(queueFamilyIndex: UInt32, queueIndex: UInt32) -> Queue {
+    func getQueue(queueFamilyIndex: UInt32, queueIndex: UInt32) -> Queue {
         var out: VkQueue!
         vkGetDeviceQueue(self.handle, queueFamilyIndex, queueIndex, &out)
         return Queue(handle: out, device: self)
     }
 
-    func deviceWaitIdle() throws -> Void {
+    func waitIdle() throws -> Void {
         try checkResult(
             vkDeviceWaitIdle(self.handle)
         )
@@ -909,7 +909,7 @@ class Device {
         }
     }
 
-    func registerDeviceEventEXT(deviceEventInfo: DeviceEventInfoEXT) throws -> Fence {
+    func registerEventEXT(deviceEventInfo: DeviceEventInfoEXT) throws -> Fence {
         try deviceEventInfo.withCStruct { ptr_deviceEventInfo in
             var out: VkFence!
             try checkResult(
@@ -929,7 +929,7 @@ class Device {
         }
     }
 
-    func getDeviceGroupPeerMemoryFeatures(heapIndex: UInt32, localDeviceIndex: UInt32, remoteDeviceIndex: UInt32) -> PeerMemoryFeatureFlags {
+    func getGroupPeerMemoryFeatures(heapIndex: UInt32, localDeviceIndex: UInt32, remoteDeviceIndex: UInt32) -> PeerMemoryFeatureFlags {
         var out = VkPeerMemoryFeatureFlags()
         vkGetDeviceGroupPeerMemoryFeatures(self.handle, heapIndex, localDeviceIndex, remoteDeviceIndex, &out)
         return PeerMemoryFeatureFlags(rawValue: out)
@@ -951,7 +951,7 @@ class Device {
         }
     }
 
-    func getDeviceGroupPresentCapabilitiesKHR() throws -> DeviceGroupPresentCapabilitiesKHR {
+    func getGroupPresentCapabilitiesKHR() throws -> DeviceGroupPresentCapabilitiesKHR {
         var out = VkDeviceGroupPresentCapabilitiesKHR()
         try checkResult(
             vkGetDeviceGroupPresentCapabilitiesKHR(self.handle, &out)
@@ -959,7 +959,7 @@ class Device {
         return DeviceGroupPresentCapabilitiesKHR(cStruct: out)
     }
 
-    func getDeviceGroupSurfacePresentModesKHR(surface: SurfaceKHR) throws -> DeviceGroupPresentModeFlagsKHR {
+    func getGroupSurfacePresentModesKHR(surface: SurfaceKHR) throws -> DeviceGroupPresentModeFlagsKHR {
         var out = VkDeviceGroupPresentModeFlagsKHR()
         try checkResult(
             vkGetDeviceGroupSurfacePresentModesKHR(self.handle, surface.handle, &out)
@@ -1037,7 +1037,7 @@ class Device {
         vkDestroySamplerYcbcrConversion(self.handle, ycbcrConversion?.handle, nil)
     }
 
-    func getDeviceQueue2(queueInfo: DeviceQueueInfo2) -> Queue {
+    func getQueue2(queueInfo: DeviceQueueInfo2) -> Queue {
         queueInfo.withCStruct { ptr_queueInfo in
             var out: VkQueue!
             vkGetDeviceQueue2(self.handle, ptr_queueInfo, &out)
@@ -1177,7 +1177,7 @@ class Device {
         }
     }
 
-    func getBufferDeviceAddress(info: BufferDeviceAddressInfo) -> VkDeviceAddress {
+    func getBufferAddress(info: BufferDeviceAddressInfo) -> VkDeviceAddress {
         info.withCStruct { ptr_info in
             vkGetBufferDeviceAddress(self.handle, ptr_info)
         }
@@ -1213,7 +1213,7 @@ class Device {
         return PerformanceValueINTEL(cStruct: out)
     }
 
-    func getDeviceMemoryOpaqueCaptureAddress(info: DeviceMemoryOpaqueCaptureAddressInfo) -> UInt64 {
+    func getMemoryOpaqueCaptureAddress(info: DeviceMemoryOpaqueCaptureAddressInfo) -> UInt64 {
         info.withCStruct { ptr_info in
             vkGetDeviceMemoryOpaqueCaptureAddress(self.handle, ptr_info)
         }
@@ -1253,7 +1253,7 @@ class Queue {
         self.device = device
     }
 
-    func queueSubmit(submits: Array<SubmitInfo>, fence: Fence?) throws -> Void {
+    func submit(submits: Array<SubmitInfo>, fence: Fence?) throws -> Void {
         try submits.withCStructBufferPointer { ptr_submits in
             try checkResult(
                 vkQueueSubmit(self.handle, UInt32(ptr_submits.count), ptr_submits.baseAddress, fence?.handle)
@@ -1261,13 +1261,13 @@ class Queue {
         }
     }
 
-    func queueWaitIdle() throws -> Void {
+    func waitIdle() throws -> Void {
         try checkResult(
             vkQueueWaitIdle(self.handle)
         )
     }
 
-    func queueBindSparse(bindInfo: Array<BindSparseInfo>, fence: Fence?) throws -> Void {
+    func bindSparse(bindInfo: Array<BindSparseInfo>, fence: Fence?) throws -> Void {
         try bindInfo.withCStructBufferPointer { ptr_bindInfo in
             try checkResult(
                 vkQueueBindSparse(self.handle, UInt32(ptr_bindInfo.count), ptr_bindInfo.baseAddress, fence?.handle)
@@ -1275,7 +1275,7 @@ class Queue {
         }
     }
 
-    func queuePresentKHR(presentInfo: PresentInfoKHR) throws -> Void {
+    func presentKHR(presentInfo: PresentInfoKHR) throws -> Void {
         try presentInfo.withCStruct { ptr_presentInfo in
             try checkResult(
                 vkQueuePresentKHR(self.handle, ptr_presentInfo)
@@ -1283,29 +1283,29 @@ class Queue {
         }
     }
 
-    func queueBeginDebugUtilsLabelEXT(labelInfo: DebugUtilsLabelEXT) -> Void {
+    func beginDebugUtilsLabelEXT(labelInfo: DebugUtilsLabelEXT) -> Void {
         labelInfo.withCStruct { ptr_labelInfo in
             vkQueueBeginDebugUtilsLabelEXT(self.handle, ptr_labelInfo)
         }
     }
 
-    func queueEndDebugUtilsLabelEXT() -> Void {
+    func endDebugUtilsLabelEXT() -> Void {
         vkQueueEndDebugUtilsLabelEXT(self.handle)
     }
 
-    func queueInsertDebugUtilsLabelEXT(labelInfo: DebugUtilsLabelEXT) -> Void {
+    func insertDebugUtilsLabelEXT(labelInfo: DebugUtilsLabelEXT) -> Void {
         labelInfo.withCStruct { ptr_labelInfo in
             vkQueueInsertDebugUtilsLabelEXT(self.handle, ptr_labelInfo)
         }
     }
 
-    func getQueueCheckpointDataNV() -> Array<CheckpointDataNV> {
+    func getCheckpointDataNV() -> Array<CheckpointDataNV> {
         enumerate { pCheckpointData, pCheckpointDataCount in
             vkGetQueueCheckpointDataNV(self.handle, pCheckpointDataCount, pCheckpointData)
         }.map { CheckpointDataNV(cStruct: $0) }
     }
 
-    func queueSetPerformanceConfigurationINTEL(configuration: PerformanceConfigurationINTEL) throws -> Void {
+    func setPerformanceConfigurationINTEL(configuration: PerformanceConfigurationINTEL) throws -> Void {
         try checkResult(
             vkQueueSetPerformanceConfigurationINTEL(self.handle, configuration.handle)
         )
@@ -1321,7 +1321,7 @@ class CommandBuffer {
         self.commandPool = commandPool
     }
 
-    func beginCommandBuffer(beginInfo: CommandBufferBeginInfo) throws -> Void {
+    func begin(beginInfo: CommandBufferBeginInfo) throws -> Void {
         try beginInfo.withCStruct { ptr_beginInfo in
             try checkResult(
                 vkBeginCommandBuffer(self.handle, ptr_beginInfo)
@@ -1329,13 +1329,13 @@ class CommandBuffer {
         }
     }
 
-    func endCommandBuffer() throws -> Void {
+    func end() throws -> Void {
         try checkResult(
             vkEndCommandBuffer(self.handle)
         )
     }
 
-    func resetCommandBuffer(flags: CommandBufferResetFlags) throws -> Void {
+    func reset(flags: CommandBufferResetFlags) throws -> Void {
         try checkResult(
             vkResetCommandBuffer(self.handle, flags.rawValue)
         )
@@ -1839,7 +1839,7 @@ class DeviceMemory {
         vkUnmapMemory(self.device.handle, self.handle)
     }
 
-    func getDeviceMemoryCommitment() -> VkDeviceSize {
+    func getCommitment() -> VkDeviceSize {
         var out = VkDeviceSize()
         vkGetDeviceMemoryCommitment(self.device.handle, self.handle, &out)
         return out
@@ -1855,7 +1855,7 @@ class CommandPool {
         self.device = device
     }
 
-    func resetCommandPool(flags: CommandPoolResetFlags) throws -> Void {
+    func reset(flags: CommandPoolResetFlags) throws -> Void {
         try checkResult(
             vkResetCommandPool(self.device.handle, self.handle, flags.rawValue)
         )
@@ -1867,7 +1867,7 @@ class CommandPool {
         }
     }
 
-    func trimCommandPool(flags: CommandPoolTrimFlags) -> Void {
+    func trim(flags: CommandPoolTrimFlags) -> Void {
         vkTrimCommandPool(self.device.handle, self.handle, flags.rawValue)
     }
 }
@@ -1881,13 +1881,13 @@ class Buffer {
         self.device = device
     }
 
-    func getBufferMemoryRequirements() -> MemoryRequirements {
+    func getMemoryRequirements() -> MemoryRequirements {
         var out = VkMemoryRequirements()
         vkGetBufferMemoryRequirements(self.device.handle, self.handle, &out)
         return MemoryRequirements(cStruct: out)
     }
 
-    func bindBufferMemory(memory: DeviceMemory, memoryOffset: VkDeviceSize) throws -> Void {
+    func bindMemory(memory: DeviceMemory, memoryOffset: VkDeviceSize) throws -> Void {
         try checkResult(
             vkBindBufferMemory(self.device.handle, self.handle, memory.handle, memoryOffset)
         )
@@ -1913,25 +1913,25 @@ class Image {
         self.device = device
     }
 
-    func getImageMemoryRequirements() -> MemoryRequirements {
+    func getMemoryRequirements() -> MemoryRequirements {
         var out = VkMemoryRequirements()
         vkGetImageMemoryRequirements(self.device.handle, self.handle, &out)
         return MemoryRequirements(cStruct: out)
     }
 
-    func bindImageMemory(memory: DeviceMemory, memoryOffset: VkDeviceSize) throws -> Void {
+    func bindMemory(memory: DeviceMemory, memoryOffset: VkDeviceSize) throws -> Void {
         try checkResult(
             vkBindImageMemory(self.device.handle, self.handle, memory.handle, memoryOffset)
         )
     }
 
-    func getImageSparseMemoryRequirements() -> Array<SparseImageMemoryRequirements> {
+    func getSparseMemoryRequirements() -> Array<SparseImageMemoryRequirements> {
         enumerate { pSparseMemoryRequirements, pSparseMemoryRequirementCount in
             vkGetImageSparseMemoryRequirements(self.device.handle, self.handle, pSparseMemoryRequirementCount, pSparseMemoryRequirements)
         }.map { SparseImageMemoryRequirements(cStruct: $0) }
     }
 
-    func getImageSubresourceLayout(subresource: ImageSubresource) -> SubresourceLayout {
+    func getSubresourceLayout(subresource: ImageSubresource) -> SubresourceLayout {
         subresource.withCStruct { ptr_subresource in
             var out = VkSubresourceLayout()
             vkGetImageSubresourceLayout(self.device.handle, self.handle, ptr_subresource, &out)
@@ -1939,7 +1939,7 @@ class Image {
         }
     }
 
-    func getImageDrmFormatModifierPropertiesEXT() throws -> ImageDrmFormatModifierPropertiesEXT {
+    func getDrmFormatModifierPropertiesEXT() throws -> ImageDrmFormatModifierPropertiesEXT {
         var out = VkImageDrmFormatModifierPropertiesEXT()
         try checkResult(
             vkGetImageDrmFormatModifierPropertiesEXT(self.device.handle, self.handle, &out)
@@ -2021,7 +2021,7 @@ class DescriptorSet {
         self.descriptorPool = descriptorPool
     }
 
-    func updateDescriptorSetWithTemplate(descriptorUpdateTemplate: DescriptorUpdateTemplate, data: UnsafeRawPointer) -> Void {
+    func updateWithTemplate(descriptorUpdateTemplate: DescriptorUpdateTemplate, data: UnsafeRawPointer) -> Void {
         vkUpdateDescriptorSetWithTemplate(self.descriptorPool.device.handle, self.handle, descriptorUpdateTemplate.handle, data)
     }
 }
@@ -2045,7 +2045,7 @@ class DescriptorPool {
         self.device = device
     }
 
-    func resetDescriptorPool(flags: DescriptorPoolResetFlags) throws -> Void {
+    func reset(flags: DescriptorPoolResetFlags) throws -> Void {
         try checkResult(
             vkResetDescriptorPool(self.device.handle, self.handle, flags.rawValue)
         )
@@ -2069,7 +2069,7 @@ class Fence {
         self.device = device
     }
 
-    func getFenceStatus() throws -> Void {
+    func getStatus() throws -> Void {
         try checkResult(
             vkGetFenceStatus(self.device.handle, self.handle)
         )
@@ -2085,7 +2085,7 @@ class Semaphore {
         self.device = device
     }
 
-    func getSemaphoreCounterValue() throws -> UInt64 {
+    func getCounterValue() throws -> UInt64 {
         var out = UInt64()
         try checkResult(
             vkGetSemaphoreCounterValue(self.device.handle, self.handle, &out)
@@ -2103,19 +2103,19 @@ class Event {
         self.device = device
     }
 
-    func getEventStatus() throws -> Void {
+    func getStatus() throws -> Void {
         try checkResult(
             vkGetEventStatus(self.device.handle, self.handle)
         )
     }
 
-    func setEvent() throws -> Void {
+    func set() throws -> Void {
         try checkResult(
             vkSetEvent(self.device.handle, self.handle)
         )
     }
 
-    func resetEvent() throws -> Void {
+    func reset() throws -> Void {
         try checkResult(
             vkResetEvent(self.device.handle, self.handle)
         )
@@ -2131,13 +2131,13 @@ class QueryPool {
         self.device = device
     }
 
-    func getQueryPoolResults(firstQuery: UInt32, queryCount: UInt32, dataSize: Int, data: UnsafeMutableRawPointer, stride: VkDeviceSize, flags: QueryResultFlags) throws -> Void {
+    func getResults(firstQuery: UInt32, queryCount: UInt32, dataSize: Int, data: UnsafeMutableRawPointer, stride: VkDeviceSize, flags: QueryResultFlags) throws -> Void {
         try checkResult(
             vkGetQueryPoolResults(self.device.handle, self.handle, firstQuery, queryCount, dataSize, data, stride, flags.rawValue)
         )
     }
 
-    func resetQueryPool(firstQuery: UInt32, queryCount: UInt32) -> Void {
+    func reset(firstQuery: UInt32, queryCount: UInt32) -> Void {
         vkResetQueryPool(self.device.handle, self.handle, firstQuery, queryCount)
     }
 }
@@ -2177,7 +2177,7 @@ class PipelineCache {
         self.device = device
     }
 
-    func getPipelineCacheData(data: UnsafeMutableRawPointer) throws -> Int {
+    func getData(data: UnsafeMutableRawPointer) throws -> Int {
         var out = Int()
         try checkResult(
             vkGetPipelineCacheData(self.device.handle, self.handle, &out, data)
@@ -2203,7 +2203,7 @@ class IndirectCommandsLayoutNV {
         self.device = device
     }
 
-    func destroyIndirectCommandsLayoutNV() -> Void {
+    func destroyNV() -> Void {
         vkDestroyIndirectCommandsLayoutNV(self.device.handle, self.handle, nil)
     }
 }
@@ -2237,7 +2237,7 @@ class ValidationCacheEXT {
         self.device = device
     }
 
-    func getValidationCacheDataEXT(data: UnsafeMutableRawPointer) throws -> Int {
+    func getDataEXT(data: UnsafeMutableRawPointer) throws -> Int {
         var out = Int()
         try checkResult(
             vkGetValidationCacheDataEXT(self.device.handle, self.handle, &out, data)
@@ -2263,7 +2263,7 @@ class AccelerationStructureKHR {
         self.device = device
     }
 
-    func getAccelerationStructureHandleNV(dataSize: Int, data: UnsafeMutableRawPointer) throws -> Void {
+    func getHandleNV(dataSize: Int, data: UnsafeMutableRawPointer) throws -> Void {
         try checkResult(
             vkGetAccelerationStructureHandleNV(self.device.handle, self.handle, dataSize, data)
         )
@@ -2279,7 +2279,7 @@ class PerformanceConfigurationINTEL {
         self.device = device
     }
 
-    func releasePerformanceConfigurationINTEL() throws -> Void {
+    func releaseINTEL() throws -> Void {
         try checkResult(
             vkReleasePerformanceConfigurationINTEL(self.device.handle, self.handle)
         )
@@ -2295,13 +2295,13 @@ class DisplayKHR {
         self.physicalDevice = physicalDevice
     }
 
-    func getDisplayModePropertiesKHR() throws -> Array<DisplayModePropertiesKHR> {
+    func getModePropertiesKHR() throws -> Array<DisplayModePropertiesKHR> {
         try enumerate { pProperties, pPropertyCount in
             vkGetDisplayModePropertiesKHR(self.physicalDevice.handle, self.handle, pPropertyCount, pProperties)
         }.map { DisplayModePropertiesKHR(cStruct: $0) }
     }
 
-    func createDisplayModeKHR(createInfo: DisplayModeCreateInfoKHR) throws -> DisplayModeKHR {
+    func createModeKHR(createInfo: DisplayModeCreateInfoKHR) throws -> DisplayModeKHR {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkDisplayModeKHR!
             try checkResult(
@@ -2311,13 +2311,13 @@ class DisplayKHR {
         }
     }
 
-    func releaseDisplayEXT() throws -> Void {
+    func releaseEXT() throws -> Void {
         try checkResult(
             vkReleaseDisplayEXT(self.physicalDevice.handle, self.handle)
         )
     }
 
-    func getDisplayModeProperties2KHR() throws -> Array<DisplayModeProperties2KHR> {
+    func getModeProperties2KHR() throws -> Array<DisplayModeProperties2KHR> {
         try enumerate { pProperties, pPropertyCount in
             vkGetDisplayModeProperties2KHR(self.physicalDevice.handle, self.handle, pPropertyCount, pProperties)
         }.map { DisplayModeProperties2KHR(cStruct: $0) }
@@ -2361,7 +2361,7 @@ class SwapchainKHR {
         self.device = device
     }
 
-    func getSwapchainImagesKHR() throws -> Array<Image> {
+    func getImagesKHR() throws -> Array<Image> {
         try enumerate { pSwapchainImages, pSwapchainImageCount in
             vkGetSwapchainImagesKHR(self.device.handle, self.handle, pSwapchainImageCount, pSwapchainImages)
         }.map { Image(handle: $0, device: self.device) }
@@ -2375,7 +2375,7 @@ class SwapchainKHR {
         return out
     }
 
-    func getSwapchainCounterEXT(counter: SurfaceCounterFlagsEXT) throws -> UInt64 {
+    func getCounterEXT(counter: SurfaceCounterFlagsEXT) throws -> UInt64 {
         var out = UInt64()
         try checkResult(
             vkGetSwapchainCounterEXT(self.device.handle, self.handle, VkSurfaceCounterFlagBitsEXT(rawValue: counter.rawValue), &out)
@@ -2383,7 +2383,7 @@ class SwapchainKHR {
         return out
     }
 
-    func getSwapchainStatusKHR() throws -> Void {
+    func getStatusKHR() throws -> Void {
         try checkResult(
             vkGetSwapchainStatusKHR(self.device.handle, self.handle)
         )
@@ -2417,7 +2417,7 @@ class DebugReportCallbackEXT {
         self.instance = instance
     }
 
-    func destroyDebugReportCallbackEXT() -> Void {
+    func destroyEXT() -> Void {
         vkDestroyDebugReportCallbackEXT(self.instance.handle, self.handle, nil)
     }
 }
@@ -2431,7 +2431,7 @@ class DebugUtilsMessengerEXT {
         self.instance = instance
     }
 
-    func destroyDebugUtilsMessengerEXT() -> Void {
+    func destroyEXT() -> Void {
         vkDestroyDebugUtilsMessengerEXT(self.instance.handle, self.handle, nil)
     }
 }

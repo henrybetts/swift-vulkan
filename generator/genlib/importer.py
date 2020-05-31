@@ -1,6 +1,7 @@
 from .parser import CContext, CEnum, CBitmask, CStruct, CType, CHandle, CMember, CCommand, CAlias
 from . import typeconversion as tc
 from typing import Optional, Tuple, List, Dict
+import re
 
 
 class SwiftEnum(CEnum):
@@ -266,7 +267,10 @@ class Importer:
         current_class = class_params_and_classes[-1][1] if class_params_and_classes \
             else self.imported_classes['VkInstance']
 
+        class_name_without_extension, _ = self.pop_extension_tag(current_class.name)
+
         name = remove_vk_prefix(c_command.name)
+        name = re.sub(f'({class_name_without_extension})([A-Z]\w*)?$', r'\2', name)
         name = name[0].lower() + name[1:]
 
         c_return_type = c_command.return_type
