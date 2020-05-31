@@ -250,3 +250,9 @@ def tuple_pointer_conversion(element_type: str) -> Conversion:
         c_closure_template=('withUnsafeBytes(of: $value) { ptr_$name in', '}'),
         c_value_template=f'ptr_$name.bindMemory(to: {element_type}.self).baseAddress'
     )
+
+
+version_conversion = Conversion(
+    swift_value_template='Version(rawValue: $value)',
+    c_value_template='$value.rawValue'
+)

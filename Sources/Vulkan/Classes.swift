@@ -37,12 +37,12 @@ class Instance {
         vkDestroyDevice(device?.handle, nil)
     }
 
-    static func enumerateVersion() throws -> UInt32 {
+    static func enumerateVersion() throws -> Version {
         var out = UInt32()
         try checkResult(
             vkEnumerateInstanceVersion(&out)
         )
-        return out
+        return Version(rawValue: out)
     }
 
     static func enumerateLayerProperties() throws -> Array<LayerProperties> {

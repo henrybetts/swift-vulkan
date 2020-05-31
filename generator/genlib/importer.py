@@ -289,7 +289,11 @@ class Importer:
         if c_return_type.name == 'void':
             output_params = get_output_params(c_command)
             if len(output_params) == 1:
-                if is_array_convertible(output_params[0].type, c_command.params, ignore_const=True):
+                if c_command.name == 'vkEnumerateInstanceVersion':
+                    output_param = output_params[0].name
+                    return_type, return_conversion = 'Version', tc.version_conversion
+                    output_param_implicit_type = 'UInt32'
+                elif is_array_convertible(output_params[0].type, c_command.params, ignore_const=True):
                     output_param = output_params[0].name
                     return_type, return_conversion = self.get_array_conversion(output_params[0].type)
                     output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
