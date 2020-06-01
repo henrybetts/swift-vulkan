@@ -318,6 +318,7 @@ class Importer:
         class_params = [param for param, _ in class_params_and_classes]
         output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
         c_input_params = [param for param in c_command.params if param.name not in output_params]
+        c_input_params = class_params + c_input_params[len(class_params):]
         params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params,
                                                                                      convert_array_to_pointer=True)
 
@@ -351,11 +352,11 @@ class Importer:
         previous_class: SwiftClass = None
         for param in command.params:
             if param.type.name and param.type.name in self.imported_classes:
-                if not param.type.optional:  # or command.name.startswith('vkDestroy'):
+                if not param.type.optional or command.name.startswith(('vkDestroy', 'vkFree')):
                     cls = self.imported_classes[param.type.name]
                     if not previous_class or previous_class in cls.ancestors:
                         previous_class = cls
-                        class_params.append((param, cls))
+                        class_params.append((CMember(param.name, CType(param.type.name)), cls))
                         continue
             break
         return class_params

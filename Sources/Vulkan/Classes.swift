@@ -17,8 +17,8 @@ class Instance {
         }
     }
 
-    static func destroy(instance: Instance?) -> Void {
-        vkDestroyInstance(instance?.handle, nil)
+    func destroy() -> Void {
+        vkDestroyInstance(self.handle, nil)
     }
 
     func getPhysicalDevices() throws -> Array<PhysicalDevice> {
@@ -31,10 +31,6 @@ class Instance {
         name.withCString { cString_name in
             vkGetInstanceProcAddr(instance?.handle, cString_name)
         }
-    }
-
-    static func destroyDevice(device: Device?) -> Void {
-        vkDestroyDevice(device?.handle, nil)
     }
 
     static func getVersion() throws -> Version {
@@ -67,10 +63,6 @@ class Instance {
             )
             return SurfaceKHR(handle: out, instance: self)
         }
-    }
-
-    func destroySurfaceKHR(surface: SurfaceKHR?) -> Void {
-        vkDestroySurfaceKHR(self.handle, surface?.handle, nil)
     }
 
     func createDebugReportCallbackEXT(createInfo: DebugReportCallbackCreateInfoEXT) throws -> DebugReportCallbackEXT {
@@ -441,6 +433,10 @@ class Device {
         }
     }
 
+    func destroy() -> Void {
+        vkDestroyDevice(self.handle, nil)
+    }
+
     func getQueue(queueFamilyIndex: UInt32, queueIndex: UInt32) -> Queue {
         var out: VkQueue!
         vkGetDeviceQueue(self.handle, queueFamilyIndex, queueIndex, &out)
@@ -461,10 +457,6 @@ class Device {
             )
             return DeviceMemory(handle: out, device: self)
         }
-    }
-
-    func freeMemory(memory: DeviceMemory?) -> Void {
-        vkFreeMemory(self.handle, memory?.handle, nil)
     }
 
     func flushMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>) throws -> Void {
@@ -493,10 +485,6 @@ class Device {
         }
     }
 
-    func destroyFence(fence: Fence?) -> Void {
-        vkDestroyFence(self.handle, fence?.handle, nil)
-    }
-
     func resetFences(fences: Array<Fence>) throws -> Void {
         try fences.map{ $0.handle }.withUnsafeBufferPointer { ptr_fences in
             try checkResult(
@@ -523,10 +511,6 @@ class Device {
         }
     }
 
-    func destroySemaphore(semaphore: Semaphore?) -> Void {
-        vkDestroySemaphore(self.handle, semaphore?.handle, nil)
-    }
-
     func createEvent(createInfo: EventCreateInfo) throws -> Event {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkEvent!
@@ -535,10 +519,6 @@ class Device {
             )
             return Event(handle: out, device: self)
         }
-    }
-
-    func destroyEvent(event: Event?) -> Void {
-        vkDestroyEvent(self.handle, event?.handle, nil)
     }
 
     func createQueryPool(createInfo: QueryPoolCreateInfo) throws -> QueryPool {
@@ -551,10 +531,6 @@ class Device {
         }
     }
 
-    func destroyQueryPool(queryPool: QueryPool?) -> Void {
-        vkDestroyQueryPool(self.handle, queryPool?.handle, nil)
-    }
-
     func createBuffer(createInfo: BufferCreateInfo) throws -> Buffer {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkBuffer!
@@ -563,10 +539,6 @@ class Device {
             )
             return Buffer(handle: out, device: self)
         }
-    }
-
-    func destroyBuffer(buffer: Buffer?) -> Void {
-        vkDestroyBuffer(self.handle, buffer?.handle, nil)
     }
 
     func createBufferView(createInfo: BufferViewCreateInfo) throws -> BufferView {
@@ -579,10 +551,6 @@ class Device {
         }
     }
 
-    func destroyBufferView(bufferView: BufferView?) -> Void {
-        vkDestroyBufferView(self.handle, bufferView?.handle, nil)
-    }
-
     func createImage(createInfo: ImageCreateInfo) throws -> Image {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkImage!
@@ -591,10 +559,6 @@ class Device {
             )
             return Image(handle: out, device: self)
         }
-    }
-
-    func destroyImage(image: Image?) -> Void {
-        vkDestroyImage(self.handle, image?.handle, nil)
     }
 
     func createImageView(createInfo: ImageViewCreateInfo) throws -> ImageView {
@@ -607,10 +571,6 @@ class Device {
         }
     }
 
-    func destroyImageView(imageView: ImageView?) -> Void {
-        vkDestroyImageView(self.handle, imageView?.handle, nil)
-    }
-
     func createShaderModule(createInfo: ShaderModuleCreateInfo) throws -> ShaderModule {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkShaderModule!
@@ -621,10 +581,6 @@ class Device {
         }
     }
 
-    func destroyShaderModule(shaderModule: ShaderModule?) -> Void {
-        vkDestroyShaderModule(self.handle, shaderModule?.handle, nil)
-    }
-
     func createPipelineCache(createInfo: PipelineCacheCreateInfo) throws -> PipelineCache {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkPipelineCache!
@@ -633,10 +589,6 @@ class Device {
             )
             return PipelineCache(handle: out, device: self)
         }
-    }
-
-    func destroyPipelineCache(pipelineCache: PipelineCache?) -> Void {
-        vkDestroyPipelineCache(self.handle, pipelineCache?.handle, nil)
     }
 
     func createGraphicsPipelines(pipelineCache: PipelineCache?, createInfos: Array<GraphicsPipelineCreateInfo>) throws -> Array<Pipeline> {
@@ -659,10 +611,6 @@ class Device {
         }
     }
 
-    func destroyPipeline(pipeline: Pipeline?) -> Void {
-        vkDestroyPipeline(self.handle, pipeline?.handle, nil)
-    }
-
     func createPipelineLayout(createInfo: PipelineLayoutCreateInfo) throws -> PipelineLayout {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkPipelineLayout!
@@ -671,10 +619,6 @@ class Device {
             )
             return PipelineLayout(handle: out, device: self)
         }
-    }
-
-    func destroyPipelineLayout(pipelineLayout: PipelineLayout?) -> Void {
-        vkDestroyPipelineLayout(self.handle, pipelineLayout?.handle, nil)
     }
 
     func createSampler(createInfo: SamplerCreateInfo) throws -> Sampler {
@@ -687,10 +631,6 @@ class Device {
         }
     }
 
-    func destroySampler(sampler: Sampler?) -> Void {
-        vkDestroySampler(self.handle, sampler?.handle, nil)
-    }
-
     func createDescriptorSetLayout(createInfo: DescriptorSetLayoutCreateInfo) throws -> DescriptorSetLayout {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkDescriptorSetLayout!
@@ -701,10 +641,6 @@ class Device {
         }
     }
 
-    func destroyDescriptorSetLayout(descriptorSetLayout: DescriptorSetLayout?) -> Void {
-        vkDestroyDescriptorSetLayout(self.handle, descriptorSetLayout?.handle, nil)
-    }
-
     func createDescriptorPool(createInfo: DescriptorPoolCreateInfo) throws -> DescriptorPool {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkDescriptorPool!
@@ -713,10 +649,6 @@ class Device {
             )
             return DescriptorPool(handle: out, device: self)
         }
-    }
-
-    func destroyDescriptorPool(descriptorPool: DescriptorPool?) -> Void {
-        vkDestroyDescriptorPool(self.handle, descriptorPool?.handle, nil)
     }
 
     func allocateDescriptorSets(allocateInfo: DescriptorSetAllocateInfo) throws -> Array<DescriptorSet> {
@@ -747,10 +679,6 @@ class Device {
         }
     }
 
-    func destroyFramebuffer(framebuffer: Framebuffer?) -> Void {
-        vkDestroyFramebuffer(self.handle, framebuffer?.handle, nil)
-    }
-
     func createRenderPass(createInfo: RenderPassCreateInfo) throws -> RenderPass {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkRenderPass!
@@ -761,10 +689,6 @@ class Device {
         }
     }
 
-    func destroyRenderPass(renderPass: RenderPass?) -> Void {
-        vkDestroyRenderPass(self.handle, renderPass?.handle, nil)
-    }
-
     func createCommandPool(createInfo: CommandPoolCreateInfo) throws -> CommandPool {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkCommandPool!
@@ -773,10 +697,6 @@ class Device {
             )
             return CommandPool(handle: out, device: self)
         }
-    }
-
-    func destroyCommandPool(commandPool: CommandPool?) -> Void {
-        vkDestroyCommandPool(self.handle, commandPool?.handle, nil)
     }
 
     func allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo) throws -> Array<CommandBuffer> {
@@ -807,10 +727,6 @@ class Device {
             )
             return SwapchainKHR(handle: out, device: self)
         }
-    }
-
-    func destroySwapchainKHR(swapchain: SwapchainKHR?) -> Void {
-        vkDestroySwapchainKHR(self.handle, swapchain?.handle, nil)
     }
 
     func debugMarkerSetObjectNameEXT(nameInfo: DebugMarkerObjectNameInfoEXT) throws -> Void {
@@ -987,10 +903,6 @@ class Device {
         }
     }
 
-    func destroyDescriptorUpdateTemplate(descriptorUpdateTemplate: DescriptorUpdateTemplate?) -> Void {
-        vkDestroyDescriptorUpdateTemplate(self.handle, descriptorUpdateTemplate?.handle, nil)
-    }
-
     func setHdrMetadataEXT(swapchains: Array<SwapchainKHR>, metadata: Array<HdrMetadataEXT>) -> Void {
         swapchains.map{ $0.handle }.withUnsafeBufferPointer { ptr_swapchains in
             metadata.withCStructBufferPointer { ptr_metadata in
@@ -1033,10 +945,6 @@ class Device {
         }
     }
 
-    func destroySamplerYcbcrConversion(ycbcrConversion: SamplerYcbcrConversion?) -> Void {
-        vkDestroySamplerYcbcrConversion(self.handle, ycbcrConversion?.handle, nil)
-    }
-
     func getQueue2(queueInfo: DeviceQueueInfo2) -> Queue {
         queueInfo.withCStruct { ptr_queueInfo in
             var out: VkQueue!
@@ -1053,10 +961,6 @@ class Device {
             )
             return ValidationCacheEXT(handle: out, device: self)
         }
-    }
-
-    func destroyValidationCacheEXT(validationCache: ValidationCacheEXT?) -> Void {
-        vkDestroyValidationCacheEXT(self.handle, validationCache?.handle, nil)
     }
 
     func getDescriptorSetLayoutSupport(createInfo: DescriptorSetLayoutCreateInfo) -> DescriptorSetLayoutSupport {
@@ -1827,6 +1731,10 @@ class DeviceMemory {
         self.device = device
     }
 
+    func freeMemory() -> Void {
+        vkFreeMemory(self.device.handle, self.handle, nil)
+    }
+
     func mapMemory(offset: VkDeviceSize, size: VkDeviceSize, flags: MemoryMapFlags) throws -> UnsafeMutableRawPointer {
         var out: UnsafeMutableRawPointer!
         try checkResult(
@@ -1853,6 +1761,10 @@ class CommandPool {
     init(handle: VkCommandPool!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyCommandPool(self.device.handle, self.handle, nil)
     }
 
     func reset(flags: CommandPoolResetFlags) throws -> Void {
@@ -1892,6 +1804,10 @@ class Buffer {
             vkBindBufferMemory(self.device.handle, self.handle, memory.handle, memoryOffset)
         )
     }
+
+    func destroy() -> Void {
+        vkDestroyBuffer(self.device.handle, self.handle, nil)
+    }
 }
 
 class BufferView {
@@ -1901,6 +1817,10 @@ class BufferView {
     init(handle: VkBufferView!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyBufferView(self.device.handle, self.handle, nil)
     }
 }
 
@@ -1931,6 +1851,10 @@ class Image {
         }.map { SparseImageMemoryRequirements(cStruct: $0) }
     }
 
+    func destroy() -> Void {
+        vkDestroyImage(self.device.handle, self.handle, nil)
+    }
+
     func getSubresourceLayout(subresource: ImageSubresource) -> SubresourceLayout {
         subresource.withCStruct { ptr_subresource in
             var out = VkSubresourceLayout()
@@ -1956,6 +1880,10 @@ class ImageView {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroyImageView(self.device.handle, self.handle, nil)
+    }
 }
 
 class ShaderModule {
@@ -1966,6 +1894,10 @@ class ShaderModule {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroyShaderModule(self.device.handle, self.handle, nil)
+    }
 }
 
 class Pipeline {
@@ -1975,6 +1907,10 @@ class Pipeline {
     init(handle: VkPipeline!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyPipeline(self.device.handle, self.handle, nil)
     }
 
     func getShaderInfoAMD(shaderStage: ShaderStageFlags, infoType: ShaderInfoTypeAMD, info: UnsafeMutableRawPointer) throws -> Int {
@@ -2000,6 +1936,10 @@ class PipelineLayout {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroyPipelineLayout(self.device.handle, self.handle, nil)
+    }
 }
 
 class Sampler {
@@ -2009,6 +1949,10 @@ class Sampler {
     init(handle: VkSampler!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroySampler(self.device.handle, self.handle, nil)
     }
 }
 
@@ -2034,6 +1978,10 @@ class DescriptorSetLayout {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroyDescriptorSetLayout(self.device.handle, self.handle, nil)
+    }
 }
 
 class DescriptorPool {
@@ -2043,6 +1991,10 @@ class DescriptorPool {
     init(handle: VkDescriptorPool!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyDescriptorPool(self.device.handle, self.handle, nil)
     }
 
     func reset(flags: DescriptorPoolResetFlags) throws -> Void {
@@ -2069,6 +2021,10 @@ class Fence {
         self.device = device
     }
 
+    func destroy() -> Void {
+        vkDestroyFence(self.device.handle, self.handle, nil)
+    }
+
     func getStatus() throws -> Void {
         try checkResult(
             vkGetFenceStatus(self.device.handle, self.handle)
@@ -2083,6 +2039,10 @@ class Semaphore {
     init(handle: VkSemaphore!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroySemaphore(self.device.handle, self.handle, nil)
     }
 
     func getCounterValue() throws -> UInt64 {
@@ -2101,6 +2061,10 @@ class Event {
     init(handle: VkEvent!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyEvent(self.device.handle, self.handle, nil)
     }
 
     func getStatus() throws -> Void {
@@ -2131,6 +2095,10 @@ class QueryPool {
         self.device = device
     }
 
+    func destroy() -> Void {
+        vkDestroyQueryPool(self.device.handle, self.handle, nil)
+    }
+
     func getResults(firstQuery: UInt32, queryCount: UInt32, dataSize: Int, data: UnsafeMutableRawPointer, stride: VkDeviceSize, flags: QueryResultFlags) throws -> Void {
         try checkResult(
             vkGetQueryPoolResults(self.device.handle, self.handle, firstQuery, queryCount, dataSize, data, stride, flags.rawValue)
@@ -2150,6 +2118,10 @@ class Framebuffer {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroyFramebuffer(self.device.handle, self.handle, nil)
+    }
 }
 
 class RenderPass {
@@ -2159,6 +2131,10 @@ class RenderPass {
     init(handle: VkRenderPass!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyRenderPass(self.device.handle, self.handle, nil)
     }
 
     func getRenderAreaGranularity() -> Extent2D {
@@ -2175,6 +2151,10 @@ class PipelineCache {
     init(handle: VkPipelineCache!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyPipelineCache(self.device.handle, self.handle, nil)
     }
 
     func getData(data: UnsafeMutableRawPointer) throws -> Int {
@@ -2216,6 +2196,10 @@ class DescriptorUpdateTemplate {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroyDescriptorUpdateTemplate(self.device.handle, self.handle, nil)
+    }
 }
 
 class SamplerYcbcrConversion {
@@ -2226,6 +2210,10 @@ class SamplerYcbcrConversion {
         self.handle = handle
         self.device = device
     }
+
+    func destroy() -> Void {
+        vkDestroySamplerYcbcrConversion(self.device.handle, self.handle, nil)
+    }
 }
 
 class ValidationCacheEXT {
@@ -2235,6 +2223,10 @@ class ValidationCacheEXT {
     init(handle: VkValidationCacheEXT!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroyEXT() -> Void {
+        vkDestroyValidationCacheEXT(self.device.handle, self.handle, nil)
     }
 
     func getDataEXT(data: UnsafeMutableRawPointer) throws -> Int {
@@ -2350,6 +2342,10 @@ class SurfaceKHR {
         self.handle = handle
         self.instance = instance
     }
+
+    func destroyKHR() -> Void {
+        vkDestroySurfaceKHR(self.instance.handle, self.handle, nil)
+    }
 }
 
 class SwapchainKHR {
@@ -2359,6 +2355,10 @@ class SwapchainKHR {
     init(handle: VkSwapchainKHR!, device: Device) {
         self.handle = handle
         self.device = device
+    }
+
+    func destroyKHR() -> Void {
+        vkDestroySwapchainKHR(self.device.handle, self.handle, nil)
     }
 
     func getImagesKHR() throws -> Array<Image> {
