@@ -1,5 +1,6 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, SwiftAlias, get_class_chain
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, SwiftAlias, DispatchTable,\
+    get_class_chain
 from typing import TextIO, List, Tuple
 from . import typeconversion as tc
 
@@ -199,6 +200,26 @@ class Generator(BaseGenerator):
 
     def generate_alias(self, alias: SwiftAlias):
         self << f'typealias {alias.name} = {alias.alias}'
+
+    def generate_dispatch_table(self, dispatch_table: DispatchTable):
+        with self.indent(f'struct {dispatch_table.name} {{', '}'):
+            for command in dispatch_table.commands:
+                self << f'let {command.name}: PFN_{command.name}!'
+            self.linebreak()
+
+            loader_name, loader_type = dispatch_table.loader
+            args = [f'{loader_name}: {loader_type}']
+            if dispatch_table.param:
+                param_name, param_type = dispatch_table.param
+                args.append(f'{param_name}: {param_type}')
+            else:
+                param_name = 'nil'
+
+            with self.indent(f'init({", ".join(args)}) {{', '}'):
+                for command in dispatch_table.commands:
+                    self << f'self.{command.name} = unsafeBitCast' \
+                            f'({loader_name}({param_name}, "{command.name}"), to: PFN_{command.name}?.self)'
+        self.linebreak()
 
     @contextmanager
     def closures(self, closures: List[Tuple[str, str]], throws: bool = False):

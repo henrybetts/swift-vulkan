@@ -87,6 +87,15 @@ class SwiftAlias:
         self.alias = alias
 
 
+class DispatchTable:
+    def __init__(self, name: str, loader: Tuple[str, str], param: Tuple[str, str] = None,
+                 commands: List[CCommand] = None):
+        self.name = name
+        self.loader = loader
+        self.param = param
+        self.commands = commands or []
+
+
 class SwiftContext:
     def __init__(self):
         self.enums: List[SwiftEnum] = []
@@ -94,6 +103,7 @@ class SwiftContext:
         self.structs: List[SwiftStruct] = []
         self.classes: List[SwiftClass] = []
         self.aliases: List[SwiftAlias] = []
+        self.dispatch_tables: List[DispatchTable] = []
 
 
 class Importer:
@@ -106,6 +116,9 @@ class Importer:
         self.imported_structs: Dict[str, str] = {}
         self.imported_classes: Dict[str, SwiftClass] = {}
         self.imported_aliases: Dict[str, SwiftAlias] = {}
+        self.entry_dispatch_table: DispatchTable = None
+        self.instance_dispatch_table: DispatchTable = None
+        self.device_dispatch_table: DispatchTable = None
         self.pointer_types = [handle.name for handle in c_context.handles] + [alias.name for alias in c_context.aliases]
 
     def import_all(self) -> SwiftContext:
@@ -128,6 +141,8 @@ class Importer:
 
         for struct in self.c_context.structs:
             self.import_struct(struct)
+
+        self.create_dispatch_tables()
 
         for command in self.c_context.commands:
             self.import_command(command)
@@ -351,6 +366,10 @@ class Importer:
         params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params,
                                                                                      convert_array_to_pointer=True)
 
+        dispatch_table = self.get_dispatch_table(c_command)
+        if dispatch_table:
+            dispatch_table.commands.append(c_command)
+
         command = SwiftCommand(
             c_command=c_command,
             name=remove_vk_prefix(name),
@@ -376,6 +395,36 @@ class Importer:
         self.swift_context.aliases.append(alias)
         self.imported_aliases[c_alias.name] = alias
         return alias
+
+    def create_dispatch_tables(self) -> List[DispatchTable]:
+        self.entry_dispatch_table = DispatchTable('EntryDispatchTable',
+                                                  ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'))
+        self.instance_dispatch_table = DispatchTable('InstanceDispatchTable',
+                                                     ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'),
+                                                     ('instance', 'VkInstance'))
+        self.device_dispatch_table = DispatchTable('DeviceDispatchTable',
+                                                   ('vkGetDeviceProcAddr', 'PFN_vkGetDeviceProcAddr'),
+                                                   ('device', 'VkDevice'))
+        dispatch_tables = [self.entry_dispatch_table, self.instance_dispatch_table, self.device_dispatch_table]
+        self.swift_context.dispatch_tables = dispatch_tables
+        return dispatch_tables
+
+    def get_dispatch_table(self, command: CCommand) -> Optional[DispatchTable]:
+        if command.name == 'vkGetInstanceProcAddr':
+            return None
+        if command.name == 'vkGetDeviceProcAddr':
+            return self.instance_dispatch_table
+
+        if command.params:
+            param = command.params[0]
+            if param.name and param.type.name in self.imported_classes:
+                cls = self.imported_classes[param.type.name]
+                for ancestor in [cls] + cls.ancestors:
+                    if ancestor.c_handle.name == 'VkDevice':
+                        return self.device_dispatch_table
+                    if ancestor.c_handle.name == 'VkInstance':
+                        return self.instance_dispatch_table
+        return self.entry_dispatch_table
 
     def get_class_params(self, command: CCommand) -> List[Tuple[CMember, SwiftClass]]:
         class_params: List[Tuple[CMember, SwiftClass]] = []

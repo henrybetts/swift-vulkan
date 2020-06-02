@@ -35,3 +35,9 @@ if __name__ == '__main__':
         generator = Generator(f)
         for alias in swift_context.aliases:
             generator.generate_alias(alias)
+
+    with open('../Sources/Vulkan/Dispatch.swift', 'w') as f:
+        generator = Generator(f)
+        generator.generate_imports()
+        for dispatch_table in swift_context.dispatch_tables:
+            generator.generate_dispatch_table(dispatch_table)
