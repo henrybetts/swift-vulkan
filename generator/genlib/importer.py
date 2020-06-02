@@ -62,7 +62,7 @@ class SwiftCommand:
 
 
 class SwiftClass:
-    def __init__(self, c_handle: CHandle, name: str, reference_name: str, parent: 'SwiftClass' = None,
+    def __init__(self, name: str, reference_name: str, c_handle: CHandle = None,  parent: 'SwiftClass' = None,
                  commands: List[SwiftCommand] = None):
         self.c_handle = c_handle
         self.name = name
@@ -111,7 +111,8 @@ class Importer:
         context = SwiftContext()
         context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
         context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
-        context.classes = [self.import_handle(handle) for handle in self.c_context.handles if not handle.protect]
+        context.classes = [self.import_entry()]
+        context.classes += [self.import_handle(handle) for handle in self.c_context.handles if not handle.protect]
         context.aliases = [self.import_alias(alias) for alias in self.c_context.aliases if not alias.protect]
         for struct in self.c_context.structs:
             self.import_struct_name(struct)
@@ -240,6 +241,11 @@ class Importer:
                              convertible_from_c_struct=convertible_from_c_struct)
         return struct
 
+    def import_entry(self) -> SwiftClass:
+        entry = SwiftClass(name='Entry', reference_name='entry')
+        self.imported_classes['entry'] = entry
+        return entry
+
     def import_handle(self, handle: CHandle) -> SwiftClass:
         if handle.name in self.imported_classes:
             return self.imported_classes[handle.name]
@@ -248,7 +254,9 @@ class Importer:
         reference_name, _ = self.pop_extension_tag(name)
         reference_name = reference_name[0].lower() + reference_name[1:]
 
-        if handle.name == 'VkSwapchainKHR':
+        if handle.name == 'VkInstance':
+            parent = self.imported_classes['entry']
+        elif handle.name == 'VkSwapchainKHR':
             parent = self.imported_classes['VkDevice']
         else:
             parent = self.import_handle(handle.parent) if handle.parent else None
@@ -265,7 +273,7 @@ class Importer:
     def import_command(self, c_command: CCommand) -> SwiftCommand:
         class_params_and_classes = self.get_class_params(c_command)
         current_class = class_params_and_classes[-1][1] if class_params_and_classes \
-            else self.imported_classes['VkInstance']
+            else self.imported_classes['entry']
 
         class_name_without_extension, _ = self.pop_extension_tag(current_class.name)
 

@@ -91,7 +91,8 @@ class Generator(BaseGenerator):
 
     def generate_class(self, cls: SwiftClass):
         with self.indent(f'class {cls.name} {{', '}'):
-            self << f'let handle: {cls.c_handle.name}!'
+            if cls.c_handle:
+                self << f'let handle: {cls.c_handle.name}!'
             if cls.parent:
                 self << f'let {cls.parent.reference_name}: {cls.parent.name}'
 
@@ -105,12 +106,15 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_class_init(self, cls: SwiftClass):
-        param_string = f'handle: {cls.c_handle.name}!'
+        param_string = ''
+        if cls.c_handle:
+            param_string = f'handle: {cls.c_handle.name}!'
         if cls.parent:
             param_string += f', {cls.parent.reference_name}: {cls.parent.name}'
 
         with self.indent(f'init({param_string}) {{', '}'):
-            self << 'self.handle = handle'
+            if cls.c_handle:
+                self << 'self.handle = handle'
             if cls.parent:
                 self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
 
@@ -123,9 +127,8 @@ class Generator(BaseGenerator):
 
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
         throws_string = ' throws' if command.throws else ''
-        static_string = 'static ' if not command.class_params else ''
 
-        with self.indent(f'{static_string}func {command.name}({param_string})'
+        with self.indent(f'func {command.name}({param_string})'
                          f'{throws_string} -> {command.return_type} {{', '}'):
             with self.closures(closures, throws=command.throws):
                 params = []

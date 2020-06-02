@@ -1,20 +1,56 @@
 import CVulkan
 
-class Instance {
-    let handle: VkInstance!
+class Entry {
 
-    init(handle: VkInstance!) {
-        self.handle = handle
+    init() {
     }
 
-    static func create(createInfo: InstanceCreateInfo) throws -> Instance {
+    func createInstance(createInfo: InstanceCreateInfo) throws -> Instance {
         try createInfo.withCStruct { ptr_createInfo in
             var out: VkInstance!
             try checkResult(
                 vkCreateInstance(ptr_createInfo, nil, &out)
             )
-            return Instance(handle: out)
+            return Instance(handle: out, entry: self)
         }
+    }
+
+    func getInstanceProcAddr(instance: Instance?, name: String) -> PFN_vkVoidFunction {
+        name.withCString { cString_name in
+            vkGetInstanceProcAddr(instance?.handle, cString_name)
+        }
+    }
+
+    func getInstanceVersion() throws -> Version {
+        var out = UInt32()
+        try checkResult(
+            vkEnumerateInstanceVersion(&out)
+        )
+        return Version(rawValue: out)
+    }
+
+    func getInstanceLayerProperties() throws -> Array<LayerProperties> {
+        try enumerate { pProperties, pPropertyCount in
+            vkEnumerateInstanceLayerProperties(pPropertyCount, pProperties)
+        }.map { LayerProperties(cStruct: $0) }
+    }
+
+    func getInstanceExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
+        try layerName.withOptionalCString { cString_layerName in
+            try enumerate { pProperties, pPropertyCount in
+                vkEnumerateInstanceExtensionProperties(cString_layerName, pPropertyCount, pProperties)
+            }.map { ExtensionProperties(cStruct: $0) }
+        }
+    }
+}
+
+class Instance {
+    let handle: VkInstance!
+    let entry: Entry
+
+    init(handle: VkInstance!, entry: Entry) {
+        self.handle = handle
+        self.entry = entry
     }
 
     func destroy() -> Void {
@@ -25,34 +61,6 @@ class Instance {
         try enumerate { pPhysicalDevices, pPhysicalDeviceCount in
             vkEnumeratePhysicalDevices(self.handle, pPhysicalDeviceCount, pPhysicalDevices)
         }.map { PhysicalDevice(handle: $0, instance: self) }
-    }
-
-    static func getProcAddr(instance: Instance?, name: String) -> PFN_vkVoidFunction {
-        name.withCString { cString_name in
-            vkGetInstanceProcAddr(instance?.handle, cString_name)
-        }
-    }
-
-    static func getVersion() throws -> Version {
-        var out = UInt32()
-        try checkResult(
-            vkEnumerateInstanceVersion(&out)
-        )
-        return Version(rawValue: out)
-    }
-
-    static func getLayerProperties() throws -> Array<LayerProperties> {
-        try enumerate { pProperties, pPropertyCount in
-            vkEnumerateInstanceLayerProperties(pPropertyCount, pProperties)
-        }.map { LayerProperties(cStruct: $0) }
-    }
-
-    static func getExtensionProperties(layerName: String?) throws -> Array<ExtensionProperties> {
-        try layerName.withOptionalCString { cString_layerName in
-            try enumerate { pProperties, pPropertyCount in
-                vkEnumerateInstanceExtensionProperties(cString_layerName, pPropertyCount, pProperties)
-            }.map { ExtensionProperties(cStruct: $0) }
-        }
     }
 
     func createDisplayPlaneSurfaceKHR(createInfo: DisplaySurfaceCreateInfoKHR) throws -> SurfaceKHR {
