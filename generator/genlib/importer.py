@@ -417,7 +417,7 @@ class Importer:
 
         if command.params:
             param = command.params[0]
-            if param.name and param.type.name in self.imported_classes:
+            if param.type.name and param.type.name in self.imported_classes:
                 cls = self.imported_classes[param.type.name]
                 for ancestor in [cls] + cls.ancestors:
                     if ancestor.c_handle.name == 'VkDevice':
