@@ -99,6 +99,7 @@ class SwiftContext:
 class Importer:
     def __init__(self, c_context: CContext):
         self.c_context = c_context
+        self.swift_context = SwiftContext()
         self.imported_enums: Dict[str, str] = {}
         self.imported_option_sets: Dict[str, str] = {}
         self.imported_option_set_bits: Dict[str, str] = {}
@@ -108,18 +109,30 @@ class Importer:
         self.pointer_types = [handle.name for handle in c_context.handles] + [alias.name for alias in c_context.aliases]
 
     def import_all(self) -> SwiftContext:
-        context = SwiftContext()
-        context.enums = [self.import_enum(enum) for enum in self.c_context.enums]
-        context.option_sets = [self.import_bitmask(bitmask) for bitmask in self.c_context.bitmasks]
-        context.classes = [self.import_entry()]
-        context.classes += [self.import_handle(handle) for handle in self.c_context.handles if not handle.protect]
-        context.aliases = [self.import_alias(alias) for alias in self.c_context.aliases if not alias.protect]
+        for enum in self.c_context.enums:
+            self.import_enum(enum)
+
+        for bitmask in self.c_context.bitmasks:
+            self.import_bitmask(bitmask)
+
+        for handle in self.c_context.handles:
+            if not handle.protect:
+                self.import_handle(handle)
+
+        for alias in self.c_context.aliases:
+            if not alias.protect:
+                self.import_alias(alias)
+
         for struct in self.c_context.structs:
             self.import_struct_name(struct)
-        context.structs = [self.import_struct(struct) for struct in self.c_context.structs]
+
+        for struct in self.c_context.structs:
+            self.import_struct(struct)
+
         for command in self.c_context.commands:
             self.import_command(command)
-        return context
+
+        return self.swift_context
 
     def import_enum(self, c_enum: CEnum) -> SwiftEnum:
         swift_enum = SwiftEnum(
@@ -163,6 +176,7 @@ class Importer:
             for case in swift_enum.cases:
                 case.name = 'type' + case.name[0].upper() + case.name[1:]
 
+        self.swift_context.enums.append(swift_enum)
         self.imported_enums[c_enum.name] = swift_enum.name
         return swift_enum
 
@@ -209,6 +223,7 @@ class Importer:
 
             self.imported_option_set_bits[c_bitmask.enum.name] = option_set.name
 
+        self.swift_context.option_sets.append(option_set)
         self.imported_option_sets[c_bitmask.name] = option_set.name
         return option_set
 
@@ -239,10 +254,15 @@ class Importer:
                              c_value_generators=c_value_generators,
                              closure_generators=closure_generators,
                              convertible_from_c_struct=convertible_from_c_struct)
+        self.swift_context.structs.append(struct)
         return struct
 
     def import_entry(self) -> SwiftClass:
+        if 'entry' in self.imported_classes:
+            return self.imported_classes['entry']
+
         entry = SwiftClass(name='Entry', reference_name='entry')
+        self.swift_context.classes.append(entry)
         self.imported_classes['entry'] = entry
         return entry
 
@@ -255,7 +275,7 @@ class Importer:
         reference_name = reference_name[0].lower() + reference_name[1:]
 
         if handle.name == 'VkInstance':
-            parent = self.imported_classes['entry']
+            parent = self.import_entry()
         elif handle.name == 'VkSwapchainKHR':
             parent = self.imported_classes['VkDevice']
         else:
@@ -267,6 +287,7 @@ class Importer:
             reference_name=reference_name,
             parent=parent
         )
+        self.swift_context.classes.append(cls)
         self.imported_classes[handle.name] = cls
         return cls
 
@@ -352,6 +373,7 @@ class Importer:
 
     def import_alias(self, c_alias: CAlias) -> SwiftAlias:
         alias = SwiftAlias(c_alias, remove_vk_prefix(c_alias.name), self.imported_classes[c_alias.alias].name)
+        self.swift_context.aliases.append(alias)
         self.imported_aliases[c_alias.name] = alias
         return alias
 

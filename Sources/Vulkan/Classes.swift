@@ -1224,6 +1224,36 @@ class Queue {
     }
 }
 
+class CommandPool {
+    let handle: VkCommandPool!
+    let device: Device
+
+    init(handle: VkCommandPool!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyCommandPool(self.device.handle, self.handle, nil)
+    }
+
+    func reset(flags: CommandPoolResetFlags) throws -> Void {
+        try checkResult(
+            vkResetCommandPool(self.device.handle, self.handle, flags.rawValue)
+        )
+    }
+
+    func freeCommandBuffers(commandBuffers: Array<CommandBuffer>) -> Void {
+        commandBuffers.map{ $0.handle }.withUnsafeBufferPointer { ptr_commandBuffers in
+            vkFreeCommandBuffers(self.device.handle, self.handle, UInt32(ptr_commandBuffers.count), ptr_commandBuffers.baseAddress)
+        }
+    }
+
+    func trim(flags: CommandPoolTrimFlags) -> Void {
+        vkTrimCommandPool(self.device.handle, self.handle, flags.rawValue)
+    }
+}
+
 class CommandBuffer {
     let handle: VkCommandBuffer!
     let commandPool: CommandPool
@@ -1762,36 +1792,6 @@ class DeviceMemory {
     }
 }
 
-class CommandPool {
-    let handle: VkCommandPool!
-    let device: Device
-
-    init(handle: VkCommandPool!, device: Device) {
-        self.handle = handle
-        self.device = device
-    }
-
-    func destroy() -> Void {
-        vkDestroyCommandPool(self.device.handle, self.handle, nil)
-    }
-
-    func reset(flags: CommandPoolResetFlags) throws -> Void {
-        try checkResult(
-            vkResetCommandPool(self.device.handle, self.handle, flags.rawValue)
-        )
-    }
-
-    func freeCommandBuffers(commandBuffers: Array<CommandBuffer>) -> Void {
-        commandBuffers.map{ $0.handle }.withUnsafeBufferPointer { ptr_commandBuffers in
-            vkFreeCommandBuffers(self.device.handle, self.handle, UInt32(ptr_commandBuffers.count), ptr_commandBuffers.baseAddress)
-        }
-    }
-
-    func trim(flags: CommandPoolTrimFlags) -> Void {
-        vkTrimCommandPool(self.device.handle, self.handle, flags.rawValue)
-    }
-}
-
 class Buffer {
     let handle: VkBuffer!
     let device: Device
@@ -1964,34 +1964,6 @@ class Sampler {
     }
 }
 
-class DescriptorSet {
-    let handle: VkDescriptorSet!
-    let descriptorPool: DescriptorPool
-
-    init(handle: VkDescriptorSet!, descriptorPool: DescriptorPool) {
-        self.handle = handle
-        self.descriptorPool = descriptorPool
-    }
-
-    func updateWithTemplate(descriptorUpdateTemplate: DescriptorUpdateTemplate, data: UnsafeRawPointer) -> Void {
-        vkUpdateDescriptorSetWithTemplate(self.descriptorPool.device.handle, self.handle, descriptorUpdateTemplate.handle, data)
-    }
-}
-
-class DescriptorSetLayout {
-    let handle: VkDescriptorSetLayout!
-    let device: Device
-
-    init(handle: VkDescriptorSetLayout!, device: Device) {
-        self.handle = handle
-        self.device = device
-    }
-
-    func destroy() -> Void {
-        vkDestroyDescriptorSetLayout(self.device.handle, self.handle, nil)
-    }
-}
-
 class DescriptorPool {
     let handle: VkDescriptorPool!
     let device: Device
@@ -2017,6 +1989,34 @@ class DescriptorPool {
                 vkFreeDescriptorSets(self.device.handle, self.handle, UInt32(ptr_descriptorSets.count), ptr_descriptorSets.baseAddress)
             )
         }
+    }
+}
+
+class DescriptorSet {
+    let handle: VkDescriptorSet!
+    let descriptorPool: DescriptorPool
+
+    init(handle: VkDescriptorSet!, descriptorPool: DescriptorPool) {
+        self.handle = handle
+        self.descriptorPool = descriptorPool
+    }
+
+    func updateWithTemplate(descriptorUpdateTemplate: DescriptorUpdateTemplate, data: UnsafeRawPointer) -> Void {
+        vkUpdateDescriptorSetWithTemplate(self.descriptorPool.device.handle, self.handle, descriptorUpdateTemplate.handle, data)
+    }
+}
+
+class DescriptorSetLayout {
+    let handle: VkDescriptorSetLayout!
+    let device: Device
+
+    init(handle: VkDescriptorSetLayout!, device: Device) {
+        self.handle = handle
+        self.device = device
+    }
+
+    func destroy() -> Void {
+        vkDestroyDescriptorSetLayout(self.device.handle, self.handle, nil)
     }
 }
 
