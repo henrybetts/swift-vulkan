@@ -1,9 +1,9 @@
 import CVulkan
 
-struct BaseOutStructure: CStructConvertible {
+public struct BaseOutStructure: CStructConvertible {
     typealias CStruct = VkBaseOutStructure
 
-    let sType: StructureType
+    public let sType: StructureType
 
     init(cStruct: VkBaseOutStructure) {
         self.sType = StructureType(rawValue: cStruct.sType.rawValue)!
@@ -17,10 +17,10 @@ struct BaseOutStructure: CStructConvertible {
     }
 }
 
-struct BaseInStructure: CStructConvertible {
+public struct BaseInStructure: CStructConvertible {
     typealias CStruct = VkBaseInStructure
 
-    let sType: StructureType
+    public let sType: StructureType
 
     init(cStruct: VkBaseInStructure) {
         self.sType = StructureType(rawValue: cStruct.sType.rawValue)!
@@ -34,11 +34,11 @@ struct BaseInStructure: CStructConvertible {
     }
 }
 
-struct Offset2D: CStructConvertible {
+public struct Offset2D: CStructConvertible {
     typealias CStruct = VkOffset2D
 
-    let x: Int32
-    let y: Int32
+    public let x: Int32
+    public let y: Int32
 
     init(cStruct: VkOffset2D) {
         self.x = cStruct.x
@@ -53,12 +53,12 @@ struct Offset2D: CStructConvertible {
     }
 }
 
-struct Offset3D: CStructConvertible {
+public struct Offset3D: CStructConvertible {
     typealias CStruct = VkOffset3D
 
-    let x: Int32
-    let y: Int32
-    let z: Int32
+    public let x: Int32
+    public let y: Int32
+    public let z: Int32
 
     init(cStruct: VkOffset3D) {
         self.x = cStruct.x
@@ -75,11 +75,11 @@ struct Offset3D: CStructConvertible {
     }
 }
 
-struct Extent2D: CStructConvertible {
+public struct Extent2D: CStructConvertible {
     typealias CStruct = VkExtent2D
 
-    let width: UInt32
-    let height: UInt32
+    public let width: UInt32
+    public let height: UInt32
 
     init(cStruct: VkExtent2D) {
         self.width = cStruct.width
@@ -94,12 +94,12 @@ struct Extent2D: CStructConvertible {
     }
 }
 
-struct Extent3D: CStructConvertible {
+public struct Extent3D: CStructConvertible {
     typealias CStruct = VkExtent3D
 
-    let width: UInt32
-    let height: UInt32
-    let depth: UInt32
+    public let width: UInt32
+    public let height: UInt32
+    public let depth: UInt32
 
     init(cStruct: VkExtent3D) {
         self.width = cStruct.width
@@ -116,15 +116,15 @@ struct Extent3D: CStructConvertible {
     }
 }
 
-struct Viewport: CStructConvertible {
+public struct Viewport: CStructConvertible {
     typealias CStruct = VkViewport
 
-    let x: Float
-    let y: Float
-    let width: Float
-    let height: Float
-    let minDepth: Float
-    let maxDepth: Float
+    public let x: Float
+    public let y: Float
+    public let width: Float
+    public let height: Float
+    public let minDepth: Float
+    public let maxDepth: Float
 
     init(cStruct: VkViewport) {
         self.x = cStruct.x
@@ -147,11 +147,11 @@ struct Viewport: CStructConvertible {
     }
 }
 
-struct Rect2D: CStructConvertible {
+public struct Rect2D: CStructConvertible {
     typealias CStruct = VkRect2D
 
-    let offset: Offset2D
-    let extent: Extent2D
+    public let offset: Offset2D
+    public let extent: Extent2D
 
     init(cStruct: VkRect2D) {
         self.offset = Offset2D(cStruct: cStruct.offset)
@@ -170,12 +170,12 @@ struct Rect2D: CStructConvertible {
     }
 }
 
-struct ClearRect: CStructConvertible {
+public struct ClearRect: CStructConvertible {
     typealias CStruct = VkClearRect
 
-    let rect: Rect2D
-    let baseArrayLayer: UInt32
-    let layerCount: UInt32
+    public let rect: Rect2D
+    public let baseArrayLayer: UInt32
+    public let layerCount: UInt32
 
     init(cStruct: VkClearRect) {
         self.rect = Rect2D(cStruct: cStruct.rect)
@@ -194,13 +194,13 @@ struct ClearRect: CStructConvertible {
     }
 }
 
-struct ComponentMapping: CStructConvertible {
+public struct ComponentMapping: CStructConvertible {
     typealias CStruct = VkComponentMapping
 
-    let r: ComponentSwizzle
-    let g: ComponentSwizzle
-    let b: ComponentSwizzle
-    let a: ComponentSwizzle
+    public let r: ComponentSwizzle
+    public let g: ComponentSwizzle
+    public let b: ComponentSwizzle
+    public let a: ComponentSwizzle
 
     init(cStruct: VkComponentMapping) {
         self.r = ComponentSwizzle(rawValue: cStruct.r.rawValue)!
@@ -219,18 +219,18 @@ struct ComponentMapping: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceProperties: CStructConvertible {
+public struct PhysicalDeviceProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProperties
 
-    let apiVersion: UInt32
-    let driverVersion: UInt32
-    let vendorID: UInt32
-    let deviceID: UInt32
-    let deviceType: PhysicalDeviceType
-    let deviceName: String
-    let pipelineCacheUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let limits: PhysicalDeviceLimits
-    let sparseProperties: PhysicalDeviceSparseProperties
+    public let apiVersion: UInt32
+    public let driverVersion: UInt32
+    public let vendorID: UInt32
+    public let deviceID: UInt32
+    public let deviceType: PhysicalDeviceType
+    public let deviceName: String
+    public let pipelineCacheUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let limits: PhysicalDeviceLimits
+    public let sparseProperties: PhysicalDeviceSparseProperties
 
     init(cStruct: VkPhysicalDeviceProperties) {
         self.apiVersion = cStruct.apiVersion
@@ -263,11 +263,11 @@ struct PhysicalDeviceProperties: CStructConvertible {
     }
 }
 
-struct ExtensionProperties: CStructConvertible {
+public struct ExtensionProperties: CStructConvertible {
     typealias CStruct = VkExtensionProperties
 
-    let extensionName: String
-    let specVersion: UInt32
+    public let extensionName: String
+    public let specVersion: UInt32
 
     init(cStruct: VkExtensionProperties) {
         self.extensionName = String(unsafeBytesOf: cStruct.extensionName)
@@ -282,13 +282,13 @@ struct ExtensionProperties: CStructConvertible {
     }
 }
 
-struct LayerProperties: CStructConvertible {
+public struct LayerProperties: CStructConvertible {
     typealias CStruct = VkLayerProperties
 
-    let layerName: String
-    let specVersion: UInt32
-    let implementationVersion: UInt32
-    let description: String
+    public let layerName: String
+    public let specVersion: UInt32
+    public let implementationVersion: UInt32
+    public let description: String
 
     init(cStruct: VkLayerProperties) {
         self.layerName = String(unsafeBytesOf: cStruct.layerName)
@@ -307,14 +307,14 @@ struct LayerProperties: CStructConvertible {
     }
 }
 
-struct ApplicationInfo: CStructConvertible {
+public struct ApplicationInfo: CStructConvertible {
     typealias CStruct = VkApplicationInfo
 
-    let applicationName: String?
-    let applicationVersion: UInt32
-    let engineName: String?
-    let engineVersion: UInt32
-    let apiVersion: UInt32
+    public let applicationName: String?
+    public let applicationVersion: UInt32
+    public let engineName: String?
+    public let engineVersion: UInt32
+    public let apiVersion: UInt32
 
     init(cStruct: VkApplicationInfo) {
         self.applicationName = (cStruct.pApplicationName != nil) ? String(cString: cStruct.pApplicationName) : nil
@@ -341,15 +341,15 @@ struct ApplicationInfo: CStructConvertible {
     }
 }
 
-struct AllocationCallbacks: CStructConvertible {
+public struct AllocationCallbacks: CStructConvertible {
     typealias CStruct = VkAllocationCallbacks
 
-    let userData: UnsafeMutableRawPointer
-    let pfnAllocation: PFN_vkAllocationFunction
-    let pfnReallocation: PFN_vkReallocationFunction
-    let pfnFree: PFN_vkFreeFunction
-    let pfnInternalAllocation: PFN_vkInternalAllocationNotification
-    let pfnInternalFree: PFN_vkInternalFreeNotification
+    public let userData: UnsafeMutableRawPointer
+    public let pfnAllocation: PFN_vkAllocationFunction
+    public let pfnReallocation: PFN_vkReallocationFunction
+    public let pfnFree: PFN_vkFreeFunction
+    public let pfnInternalAllocation: PFN_vkInternalAllocationNotification
+    public let pfnInternalFree: PFN_vkInternalFreeNotification
 
     init(cStruct: VkAllocationCallbacks) {
         self.userData = cStruct.pUserData
@@ -372,12 +372,12 @@ struct AllocationCallbacks: CStructConvertible {
     }
 }
 
-struct DeviceQueueCreateInfo: CStructConvertible {
+public struct DeviceQueueCreateInfo: CStructConvertible {
     typealias CStruct = VkDeviceQueueCreateInfo
 
-    let flags: DeviceQueueCreateFlags
-    let queueFamilyIndex: UInt32
-    let queuePriorities: Array<Float>
+    public let flags: DeviceQueueCreateFlags
+    public let queueFamilyIndex: UInt32
+    public let queuePriorities: Array<Float>
 
     init(cStruct: VkDeviceQueueCreateInfo) {
         self.flags = DeviceQueueCreateFlags(rawValue: cStruct.flags)
@@ -399,14 +399,14 @@ struct DeviceQueueCreateInfo: CStructConvertible {
     }
 }
 
-struct DeviceCreateInfo: CStructConvertible {
+public struct DeviceCreateInfo: CStructConvertible {
     typealias CStruct = VkDeviceCreateInfo
 
-    let flags: DeviceCreateFlags
-    let queueCreateInfos: Array<DeviceQueueCreateInfo>
-    let enabledLayerNames: Array<String>
-    let enabledExtensionNames: Array<String>
-    let enabledFeatures: PhysicalDeviceFeatures?
+    public let flags: DeviceCreateFlags
+    public let queueCreateInfos: Array<DeviceQueueCreateInfo>
+    public let enabledLayerNames: Array<String>
+    public let enabledExtensionNames: Array<String>
+    public let enabledFeatures: PhysicalDeviceFeatures?
 
     init(cStruct: VkDeviceCreateInfo) {
         self.flags = DeviceCreateFlags(rawValue: cStruct.flags)
@@ -440,13 +440,13 @@ struct DeviceCreateInfo: CStructConvertible {
     }
 }
 
-struct InstanceCreateInfo: CStructConvertible {
+public struct InstanceCreateInfo: CStructConvertible {
     typealias CStruct = VkInstanceCreateInfo
 
-    let flags: InstanceCreateFlags
-    let applicationInfo: ApplicationInfo?
-    let enabledLayerNames: Array<String>
-    let enabledExtensionNames: Array<String>
+    public let flags: InstanceCreateFlags
+    public let applicationInfo: ApplicationInfo?
+    public let enabledLayerNames: Array<String>
+    public let enabledExtensionNames: Array<String>
 
     init(cStruct: VkInstanceCreateInfo) {
         self.flags = InstanceCreateFlags(rawValue: cStruct.flags)
@@ -475,13 +475,13 @@ struct InstanceCreateInfo: CStructConvertible {
     }
 }
 
-struct QueueFamilyProperties: CStructConvertible {
+public struct QueueFamilyProperties: CStructConvertible {
     typealias CStruct = VkQueueFamilyProperties
 
-    let queueFlags: QueueFlags
-    let queueCount: UInt32
-    let timestampValidBits: UInt32
-    let minImageTransferGranularity: Extent3D
+    public let queueFlags: QueueFlags
+    public let queueCount: UInt32
+    public let timestampValidBits: UInt32
+    public let minImageTransferGranularity: Extent3D
 
     init(cStruct: VkQueueFamilyProperties) {
         self.queueFlags = QueueFlags(rawValue: cStruct.queueFlags)
@@ -502,13 +502,13 @@ struct QueueFamilyProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMemoryProperties: CStructConvertible {
+public struct PhysicalDeviceMemoryProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMemoryProperties
 
-    let memoryTypeCount: UInt32
-    let memoryTypes: (VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType)
-    let memoryHeapCount: UInt32
-    let memoryHeaps: (VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap)
+    public let memoryTypeCount: UInt32
+    public let memoryTypes: (VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType)
+    public let memoryHeapCount: UInt32
+    public let memoryHeaps: (VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap)
 
     init(cStruct: VkPhysicalDeviceMemoryProperties) {
         self.memoryTypeCount = cStruct.memoryTypeCount
@@ -527,11 +527,11 @@ struct PhysicalDeviceMemoryProperties: CStructConvertible {
     }
 }
 
-struct MemoryAllocateInfo: CStructConvertible {
+public struct MemoryAllocateInfo: CStructConvertible {
     typealias CStruct = VkMemoryAllocateInfo
 
-    let allocationSize: VkDeviceSize
-    let memoryTypeIndex: UInt32
+    public let allocationSize: VkDeviceSize
+    public let memoryTypeIndex: UInt32
 
     init(cStruct: VkMemoryAllocateInfo) {
         self.allocationSize = cStruct.allocationSize
@@ -548,12 +548,12 @@ struct MemoryAllocateInfo: CStructConvertible {
     }
 }
 
-struct MemoryRequirements: CStructConvertible {
+public struct MemoryRequirements: CStructConvertible {
     typealias CStruct = VkMemoryRequirements
 
-    let size: VkDeviceSize
-    let alignment: VkDeviceSize
-    let memoryTypeBits: UInt32
+    public let size: VkDeviceSize
+    public let alignment: VkDeviceSize
+    public let memoryTypeBits: UInt32
 
     init(cStruct: VkMemoryRequirements) {
         self.size = cStruct.size
@@ -570,12 +570,12 @@ struct MemoryRequirements: CStructConvertible {
     }
 }
 
-struct SparseImageFormatProperties: CStructConvertible {
+public struct SparseImageFormatProperties: CStructConvertible {
     typealias CStruct = VkSparseImageFormatProperties
 
-    let aspectMask: ImageAspectFlags
-    let imageGranularity: Extent3D
-    let flags: SparseImageFormatFlags
+    public let aspectMask: ImageAspectFlags
+    public let imageGranularity: Extent3D
+    public let flags: SparseImageFormatFlags
 
     init(cStruct: VkSparseImageFormatProperties) {
         self.aspectMask = ImageAspectFlags(rawValue: cStruct.aspectMask)
@@ -594,14 +594,14 @@ struct SparseImageFormatProperties: CStructConvertible {
     }
 }
 
-struct SparseImageMemoryRequirements: CStructConvertible {
+public struct SparseImageMemoryRequirements: CStructConvertible {
     typealias CStruct = VkSparseImageMemoryRequirements
 
-    let formatProperties: SparseImageFormatProperties
-    let imageMipTailFirstLod: UInt32
-    let imageMipTailSize: VkDeviceSize
-    let imageMipTailOffset: VkDeviceSize
-    let imageMipTailStride: VkDeviceSize
+    public let formatProperties: SparseImageFormatProperties
+    public let imageMipTailFirstLod: UInt32
+    public let imageMipTailSize: VkDeviceSize
+    public let imageMipTailOffset: VkDeviceSize
+    public let imageMipTailStride: VkDeviceSize
 
     init(cStruct: VkSparseImageMemoryRequirements) {
         self.formatProperties = SparseImageFormatProperties(cStruct: cStruct.formatProperties)
@@ -624,11 +624,11 @@ struct SparseImageMemoryRequirements: CStructConvertible {
     }
 }
 
-struct MemoryType: CStructConvertible {
+public struct MemoryType: CStructConvertible {
     typealias CStruct = VkMemoryType
 
-    let propertyFlags: MemoryPropertyFlags
-    let heapIndex: UInt32
+    public let propertyFlags: MemoryPropertyFlags
+    public let heapIndex: UInt32
 
     init(cStruct: VkMemoryType) {
         self.propertyFlags = MemoryPropertyFlags(rawValue: cStruct.propertyFlags)
@@ -643,11 +643,11 @@ struct MemoryType: CStructConvertible {
     }
 }
 
-struct MemoryHeap: CStructConvertible {
+public struct MemoryHeap: CStructConvertible {
     typealias CStruct = VkMemoryHeap
 
-    let size: VkDeviceSize
-    let flags: MemoryHeapFlags
+    public let size: VkDeviceSize
+    public let flags: MemoryHeapFlags
 
     init(cStruct: VkMemoryHeap) {
         self.size = cStruct.size
@@ -662,12 +662,12 @@ struct MemoryHeap: CStructConvertible {
     }
 }
 
-struct MappedMemoryRange: CStructConvertible {
+public struct MappedMemoryRange: CStructConvertible {
     typealias CStruct = VkMappedMemoryRange
 
-    let memory: DeviceMemory
-    let offset: VkDeviceSize
-    let size: VkDeviceSize
+    public let memory: DeviceMemory
+    public let offset: VkDeviceSize
+    public let size: VkDeviceSize
 
     init(cStruct: VkMappedMemoryRange) {
         fatalError("This initializer should be removed.")
@@ -684,12 +684,12 @@ struct MappedMemoryRange: CStructConvertible {
     }
 }
 
-struct FormatProperties: CStructConvertible {
+public struct FormatProperties: CStructConvertible {
     typealias CStruct = VkFormatProperties
 
-    let linearTilingFeatures: FormatFeatureFlags
-    let optimalTilingFeatures: FormatFeatureFlags
-    let bufferFeatures: FormatFeatureFlags
+    public let linearTilingFeatures: FormatFeatureFlags
+    public let optimalTilingFeatures: FormatFeatureFlags
+    public let bufferFeatures: FormatFeatureFlags
 
     init(cStruct: VkFormatProperties) {
         self.linearTilingFeatures = FormatFeatureFlags(rawValue: cStruct.linearTilingFeatures)
@@ -706,14 +706,14 @@ struct FormatProperties: CStructConvertible {
     }
 }
 
-struct ImageFormatProperties: CStructConvertible {
+public struct ImageFormatProperties: CStructConvertible {
     typealias CStruct = VkImageFormatProperties
 
-    let maxExtent: Extent3D
-    let maxMipLevels: UInt32
-    let maxArrayLayers: UInt32
-    let sampleCounts: SampleCountFlags
-    let maxResourceSize: VkDeviceSize
+    public let maxExtent: Extent3D
+    public let maxMipLevels: UInt32
+    public let maxArrayLayers: UInt32
+    public let sampleCounts: SampleCountFlags
+    public let maxResourceSize: VkDeviceSize
 
     init(cStruct: VkImageFormatProperties) {
         self.maxExtent = Extent3D(cStruct: cStruct.maxExtent)
@@ -736,12 +736,12 @@ struct ImageFormatProperties: CStructConvertible {
     }
 }
 
-struct DescriptorBufferInfo: CStructConvertible {
+public struct DescriptorBufferInfo: CStructConvertible {
     typealias CStruct = VkDescriptorBufferInfo
 
-    let buffer: Buffer
-    let offset: VkDeviceSize
-    let range: VkDeviceSize
+    public let buffer: Buffer
+    public let offset: VkDeviceSize
+    public let range: VkDeviceSize
 
     init(cStruct: VkDescriptorBufferInfo) {
         fatalError("This initializer should be removed.")
@@ -756,12 +756,12 @@ struct DescriptorBufferInfo: CStructConvertible {
     }
 }
 
-struct DescriptorImageInfo: CStructConvertible {
+public struct DescriptorImageInfo: CStructConvertible {
     typealias CStruct = VkDescriptorImageInfo
 
-    let sampler: Sampler
-    let imageView: ImageView
-    let imageLayout: ImageLayout
+    public let sampler: Sampler
+    public let imageView: ImageView
+    public let imageLayout: ImageLayout
 
     init(cStruct: VkDescriptorImageInfo) {
         fatalError("This initializer should be removed.")
@@ -776,16 +776,16 @@ struct DescriptorImageInfo: CStructConvertible {
     }
 }
 
-struct WriteDescriptorSet: CStructConvertible {
+public struct WriteDescriptorSet: CStructConvertible {
     typealias CStruct = VkWriteDescriptorSet
 
-    let dstSet: DescriptorSet
-    let dstBinding: UInt32
-    let dstArrayElement: UInt32
-    let descriptorType: DescriptorType
-    let imageInfo: Array<DescriptorImageInfo>
-    let bufferInfo: Array<DescriptorBufferInfo>
-    let texelBufferView: Array<BufferView>
+    public let dstSet: DescriptorSet
+    public let dstBinding: UInt32
+    public let dstArrayElement: UInt32
+    public let descriptorType: DescriptorType
+    public let imageInfo: Array<DescriptorImageInfo>
+    public let bufferInfo: Array<DescriptorBufferInfo>
+    public let texelBufferView: Array<BufferView>
 
     init(cStruct: VkWriteDescriptorSet) {
         fatalError("This initializer should be removed.")
@@ -813,16 +813,16 @@ struct WriteDescriptorSet: CStructConvertible {
     }
 }
 
-struct CopyDescriptorSet: CStructConvertible {
+public struct CopyDescriptorSet: CStructConvertible {
     typealias CStruct = VkCopyDescriptorSet
 
-    let srcSet: DescriptorSet
-    let srcBinding: UInt32
-    let srcArrayElement: UInt32
-    let dstSet: DescriptorSet
-    let dstBinding: UInt32
-    let dstArrayElement: UInt32
-    let descriptorCount: UInt32
+    public let srcSet: DescriptorSet
+    public let srcBinding: UInt32
+    public let srcArrayElement: UInt32
+    public let dstSet: DescriptorSet
+    public let dstBinding: UInt32
+    public let dstArrayElement: UInt32
+    public let descriptorCount: UInt32
 
     init(cStruct: VkCopyDescriptorSet) {
         fatalError("This initializer should be removed.")
@@ -843,14 +843,14 @@ struct CopyDescriptorSet: CStructConvertible {
     }
 }
 
-struct BufferCreateInfo: CStructConvertible {
+public struct BufferCreateInfo: CStructConvertible {
     typealias CStruct = VkBufferCreateInfo
 
-    let flags: BufferCreateFlags
-    let size: VkDeviceSize
-    let usage: BufferUsageFlags
-    let sharingMode: SharingMode
-    let queueFamilyIndices: Array<UInt32>
+    public let flags: BufferCreateFlags
+    public let size: VkDeviceSize
+    public let usage: BufferUsageFlags
+    public let sharingMode: SharingMode
+    public let queueFamilyIndices: Array<UInt32>
 
     init(cStruct: VkBufferCreateInfo) {
         self.flags = BufferCreateFlags(rawValue: cStruct.flags)
@@ -876,14 +876,14 @@ struct BufferCreateInfo: CStructConvertible {
     }
 }
 
-struct BufferViewCreateInfo: CStructConvertible {
+public struct BufferViewCreateInfo: CStructConvertible {
     typealias CStruct = VkBufferViewCreateInfo
 
-    let flags: BufferViewCreateFlags
-    let buffer: Buffer
-    let format: Format
-    let offset: VkDeviceSize
-    let range: VkDeviceSize
+    public let flags: BufferViewCreateFlags
+    public let buffer: Buffer
+    public let format: Format
+    public let offset: VkDeviceSize
+    public let range: VkDeviceSize
 
     init(cStruct: VkBufferViewCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -902,12 +902,12 @@ struct BufferViewCreateInfo: CStructConvertible {
     }
 }
 
-struct ImageSubresource: CStructConvertible {
+public struct ImageSubresource: CStructConvertible {
     typealias CStruct = VkImageSubresource
 
-    let aspectMask: ImageAspectFlags
-    let mipLevel: UInt32
-    let arrayLayer: UInt32
+    public let aspectMask: ImageAspectFlags
+    public let mipLevel: UInt32
+    public let arrayLayer: UInt32
 
     init(cStruct: VkImageSubresource) {
         self.aspectMask = ImageAspectFlags(rawValue: cStruct.aspectMask)
@@ -924,13 +924,13 @@ struct ImageSubresource: CStructConvertible {
     }
 }
 
-struct ImageSubresourceLayers: CStructConvertible {
+public struct ImageSubresourceLayers: CStructConvertible {
     typealias CStruct = VkImageSubresourceLayers
 
-    let aspectMask: ImageAspectFlags
-    let mipLevel: UInt32
-    let baseArrayLayer: UInt32
-    let layerCount: UInt32
+    public let aspectMask: ImageAspectFlags
+    public let mipLevel: UInt32
+    public let baseArrayLayer: UInt32
+    public let layerCount: UInt32
 
     init(cStruct: VkImageSubresourceLayers) {
         self.aspectMask = ImageAspectFlags(rawValue: cStruct.aspectMask)
@@ -949,14 +949,14 @@ struct ImageSubresourceLayers: CStructConvertible {
     }
 }
 
-struct ImageSubresourceRange: CStructConvertible {
+public struct ImageSubresourceRange: CStructConvertible {
     typealias CStruct = VkImageSubresourceRange
 
-    let aspectMask: ImageAspectFlags
-    let baseMipLevel: UInt32
-    let levelCount: UInt32
-    let baseArrayLayer: UInt32
-    let layerCount: UInt32
+    public let aspectMask: ImageAspectFlags
+    public let baseMipLevel: UInt32
+    public let levelCount: UInt32
+    public let baseArrayLayer: UInt32
+    public let layerCount: UInt32
 
     init(cStruct: VkImageSubresourceRange) {
         self.aspectMask = ImageAspectFlags(rawValue: cStruct.aspectMask)
@@ -977,11 +977,11 @@ struct ImageSubresourceRange: CStructConvertible {
     }
 }
 
-struct MemoryBarrier: CStructConvertible {
+public struct MemoryBarrier: CStructConvertible {
     typealias CStruct = VkMemoryBarrier
 
-    let srcAccessMask: AccessFlags
-    let dstAccessMask: AccessFlags
+    public let srcAccessMask: AccessFlags
+    public let dstAccessMask: AccessFlags
 
     init(cStruct: VkMemoryBarrier) {
         self.srcAccessMask = AccessFlags(rawValue: cStruct.srcAccessMask)
@@ -998,16 +998,16 @@ struct MemoryBarrier: CStructConvertible {
     }
 }
 
-struct BufferMemoryBarrier: CStructConvertible {
+public struct BufferMemoryBarrier: CStructConvertible {
     typealias CStruct = VkBufferMemoryBarrier
 
-    let srcAccessMask: AccessFlags
-    let dstAccessMask: AccessFlags
-    let srcQueueFamilyIndex: UInt32
-    let dstQueueFamilyIndex: UInt32
-    let buffer: Buffer
-    let offset: VkDeviceSize
-    let size: VkDeviceSize
+    public let srcAccessMask: AccessFlags
+    public let dstAccessMask: AccessFlags
+    public let srcQueueFamilyIndex: UInt32
+    public let dstQueueFamilyIndex: UInt32
+    public let buffer: Buffer
+    public let offset: VkDeviceSize
+    public let size: VkDeviceSize
 
     init(cStruct: VkBufferMemoryBarrier) {
         fatalError("This initializer should be removed.")
@@ -1028,17 +1028,17 @@ struct BufferMemoryBarrier: CStructConvertible {
     }
 }
 
-struct ImageMemoryBarrier: CStructConvertible {
+public struct ImageMemoryBarrier: CStructConvertible {
     typealias CStruct = VkImageMemoryBarrier
 
-    let srcAccessMask: AccessFlags
-    let dstAccessMask: AccessFlags
-    let oldLayout: ImageLayout
-    let newLayout: ImageLayout
-    let srcQueueFamilyIndex: UInt32
-    let dstQueueFamilyIndex: UInt32
-    let image: Image
-    let subresourceRange: ImageSubresourceRange
+    public let srcAccessMask: AccessFlags
+    public let dstAccessMask: AccessFlags
+    public let oldLayout: ImageLayout
+    public let newLayout: ImageLayout
+    public let srcQueueFamilyIndex: UInt32
+    public let dstQueueFamilyIndex: UInt32
+    public let image: Image
+    public let subresourceRange: ImageSubresourceRange
 
     init(cStruct: VkImageMemoryBarrier) {
         fatalError("This initializer should be removed.")
@@ -1062,21 +1062,21 @@ struct ImageMemoryBarrier: CStructConvertible {
     }
 }
 
-struct ImageCreateInfo: CStructConvertible {
+public struct ImageCreateInfo: CStructConvertible {
     typealias CStruct = VkImageCreateInfo
 
-    let flags: ImageCreateFlags
-    let imageType: ImageType
-    let format: Format
-    let extent: Extent3D
-    let mipLevels: UInt32
-    let arrayLayers: UInt32
-    let samples: SampleCountFlags
-    let tiling: ImageTiling
-    let usage: ImageUsageFlags
-    let sharingMode: SharingMode
-    let queueFamilyIndices: Array<UInt32>
-    let initialLayout: ImageLayout
+    public let flags: ImageCreateFlags
+    public let imageType: ImageType
+    public let format: Format
+    public let extent: Extent3D
+    public let mipLevels: UInt32
+    public let arrayLayers: UInt32
+    public let samples: SampleCountFlags
+    public let tiling: ImageTiling
+    public let usage: ImageUsageFlags
+    public let sharingMode: SharingMode
+    public let queueFamilyIndices: Array<UInt32>
+    public let initialLayout: ImageLayout
 
     init(cStruct: VkImageCreateInfo) {
         self.flags = ImageCreateFlags(rawValue: cStruct.flags)
@@ -1118,14 +1118,14 @@ struct ImageCreateInfo: CStructConvertible {
     }
 }
 
-struct SubresourceLayout: CStructConvertible {
+public struct SubresourceLayout: CStructConvertible {
     typealias CStruct = VkSubresourceLayout
 
-    let offset: VkDeviceSize
-    let size: VkDeviceSize
-    let rowPitch: VkDeviceSize
-    let arrayPitch: VkDeviceSize
-    let depthPitch: VkDeviceSize
+    public let offset: VkDeviceSize
+    public let size: VkDeviceSize
+    public let rowPitch: VkDeviceSize
+    public let arrayPitch: VkDeviceSize
+    public let depthPitch: VkDeviceSize
 
     init(cStruct: VkSubresourceLayout) {
         self.offset = cStruct.offset
@@ -1146,15 +1146,15 @@ struct SubresourceLayout: CStructConvertible {
     }
 }
 
-struct ImageViewCreateInfo: CStructConvertible {
+public struct ImageViewCreateInfo: CStructConvertible {
     typealias CStruct = VkImageViewCreateInfo
 
-    let flags: ImageViewCreateFlags
-    let image: Image
-    let viewType: ImageViewType
-    let format: Format
-    let components: ComponentMapping
-    let subresourceRange: ImageSubresourceRange
+    public let flags: ImageViewCreateFlags
+    public let image: Image
+    public let viewType: ImageViewType
+    public let format: Format
+    public let components: ComponentMapping
+    public let subresourceRange: ImageSubresourceRange
 
     init(cStruct: VkImageViewCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -1178,12 +1178,12 @@ struct ImageViewCreateInfo: CStructConvertible {
     }
 }
 
-struct BufferCopy: CStructConvertible {
+public struct BufferCopy: CStructConvertible {
     typealias CStruct = VkBufferCopy
 
-    let srcOffset: VkDeviceSize
-    let dstOffset: VkDeviceSize
-    let size: VkDeviceSize
+    public let srcOffset: VkDeviceSize
+    public let dstOffset: VkDeviceSize
+    public let size: VkDeviceSize
 
     init(cStruct: VkBufferCopy) {
         self.srcOffset = cStruct.srcOffset
@@ -1200,14 +1200,14 @@ struct BufferCopy: CStructConvertible {
     }
 }
 
-struct SparseMemoryBind: CStructConvertible {
+public struct SparseMemoryBind: CStructConvertible {
     typealias CStruct = VkSparseMemoryBind
 
-    let resourceOffset: VkDeviceSize
-    let size: VkDeviceSize
-    let memory: DeviceMemory?
-    let memoryOffset: VkDeviceSize
-    let flags: SparseMemoryBindFlags
+    public let resourceOffset: VkDeviceSize
+    public let size: VkDeviceSize
+    public let memory: DeviceMemory?
+    public let memoryOffset: VkDeviceSize
+    public let flags: SparseMemoryBindFlags
 
     init(cStruct: VkSparseMemoryBind) {
         fatalError("This initializer should be removed.")
@@ -1224,15 +1224,15 @@ struct SparseMemoryBind: CStructConvertible {
     }
 }
 
-struct SparseImageMemoryBind: CStructConvertible {
+public struct SparseImageMemoryBind: CStructConvertible {
     typealias CStruct = VkSparseImageMemoryBind
 
-    let subresource: ImageSubresource
-    let offset: Offset3D
-    let extent: Extent3D
-    let memory: DeviceMemory?
-    let memoryOffset: VkDeviceSize
-    let flags: SparseMemoryBindFlags
+    public let subresource: ImageSubresource
+    public let offset: Offset3D
+    public let extent: Extent3D
+    public let memory: DeviceMemory?
+    public let memoryOffset: VkDeviceSize
+    public let flags: SparseMemoryBindFlags
 
     init(cStruct: VkSparseImageMemoryBind) {
         fatalError("This initializer should be removed.")
@@ -1256,11 +1256,11 @@ struct SparseImageMemoryBind: CStructConvertible {
     }
 }
 
-struct SparseBufferMemoryBindInfo: CStructConvertible {
+public struct SparseBufferMemoryBindInfo: CStructConvertible {
     typealias CStruct = VkSparseBufferMemoryBindInfo
 
-    let buffer: Buffer
-    let binds: Array<SparseMemoryBind>
+    public let buffer: Buffer
+    public let binds: Array<SparseMemoryBind>
 
     init(cStruct: VkSparseBufferMemoryBindInfo) {
         fatalError("This initializer should be removed.")
@@ -1277,11 +1277,11 @@ struct SparseBufferMemoryBindInfo: CStructConvertible {
     }
 }
 
-struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
+public struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
     typealias CStruct = VkSparseImageOpaqueMemoryBindInfo
 
-    let image: Image
-    let binds: Array<SparseMemoryBind>
+    public let image: Image
+    public let binds: Array<SparseMemoryBind>
 
     init(cStruct: VkSparseImageOpaqueMemoryBindInfo) {
         fatalError("This initializer should be removed.")
@@ -1298,11 +1298,11 @@ struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
     }
 }
 
-struct SparseImageMemoryBindInfo: CStructConvertible {
+public struct SparseImageMemoryBindInfo: CStructConvertible {
     typealias CStruct = VkSparseImageMemoryBindInfo
 
-    let image: Image
-    let binds: Array<SparseImageMemoryBind>
+    public let image: Image
+    public let binds: Array<SparseImageMemoryBind>
 
     init(cStruct: VkSparseImageMemoryBindInfo) {
         fatalError("This initializer should be removed.")
@@ -1319,14 +1319,14 @@ struct SparseImageMemoryBindInfo: CStructConvertible {
     }
 }
 
-struct BindSparseInfo: CStructConvertible {
+public struct BindSparseInfo: CStructConvertible {
     typealias CStruct = VkBindSparseInfo
 
-    let waitSemaphores: Array<Semaphore>
-    let bufferBinds: Array<SparseBufferMemoryBindInfo>
-    let imageOpaqueBinds: Array<SparseImageOpaqueMemoryBindInfo>
-    let imageBinds: Array<SparseImageMemoryBindInfo>
-    let signalSemaphores: Array<Semaphore>
+    public let waitSemaphores: Array<Semaphore>
+    public let bufferBinds: Array<SparseBufferMemoryBindInfo>
+    public let imageOpaqueBinds: Array<SparseImageOpaqueMemoryBindInfo>
+    public let imageBinds: Array<SparseImageMemoryBindInfo>
+    public let signalSemaphores: Array<Semaphore>
 
     init(cStruct: VkBindSparseInfo) {
         fatalError("This initializer should be removed.")
@@ -1360,14 +1360,14 @@ struct BindSparseInfo: CStructConvertible {
     }
 }
 
-struct ImageCopy: CStructConvertible {
+public struct ImageCopy: CStructConvertible {
     typealias CStruct = VkImageCopy
 
-    let srcSubresource: ImageSubresourceLayers
-    let srcOffset: Offset3D
-    let dstSubresource: ImageSubresourceLayers
-    let dstOffset: Offset3D
-    let extent: Extent3D
+    public let srcSubresource: ImageSubresourceLayers
+    public let srcOffset: Offset3D
+    public let dstSubresource: ImageSubresourceLayers
+    public let dstOffset: Offset3D
+    public let extent: Extent3D
 
     init(cStruct: VkImageCopy) {
         self.srcSubresource = ImageSubresourceLayers(cStruct: cStruct.srcSubresource)
@@ -1398,13 +1398,13 @@ struct ImageCopy: CStructConvertible {
     }
 }
 
-struct ImageBlit: CStructConvertible {
+public struct ImageBlit: CStructConvertible {
     typealias CStruct = VkImageBlit
 
-    let srcSubresource: ImageSubresourceLayers
-    let srcOffsets: (VkOffset3D, VkOffset3D)
-    let dstSubresource: ImageSubresourceLayers
-    let dstOffsets: (VkOffset3D, VkOffset3D)
+    public let srcSubresource: ImageSubresourceLayers
+    public let srcOffsets: (VkOffset3D, VkOffset3D)
+    public let dstSubresource: ImageSubresourceLayers
+    public let dstOffsets: (VkOffset3D, VkOffset3D)
 
     init(cStruct: VkImageBlit) {
         self.srcSubresource = ImageSubresourceLayers(cStruct: cStruct.srcSubresource)
@@ -1427,15 +1427,15 @@ struct ImageBlit: CStructConvertible {
     }
 }
 
-struct BufferImageCopy: CStructConvertible {
+public struct BufferImageCopy: CStructConvertible {
     typealias CStruct = VkBufferImageCopy
 
-    let bufferOffset: VkDeviceSize
-    let bufferRowLength: UInt32
-    let bufferImageHeight: UInt32
-    let imageSubresource: ImageSubresourceLayers
-    let imageOffset: Offset3D
-    let imageExtent: Extent3D
+    public let bufferOffset: VkDeviceSize
+    public let bufferRowLength: UInt32
+    public let bufferImageHeight: UInt32
+    public let imageSubresource: ImageSubresourceLayers
+    public let imageOffset: Offset3D
+    public let imageExtent: Extent3D
 
     init(cStruct: VkBufferImageCopy) {
         self.bufferOffset = cStruct.bufferOffset
@@ -1464,14 +1464,14 @@ struct BufferImageCopy: CStructConvertible {
     }
 }
 
-struct ImageResolve: CStructConvertible {
+public struct ImageResolve: CStructConvertible {
     typealias CStruct = VkImageResolve
 
-    let srcSubresource: ImageSubresourceLayers
-    let srcOffset: Offset3D
-    let dstSubresource: ImageSubresourceLayers
-    let dstOffset: Offset3D
-    let extent: Extent3D
+    public let srcSubresource: ImageSubresourceLayers
+    public let srcOffset: Offset3D
+    public let dstSubresource: ImageSubresourceLayers
+    public let dstOffset: Offset3D
+    public let extent: Extent3D
 
     init(cStruct: VkImageResolve) {
         self.srcSubresource = ImageSubresourceLayers(cStruct: cStruct.srcSubresource)
@@ -1502,12 +1502,12 @@ struct ImageResolve: CStructConvertible {
     }
 }
 
-struct ShaderModuleCreateInfo: CStructConvertible {
+public struct ShaderModuleCreateInfo: CStructConvertible {
     typealias CStruct = VkShaderModuleCreateInfo
 
-    let flags: ShaderModuleCreateFlags
-    let codeSize: Int
-    let code: UnsafePointer<UInt32>
+    public let flags: ShaderModuleCreateFlags
+    public let codeSize: Int
+    public let code: UnsafePointer<UInt32>
 
     init(cStruct: VkShaderModuleCreateInfo) {
         self.flags = ShaderModuleCreateFlags(rawValue: cStruct.flags)
@@ -1526,13 +1526,13 @@ struct ShaderModuleCreateInfo: CStructConvertible {
     }
 }
 
-struct DescriptorSetLayoutBinding: CStructConvertible {
+public struct DescriptorSetLayoutBinding: CStructConvertible {
     typealias CStruct = VkDescriptorSetLayoutBinding
 
-    let binding: UInt32
-    let descriptorType: DescriptorType
-    let stageFlags: ShaderStageFlags
-    let immutableSamplers: Array<Sampler>?
+    public let binding: UInt32
+    public let descriptorType: DescriptorType
+    public let stageFlags: ShaderStageFlags
+    public let immutableSamplers: Array<Sampler>?
 
     init(cStruct: VkDescriptorSetLayoutBinding) {
         fatalError("This initializer should be removed.")
@@ -1551,11 +1551,11 @@ struct DescriptorSetLayoutBinding: CStructConvertible {
     }
 }
 
-struct DescriptorSetLayoutCreateInfo: CStructConvertible {
+public struct DescriptorSetLayoutCreateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorSetLayoutCreateInfo
 
-    let flags: DescriptorSetLayoutCreateFlags
-    let bindings: Array<DescriptorSetLayoutBinding>
+    public let flags: DescriptorSetLayoutCreateFlags
+    public let bindings: Array<DescriptorSetLayoutBinding>
 
     init(cStruct: VkDescriptorSetLayoutCreateInfo) {
         self.flags = DescriptorSetLayoutCreateFlags(rawValue: cStruct.flags)
@@ -1575,11 +1575,11 @@ struct DescriptorSetLayoutCreateInfo: CStructConvertible {
     }
 }
 
-struct DescriptorPoolSize: CStructConvertible {
+public struct DescriptorPoolSize: CStructConvertible {
     typealias CStruct = VkDescriptorPoolSize
 
-    let type: DescriptorType
-    let descriptorCount: UInt32
+    public let type: DescriptorType
+    public let descriptorCount: UInt32
 
     init(cStruct: VkDescriptorPoolSize) {
         self.type = DescriptorType(rawValue: cStruct.type.rawValue)!
@@ -1594,12 +1594,12 @@ struct DescriptorPoolSize: CStructConvertible {
     }
 }
 
-struct DescriptorPoolCreateInfo: CStructConvertible {
+public struct DescriptorPoolCreateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorPoolCreateInfo
 
-    let flags: DescriptorPoolCreateFlags
-    let maxSets: UInt32
-    let poolSizes: Array<DescriptorPoolSize>
+    public let flags: DescriptorPoolCreateFlags
+    public let maxSets: UInt32
+    public let poolSizes: Array<DescriptorPoolSize>
 
     init(cStruct: VkDescriptorPoolCreateInfo) {
         self.flags = DescriptorPoolCreateFlags(rawValue: cStruct.flags)
@@ -1621,11 +1621,11 @@ struct DescriptorPoolCreateInfo: CStructConvertible {
     }
 }
 
-struct DescriptorSetAllocateInfo: CStructConvertible {
+public struct DescriptorSetAllocateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorSetAllocateInfo
 
-    let descriptorPool: DescriptorPool
-    let setLayouts: Array<DescriptorSetLayout>
+    public let descriptorPool: DescriptorPool
+    public let setLayouts: Array<DescriptorSetLayout>
 
     init(cStruct: VkDescriptorSetAllocateInfo) {
         fatalError("This initializer should be removed.")
@@ -1644,12 +1644,12 @@ struct DescriptorSetAllocateInfo: CStructConvertible {
     }
 }
 
-struct SpecializationMapEntry: CStructConvertible {
+public struct SpecializationMapEntry: CStructConvertible {
     typealias CStruct = VkSpecializationMapEntry
 
-    let constantID: UInt32
-    let offset: UInt32
-    let size: Int
+    public let constantID: UInt32
+    public let offset: UInt32
+    public let size: Int
 
     init(cStruct: VkSpecializationMapEntry) {
         self.constantID = cStruct.constantID
@@ -1666,12 +1666,12 @@ struct SpecializationMapEntry: CStructConvertible {
     }
 }
 
-struct SpecializationInfo: CStructConvertible {
+public struct SpecializationInfo: CStructConvertible {
     typealias CStruct = VkSpecializationInfo
 
-    let mapEntries: Array<SpecializationMapEntry>
-    let dataSize: Int
-    let data: UnsafeRawPointer
+    public let mapEntries: Array<SpecializationMapEntry>
+    public let dataSize: Int
+    public let data: UnsafeRawPointer
 
     init(cStruct: VkSpecializationInfo) {
         self.mapEntries = UnsafeBufferPointer(start: cStruct.pMapEntries, count: Int(cStruct.mapEntryCount)).map{ SpecializationMapEntry(cStruct: $0) }
@@ -1691,14 +1691,14 @@ struct SpecializationInfo: CStructConvertible {
     }
 }
 
-struct PipelineShaderStageCreateInfo: CStructConvertible {
+public struct PipelineShaderStageCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineShaderStageCreateInfo
 
-    let flags: PipelineShaderStageCreateFlags
-    let stage: ShaderStageFlags
-    let module: ShaderModule
-    let name: String
-    let specializationInfo: SpecializationInfo?
+    public let flags: PipelineShaderStageCreateFlags
+    public let stage: ShaderStageFlags
+    public let module: ShaderModule
+    public let name: String
+    public let specializationInfo: SpecializationInfo?
 
     init(cStruct: VkPipelineShaderStageCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -1721,14 +1721,14 @@ struct PipelineShaderStageCreateInfo: CStructConvertible {
     }
 }
 
-struct ComputePipelineCreateInfo: CStructConvertible {
+public struct ComputePipelineCreateInfo: CStructConvertible {
     typealias CStruct = VkComputePipelineCreateInfo
 
-    let flags: PipelineCreateFlags
-    let stage: PipelineShaderStageCreateInfo
-    let layout: PipelineLayout
-    let basePipelineHandle: Pipeline?
-    let basePipelineIndex: Int32
+    public let flags: PipelineCreateFlags
+    public let stage: PipelineShaderStageCreateInfo
+    public let layout: PipelineLayout
+    public let basePipelineHandle: Pipeline?
+    public let basePipelineIndex: Int32
 
     init(cStruct: VkComputePipelineCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -1749,12 +1749,12 @@ struct ComputePipelineCreateInfo: CStructConvertible {
     }
 }
 
-struct VertexInputBindingDescription: CStructConvertible {
+public struct VertexInputBindingDescription: CStructConvertible {
     typealias CStruct = VkVertexInputBindingDescription
 
-    let binding: UInt32
-    let stride: UInt32
-    let inputRate: VertexInputRate
+    public let binding: UInt32
+    public let stride: UInt32
+    public let inputRate: VertexInputRate
 
     init(cStruct: VkVertexInputBindingDescription) {
         self.binding = cStruct.binding
@@ -1771,13 +1771,13 @@ struct VertexInputBindingDescription: CStructConvertible {
     }
 }
 
-struct VertexInputAttributeDescription: CStructConvertible {
+public struct VertexInputAttributeDescription: CStructConvertible {
     typealias CStruct = VkVertexInputAttributeDescription
 
-    let location: UInt32
-    let binding: UInt32
-    let format: Format
-    let offset: UInt32
+    public let location: UInt32
+    public let binding: UInt32
+    public let format: Format
+    public let offset: UInt32
 
     init(cStruct: VkVertexInputAttributeDescription) {
         self.location = cStruct.location
@@ -1796,12 +1796,12 @@ struct VertexInputAttributeDescription: CStructConvertible {
     }
 }
 
-struct PipelineVertexInputStateCreateInfo: CStructConvertible {
+public struct PipelineVertexInputStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineVertexInputStateCreateInfo
 
-    let flags: PipelineVertexInputStateCreateFlags
-    let vertexBindingDescriptions: Array<VertexInputBindingDescription>
-    let vertexAttributeDescriptions: Array<VertexInputAttributeDescription>
+    public let flags: PipelineVertexInputStateCreateFlags
+    public let vertexBindingDescriptions: Array<VertexInputBindingDescription>
+    public let vertexAttributeDescriptions: Array<VertexInputAttributeDescription>
 
     init(cStruct: VkPipelineVertexInputStateCreateInfo) {
         self.flags = PipelineVertexInputStateCreateFlags(rawValue: cStruct.flags)
@@ -1826,12 +1826,12 @@ struct PipelineVertexInputStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineInputAssemblyStateCreateInfo: CStructConvertible {
+public struct PipelineInputAssemblyStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineInputAssemblyStateCreateInfo
 
-    let flags: PipelineInputAssemblyStateCreateFlags
-    let topology: PrimitiveTopology
-    let primitiveRestartEnable: Bool
+    public let flags: PipelineInputAssemblyStateCreateFlags
+    public let topology: PrimitiveTopology
+    public let primitiveRestartEnable: Bool
 
     init(cStruct: VkPipelineInputAssemblyStateCreateInfo) {
         self.flags = PipelineInputAssemblyStateCreateFlags(rawValue: cStruct.flags)
@@ -1850,11 +1850,11 @@ struct PipelineInputAssemblyStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineTessellationStateCreateInfo: CStructConvertible {
+public struct PipelineTessellationStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineTessellationStateCreateInfo
 
-    let flags: PipelineTessellationStateCreateFlags
-    let patchControlPoints: UInt32
+    public let flags: PipelineTessellationStateCreateFlags
+    public let patchControlPoints: UInt32
 
     init(cStruct: VkPipelineTessellationStateCreateInfo) {
         self.flags = PipelineTessellationStateCreateFlags(rawValue: cStruct.flags)
@@ -1871,12 +1871,12 @@ struct PipelineTessellationStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineViewportStateCreateInfo: CStructConvertible {
+public struct PipelineViewportStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineViewportStateCreateInfo
 
-    let flags: PipelineViewportStateCreateFlags
-    let viewports: Array<Viewport>?
-    let scissors: Array<Rect2D>?
+    public let flags: PipelineViewportStateCreateFlags
+    public let viewports: Array<Viewport>?
+    public let scissors: Array<Rect2D>?
 
     init(cStruct: VkPipelineViewportStateCreateInfo) {
         self.flags = PipelineViewportStateCreateFlags(rawValue: cStruct.flags)
@@ -1901,20 +1901,20 @@ struct PipelineViewportStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineRasterizationStateCreateInfo: CStructConvertible {
+public struct PipelineRasterizationStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationStateCreateInfo
 
-    let flags: PipelineRasterizationStateCreateFlags
-    let depthClampEnable: Bool
-    let rasterizerDiscardEnable: Bool
-    let polygonMode: PolygonMode
-    let cullMode: CullModeFlags
-    let frontFace: FrontFace
-    let depthBiasEnable: Bool
-    let depthBiasConstantFactor: Float
-    let depthBiasClamp: Float
-    let depthBiasSlopeFactor: Float
-    let lineWidth: Float
+    public let flags: PipelineRasterizationStateCreateFlags
+    public let depthClampEnable: Bool
+    public let rasterizerDiscardEnable: Bool
+    public let polygonMode: PolygonMode
+    public let cullMode: CullModeFlags
+    public let frontFace: FrontFace
+    public let depthBiasEnable: Bool
+    public let depthBiasConstantFactor: Float
+    public let depthBiasClamp: Float
+    public let depthBiasSlopeFactor: Float
+    public let lineWidth: Float
 
     init(cStruct: VkPipelineRasterizationStateCreateInfo) {
         self.flags = PipelineRasterizationStateCreateFlags(rawValue: cStruct.flags)
@@ -1949,16 +1949,16 @@ struct PipelineRasterizationStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineMultisampleStateCreateInfo: CStructConvertible {
+public struct PipelineMultisampleStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineMultisampleStateCreateInfo
 
-    let flags: PipelineMultisampleStateCreateFlags
-    let rasterizationSamples: SampleCountFlags
-    let sampleShadingEnable: Bool
-    let minSampleShading: Float
-    let sampleMask: UnsafePointer<VkSampleMask>
-    let alphaToCoverageEnable: Bool
-    let alphaToOneEnable: Bool
+    public let flags: PipelineMultisampleStateCreateFlags
+    public let rasterizationSamples: SampleCountFlags
+    public let sampleShadingEnable: Bool
+    public let minSampleShading: Float
+    public let sampleMask: UnsafePointer<VkSampleMask>
+    public let alphaToCoverageEnable: Bool
+    public let alphaToOneEnable: Bool
 
     init(cStruct: VkPipelineMultisampleStateCreateInfo) {
         self.flags = PipelineMultisampleStateCreateFlags(rawValue: cStruct.flags)
@@ -1985,17 +1985,17 @@ struct PipelineMultisampleStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineColorBlendAttachmentState: CStructConvertible {
+public struct PipelineColorBlendAttachmentState: CStructConvertible {
     typealias CStruct = VkPipelineColorBlendAttachmentState
 
-    let blendEnable: Bool
-    let srcColorBlendFactor: BlendFactor
-    let dstColorBlendFactor: BlendFactor
-    let colorBlendOp: BlendOp
-    let srcAlphaBlendFactor: BlendFactor
-    let dstAlphaBlendFactor: BlendFactor
-    let alphaBlendOp: BlendOp
-    let colorWriteMask: ColorComponentFlags
+    public let blendEnable: Bool
+    public let srcColorBlendFactor: BlendFactor
+    public let dstColorBlendFactor: BlendFactor
+    public let colorBlendOp: BlendOp
+    public let srcAlphaBlendFactor: BlendFactor
+    public let dstAlphaBlendFactor: BlendFactor
+    public let alphaBlendOp: BlendOp
+    public let colorWriteMask: ColorComponentFlags
 
     init(cStruct: VkPipelineColorBlendAttachmentState) {
         self.blendEnable = cStruct.blendEnable == VK_TRUE
@@ -2022,14 +2022,14 @@ struct PipelineColorBlendAttachmentState: CStructConvertible {
     }
 }
 
-struct PipelineColorBlendStateCreateInfo: CStructConvertible {
+public struct PipelineColorBlendStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineColorBlendStateCreateInfo
 
-    let flags: PipelineColorBlendStateCreateFlags
-    let logicOpEnable: Bool
-    let logicOp: LogicOp
-    let attachments: Array<PipelineColorBlendAttachmentState>
-    let blendConstants: (Float, Float, Float, Float)
+    public let flags: PipelineColorBlendStateCreateFlags
+    public let logicOpEnable: Bool
+    public let logicOp: LogicOp
+    public let attachments: Array<PipelineColorBlendAttachmentState>
+    public let blendConstants: (Float, Float, Float, Float)
 
     init(cStruct: VkPipelineColorBlendStateCreateInfo) {
         self.flags = PipelineColorBlendStateCreateFlags(rawValue: cStruct.flags)
@@ -2055,11 +2055,11 @@ struct PipelineColorBlendStateCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineDynamicStateCreateInfo: CStructConvertible {
+public struct PipelineDynamicStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineDynamicStateCreateInfo
 
-    let flags: PipelineDynamicStateCreateFlags
-    let dynamicStates: Array<DynamicState>
+    public let flags: PipelineDynamicStateCreateFlags
+    public let dynamicStates: Array<DynamicState>
 
     init(cStruct: VkPipelineDynamicStateCreateInfo) {
         self.flags = PipelineDynamicStateCreateFlags(rawValue: cStruct.flags)
@@ -2079,16 +2079,16 @@ struct PipelineDynamicStateCreateInfo: CStructConvertible {
     }
 }
 
-struct StencilOpState: CStructConvertible {
+public struct StencilOpState: CStructConvertible {
     typealias CStruct = VkStencilOpState
 
-    let failOp: StencilOp
-    let passOp: StencilOp
-    let depthFailOp: StencilOp
-    let compareOp: CompareOp
-    let compareMask: UInt32
-    let writeMask: UInt32
-    let reference: UInt32
+    public let failOp: StencilOp
+    public let passOp: StencilOp
+    public let depthFailOp: StencilOp
+    public let compareOp: CompareOp
+    public let compareMask: UInt32
+    public let writeMask: UInt32
+    public let reference: UInt32
 
     init(cStruct: VkStencilOpState) {
         self.failOp = StencilOp(rawValue: cStruct.failOp.rawValue)!
@@ -2113,19 +2113,19 @@ struct StencilOpState: CStructConvertible {
     }
 }
 
-struct PipelineDepthStencilStateCreateInfo: CStructConvertible {
+public struct PipelineDepthStencilStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineDepthStencilStateCreateInfo
 
-    let flags: PipelineDepthStencilStateCreateFlags
-    let depthTestEnable: Bool
-    let depthWriteEnable: Bool
-    let depthCompareOp: CompareOp
-    let depthBoundsTestEnable: Bool
-    let stencilTestEnable: Bool
-    let front: StencilOpState
-    let back: StencilOpState
-    let minDepthBounds: Float
-    let maxDepthBounds: Float
+    public let flags: PipelineDepthStencilStateCreateFlags
+    public let depthTestEnable: Bool
+    public let depthWriteEnable: Bool
+    public let depthCompareOp: CompareOp
+    public let depthBoundsTestEnable: Bool
+    public let stencilTestEnable: Bool
+    public let front: StencilOpState
+    public let back: StencilOpState
+    public let minDepthBounds: Float
+    public let maxDepthBounds: Float
 
     init(cStruct: VkPipelineDepthStencilStateCreateInfo) {
         self.flags = PipelineDepthStencilStateCreateFlags(rawValue: cStruct.flags)
@@ -2162,25 +2162,25 @@ struct PipelineDepthStencilStateCreateInfo: CStructConvertible {
     }
 }
 
-struct GraphicsPipelineCreateInfo: CStructConvertible {
+public struct GraphicsPipelineCreateInfo: CStructConvertible {
     typealias CStruct = VkGraphicsPipelineCreateInfo
 
-    let flags: PipelineCreateFlags
-    let stages: Array<PipelineShaderStageCreateInfo>
-    let vertexInputState: PipelineVertexInputStateCreateInfo?
-    let inputAssemblyState: PipelineInputAssemblyStateCreateInfo?
-    let tessellationState: PipelineTessellationStateCreateInfo?
-    let viewportState: PipelineViewportStateCreateInfo?
-    let rasterizationState: PipelineRasterizationStateCreateInfo
-    let multisampleState: PipelineMultisampleStateCreateInfo?
-    let depthStencilState: PipelineDepthStencilStateCreateInfo?
-    let colorBlendState: PipelineColorBlendStateCreateInfo?
-    let dynamicState: PipelineDynamicStateCreateInfo?
-    let layout: PipelineLayout
-    let renderPass: RenderPass
-    let subpass: UInt32
-    let basePipelineHandle: Pipeline?
-    let basePipelineIndex: Int32
+    public let flags: PipelineCreateFlags
+    public let stages: Array<PipelineShaderStageCreateInfo>
+    public let vertexInputState: PipelineVertexInputStateCreateInfo?
+    public let inputAssemblyState: PipelineInputAssemblyStateCreateInfo?
+    public let tessellationState: PipelineTessellationStateCreateInfo?
+    public let viewportState: PipelineViewportStateCreateInfo?
+    public let rasterizationState: PipelineRasterizationStateCreateInfo
+    public let multisampleState: PipelineMultisampleStateCreateInfo?
+    public let depthStencilState: PipelineDepthStencilStateCreateInfo?
+    public let colorBlendState: PipelineColorBlendStateCreateInfo?
+    public let dynamicState: PipelineDynamicStateCreateInfo?
+    public let layout: PipelineLayout
+    public let renderPass: RenderPass
+    public let subpass: UInt32
+    public let basePipelineHandle: Pipeline?
+    public let basePipelineIndex: Int32
 
     init(cStruct: VkGraphicsPipelineCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -2231,12 +2231,12 @@ struct GraphicsPipelineCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineCacheCreateInfo: CStructConvertible {
+public struct PipelineCacheCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineCacheCreateInfo
 
-    let flags: PipelineCacheCreateFlags
-    let initialDataSize: Int
-    let initialData: UnsafeRawPointer
+    public let flags: PipelineCacheCreateFlags
+    public let initialDataSize: Int
+    public let initialData: UnsafeRawPointer
 
     init(cStruct: VkPipelineCacheCreateInfo) {
         self.flags = PipelineCacheCreateFlags(rawValue: cStruct.flags)
@@ -2255,12 +2255,12 @@ struct PipelineCacheCreateInfo: CStructConvertible {
     }
 }
 
-struct PushConstantRange: CStructConvertible {
+public struct PushConstantRange: CStructConvertible {
     typealias CStruct = VkPushConstantRange
 
-    let stageFlags: ShaderStageFlags
-    let offset: UInt32
-    let size: UInt32
+    public let stageFlags: ShaderStageFlags
+    public let offset: UInt32
+    public let size: UInt32
 
     init(cStruct: VkPushConstantRange) {
         self.stageFlags = ShaderStageFlags(rawValue: cStruct.stageFlags)
@@ -2277,12 +2277,12 @@ struct PushConstantRange: CStructConvertible {
     }
 }
 
-struct PipelineLayoutCreateInfo: CStructConvertible {
+public struct PipelineLayoutCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineLayoutCreateInfo
 
-    let flags: PipelineLayoutCreateFlags
-    let setLayouts: Array<DescriptorSetLayout>
-    let pushConstantRanges: Array<PushConstantRange>
+    public let flags: PipelineLayoutCreateFlags
+    public let setLayouts: Array<DescriptorSetLayout>
+    public let pushConstantRanges: Array<PushConstantRange>
 
     init(cStruct: VkPipelineLayoutCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -2305,25 +2305,25 @@ struct PipelineLayoutCreateInfo: CStructConvertible {
     }
 }
 
-struct SamplerCreateInfo: CStructConvertible {
+public struct SamplerCreateInfo: CStructConvertible {
     typealias CStruct = VkSamplerCreateInfo
 
-    let flags: SamplerCreateFlags
-    let magFilter: Filter
-    let minFilter: Filter
-    let mipmapMode: SamplerMipmapMode
-    let addressModeU: SamplerAddressMode
-    let addressModeV: SamplerAddressMode
-    let addressModeW: SamplerAddressMode
-    let mipLodBias: Float
-    let anisotropyEnable: Bool
-    let maxAnisotropy: Float
-    let compareEnable: Bool
-    let compareOp: CompareOp
-    let minLod: Float
-    let maxLod: Float
-    let borderColor: BorderColor
-    let unnormalizedCoordinates: Bool
+    public let flags: SamplerCreateFlags
+    public let magFilter: Filter
+    public let minFilter: Filter
+    public let mipmapMode: SamplerMipmapMode
+    public let addressModeU: SamplerAddressMode
+    public let addressModeV: SamplerAddressMode
+    public let addressModeW: SamplerAddressMode
+    public let mipLodBias: Float
+    public let anisotropyEnable: Bool
+    public let maxAnisotropy: Float
+    public let compareEnable: Bool
+    public let compareOp: CompareOp
+    public let minLod: Float
+    public let maxLod: Float
+    public let borderColor: BorderColor
+    public let unnormalizedCoordinates: Bool
 
     init(cStruct: VkSamplerCreateInfo) {
         self.flags = SamplerCreateFlags(rawValue: cStruct.flags)
@@ -2368,11 +2368,11 @@ struct SamplerCreateInfo: CStructConvertible {
     }
 }
 
-struct CommandPoolCreateInfo: CStructConvertible {
+public struct CommandPoolCreateInfo: CStructConvertible {
     typealias CStruct = VkCommandPoolCreateInfo
 
-    let flags: CommandPoolCreateFlags
-    let queueFamilyIndex: UInt32
+    public let flags: CommandPoolCreateFlags
+    public let queueFamilyIndex: UInt32
 
     init(cStruct: VkCommandPoolCreateInfo) {
         self.flags = CommandPoolCreateFlags(rawValue: cStruct.flags)
@@ -2389,12 +2389,12 @@ struct CommandPoolCreateInfo: CStructConvertible {
     }
 }
 
-struct CommandBufferAllocateInfo: CStructConvertible {
+public struct CommandBufferAllocateInfo: CStructConvertible {
     typealias CStruct = VkCommandBufferAllocateInfo
 
-    let commandPool: CommandPool
-    let level: CommandBufferLevel
-    let commandBufferCount: UInt32
+    public let commandPool: CommandPool
+    public let level: CommandBufferLevel
+    public let commandBufferCount: UInt32
 
     init(cStruct: VkCommandBufferAllocateInfo) {
         fatalError("This initializer should be removed.")
@@ -2411,15 +2411,15 @@ struct CommandBufferAllocateInfo: CStructConvertible {
     }
 }
 
-struct CommandBufferInheritanceInfo: CStructConvertible {
+public struct CommandBufferInheritanceInfo: CStructConvertible {
     typealias CStruct = VkCommandBufferInheritanceInfo
 
-    let renderPass: RenderPass?
-    let subpass: UInt32
-    let framebuffer: Framebuffer?
-    let occlusionQueryEnable: Bool
-    let queryFlags: QueryControlFlags
-    let pipelineStatistics: QueryPipelineStatisticFlags
+    public let renderPass: RenderPass?
+    public let subpass: UInt32
+    public let framebuffer: Framebuffer?
+    public let occlusionQueryEnable: Bool
+    public let queryFlags: QueryControlFlags
+    public let pipelineStatistics: QueryPipelineStatisticFlags
 
     init(cStruct: VkCommandBufferInheritanceInfo) {
         fatalError("This initializer should be removed.")
@@ -2439,11 +2439,11 @@ struct CommandBufferInheritanceInfo: CStructConvertible {
     }
 }
 
-struct CommandBufferBeginInfo: CStructConvertible {
+public struct CommandBufferBeginInfo: CStructConvertible {
     typealias CStruct = VkCommandBufferBeginInfo
 
-    let flags: CommandBufferUsageFlags
-    let inheritanceInfo: CommandBufferInheritanceInfo?
+    public let flags: CommandBufferUsageFlags
+    public let inheritanceInfo: CommandBufferInheritanceInfo?
 
     init(cStruct: VkCommandBufferBeginInfo) {
         self.flags = CommandBufferUsageFlags(rawValue: cStruct.flags)
@@ -2462,13 +2462,13 @@ struct CommandBufferBeginInfo: CStructConvertible {
     }
 }
 
-struct RenderPassBeginInfo: CStructConvertible {
+public struct RenderPassBeginInfo: CStructConvertible {
     typealias CStruct = VkRenderPassBeginInfo
 
-    let renderPass: RenderPass
-    let framebuffer: Framebuffer
-    let renderArea: Rect2D
-    let clearValues: Array<VkClearValue>
+    public let renderPass: RenderPass
+    public let framebuffer: Framebuffer
+    public let renderArea: Rect2D
+    public let clearValues: Array<VkClearValue>
 
     init(cStruct: VkRenderPassBeginInfo) {
         fatalError("This initializer should be removed.")
@@ -2491,11 +2491,11 @@ struct RenderPassBeginInfo: CStructConvertible {
     }
 }
 
-struct ClearDepthStencilValue: CStructConvertible {
+public struct ClearDepthStencilValue: CStructConvertible {
     typealias CStruct = VkClearDepthStencilValue
 
-    let depth: Float
-    let stencil: UInt32
+    public let depth: Float
+    public let stencil: UInt32
 
     init(cStruct: VkClearDepthStencilValue) {
         self.depth = cStruct.depth
@@ -2510,12 +2510,12 @@ struct ClearDepthStencilValue: CStructConvertible {
     }
 }
 
-struct ClearAttachment: CStructConvertible {
+public struct ClearAttachment: CStructConvertible {
     typealias CStruct = VkClearAttachment
 
-    let aspectMask: ImageAspectFlags
-    let colorAttachment: UInt32
-    let clearValue: VkClearValue
+    public let aspectMask: ImageAspectFlags
+    public let colorAttachment: UInt32
+    public let clearValue: VkClearValue
 
     init(cStruct: VkClearAttachment) {
         self.aspectMask = ImageAspectFlags(rawValue: cStruct.aspectMask)
@@ -2532,18 +2532,18 @@ struct ClearAttachment: CStructConvertible {
     }
 }
 
-struct AttachmentDescription: CStructConvertible {
+public struct AttachmentDescription: CStructConvertible {
     typealias CStruct = VkAttachmentDescription
 
-    let flags: AttachmentDescriptionFlags
-    let format: Format
-    let samples: SampleCountFlags
-    let loadOp: AttachmentLoadOp
-    let storeOp: AttachmentStoreOp
-    let stencilLoadOp: AttachmentLoadOp
-    let stencilStoreOp: AttachmentStoreOp
-    let initialLayout: ImageLayout
-    let finalLayout: ImageLayout
+    public let flags: AttachmentDescriptionFlags
+    public let format: Format
+    public let samples: SampleCountFlags
+    public let loadOp: AttachmentLoadOp
+    public let storeOp: AttachmentStoreOp
+    public let stencilLoadOp: AttachmentLoadOp
+    public let stencilStoreOp: AttachmentStoreOp
+    public let initialLayout: ImageLayout
+    public let finalLayout: ImageLayout
 
     init(cStruct: VkAttachmentDescription) {
         self.flags = AttachmentDescriptionFlags(rawValue: cStruct.flags)
@@ -2572,11 +2572,11 @@ struct AttachmentDescription: CStructConvertible {
     }
 }
 
-struct AttachmentReference: CStructConvertible {
+public struct AttachmentReference: CStructConvertible {
     typealias CStruct = VkAttachmentReference
 
-    let attachment: UInt32
-    let layout: ImageLayout
+    public let attachment: UInt32
+    public let layout: ImageLayout
 
     init(cStruct: VkAttachmentReference) {
         self.attachment = cStruct.attachment
@@ -2591,16 +2591,16 @@ struct AttachmentReference: CStructConvertible {
     }
 }
 
-struct SubpassDescription: CStructConvertible {
+public struct SubpassDescription: CStructConvertible {
     typealias CStruct = VkSubpassDescription
 
-    let flags: SubpassDescriptionFlags
-    let pipelineBindPoint: PipelineBindPoint
-    let inputAttachments: Array<AttachmentReference>
-    let colorAttachments: Array<AttachmentReference>
-    let resolveAttachments: Array<AttachmentReference>?
-    let depthStencilAttachment: AttachmentReference?
-    let preserveAttachments: Array<UInt32>
+    public let flags: SubpassDescriptionFlags
+    public let pipelineBindPoint: PipelineBindPoint
+    public let inputAttachments: Array<AttachmentReference>
+    public let colorAttachments: Array<AttachmentReference>
+    public let resolveAttachments: Array<AttachmentReference>?
+    public let depthStencilAttachment: AttachmentReference?
+    public let preserveAttachments: Array<UInt32>
 
     init(cStruct: VkSubpassDescription) {
         self.flags = SubpassDescriptionFlags(rawValue: cStruct.flags)
@@ -2638,16 +2638,16 @@ struct SubpassDescription: CStructConvertible {
     }
 }
 
-struct SubpassDependency: CStructConvertible {
+public struct SubpassDependency: CStructConvertible {
     typealias CStruct = VkSubpassDependency
 
-    let srcSubpass: UInt32
-    let dstSubpass: UInt32
-    let srcStageMask: PipelineStageFlags
-    let dstStageMask: PipelineStageFlags
-    let srcAccessMask: AccessFlags
-    let dstAccessMask: AccessFlags
-    let dependencyFlags: DependencyFlags
+    public let srcSubpass: UInt32
+    public let dstSubpass: UInt32
+    public let srcStageMask: PipelineStageFlags
+    public let dstStageMask: PipelineStageFlags
+    public let srcAccessMask: AccessFlags
+    public let dstAccessMask: AccessFlags
+    public let dependencyFlags: DependencyFlags
 
     init(cStruct: VkSubpassDependency) {
         self.srcSubpass = cStruct.srcSubpass
@@ -2672,13 +2672,13 @@ struct SubpassDependency: CStructConvertible {
     }
 }
 
-struct RenderPassCreateInfo: CStructConvertible {
+public struct RenderPassCreateInfo: CStructConvertible {
     typealias CStruct = VkRenderPassCreateInfo
 
-    let flags: RenderPassCreateFlags
-    let attachments: Array<AttachmentDescription>
-    let subpasses: Array<SubpassDescription>
-    let dependencies: Array<SubpassDependency>
+    public let flags: RenderPassCreateFlags
+    public let attachments: Array<AttachmentDescription>
+    public let subpasses: Array<SubpassDescription>
+    public let dependencies: Array<SubpassDependency>
 
     init(cStruct: VkRenderPassCreateInfo) {
         self.flags = RenderPassCreateFlags(rawValue: cStruct.flags)
@@ -2708,10 +2708,10 @@ struct RenderPassCreateInfo: CStructConvertible {
     }
 }
 
-struct EventCreateInfo: CStructConvertible {
+public struct EventCreateInfo: CStructConvertible {
     typealias CStruct = VkEventCreateInfo
 
-    let flags: EventCreateFlags
+    public let flags: EventCreateFlags
 
     init(cStruct: VkEventCreateInfo) {
         self.flags = EventCreateFlags(rawValue: cStruct.flags)
@@ -2726,10 +2726,10 @@ struct EventCreateInfo: CStructConvertible {
     }
 }
 
-struct FenceCreateInfo: CStructConvertible {
+public struct FenceCreateInfo: CStructConvertible {
     typealias CStruct = VkFenceCreateInfo
 
-    let flags: FenceCreateFlags
+    public let flags: FenceCreateFlags
 
     init(cStruct: VkFenceCreateInfo) {
         self.flags = FenceCreateFlags(rawValue: cStruct.flags)
@@ -2744,64 +2744,64 @@ struct FenceCreateInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFeatures: CStructConvertible {
+public struct PhysicalDeviceFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFeatures
 
-    let robustBufferAccess: Bool
-    let fullDrawIndexUint32: Bool
-    let imageCubeArray: Bool
-    let independentBlend: Bool
-    let geometryShader: Bool
-    let tessellationShader: Bool
-    let sampleRateShading: Bool
-    let dualSrcBlend: Bool
-    let logicOp: Bool
-    let multiDrawIndirect: Bool
-    let drawIndirectFirstInstance: Bool
-    let depthClamp: Bool
-    let depthBiasClamp: Bool
-    let fillModeNonSolid: Bool
-    let depthBounds: Bool
-    let wideLines: Bool
-    let largePoints: Bool
-    let alphaToOne: Bool
-    let multiViewport: Bool
-    let samplerAnisotropy: Bool
-    let textureCompressionETC2: Bool
-    let textureCompressionASTC_LDR: Bool
-    let textureCompressionBC: Bool
-    let occlusionQueryPrecise: Bool
-    let pipelineStatisticsQuery: Bool
-    let vertexPipelineStoresAndAtomics: Bool
-    let fragmentStoresAndAtomics: Bool
-    let shaderTessellationAndGeometryPointSize: Bool
-    let shaderImageGatherExtended: Bool
-    let shaderStorageImageExtendedFormats: Bool
-    let shaderStorageImageMultisample: Bool
-    let shaderStorageImageReadWithoutFormat: Bool
-    let shaderStorageImageWriteWithoutFormat: Bool
-    let shaderUniformBufferArrayDynamicIndexing: Bool
-    let shaderSampledImageArrayDynamicIndexing: Bool
-    let shaderStorageBufferArrayDynamicIndexing: Bool
-    let shaderStorageImageArrayDynamicIndexing: Bool
-    let shaderClipDistance: Bool
-    let shaderCullDistance: Bool
-    let shaderFloat64: Bool
-    let shaderInt64: Bool
-    let shaderInt16: Bool
-    let shaderResourceResidency: Bool
-    let shaderResourceMinLod: Bool
-    let sparseBinding: Bool
-    let sparseResidencyBuffer: Bool
-    let sparseResidencyImage2D: Bool
-    let sparseResidencyImage3D: Bool
-    let sparseResidency2Samples: Bool
-    let sparseResidency4Samples: Bool
-    let sparseResidency8Samples: Bool
-    let sparseResidency16Samples: Bool
-    let sparseResidencyAliased: Bool
-    let variableMultisampleRate: Bool
-    let inheritedQueries: Bool
+    public let robustBufferAccess: Bool
+    public let fullDrawIndexUint32: Bool
+    public let imageCubeArray: Bool
+    public let independentBlend: Bool
+    public let geometryShader: Bool
+    public let tessellationShader: Bool
+    public let sampleRateShading: Bool
+    public let dualSrcBlend: Bool
+    public let logicOp: Bool
+    public let multiDrawIndirect: Bool
+    public let drawIndirectFirstInstance: Bool
+    public let depthClamp: Bool
+    public let depthBiasClamp: Bool
+    public let fillModeNonSolid: Bool
+    public let depthBounds: Bool
+    public let wideLines: Bool
+    public let largePoints: Bool
+    public let alphaToOne: Bool
+    public let multiViewport: Bool
+    public let samplerAnisotropy: Bool
+    public let textureCompressionETC2: Bool
+    public let textureCompressionASTC_LDR: Bool
+    public let textureCompressionBC: Bool
+    public let occlusionQueryPrecise: Bool
+    public let pipelineStatisticsQuery: Bool
+    public let vertexPipelineStoresAndAtomics: Bool
+    public let fragmentStoresAndAtomics: Bool
+    public let shaderTessellationAndGeometryPointSize: Bool
+    public let shaderImageGatherExtended: Bool
+    public let shaderStorageImageExtendedFormats: Bool
+    public let shaderStorageImageMultisample: Bool
+    public let shaderStorageImageReadWithoutFormat: Bool
+    public let shaderStorageImageWriteWithoutFormat: Bool
+    public let shaderUniformBufferArrayDynamicIndexing: Bool
+    public let shaderSampledImageArrayDynamicIndexing: Bool
+    public let shaderStorageBufferArrayDynamicIndexing: Bool
+    public let shaderStorageImageArrayDynamicIndexing: Bool
+    public let shaderClipDistance: Bool
+    public let shaderCullDistance: Bool
+    public let shaderFloat64: Bool
+    public let shaderInt64: Bool
+    public let shaderInt16: Bool
+    public let shaderResourceResidency: Bool
+    public let shaderResourceMinLod: Bool
+    public let sparseBinding: Bool
+    public let sparseResidencyBuffer: Bool
+    public let sparseResidencyImage2D: Bool
+    public let sparseResidencyImage3D: Bool
+    public let sparseResidency2Samples: Bool
+    public let sparseResidency4Samples: Bool
+    public let sparseResidency8Samples: Bool
+    public let sparseResidency16Samples: Bool
+    public let sparseResidencyAliased: Bool
+    public let variableMultisampleRate: Bool
+    public let inheritedQueries: Bool
 
     init(cStruct: VkPhysicalDeviceFeatures) {
         self.robustBufferAccess = cStruct.robustBufferAccess == VK_TRUE
@@ -2922,14 +2922,14 @@ struct PhysicalDeviceFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSparseProperties: CStructConvertible {
+public struct PhysicalDeviceSparseProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSparseProperties
 
-    let residencyStandard2DBlockShape: Bool
-    let residencyStandard2DMultisampleBlockShape: Bool
-    let residencyStandard3DBlockShape: Bool
-    let residencyAlignedMipSize: Bool
-    let residencyNonResidentStrict: Bool
+    public let residencyStandard2DBlockShape: Bool
+    public let residencyStandard2DMultisampleBlockShape: Bool
+    public let residencyStandard3DBlockShape: Bool
+    public let residencyAlignedMipSize: Bool
+    public let residencyNonResidentStrict: Bool
 
     init(cStruct: VkPhysicalDeviceSparseProperties) {
         self.residencyStandard2DBlockShape = cStruct.residencyStandard2DBlockShape == VK_TRUE
@@ -2950,115 +2950,115 @@ struct PhysicalDeviceSparseProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceLimits: CStructConvertible {
+public struct PhysicalDeviceLimits: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceLimits
 
-    let maxImageDimension1D: UInt32
-    let maxImageDimension2D: UInt32
-    let maxImageDimension3D: UInt32
-    let maxImageDimensionCube: UInt32
-    let maxImageArrayLayers: UInt32
-    let maxTexelBufferElements: UInt32
-    let maxUniformBufferRange: UInt32
-    let maxStorageBufferRange: UInt32
-    let maxPushConstantsSize: UInt32
-    let maxMemoryAllocationCount: UInt32
-    let maxSamplerAllocationCount: UInt32
-    let bufferImageGranularity: VkDeviceSize
-    let sparseAddressSpaceSize: VkDeviceSize
-    let maxBoundDescriptorSets: UInt32
-    let maxPerStageDescriptorSamplers: UInt32
-    let maxPerStageDescriptorUniformBuffers: UInt32
-    let maxPerStageDescriptorStorageBuffers: UInt32
-    let maxPerStageDescriptorSampledImages: UInt32
-    let maxPerStageDescriptorStorageImages: UInt32
-    let maxPerStageDescriptorInputAttachments: UInt32
-    let maxPerStageResources: UInt32
-    let maxDescriptorSetSamplers: UInt32
-    let maxDescriptorSetUniformBuffers: UInt32
-    let maxDescriptorSetUniformBuffersDynamic: UInt32
-    let maxDescriptorSetStorageBuffers: UInt32
-    let maxDescriptorSetStorageBuffersDynamic: UInt32
-    let maxDescriptorSetSampledImages: UInt32
-    let maxDescriptorSetStorageImages: UInt32
-    let maxDescriptorSetInputAttachments: UInt32
-    let maxVertexInputAttributes: UInt32
-    let maxVertexInputBindings: UInt32
-    let maxVertexInputAttributeOffset: UInt32
-    let maxVertexInputBindingStride: UInt32
-    let maxVertexOutputComponents: UInt32
-    let maxTessellationGenerationLevel: UInt32
-    let maxTessellationPatchSize: UInt32
-    let maxTessellationControlPerVertexInputComponents: UInt32
-    let maxTessellationControlPerVertexOutputComponents: UInt32
-    let maxTessellationControlPerPatchOutputComponents: UInt32
-    let maxTessellationControlTotalOutputComponents: UInt32
-    let maxTessellationEvaluationInputComponents: UInt32
-    let maxTessellationEvaluationOutputComponents: UInt32
-    let maxGeometryShaderInvocations: UInt32
-    let maxGeometryInputComponents: UInt32
-    let maxGeometryOutputComponents: UInt32
-    let maxGeometryOutputVertices: UInt32
-    let maxGeometryTotalOutputComponents: UInt32
-    let maxFragmentInputComponents: UInt32
-    let maxFragmentOutputAttachments: UInt32
-    let maxFragmentDualSrcAttachments: UInt32
-    let maxFragmentCombinedOutputResources: UInt32
-    let maxComputeSharedMemorySize: UInt32
-    let maxComputeWorkGroupCount: (UInt32, UInt32, UInt32)
-    let maxComputeWorkGroupInvocations: UInt32
-    let maxComputeWorkGroupSize: (UInt32, UInt32, UInt32)
-    let subPixelPrecisionBits: UInt32
-    let subTexelPrecisionBits: UInt32
-    let mipmapPrecisionBits: UInt32
-    let maxDrawIndexedIndexValue: UInt32
-    let maxDrawIndirectCount: UInt32
-    let maxSamplerLodBias: Float
-    let maxSamplerAnisotropy: Float
-    let maxViewports: UInt32
-    let maxViewportDimensions: (UInt32, UInt32)
-    let viewportBoundsRange: (Float, Float)
-    let viewportSubPixelBits: UInt32
-    let minMemoryMapAlignment: Int
-    let minTexelBufferOffsetAlignment: VkDeviceSize
-    let minUniformBufferOffsetAlignment: VkDeviceSize
-    let minStorageBufferOffsetAlignment: VkDeviceSize
-    let minTexelOffset: Int32
-    let maxTexelOffset: UInt32
-    let minTexelGatherOffset: Int32
-    let maxTexelGatherOffset: UInt32
-    let minInterpolationOffset: Float
-    let maxInterpolationOffset: Float
-    let subPixelInterpolationOffsetBits: UInt32
-    let maxFramebufferWidth: UInt32
-    let maxFramebufferHeight: UInt32
-    let maxFramebufferLayers: UInt32
-    let framebufferColorSampleCounts: SampleCountFlags
-    let framebufferDepthSampleCounts: SampleCountFlags
-    let framebufferStencilSampleCounts: SampleCountFlags
-    let framebufferNoAttachmentsSampleCounts: SampleCountFlags
-    let maxColorAttachments: UInt32
-    let sampledImageColorSampleCounts: SampleCountFlags
-    let sampledImageIntegerSampleCounts: SampleCountFlags
-    let sampledImageDepthSampleCounts: SampleCountFlags
-    let sampledImageStencilSampleCounts: SampleCountFlags
-    let storageImageSampleCounts: SampleCountFlags
-    let maxSampleMaskWords: UInt32
-    let timestampComputeAndGraphics: Bool
-    let timestampPeriod: Float
-    let maxClipDistances: UInt32
-    let maxCullDistances: UInt32
-    let maxCombinedClipAndCullDistances: UInt32
-    let discreteQueuePriorities: UInt32
-    let pointSizeRange: (Float, Float)
-    let lineWidthRange: (Float, Float)
-    let pointSizeGranularity: Float
-    let lineWidthGranularity: Float
-    let strictLines: Bool
-    let standardSampleLocations: Bool
-    let optimalBufferCopyOffsetAlignment: VkDeviceSize
-    let optimalBufferCopyRowPitchAlignment: VkDeviceSize
-    let nonCoherentAtomSize: VkDeviceSize
+    public let maxImageDimension1D: UInt32
+    public let maxImageDimension2D: UInt32
+    public let maxImageDimension3D: UInt32
+    public let maxImageDimensionCube: UInt32
+    public let maxImageArrayLayers: UInt32
+    public let maxTexelBufferElements: UInt32
+    public let maxUniformBufferRange: UInt32
+    public let maxStorageBufferRange: UInt32
+    public let maxPushConstantsSize: UInt32
+    public let maxMemoryAllocationCount: UInt32
+    public let maxSamplerAllocationCount: UInt32
+    public let bufferImageGranularity: VkDeviceSize
+    public let sparseAddressSpaceSize: VkDeviceSize
+    public let maxBoundDescriptorSets: UInt32
+    public let maxPerStageDescriptorSamplers: UInt32
+    public let maxPerStageDescriptorUniformBuffers: UInt32
+    public let maxPerStageDescriptorStorageBuffers: UInt32
+    public let maxPerStageDescriptorSampledImages: UInt32
+    public let maxPerStageDescriptorStorageImages: UInt32
+    public let maxPerStageDescriptorInputAttachments: UInt32
+    public let maxPerStageResources: UInt32
+    public let maxDescriptorSetSamplers: UInt32
+    public let maxDescriptorSetUniformBuffers: UInt32
+    public let maxDescriptorSetUniformBuffersDynamic: UInt32
+    public let maxDescriptorSetStorageBuffers: UInt32
+    public let maxDescriptorSetStorageBuffersDynamic: UInt32
+    public let maxDescriptorSetSampledImages: UInt32
+    public let maxDescriptorSetStorageImages: UInt32
+    public let maxDescriptorSetInputAttachments: UInt32
+    public let maxVertexInputAttributes: UInt32
+    public let maxVertexInputBindings: UInt32
+    public let maxVertexInputAttributeOffset: UInt32
+    public let maxVertexInputBindingStride: UInt32
+    public let maxVertexOutputComponents: UInt32
+    public let maxTessellationGenerationLevel: UInt32
+    public let maxTessellationPatchSize: UInt32
+    public let maxTessellationControlPerVertexInputComponents: UInt32
+    public let maxTessellationControlPerVertexOutputComponents: UInt32
+    public let maxTessellationControlPerPatchOutputComponents: UInt32
+    public let maxTessellationControlTotalOutputComponents: UInt32
+    public let maxTessellationEvaluationInputComponents: UInt32
+    public let maxTessellationEvaluationOutputComponents: UInt32
+    public let maxGeometryShaderInvocations: UInt32
+    public let maxGeometryInputComponents: UInt32
+    public let maxGeometryOutputComponents: UInt32
+    public let maxGeometryOutputVertices: UInt32
+    public let maxGeometryTotalOutputComponents: UInt32
+    public let maxFragmentInputComponents: UInt32
+    public let maxFragmentOutputAttachments: UInt32
+    public let maxFragmentDualSrcAttachments: UInt32
+    public let maxFragmentCombinedOutputResources: UInt32
+    public let maxComputeSharedMemorySize: UInt32
+    public let maxComputeWorkGroupCount: (UInt32, UInt32, UInt32)
+    public let maxComputeWorkGroupInvocations: UInt32
+    public let maxComputeWorkGroupSize: (UInt32, UInt32, UInt32)
+    public let subPixelPrecisionBits: UInt32
+    public let subTexelPrecisionBits: UInt32
+    public let mipmapPrecisionBits: UInt32
+    public let maxDrawIndexedIndexValue: UInt32
+    public let maxDrawIndirectCount: UInt32
+    public let maxSamplerLodBias: Float
+    public let maxSamplerAnisotropy: Float
+    public let maxViewports: UInt32
+    public let maxViewportDimensions: (UInt32, UInt32)
+    public let viewportBoundsRange: (Float, Float)
+    public let viewportSubPixelBits: UInt32
+    public let minMemoryMapAlignment: Int
+    public let minTexelBufferOffsetAlignment: VkDeviceSize
+    public let minUniformBufferOffsetAlignment: VkDeviceSize
+    public let minStorageBufferOffsetAlignment: VkDeviceSize
+    public let minTexelOffset: Int32
+    public let maxTexelOffset: UInt32
+    public let minTexelGatherOffset: Int32
+    public let maxTexelGatherOffset: UInt32
+    public let minInterpolationOffset: Float
+    public let maxInterpolationOffset: Float
+    public let subPixelInterpolationOffsetBits: UInt32
+    public let maxFramebufferWidth: UInt32
+    public let maxFramebufferHeight: UInt32
+    public let maxFramebufferLayers: UInt32
+    public let framebufferColorSampleCounts: SampleCountFlags
+    public let framebufferDepthSampleCounts: SampleCountFlags
+    public let framebufferStencilSampleCounts: SampleCountFlags
+    public let framebufferNoAttachmentsSampleCounts: SampleCountFlags
+    public let maxColorAttachments: UInt32
+    public let sampledImageColorSampleCounts: SampleCountFlags
+    public let sampledImageIntegerSampleCounts: SampleCountFlags
+    public let sampledImageDepthSampleCounts: SampleCountFlags
+    public let sampledImageStencilSampleCounts: SampleCountFlags
+    public let storageImageSampleCounts: SampleCountFlags
+    public let maxSampleMaskWords: UInt32
+    public let timestampComputeAndGraphics: Bool
+    public let timestampPeriod: Float
+    public let maxClipDistances: UInt32
+    public let maxCullDistances: UInt32
+    public let maxCombinedClipAndCullDistances: UInt32
+    public let discreteQueuePriorities: UInt32
+    public let pointSizeRange: (Float, Float)
+    public let lineWidthRange: (Float, Float)
+    public let pointSizeGranularity: Float
+    public let lineWidthGranularity: Float
+    public let strictLines: Bool
+    public let standardSampleLocations: Bool
+    public let optimalBufferCopyOffsetAlignment: VkDeviceSize
+    public let optimalBufferCopyRowPitchAlignment: VkDeviceSize
+    public let nonCoherentAtomSize: VkDeviceSize
 
     init(cStruct: VkPhysicalDeviceLimits) {
         self.maxImageDimension1D = cStruct.maxImageDimension1D
@@ -3281,10 +3281,10 @@ struct PhysicalDeviceLimits: CStructConvertible {
     }
 }
 
-struct SemaphoreCreateInfo: CStructConvertible {
+public struct SemaphoreCreateInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreCreateInfo
 
-    let flags: SemaphoreCreateFlags
+    public let flags: SemaphoreCreateFlags
 
     init(cStruct: VkSemaphoreCreateInfo) {
         self.flags = SemaphoreCreateFlags(rawValue: cStruct.flags)
@@ -3299,13 +3299,13 @@ struct SemaphoreCreateInfo: CStructConvertible {
     }
 }
 
-struct QueryPoolCreateInfo: CStructConvertible {
+public struct QueryPoolCreateInfo: CStructConvertible {
     typealias CStruct = VkQueryPoolCreateInfo
 
-    let flags: QueryPoolCreateFlags
-    let queryType: QueryType
-    let queryCount: UInt32
-    let pipelineStatistics: QueryPipelineStatisticFlags
+    public let flags: QueryPoolCreateFlags
+    public let queryType: QueryType
+    public let queryCount: UInt32
+    public let pipelineStatistics: QueryPipelineStatisticFlags
 
     init(cStruct: VkQueryPoolCreateInfo) {
         self.flags = QueryPoolCreateFlags(rawValue: cStruct.flags)
@@ -3326,15 +3326,15 @@ struct QueryPoolCreateInfo: CStructConvertible {
     }
 }
 
-struct FramebufferCreateInfo: CStructConvertible {
+public struct FramebufferCreateInfo: CStructConvertible {
     typealias CStruct = VkFramebufferCreateInfo
 
-    let flags: FramebufferCreateFlags
-    let renderPass: RenderPass
-    let attachments: Array<ImageView>
-    let width: UInt32
-    let height: UInt32
-    let layers: UInt32
+    public let flags: FramebufferCreateFlags
+    public let renderPass: RenderPass
+    public let attachments: Array<ImageView>
+    public let width: UInt32
+    public let height: UInt32
+    public let layers: UInt32
 
     init(cStruct: VkFramebufferCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -3357,13 +3357,13 @@ struct FramebufferCreateInfo: CStructConvertible {
     }
 }
 
-struct DrawIndirectCommand: CStructConvertible {
+public struct DrawIndirectCommand: CStructConvertible {
     typealias CStruct = VkDrawIndirectCommand
 
-    let vertexCount: UInt32
-    let instanceCount: UInt32
-    let firstVertex: UInt32
-    let firstInstance: UInt32
+    public let vertexCount: UInt32
+    public let instanceCount: UInt32
+    public let firstVertex: UInt32
+    public let firstInstance: UInt32
 
     init(cStruct: VkDrawIndirectCommand) {
         self.vertexCount = cStruct.vertexCount
@@ -3382,14 +3382,14 @@ struct DrawIndirectCommand: CStructConvertible {
     }
 }
 
-struct DrawIndexedIndirectCommand: CStructConvertible {
+public struct DrawIndexedIndirectCommand: CStructConvertible {
     typealias CStruct = VkDrawIndexedIndirectCommand
 
-    let indexCount: UInt32
-    let instanceCount: UInt32
-    let firstIndex: UInt32
-    let vertexOffset: Int32
-    let firstInstance: UInt32
+    public let indexCount: UInt32
+    public let instanceCount: UInt32
+    public let firstIndex: UInt32
+    public let vertexOffset: Int32
+    public let firstInstance: UInt32
 
     init(cStruct: VkDrawIndexedIndirectCommand) {
         self.indexCount = cStruct.indexCount
@@ -3410,12 +3410,12 @@ struct DrawIndexedIndirectCommand: CStructConvertible {
     }
 }
 
-struct DispatchIndirectCommand: CStructConvertible {
+public struct DispatchIndirectCommand: CStructConvertible {
     typealias CStruct = VkDispatchIndirectCommand
 
-    let x: UInt32
-    let y: UInt32
-    let z: UInt32
+    public let x: UInt32
+    public let y: UInt32
+    public let z: UInt32
 
     init(cStruct: VkDispatchIndirectCommand) {
         self.x = cStruct.x
@@ -3432,13 +3432,13 @@ struct DispatchIndirectCommand: CStructConvertible {
     }
 }
 
-struct SubmitInfo: CStructConvertible {
+public struct SubmitInfo: CStructConvertible {
     typealias CStruct = VkSubmitInfo
 
-    let waitSemaphores: Array<Semaphore>
-    let waitDstStageMask: Array<PipelineStageFlags>
-    let commandBuffers: Array<CommandBuffer>
-    let signalSemaphores: Array<Semaphore>
+    public let waitSemaphores: Array<Semaphore>
+    public let waitDstStageMask: Array<PipelineStageFlags>
+    public let commandBuffers: Array<CommandBuffer>
+    public let signalSemaphores: Array<Semaphore>
 
     init(cStruct: VkSubmitInfo) {
         fatalError("This initializer should be removed.")
@@ -3467,16 +3467,16 @@ struct SubmitInfo: CStructConvertible {
     }
 }
 
-struct DisplayPropertiesKHR: CStructConvertible {
+public struct DisplayPropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayPropertiesKHR
 
-    let display: DisplayKHR
-    let displayName: String
-    let physicalDimensions: Extent2D
-    let physicalResolution: Extent2D
-    let supportedTransforms: SurfaceTransformFlagsKHR
-    let planeReorderPossible: Bool
-    let persistentContent: Bool
+    public let display: DisplayKHR
+    public let displayName: String
+    public let physicalDimensions: Extent2D
+    public let physicalResolution: Extent2D
+    public let supportedTransforms: SurfaceTransformFlagsKHR
+    public let planeReorderPossible: Bool
+    public let persistentContent: Bool
 
     init(cStruct: VkDisplayPropertiesKHR) {
         fatalError("This initializer should be removed.")
@@ -3501,11 +3501,11 @@ struct DisplayPropertiesKHR: CStructConvertible {
     }
 }
 
-struct DisplayPlanePropertiesKHR: CStructConvertible {
+public struct DisplayPlanePropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayPlanePropertiesKHR
 
-    let currentDisplay: DisplayKHR
-    let currentStackIndex: UInt32
+    public let currentDisplay: DisplayKHR
+    public let currentStackIndex: UInt32
 
     init(cStruct: VkDisplayPlanePropertiesKHR) {
         fatalError("This initializer should be removed.")
@@ -3519,11 +3519,11 @@ struct DisplayPlanePropertiesKHR: CStructConvertible {
     }
 }
 
-struct DisplayModeParametersKHR: CStructConvertible {
+public struct DisplayModeParametersKHR: CStructConvertible {
     typealias CStruct = VkDisplayModeParametersKHR
 
-    let visibleRegion: Extent2D
-    let refreshRate: UInt32
+    public let visibleRegion: Extent2D
+    public let refreshRate: UInt32
 
     init(cStruct: VkDisplayModeParametersKHR) {
         self.visibleRegion = Extent2D(cStruct: cStruct.visibleRegion)
@@ -3540,11 +3540,11 @@ struct DisplayModeParametersKHR: CStructConvertible {
     }
 }
 
-struct DisplayModePropertiesKHR: CStructConvertible {
+public struct DisplayModePropertiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayModePropertiesKHR
 
-    let displayMode: DisplayModeKHR
-    let parameters: DisplayModeParametersKHR
+    public let displayMode: DisplayModeKHR
+    public let parameters: DisplayModeParametersKHR
 
     init(cStruct: VkDisplayModePropertiesKHR) {
         fatalError("This initializer should be removed.")
@@ -3560,11 +3560,11 @@ struct DisplayModePropertiesKHR: CStructConvertible {
     }
 }
 
-struct DisplayModeCreateInfoKHR: CStructConvertible {
+public struct DisplayModeCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkDisplayModeCreateInfoKHR
 
-    let flags: DisplayModeCreateFlagsKHR
-    let parameters: DisplayModeParametersKHR
+    public let flags: DisplayModeCreateFlagsKHR
+    public let parameters: DisplayModeParametersKHR
 
     init(cStruct: VkDisplayModeCreateInfoKHR) {
         self.flags = DisplayModeCreateFlagsKHR(rawValue: cStruct.flags)
@@ -3583,18 +3583,18 @@ struct DisplayModeCreateInfoKHR: CStructConvertible {
     }
 }
 
-struct DisplayPlaneCapabilitiesKHR: CStructConvertible {
+public struct DisplayPlaneCapabilitiesKHR: CStructConvertible {
     typealias CStruct = VkDisplayPlaneCapabilitiesKHR
 
-    let supportedAlpha: DisplayPlaneAlphaFlagsKHR
-    let minSrcPosition: Offset2D
-    let maxSrcPosition: Offset2D
-    let minSrcExtent: Extent2D
-    let maxSrcExtent: Extent2D
-    let minDstPosition: Offset2D
-    let maxDstPosition: Offset2D
-    let minDstExtent: Extent2D
-    let maxDstExtent: Extent2D
+    public let supportedAlpha: DisplayPlaneAlphaFlagsKHR
+    public let minSrcPosition: Offset2D
+    public let maxSrcPosition: Offset2D
+    public let minSrcExtent: Extent2D
+    public let maxSrcExtent: Extent2D
+    public let minDstPosition: Offset2D
+    public let maxDstPosition: Offset2D
+    public let minDstExtent: Extent2D
+    public let maxDstExtent: Extent2D
 
     init(cStruct: VkDisplayPlaneCapabilitiesKHR) {
         self.supportedAlpha = DisplayPlaneAlphaFlagsKHR(rawValue: cStruct.supportedAlpha)
@@ -3639,17 +3639,17 @@ struct DisplayPlaneCapabilitiesKHR: CStructConvertible {
     }
 }
 
-struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
+public struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkDisplaySurfaceCreateInfoKHR
 
-    let flags: DisplaySurfaceCreateFlagsKHR
-    let displayMode: DisplayModeKHR
-    let planeIndex: UInt32
-    let planeStackIndex: UInt32
-    let transform: SurfaceTransformFlagsKHR
-    let globalAlpha: Float
-    let alphaMode: DisplayPlaneAlphaFlagsKHR
-    let imageExtent: Extent2D
+    public let flags: DisplaySurfaceCreateFlagsKHR
+    public let displayMode: DisplayModeKHR
+    public let planeIndex: UInt32
+    public let planeStackIndex: UInt32
+    public let transform: SurfaceTransformFlagsKHR
+    public let globalAlpha: Float
+    public let alphaMode: DisplayPlaneAlphaFlagsKHR
+    public let imageExtent: Extent2D
 
     init(cStruct: VkDisplaySurfaceCreateInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -3673,12 +3673,12 @@ struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
     }
 }
 
-struct DisplayPresentInfoKHR: CStructConvertible {
+public struct DisplayPresentInfoKHR: CStructConvertible {
     typealias CStruct = VkDisplayPresentInfoKHR
 
-    let srcRect: Rect2D
-    let dstRect: Rect2D
-    let persistent: Bool
+    public let srcRect: Rect2D
+    public let dstRect: Rect2D
+    public let persistent: Bool
 
     init(cStruct: VkDisplayPresentInfoKHR) {
         self.srcRect = Rect2D(cStruct: cStruct.srcRect)
@@ -3701,19 +3701,19 @@ struct DisplayPresentInfoKHR: CStructConvertible {
     }
 }
 
-struct SurfaceCapabilitiesKHR: CStructConvertible {
+public struct SurfaceCapabilitiesKHR: CStructConvertible {
     typealias CStruct = VkSurfaceCapabilitiesKHR
 
-    let minImageCount: UInt32
-    let maxImageCount: UInt32
-    let currentExtent: Extent2D
-    let minImageExtent: Extent2D
-    let maxImageExtent: Extent2D
-    let maxImageArrayLayers: UInt32
-    let supportedTransforms: SurfaceTransformFlagsKHR
-    let currentTransform: SurfaceTransformFlagsKHR
-    let supportedCompositeAlpha: CompositeAlphaFlagsKHR
-    let supportedUsageFlags: ImageUsageFlags
+    public let minImageCount: UInt32
+    public let maxImageCount: UInt32
+    public let currentExtent: Extent2D
+    public let minImageExtent: Extent2D
+    public let maxImageExtent: Extent2D
+    public let maxImageArrayLayers: UInt32
+    public let supportedTransforms: SurfaceTransformFlagsKHR
+    public let currentTransform: SurfaceTransformFlagsKHR
+    public let supportedCompositeAlpha: CompositeAlphaFlagsKHR
+    public let supportedUsageFlags: ImageUsageFlags
 
     init(cStruct: VkSurfaceCapabilitiesKHR) {
         self.minImageCount = cStruct.minImageCount
@@ -3750,11 +3750,11 @@ struct SurfaceCapabilitiesKHR: CStructConvertible {
     }
 }
 
-struct SurfaceFormatKHR: CStructConvertible {
+public struct SurfaceFormatKHR: CStructConvertible {
     typealias CStruct = VkSurfaceFormatKHR
 
-    let format: Format
-    let colorSpace: ColorSpaceKHR
+    public let format: Format
+    public let colorSpace: ColorSpaceKHR
 
     init(cStruct: VkSurfaceFormatKHR) {
         self.format = Format(rawValue: cStruct.format.rawValue)!
@@ -3769,24 +3769,24 @@ struct SurfaceFormatKHR: CStructConvertible {
     }
 }
 
-struct SwapchainCreateInfoKHR: CStructConvertible {
+public struct SwapchainCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkSwapchainCreateInfoKHR
 
-    let flags: SwapchainCreateFlagsKHR
-    let surface: SurfaceKHR
-    let minImageCount: UInt32
-    let imageFormat: Format
-    let imageColorSpace: ColorSpaceKHR
-    let imageExtent: Extent2D
-    let imageArrayLayers: UInt32
-    let imageUsage: ImageUsageFlags
-    let imageSharingMode: SharingMode
-    let queueFamilyIndices: Array<UInt32>
-    let preTransform: SurfaceTransformFlagsKHR
-    let compositeAlpha: CompositeAlphaFlagsKHR
-    let presentMode: PresentModeKHR
-    let clipped: Bool
-    let oldSwapchain: SwapchainKHR?
+    public let flags: SwapchainCreateFlagsKHR
+    public let surface: SurfaceKHR
+    public let minImageCount: UInt32
+    public let imageFormat: Format
+    public let imageColorSpace: ColorSpaceKHR
+    public let imageExtent: Extent2D
+    public let imageArrayLayers: UInt32
+    public let imageUsage: ImageUsageFlags
+    public let imageSharingMode: SharingMode
+    public let queueFamilyIndices: Array<UInt32>
+    public let preTransform: SurfaceTransformFlagsKHR
+    public let compositeAlpha: CompositeAlphaFlagsKHR
+    public let presentMode: PresentModeKHR
+    public let clipped: Bool
+    public let oldSwapchain: SwapchainKHR?
 
     init(cStruct: VkSwapchainCreateInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -3820,13 +3820,13 @@ struct SwapchainCreateInfoKHR: CStructConvertible {
     }
 }
 
-struct PresentInfoKHR: CStructConvertible {
+public struct PresentInfoKHR: CStructConvertible {
     typealias CStruct = VkPresentInfoKHR
 
-    let waitSemaphores: Array<Semaphore>
-    let swapchains: Array<SwapchainKHR>
-    let imageIndices: Array<UInt32>
-    let results: UnsafeMutablePointer<VkResult>
+    public let waitSemaphores: Array<Semaphore>
+    public let swapchains: Array<SwapchainKHR>
+    public let imageIndices: Array<UInt32>
+    public let results: UnsafeMutablePointer<VkResult>
 
     init(cStruct: VkPresentInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -3852,12 +3852,12 @@ struct PresentInfoKHR: CStructConvertible {
     }
 }
 
-struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
+public struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugReportCallbackCreateInfoEXT
 
-    let flags: DebugReportFlagsEXT
-    let pfnCallback: PFN_vkDebugReportCallbackEXT
-    let userData: UnsafeMutableRawPointer
+    public let flags: DebugReportFlagsEXT
+    public let pfnCallback: PFN_vkDebugReportCallbackEXT
+    public let userData: UnsafeMutableRawPointer
 
     init(cStruct: VkDebugReportCallbackCreateInfoEXT) {
         self.flags = DebugReportFlagsEXT(rawValue: cStruct.flags)
@@ -3876,10 +3876,10 @@ struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct ValidationFlagsEXT: CStructConvertible {
+public struct ValidationFlagsEXT: CStructConvertible {
     typealias CStruct = VkValidationFlagsEXT
 
-    let disabledValidationChecks: Array<ValidationCheckEXT>
+    public let disabledValidationChecks: Array<ValidationCheckEXT>
 
     init(cStruct: VkValidationFlagsEXT) {
         self.disabledValidationChecks = UnsafeBufferPointer(start: cStruct.pDisabledValidationChecks, count: Int(cStruct.disabledValidationCheckCount)).map{ ValidationCheckEXT(rawValue: $0.rawValue)! }
@@ -3897,11 +3897,11 @@ struct ValidationFlagsEXT: CStructConvertible {
     }
 }
 
-struct ValidationFeaturesEXT: CStructConvertible {
+public struct ValidationFeaturesEXT: CStructConvertible {
     typealias CStruct = VkValidationFeaturesEXT
 
-    let enabledValidationFeatures: Array<ValidationFeatureEnableEXT>
-    let disabledValidationFeatures: Array<ValidationFeatureDisableEXT>
+    public let enabledValidationFeatures: Array<ValidationFeatureEnableEXT>
+    public let disabledValidationFeatures: Array<ValidationFeatureDisableEXT>
 
     init(cStruct: VkValidationFeaturesEXT) {
         self.enabledValidationFeatures = UnsafeBufferPointer(start: cStruct.pEnabledValidationFeatures, count: Int(cStruct.enabledValidationFeatureCount)).map{ ValidationFeatureEnableEXT(rawValue: $0.rawValue)! }
@@ -3924,10 +3924,10 @@ struct ValidationFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PipelineRasterizationStateRasterizationOrderAMD: CStructConvertible {
+public struct PipelineRasterizationStateRasterizationOrderAMD: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationStateRasterizationOrderAMD
 
-    let rasterizationOrder: RasterizationOrderAMD
+    public let rasterizationOrder: RasterizationOrderAMD
 
     init(cStruct: VkPipelineRasterizationStateRasterizationOrderAMD) {
         self.rasterizationOrder = RasterizationOrderAMD(rawValue: cStruct.rasterizationOrder.rawValue)!
@@ -3942,12 +3942,12 @@ struct PipelineRasterizationStateRasterizationOrderAMD: CStructConvertible {
     }
 }
 
-struct DebugMarkerObjectNameInfoEXT: CStructConvertible {
+public struct DebugMarkerObjectNameInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugMarkerObjectNameInfoEXT
 
-    let objectType: DebugReportObjectTypeEXT
-    let object: UInt64
-    let objectName: String
+    public let objectType: DebugReportObjectTypeEXT
+    public let object: UInt64
+    public let objectName: String
 
     init(cStruct: VkDebugMarkerObjectNameInfoEXT) {
         self.objectType = DebugReportObjectTypeEXT(rawValue: cStruct.objectType.rawValue)!
@@ -3968,14 +3968,14 @@ struct DebugMarkerObjectNameInfoEXT: CStructConvertible {
     }
 }
 
-struct DebugMarkerObjectTagInfoEXT: CStructConvertible {
+public struct DebugMarkerObjectTagInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugMarkerObjectTagInfoEXT
 
-    let objectType: DebugReportObjectTypeEXT
-    let object: UInt64
-    let tagName: UInt64
-    let tagSize: Int
-    let tag: UnsafeRawPointer
+    public let objectType: DebugReportObjectTypeEXT
+    public let object: UInt64
+    public let tagName: UInt64
+    public let tagSize: Int
+    public let tag: UnsafeRawPointer
 
     init(cStruct: VkDebugMarkerObjectTagInfoEXT) {
         self.objectType = DebugReportObjectTypeEXT(rawValue: cStruct.objectType.rawValue)!
@@ -3998,11 +3998,11 @@ struct DebugMarkerObjectTagInfoEXT: CStructConvertible {
     }
 }
 
-struct DebugMarkerMarkerInfoEXT: CStructConvertible {
+public struct DebugMarkerMarkerInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugMarkerMarkerInfoEXT
 
-    let markerName: String
-    let color: (Float, Float, Float, Float)
+    public let markerName: String
+    public let color: (Float, Float, Float, Float)
 
     init(cStruct: VkDebugMarkerMarkerInfoEXT) {
         self.markerName = String(cString: cStruct.pMarkerName)
@@ -4021,10 +4021,10 @@ struct DebugMarkerMarkerInfoEXT: CStructConvertible {
     }
 }
 
-struct DedicatedAllocationImageCreateInfoNV: CStructConvertible {
+public struct DedicatedAllocationImageCreateInfoNV: CStructConvertible {
     typealias CStruct = VkDedicatedAllocationImageCreateInfoNV
 
-    let dedicatedAllocation: Bool
+    public let dedicatedAllocation: Bool
 
     init(cStruct: VkDedicatedAllocationImageCreateInfoNV) {
         self.dedicatedAllocation = cStruct.dedicatedAllocation == VK_TRUE
@@ -4039,10 +4039,10 @@ struct DedicatedAllocationImageCreateInfoNV: CStructConvertible {
     }
 }
 
-struct DedicatedAllocationBufferCreateInfoNV: CStructConvertible {
+public struct DedicatedAllocationBufferCreateInfoNV: CStructConvertible {
     typealias CStruct = VkDedicatedAllocationBufferCreateInfoNV
 
-    let dedicatedAllocation: Bool
+    public let dedicatedAllocation: Bool
 
     init(cStruct: VkDedicatedAllocationBufferCreateInfoNV) {
         self.dedicatedAllocation = cStruct.dedicatedAllocation == VK_TRUE
@@ -4057,11 +4057,11 @@ struct DedicatedAllocationBufferCreateInfoNV: CStructConvertible {
     }
 }
 
-struct DedicatedAllocationMemoryAllocateInfoNV: CStructConvertible {
+public struct DedicatedAllocationMemoryAllocateInfoNV: CStructConvertible {
     typealias CStruct = VkDedicatedAllocationMemoryAllocateInfoNV
 
-    let image: Image?
-    let buffer: Buffer?
+    public let image: Image?
+    public let buffer: Buffer?
 
     init(cStruct: VkDedicatedAllocationMemoryAllocateInfoNV) {
         fatalError("This initializer should be removed.")
@@ -4077,13 +4077,13 @@ struct DedicatedAllocationMemoryAllocateInfoNV: CStructConvertible {
     }
 }
 
-struct ExternalImageFormatPropertiesNV: CStructConvertible {
+public struct ExternalImageFormatPropertiesNV: CStructConvertible {
     typealias CStruct = VkExternalImageFormatPropertiesNV
 
-    let imageFormatProperties: ImageFormatProperties
-    let externalMemoryFeatures: ExternalMemoryFeatureFlagsNV
-    let exportFromImportedHandleTypes: ExternalMemoryHandleTypeFlagsNV
-    let compatibleHandleTypes: ExternalMemoryHandleTypeFlagsNV
+    public let imageFormatProperties: ImageFormatProperties
+    public let externalMemoryFeatures: ExternalMemoryFeatureFlagsNV
+    public let exportFromImportedHandleTypes: ExternalMemoryHandleTypeFlagsNV
+    public let compatibleHandleTypes: ExternalMemoryHandleTypeFlagsNV
 
     init(cStruct: VkExternalImageFormatPropertiesNV) {
         self.imageFormatProperties = ImageFormatProperties(cStruct: cStruct.imageFormatProperties)
@@ -4104,10 +4104,10 @@ struct ExternalImageFormatPropertiesNV: CStructConvertible {
     }
 }
 
-struct ExternalMemoryImageCreateInfoNV: CStructConvertible {
+public struct ExternalMemoryImageCreateInfoNV: CStructConvertible {
     typealias CStruct = VkExternalMemoryImageCreateInfoNV
 
-    let handleTypes: ExternalMemoryHandleTypeFlagsNV
+    public let handleTypes: ExternalMemoryHandleTypeFlagsNV
 
     init(cStruct: VkExternalMemoryImageCreateInfoNV) {
         self.handleTypes = ExternalMemoryHandleTypeFlagsNV(rawValue: cStruct.handleTypes)
@@ -4122,10 +4122,10 @@ struct ExternalMemoryImageCreateInfoNV: CStructConvertible {
     }
 }
 
-struct ExportMemoryAllocateInfoNV: CStructConvertible {
+public struct ExportMemoryAllocateInfoNV: CStructConvertible {
     typealias CStruct = VkExportMemoryAllocateInfoNV
 
-    let handleTypes: ExternalMemoryHandleTypeFlagsNV
+    public let handleTypes: ExternalMemoryHandleTypeFlagsNV
 
     init(cStruct: VkExportMemoryAllocateInfoNV) {
         self.handleTypes = ExternalMemoryHandleTypeFlagsNV(rawValue: cStruct.handleTypes)
@@ -4140,10 +4140,10 @@ struct ExportMemoryAllocateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
 
-    let deviceGeneratedCommands: Bool
+    public let deviceGeneratedCommands: Bool
 
     init(cStruct: VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV) {
         self.deviceGeneratedCommands = cStruct.deviceGeneratedCommands == VK_TRUE
@@ -4158,18 +4158,18 @@ struct PhysicalDeviceDeviceGeneratedCommandsFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDeviceGeneratedCommandsPropertiesNV: CStructConvertible {
+public struct PhysicalDeviceDeviceGeneratedCommandsPropertiesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV
 
-    let maxGraphicsShaderGroupCount: UInt32
-    let maxIndirectSequenceCount: UInt32
-    let maxIndirectCommandsTokenCount: UInt32
-    let maxIndirectCommandsStreamCount: UInt32
-    let maxIndirectCommandsTokenOffset: UInt32
-    let maxIndirectCommandsStreamStride: UInt32
-    let minSequencesCountBufferOffsetAlignment: UInt32
-    let minSequencesIndexBufferOffsetAlignment: UInt32
-    let minIndirectCommandsBufferOffsetAlignment: UInt32
+    public let maxGraphicsShaderGroupCount: UInt32
+    public let maxIndirectSequenceCount: UInt32
+    public let maxIndirectCommandsTokenCount: UInt32
+    public let maxIndirectCommandsStreamCount: UInt32
+    public let maxIndirectCommandsTokenOffset: UInt32
+    public let maxIndirectCommandsStreamStride: UInt32
+    public let minSequencesCountBufferOffsetAlignment: UInt32
+    public let minSequencesIndexBufferOffsetAlignment: UInt32
+    public let minIndirectCommandsBufferOffsetAlignment: UInt32
 
     init(cStruct: VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV) {
         self.maxGraphicsShaderGroupCount = cStruct.maxGraphicsShaderGroupCount
@@ -4200,12 +4200,12 @@ struct PhysicalDeviceDeviceGeneratedCommandsPropertiesNV: CStructConvertible {
     }
 }
 
-struct GraphicsShaderGroupCreateInfoNV: CStructConvertible {
+public struct GraphicsShaderGroupCreateInfoNV: CStructConvertible {
     typealias CStruct = VkGraphicsShaderGroupCreateInfoNV
 
-    let stages: Array<PipelineShaderStageCreateInfo>
-    let vertexInputState: PipelineVertexInputStateCreateInfo?
-    let tessellationState: PipelineTessellationStateCreateInfo?
+    public let stages: Array<PipelineShaderStageCreateInfo>
+    public let vertexInputState: PipelineVertexInputStateCreateInfo?
+    public let tessellationState: PipelineTessellationStateCreateInfo?
 
     init(cStruct: VkGraphicsShaderGroupCreateInfoNV) {
         self.stages = UnsafeBufferPointer(start: cStruct.pStages, count: Int(cStruct.stageCount)).map{ PipelineShaderStageCreateInfo(cStruct: $0) }
@@ -4231,11 +4231,11 @@ struct GraphicsShaderGroupCreateInfoNV: CStructConvertible {
     }
 }
 
-struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
+public struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
     typealias CStruct = VkGraphicsPipelineShaderGroupsCreateInfoNV
 
-    let groups: Array<GraphicsShaderGroupCreateInfoNV>
-    let pipelines: Array<Pipeline>
+    public let groups: Array<GraphicsShaderGroupCreateInfoNV>
+    public let pipelines: Array<Pipeline>
 
     init(cStruct: VkGraphicsPipelineShaderGroupsCreateInfoNV) {
         fatalError("This initializer should be removed.")
@@ -4257,10 +4257,10 @@ struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
     }
 }
 
-struct BindShaderGroupIndirectCommandNV: CStructConvertible {
+public struct BindShaderGroupIndirectCommandNV: CStructConvertible {
     typealias CStruct = VkBindShaderGroupIndirectCommandNV
 
-    let groupIndex: UInt32
+    public let groupIndex: UInt32
 
     init(cStruct: VkBindShaderGroupIndirectCommandNV) {
         self.groupIndex = cStruct.groupIndex
@@ -4273,12 +4273,12 @@ struct BindShaderGroupIndirectCommandNV: CStructConvertible {
     }
 }
 
-struct BindIndexBufferIndirectCommandNV: CStructConvertible {
+public struct BindIndexBufferIndirectCommandNV: CStructConvertible {
     typealias CStruct = VkBindIndexBufferIndirectCommandNV
 
-    let bufferAddress: VkDeviceAddress
-    let size: UInt32
-    let indexType: IndexType
+    public let bufferAddress: VkDeviceAddress
+    public let size: UInt32
+    public let indexType: IndexType
 
     init(cStruct: VkBindIndexBufferIndirectCommandNV) {
         self.bufferAddress = cStruct.bufferAddress
@@ -4295,12 +4295,12 @@ struct BindIndexBufferIndirectCommandNV: CStructConvertible {
     }
 }
 
-struct BindVertexBufferIndirectCommandNV: CStructConvertible {
+public struct BindVertexBufferIndirectCommandNV: CStructConvertible {
     typealias CStruct = VkBindVertexBufferIndirectCommandNV
 
-    let bufferAddress: VkDeviceAddress
-    let size: UInt32
-    let stride: UInt32
+    public let bufferAddress: VkDeviceAddress
+    public let size: UInt32
+    public let stride: UInt32
 
     init(cStruct: VkBindVertexBufferIndirectCommandNV) {
         self.bufferAddress = cStruct.bufferAddress
@@ -4317,10 +4317,10 @@ struct BindVertexBufferIndirectCommandNV: CStructConvertible {
     }
 }
 
-struct SetStateFlagsIndirectCommandNV: CStructConvertible {
+public struct SetStateFlagsIndirectCommandNV: CStructConvertible {
     typealias CStruct = VkSetStateFlagsIndirectCommandNV
 
-    let data: UInt32
+    public let data: UInt32
 
     init(cStruct: VkSetStateFlagsIndirectCommandNV) {
         self.data = cStruct.data
@@ -4333,11 +4333,11 @@ struct SetStateFlagsIndirectCommandNV: CStructConvertible {
     }
 }
 
-struct IndirectCommandsStreamNV: CStructConvertible {
+public struct IndirectCommandsStreamNV: CStructConvertible {
     typealias CStruct = VkIndirectCommandsStreamNV
 
-    let buffer: Buffer
-    let offset: VkDeviceSize
+    public let buffer: Buffer
+    public let offset: VkDeviceSize
 
     init(cStruct: VkIndirectCommandsStreamNV) {
         fatalError("This initializer should be removed.")
@@ -4351,21 +4351,21 @@ struct IndirectCommandsStreamNV: CStructConvertible {
     }
 }
 
-struct IndirectCommandsLayoutTokenNV: CStructConvertible {
+public struct IndirectCommandsLayoutTokenNV: CStructConvertible {
     typealias CStruct = VkIndirectCommandsLayoutTokenNV
 
-    let tokenType: IndirectCommandsTokenTypeNV
-    let stream: UInt32
-    let offset: UInt32
-    let vertexBindingUnit: UInt32
-    let vertexDynamicStride: Bool
-    let pushconstantPipelineLayout: PipelineLayout?
-    let pushconstantShaderStageFlags: ShaderStageFlags
-    let pushconstantOffset: UInt32
-    let pushconstantSize: UInt32
-    let indirectStateFlags: IndirectStateFlagsNV
-    let indexTypes: Array<IndexType>
-    let indexTypeValues: Array<UInt32>
+    public let tokenType: IndirectCommandsTokenTypeNV
+    public let stream: UInt32
+    public let offset: UInt32
+    public let vertexBindingUnit: UInt32
+    public let vertexDynamicStride: Bool
+    public let pushconstantPipelineLayout: PipelineLayout?
+    public let pushconstantShaderStageFlags: ShaderStageFlags
+    public let pushconstantOffset: UInt32
+    public let pushconstantSize: UInt32
+    public let indirectStateFlags: IndirectStateFlagsNV
+    public let indexTypes: Array<IndexType>
+    public let indexTypeValues: Array<UInt32>
 
     init(cStruct: VkIndirectCommandsLayoutTokenNV) {
         fatalError("This initializer should be removed.")
@@ -4396,13 +4396,13 @@ struct IndirectCommandsLayoutTokenNV: CStructConvertible {
     }
 }
 
-struct IndirectCommandsLayoutCreateInfoNV: CStructConvertible {
+public struct IndirectCommandsLayoutCreateInfoNV: CStructConvertible {
     typealias CStruct = VkIndirectCommandsLayoutCreateInfoNV
 
-    let flags: IndirectCommandsLayoutUsageFlagsNV
-    let pipelineBindPoint: PipelineBindPoint
-    let tokens: Array<IndirectCommandsLayoutTokenNV>
-    let streamStrides: Array<UInt32>
+    public let flags: IndirectCommandsLayoutUsageFlagsNV
+    public let pipelineBindPoint: PipelineBindPoint
+    public let tokens: Array<IndirectCommandsLayoutTokenNV>
+    public let streamStrides: Array<UInt32>
 
     init(cStruct: VkIndirectCommandsLayoutCreateInfoNV) {
         self.flags = IndirectCommandsLayoutUsageFlagsNV(rawValue: cStruct.flags)
@@ -4429,21 +4429,21 @@ struct IndirectCommandsLayoutCreateInfoNV: CStructConvertible {
     }
 }
 
-struct GeneratedCommandsInfoNV: CStructConvertible {
+public struct GeneratedCommandsInfoNV: CStructConvertible {
     typealias CStruct = VkGeneratedCommandsInfoNV
 
-    let pipelineBindPoint: PipelineBindPoint
-    let pipeline: Pipeline
-    let indirectCommandsLayout: IndirectCommandsLayoutNV
-    let streams: Array<IndirectCommandsStreamNV>
-    let sequencesCount: UInt32
-    let preprocessBuffer: Buffer
-    let preprocessOffset: VkDeviceSize
-    let preprocessSize: VkDeviceSize
-    let sequencesCountBuffer: Buffer?
-    let sequencesCountOffset: VkDeviceSize
-    let sequencesIndexBuffer: Buffer?
-    let sequencesIndexOffset: VkDeviceSize
+    public let pipelineBindPoint: PipelineBindPoint
+    public let pipeline: Pipeline
+    public let indirectCommandsLayout: IndirectCommandsLayoutNV
+    public let streams: Array<IndirectCommandsStreamNV>
+    public let sequencesCount: UInt32
+    public let preprocessBuffer: Buffer
+    public let preprocessOffset: VkDeviceSize
+    public let preprocessSize: VkDeviceSize
+    public let sequencesCountBuffer: Buffer?
+    public let sequencesCountOffset: VkDeviceSize
+    public let sequencesIndexBuffer: Buffer?
+    public let sequencesIndexOffset: VkDeviceSize
 
     init(cStruct: VkGeneratedCommandsInfoNV) {
         fatalError("This initializer should be removed.")
@@ -4472,13 +4472,13 @@ struct GeneratedCommandsInfoNV: CStructConvertible {
     }
 }
 
-struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
+public struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
     typealias CStruct = VkGeneratedCommandsMemoryRequirementsInfoNV
 
-    let pipelineBindPoint: PipelineBindPoint
-    let pipeline: Pipeline
-    let indirectCommandsLayout: IndirectCommandsLayoutNV
-    let maxSequencesCount: UInt32
+    public let pipelineBindPoint: PipelineBindPoint
+    public let pipeline: Pipeline
+    public let indirectCommandsLayout: IndirectCommandsLayoutNV
+    public let maxSequencesCount: UInt32
 
     init(cStruct: VkGeneratedCommandsMemoryRequirementsInfoNV) {
         fatalError("This initializer should be removed.")
@@ -4496,10 +4496,10 @@ struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFeatures2: CStructConvertible {
+public struct PhysicalDeviceFeatures2: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFeatures2
 
-    let features: PhysicalDeviceFeatures
+    public let features: PhysicalDeviceFeatures
 
     init(cStruct: VkPhysicalDeviceFeatures2) {
         self.features = PhysicalDeviceFeatures(cStruct: cStruct.features)
@@ -4516,10 +4516,10 @@ struct PhysicalDeviceFeatures2: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceProperties2: CStructConvertible {
+public struct PhysicalDeviceProperties2: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProperties2
 
-    let properties: PhysicalDeviceProperties
+    public let properties: PhysicalDeviceProperties
 
     init(cStruct: VkPhysicalDeviceProperties2) {
         self.properties = PhysicalDeviceProperties(cStruct: cStruct.properties)
@@ -4536,10 +4536,10 @@ struct PhysicalDeviceProperties2: CStructConvertible {
     }
 }
 
-struct FormatProperties2: CStructConvertible {
+public struct FormatProperties2: CStructConvertible {
     typealias CStruct = VkFormatProperties2
 
-    let formatProperties: FormatProperties
+    public let formatProperties: FormatProperties
 
     init(cStruct: VkFormatProperties2) {
         self.formatProperties = FormatProperties(cStruct: cStruct.formatProperties)
@@ -4556,10 +4556,10 @@ struct FormatProperties2: CStructConvertible {
     }
 }
 
-struct ImageFormatProperties2: CStructConvertible {
+public struct ImageFormatProperties2: CStructConvertible {
     typealias CStruct = VkImageFormatProperties2
 
-    let imageFormatProperties: ImageFormatProperties
+    public let imageFormatProperties: ImageFormatProperties
 
     init(cStruct: VkImageFormatProperties2) {
         self.imageFormatProperties = ImageFormatProperties(cStruct: cStruct.imageFormatProperties)
@@ -4576,14 +4576,14 @@ struct ImageFormatProperties2: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceImageFormatInfo2: CStructConvertible {
+public struct PhysicalDeviceImageFormatInfo2: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceImageFormatInfo2
 
-    let format: Format
-    let type: ImageType
-    let tiling: ImageTiling
-    let usage: ImageUsageFlags
-    let flags: ImageCreateFlags
+    public let format: Format
+    public let type: ImageType
+    public let tiling: ImageTiling
+    public let usage: ImageUsageFlags
+    public let flags: ImageCreateFlags
 
     init(cStruct: VkPhysicalDeviceImageFormatInfo2) {
         self.format = Format(rawValue: cStruct.format.rawValue)!
@@ -4606,10 +4606,10 @@ struct PhysicalDeviceImageFormatInfo2: CStructConvertible {
     }
 }
 
-struct QueueFamilyProperties2: CStructConvertible {
+public struct QueueFamilyProperties2: CStructConvertible {
     typealias CStruct = VkQueueFamilyProperties2
 
-    let queueFamilyProperties: QueueFamilyProperties
+    public let queueFamilyProperties: QueueFamilyProperties
 
     init(cStruct: VkQueueFamilyProperties2) {
         self.queueFamilyProperties = QueueFamilyProperties(cStruct: cStruct.queueFamilyProperties)
@@ -4626,10 +4626,10 @@ struct QueueFamilyProperties2: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMemoryProperties2: CStructConvertible {
+public struct PhysicalDeviceMemoryProperties2: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMemoryProperties2
 
-    let memoryProperties: PhysicalDeviceMemoryProperties
+    public let memoryProperties: PhysicalDeviceMemoryProperties
 
     init(cStruct: VkPhysicalDeviceMemoryProperties2) {
         self.memoryProperties = PhysicalDeviceMemoryProperties(cStruct: cStruct.memoryProperties)
@@ -4646,10 +4646,10 @@ struct PhysicalDeviceMemoryProperties2: CStructConvertible {
     }
 }
 
-struct SparseImageFormatProperties2: CStructConvertible {
+public struct SparseImageFormatProperties2: CStructConvertible {
     typealias CStruct = VkSparseImageFormatProperties2
 
-    let properties: SparseImageFormatProperties
+    public let properties: SparseImageFormatProperties
 
     init(cStruct: VkSparseImageFormatProperties2) {
         self.properties = SparseImageFormatProperties(cStruct: cStruct.properties)
@@ -4666,14 +4666,14 @@ struct SparseImageFormatProperties2: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSparseImageFormatInfo2: CStructConvertible {
+public struct PhysicalDeviceSparseImageFormatInfo2: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSparseImageFormatInfo2
 
-    let format: Format
-    let type: ImageType
-    let samples: SampleCountFlags
-    let usage: ImageUsageFlags
-    let tiling: ImageTiling
+    public let format: Format
+    public let type: ImageType
+    public let samples: SampleCountFlags
+    public let usage: ImageUsageFlags
+    public let tiling: ImageTiling
 
     init(cStruct: VkPhysicalDeviceSparseImageFormatInfo2) {
         self.format = Format(rawValue: cStruct.format.rawValue)!
@@ -4696,10 +4696,10 @@ struct PhysicalDeviceSparseImageFormatInfo2: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePushDescriptorPropertiesKHR: CStructConvertible {
+public struct PhysicalDevicePushDescriptorPropertiesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePushDescriptorPropertiesKHR
 
-    let maxPushDescriptors: UInt32
+    public let maxPushDescriptors: UInt32
 
     init(cStruct: VkPhysicalDevicePushDescriptorPropertiesKHR) {
         self.maxPushDescriptors = cStruct.maxPushDescriptors
@@ -4714,13 +4714,13 @@ struct PhysicalDevicePushDescriptorPropertiesKHR: CStructConvertible {
     }
 }
 
-struct ConformanceVersion: CStructConvertible {
+public struct ConformanceVersion: CStructConvertible {
     typealias CStruct = VkConformanceVersion
 
-    let major: UInt8
-    let minor: UInt8
-    let subminor: UInt8
-    let patch: UInt8
+    public let major: UInt8
+    public let minor: UInt8
+    public let subminor: UInt8
+    public let patch: UInt8
 
     init(cStruct: VkConformanceVersion) {
         self.major = cStruct.major
@@ -4739,13 +4739,13 @@ struct ConformanceVersion: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDriverProperties: CStructConvertible {
+public struct PhysicalDeviceDriverProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDriverProperties
 
-    let driverID: DriverId
-    let driverName: String
-    let driverInfo: String
-    let conformanceVersion: ConformanceVersion
+    public let driverID: DriverId
+    public let driverName: String
+    public let driverInfo: String
+    public let conformanceVersion: ConformanceVersion
 
     init(cStruct: VkPhysicalDeviceDriverProperties) {
         self.driverID = DriverId(rawValue: cStruct.driverID.rawValue)!
@@ -4768,10 +4768,10 @@ struct PhysicalDeviceDriverProperties: CStructConvertible {
     }
 }
 
-struct PresentRegionsKHR: CStructConvertible {
+public struct PresentRegionsKHR: CStructConvertible {
     typealias CStruct = VkPresentRegionsKHR
 
-    let regions: Array<PresentRegionKHR>?
+    public let regions: Array<PresentRegionKHR>?
 
     init(cStruct: VkPresentRegionsKHR) {
         self.regions = (cStruct.pRegions != nil) ? UnsafeBufferPointer(start: cStruct.pRegions, count: Int(cStruct.swapchainCount)).map{ PresentRegionKHR(cStruct: $0) } : nil
@@ -4789,10 +4789,10 @@ struct PresentRegionsKHR: CStructConvertible {
     }
 }
 
-struct PresentRegionKHR: CStructConvertible {
+public struct PresentRegionKHR: CStructConvertible {
     typealias CStruct = VkPresentRegionKHR
 
-    let rectangles: Array<RectLayerKHR>?
+    public let rectangles: Array<RectLayerKHR>?
 
     init(cStruct: VkPresentRegionKHR) {
         self.rectangles = (cStruct.pRectangles != nil) ? UnsafeBufferPointer(start: cStruct.pRectangles, count: Int(cStruct.rectangleCount)).map{ RectLayerKHR(cStruct: $0) } : nil
@@ -4808,12 +4808,12 @@ struct PresentRegionKHR: CStructConvertible {
     }
 }
 
-struct RectLayerKHR: CStructConvertible {
+public struct RectLayerKHR: CStructConvertible {
     typealias CStruct = VkRectLayerKHR
 
-    let offset: Offset2D
-    let extent: Extent2D
-    let layer: UInt32
+    public let offset: Offset2D
+    public let extent: Extent2D
+    public let layer: UInt32
 
     init(cStruct: VkRectLayerKHR) {
         self.offset = Offset2D(cStruct: cStruct.offset)
@@ -4834,11 +4834,11 @@ struct RectLayerKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVariablePointersFeatures: CStructConvertible {
+public struct PhysicalDeviceVariablePointersFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVariablePointersFeatures
 
-    let variablePointersStorageBuffer: Bool
-    let variablePointers: Bool
+    public let variablePointersStorageBuffer: Bool
+    public let variablePointers: Bool
 
     init(cStruct: VkPhysicalDeviceVariablePointersFeatures) {
         self.variablePointersStorageBuffer = cStruct.variablePointersStorageBuffer == VK_TRUE
@@ -4855,12 +4855,12 @@ struct PhysicalDeviceVariablePointersFeatures: CStructConvertible {
     }
 }
 
-struct ExternalMemoryProperties: CStructConvertible {
+public struct ExternalMemoryProperties: CStructConvertible {
     typealias CStruct = VkExternalMemoryProperties
 
-    let externalMemoryFeatures: ExternalMemoryFeatureFlags
-    let exportFromImportedHandleTypes: ExternalMemoryHandleTypeFlags
-    let compatibleHandleTypes: ExternalMemoryHandleTypeFlags
+    public let externalMemoryFeatures: ExternalMemoryFeatureFlags
+    public let exportFromImportedHandleTypes: ExternalMemoryHandleTypeFlags
+    public let compatibleHandleTypes: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkExternalMemoryProperties) {
         self.externalMemoryFeatures = ExternalMemoryFeatureFlags(rawValue: cStruct.externalMemoryFeatures)
@@ -4877,10 +4877,10 @@ struct ExternalMemoryProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceExternalImageFormatInfo: CStructConvertible {
+public struct PhysicalDeviceExternalImageFormatInfo: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExternalImageFormatInfo
 
-    let handleType: ExternalMemoryHandleTypeFlags
+    public let handleType: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkPhysicalDeviceExternalImageFormatInfo) {
         self.handleType = ExternalMemoryHandleTypeFlags(rawValue: cStruct.handleType.rawValue)
@@ -4895,10 +4895,10 @@ struct PhysicalDeviceExternalImageFormatInfo: CStructConvertible {
     }
 }
 
-struct ExternalImageFormatProperties: CStructConvertible {
+public struct ExternalImageFormatProperties: CStructConvertible {
     typealias CStruct = VkExternalImageFormatProperties
 
-    let externalMemoryProperties: ExternalMemoryProperties
+    public let externalMemoryProperties: ExternalMemoryProperties
 
     init(cStruct: VkExternalImageFormatProperties) {
         self.externalMemoryProperties = ExternalMemoryProperties(cStruct: cStruct.externalMemoryProperties)
@@ -4915,12 +4915,12 @@ struct ExternalImageFormatProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceExternalBufferInfo: CStructConvertible {
+public struct PhysicalDeviceExternalBufferInfo: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExternalBufferInfo
 
-    let flags: BufferCreateFlags
-    let usage: BufferUsageFlags
-    let handleType: ExternalMemoryHandleTypeFlags
+    public let flags: BufferCreateFlags
+    public let usage: BufferUsageFlags
+    public let handleType: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkPhysicalDeviceExternalBufferInfo) {
         self.flags = BufferCreateFlags(rawValue: cStruct.flags)
@@ -4939,10 +4939,10 @@ struct PhysicalDeviceExternalBufferInfo: CStructConvertible {
     }
 }
 
-struct ExternalBufferProperties: CStructConvertible {
+public struct ExternalBufferProperties: CStructConvertible {
     typealias CStruct = VkExternalBufferProperties
 
-    let externalMemoryProperties: ExternalMemoryProperties
+    public let externalMemoryProperties: ExternalMemoryProperties
 
     init(cStruct: VkExternalBufferProperties) {
         self.externalMemoryProperties = ExternalMemoryProperties(cStruct: cStruct.externalMemoryProperties)
@@ -4959,14 +4959,14 @@ struct ExternalBufferProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceIDProperties: CStructConvertible {
+public struct PhysicalDeviceIDProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceIDProperties
 
-    let deviceUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let deviceNodeMask: UInt32
-    let deviceLUIDValid: Bool
+    public let deviceUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let deviceNodeMask: UInt32
+    public let deviceLUIDValid: Bool
 
     init(cStruct: VkPhysicalDeviceIDProperties) {
         self.deviceUUID = cStruct.deviceUUID
@@ -4989,10 +4989,10 @@ struct PhysicalDeviceIDProperties: CStructConvertible {
     }
 }
 
-struct ExternalMemoryImageCreateInfo: CStructConvertible {
+public struct ExternalMemoryImageCreateInfo: CStructConvertible {
     typealias CStruct = VkExternalMemoryImageCreateInfo
 
-    let handleTypes: ExternalMemoryHandleTypeFlags
+    public let handleTypes: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkExternalMemoryImageCreateInfo) {
         self.handleTypes = ExternalMemoryHandleTypeFlags(rawValue: cStruct.handleTypes)
@@ -5007,10 +5007,10 @@ struct ExternalMemoryImageCreateInfo: CStructConvertible {
     }
 }
 
-struct ExternalMemoryBufferCreateInfo: CStructConvertible {
+public struct ExternalMemoryBufferCreateInfo: CStructConvertible {
     typealias CStruct = VkExternalMemoryBufferCreateInfo
 
-    let handleTypes: ExternalMemoryHandleTypeFlags
+    public let handleTypes: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkExternalMemoryBufferCreateInfo) {
         self.handleTypes = ExternalMemoryHandleTypeFlags(rawValue: cStruct.handleTypes)
@@ -5025,10 +5025,10 @@ struct ExternalMemoryBufferCreateInfo: CStructConvertible {
     }
 }
 
-struct ExportMemoryAllocateInfo: CStructConvertible {
+public struct ExportMemoryAllocateInfo: CStructConvertible {
     typealias CStruct = VkExportMemoryAllocateInfo
 
-    let handleTypes: ExternalMemoryHandleTypeFlags
+    public let handleTypes: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkExportMemoryAllocateInfo) {
         self.handleTypes = ExternalMemoryHandleTypeFlags(rawValue: cStruct.handleTypes)
@@ -5043,11 +5043,11 @@ struct ExportMemoryAllocateInfo: CStructConvertible {
     }
 }
 
-struct ImportMemoryFdInfoKHR: CStructConvertible {
+public struct ImportMemoryFdInfoKHR: CStructConvertible {
     typealias CStruct = VkImportMemoryFdInfoKHR
 
-    let handleType: ExternalMemoryHandleTypeFlags
-    let fd: Int32
+    public let handleType: ExternalMemoryHandleTypeFlags
+    public let fd: Int32
 
     init(cStruct: VkImportMemoryFdInfoKHR) {
         self.handleType = ExternalMemoryHandleTypeFlags(rawValue: cStruct.handleType.rawValue)
@@ -5064,10 +5064,10 @@ struct ImportMemoryFdInfoKHR: CStructConvertible {
     }
 }
 
-struct MemoryFdPropertiesKHR: CStructConvertible {
+public struct MemoryFdPropertiesKHR: CStructConvertible {
     typealias CStruct = VkMemoryFdPropertiesKHR
 
-    let memoryTypeBits: UInt32
+    public let memoryTypeBits: UInt32
 
     init(cStruct: VkMemoryFdPropertiesKHR) {
         self.memoryTypeBits = cStruct.memoryTypeBits
@@ -5082,11 +5082,11 @@ struct MemoryFdPropertiesKHR: CStructConvertible {
     }
 }
 
-struct MemoryGetFdInfoKHR: CStructConvertible {
+public struct MemoryGetFdInfoKHR: CStructConvertible {
     typealias CStruct = VkMemoryGetFdInfoKHR
 
-    let memory: DeviceMemory
-    let handleType: ExternalMemoryHandleTypeFlags
+    public let memory: DeviceMemory
+    public let handleType: ExternalMemoryHandleTypeFlags
 
     init(cStruct: VkMemoryGetFdInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5102,10 +5102,10 @@ struct MemoryGetFdInfoKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceExternalSemaphoreInfo: CStructConvertible {
+public struct PhysicalDeviceExternalSemaphoreInfo: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExternalSemaphoreInfo
 
-    let handleType: ExternalSemaphoreHandleTypeFlags
+    public let handleType: ExternalSemaphoreHandleTypeFlags
 
     init(cStruct: VkPhysicalDeviceExternalSemaphoreInfo) {
         self.handleType = ExternalSemaphoreHandleTypeFlags(rawValue: cStruct.handleType.rawValue)
@@ -5120,12 +5120,12 @@ struct PhysicalDeviceExternalSemaphoreInfo: CStructConvertible {
     }
 }
 
-struct ExternalSemaphoreProperties: CStructConvertible {
+public struct ExternalSemaphoreProperties: CStructConvertible {
     typealias CStruct = VkExternalSemaphoreProperties
 
-    let exportFromImportedHandleTypes: ExternalSemaphoreHandleTypeFlags
-    let compatibleHandleTypes: ExternalSemaphoreHandleTypeFlags
-    let externalSemaphoreFeatures: ExternalSemaphoreFeatureFlags
+    public let exportFromImportedHandleTypes: ExternalSemaphoreHandleTypeFlags
+    public let compatibleHandleTypes: ExternalSemaphoreHandleTypeFlags
+    public let externalSemaphoreFeatures: ExternalSemaphoreFeatureFlags
 
     init(cStruct: VkExternalSemaphoreProperties) {
         self.exportFromImportedHandleTypes = ExternalSemaphoreHandleTypeFlags(rawValue: cStruct.exportFromImportedHandleTypes)
@@ -5144,10 +5144,10 @@ struct ExternalSemaphoreProperties: CStructConvertible {
     }
 }
 
-struct ExportSemaphoreCreateInfo: CStructConvertible {
+public struct ExportSemaphoreCreateInfo: CStructConvertible {
     typealias CStruct = VkExportSemaphoreCreateInfo
 
-    let handleTypes: ExternalSemaphoreHandleTypeFlags
+    public let handleTypes: ExternalSemaphoreHandleTypeFlags
 
     init(cStruct: VkExportSemaphoreCreateInfo) {
         self.handleTypes = ExternalSemaphoreHandleTypeFlags(rawValue: cStruct.handleTypes)
@@ -5162,13 +5162,13 @@ struct ExportSemaphoreCreateInfo: CStructConvertible {
     }
 }
 
-struct ImportSemaphoreFdInfoKHR: CStructConvertible {
+public struct ImportSemaphoreFdInfoKHR: CStructConvertible {
     typealias CStruct = VkImportSemaphoreFdInfoKHR
 
-    let semaphore: Semaphore
-    let flags: SemaphoreImportFlags
-    let handleType: ExternalSemaphoreHandleTypeFlags
-    let fd: Int32
+    public let semaphore: Semaphore
+    public let flags: SemaphoreImportFlags
+    public let handleType: ExternalSemaphoreHandleTypeFlags
+    public let fd: Int32
 
     init(cStruct: VkImportSemaphoreFdInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5186,11 +5186,11 @@ struct ImportSemaphoreFdInfoKHR: CStructConvertible {
     }
 }
 
-struct SemaphoreGetFdInfoKHR: CStructConvertible {
+public struct SemaphoreGetFdInfoKHR: CStructConvertible {
     typealias CStruct = VkSemaphoreGetFdInfoKHR
 
-    let semaphore: Semaphore
-    let handleType: ExternalSemaphoreHandleTypeFlags
+    public let semaphore: Semaphore
+    public let handleType: ExternalSemaphoreHandleTypeFlags
 
     init(cStruct: VkSemaphoreGetFdInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5206,10 +5206,10 @@ struct SemaphoreGetFdInfoKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceExternalFenceInfo: CStructConvertible {
+public struct PhysicalDeviceExternalFenceInfo: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExternalFenceInfo
 
-    let handleType: ExternalFenceHandleTypeFlags
+    public let handleType: ExternalFenceHandleTypeFlags
 
     init(cStruct: VkPhysicalDeviceExternalFenceInfo) {
         self.handleType = ExternalFenceHandleTypeFlags(rawValue: cStruct.handleType.rawValue)
@@ -5224,12 +5224,12 @@ struct PhysicalDeviceExternalFenceInfo: CStructConvertible {
     }
 }
 
-struct ExternalFenceProperties: CStructConvertible {
+public struct ExternalFenceProperties: CStructConvertible {
     typealias CStruct = VkExternalFenceProperties
 
-    let exportFromImportedHandleTypes: ExternalFenceHandleTypeFlags
-    let compatibleHandleTypes: ExternalFenceHandleTypeFlags
-    let externalFenceFeatures: ExternalFenceFeatureFlags
+    public let exportFromImportedHandleTypes: ExternalFenceHandleTypeFlags
+    public let compatibleHandleTypes: ExternalFenceHandleTypeFlags
+    public let externalFenceFeatures: ExternalFenceFeatureFlags
 
     init(cStruct: VkExternalFenceProperties) {
         self.exportFromImportedHandleTypes = ExternalFenceHandleTypeFlags(rawValue: cStruct.exportFromImportedHandleTypes)
@@ -5248,10 +5248,10 @@ struct ExternalFenceProperties: CStructConvertible {
     }
 }
 
-struct ExportFenceCreateInfo: CStructConvertible {
+public struct ExportFenceCreateInfo: CStructConvertible {
     typealias CStruct = VkExportFenceCreateInfo
 
-    let handleTypes: ExternalFenceHandleTypeFlags
+    public let handleTypes: ExternalFenceHandleTypeFlags
 
     init(cStruct: VkExportFenceCreateInfo) {
         self.handleTypes = ExternalFenceHandleTypeFlags(rawValue: cStruct.handleTypes)
@@ -5266,13 +5266,13 @@ struct ExportFenceCreateInfo: CStructConvertible {
     }
 }
 
-struct ImportFenceFdInfoKHR: CStructConvertible {
+public struct ImportFenceFdInfoKHR: CStructConvertible {
     typealias CStruct = VkImportFenceFdInfoKHR
 
-    let fence: Fence
-    let flags: FenceImportFlags
-    let handleType: ExternalFenceHandleTypeFlags
-    let fd: Int32
+    public let fence: Fence
+    public let flags: FenceImportFlags
+    public let handleType: ExternalFenceHandleTypeFlags
+    public let fd: Int32
 
     init(cStruct: VkImportFenceFdInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5290,11 +5290,11 @@ struct ImportFenceFdInfoKHR: CStructConvertible {
     }
 }
 
-struct FenceGetFdInfoKHR: CStructConvertible {
+public struct FenceGetFdInfoKHR: CStructConvertible {
     typealias CStruct = VkFenceGetFdInfoKHR
 
-    let fence: Fence
-    let handleType: ExternalFenceHandleTypeFlags
+    public let fence: Fence
+    public let handleType: ExternalFenceHandleTypeFlags
 
     init(cStruct: VkFenceGetFdInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5310,12 +5310,12 @@ struct FenceGetFdInfoKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMultiviewFeatures: CStructConvertible {
+public struct PhysicalDeviceMultiviewFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMultiviewFeatures
 
-    let multiview: Bool
-    let multiviewGeometryShader: Bool
-    let multiviewTessellationShader: Bool
+    public let multiview: Bool
+    public let multiviewGeometryShader: Bool
+    public let multiviewTessellationShader: Bool
 
     init(cStruct: VkPhysicalDeviceMultiviewFeatures) {
         self.multiview = cStruct.multiview == VK_TRUE
@@ -5334,11 +5334,11 @@ struct PhysicalDeviceMultiviewFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMultiviewProperties: CStructConvertible {
+public struct PhysicalDeviceMultiviewProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMultiviewProperties
 
-    let maxMultiviewViewCount: UInt32
-    let maxMultiviewInstanceIndex: UInt32
+    public let maxMultiviewViewCount: UInt32
+    public let maxMultiviewInstanceIndex: UInt32
 
     init(cStruct: VkPhysicalDeviceMultiviewProperties) {
         self.maxMultiviewViewCount = cStruct.maxMultiviewViewCount
@@ -5355,12 +5355,12 @@ struct PhysicalDeviceMultiviewProperties: CStructConvertible {
     }
 }
 
-struct RenderPassMultiviewCreateInfo: CStructConvertible {
+public struct RenderPassMultiviewCreateInfo: CStructConvertible {
     typealias CStruct = VkRenderPassMultiviewCreateInfo
 
-    let viewMasks: Array<UInt32>
-    let viewOffsets: Array<Int32>
-    let correlationMasks: Array<UInt32>
+    public let viewMasks: Array<UInt32>
+    public let viewOffsets: Array<Int32>
+    public let correlationMasks: Array<UInt32>
 
     init(cStruct: VkRenderPassMultiviewCreateInfo) {
         self.viewMasks = Array(UnsafeBufferPointer(start: cStruct.pViewMasks, count: Int(cStruct.subpassCount)))
@@ -5388,20 +5388,20 @@ struct RenderPassMultiviewCreateInfo: CStructConvertible {
     }
 }
 
-struct SurfaceCapabilities2EXT: CStructConvertible {
+public struct SurfaceCapabilities2EXT: CStructConvertible {
     typealias CStruct = VkSurfaceCapabilities2EXT
 
-    let minImageCount: UInt32
-    let maxImageCount: UInt32
-    let currentExtent: Extent2D
-    let minImageExtent: Extent2D
-    let maxImageExtent: Extent2D
-    let maxImageArrayLayers: UInt32
-    let supportedTransforms: SurfaceTransformFlagsKHR
-    let currentTransform: SurfaceTransformFlagsKHR
-    let supportedCompositeAlpha: CompositeAlphaFlagsKHR
-    let supportedUsageFlags: ImageUsageFlags
-    let supportedSurfaceCounters: SurfaceCounterFlagsEXT
+    public let minImageCount: UInt32
+    public let maxImageCount: UInt32
+    public let currentExtent: Extent2D
+    public let minImageExtent: Extent2D
+    public let maxImageExtent: Extent2D
+    public let maxImageArrayLayers: UInt32
+    public let supportedTransforms: SurfaceTransformFlagsKHR
+    public let currentTransform: SurfaceTransformFlagsKHR
+    public let supportedCompositeAlpha: CompositeAlphaFlagsKHR
+    public let supportedUsageFlags: ImageUsageFlags
+    public let supportedSurfaceCounters: SurfaceCounterFlagsEXT
 
     init(cStruct: VkSurfaceCapabilities2EXT) {
         self.minImageCount = cStruct.minImageCount
@@ -5442,10 +5442,10 @@ struct SurfaceCapabilities2EXT: CStructConvertible {
     }
 }
 
-struct DisplayPowerInfoEXT: CStructConvertible {
+public struct DisplayPowerInfoEXT: CStructConvertible {
     typealias CStruct = VkDisplayPowerInfoEXT
 
-    let powerState: DisplayPowerStateEXT
+    public let powerState: DisplayPowerStateEXT
 
     init(cStruct: VkDisplayPowerInfoEXT) {
         self.powerState = DisplayPowerStateEXT(rawValue: cStruct.powerState.rawValue)!
@@ -5460,10 +5460,10 @@ struct DisplayPowerInfoEXT: CStructConvertible {
     }
 }
 
-struct DeviceEventInfoEXT: CStructConvertible {
+public struct DeviceEventInfoEXT: CStructConvertible {
     typealias CStruct = VkDeviceEventInfoEXT
 
-    let deviceEvent: DeviceEventTypeEXT
+    public let deviceEvent: DeviceEventTypeEXT
 
     init(cStruct: VkDeviceEventInfoEXT) {
         self.deviceEvent = DeviceEventTypeEXT(rawValue: cStruct.deviceEvent.rawValue)!
@@ -5478,10 +5478,10 @@ struct DeviceEventInfoEXT: CStructConvertible {
     }
 }
 
-struct DisplayEventInfoEXT: CStructConvertible {
+public struct DisplayEventInfoEXT: CStructConvertible {
     typealias CStruct = VkDisplayEventInfoEXT
 
-    let displayEvent: DisplayEventTypeEXT
+    public let displayEvent: DisplayEventTypeEXT
 
     init(cStruct: VkDisplayEventInfoEXT) {
         self.displayEvent = DisplayEventTypeEXT(rawValue: cStruct.displayEvent.rawValue)!
@@ -5496,10 +5496,10 @@ struct DisplayEventInfoEXT: CStructConvertible {
     }
 }
 
-struct SwapchainCounterCreateInfoEXT: CStructConvertible {
+public struct SwapchainCounterCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkSwapchainCounterCreateInfoEXT
 
-    let surfaceCounters: SurfaceCounterFlagsEXT
+    public let surfaceCounters: SurfaceCounterFlagsEXT
 
     init(cStruct: VkSwapchainCounterCreateInfoEXT) {
         self.surfaceCounters = SurfaceCounterFlagsEXT(rawValue: cStruct.surfaceCounters)
@@ -5514,12 +5514,12 @@ struct SwapchainCounterCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceGroupProperties: CStructConvertible {
+public struct PhysicalDeviceGroupProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceGroupProperties
 
-    let physicalDeviceCount: UInt32
-    let physicalDevices: (VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?)
-    let subsetAllocation: Bool
+    public let physicalDeviceCount: UInt32
+    public let physicalDevices: (VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?)
+    public let subsetAllocation: Bool
 
     init(cStruct: VkPhysicalDeviceGroupProperties) {
         self.physicalDeviceCount = cStruct.physicalDeviceCount
@@ -5538,11 +5538,11 @@ struct PhysicalDeviceGroupProperties: CStructConvertible {
     }
 }
 
-struct MemoryAllocateFlagsInfo: CStructConvertible {
+public struct MemoryAllocateFlagsInfo: CStructConvertible {
     typealias CStruct = VkMemoryAllocateFlagsInfo
 
-    let flags: MemoryAllocateFlags
-    let deviceMask: UInt32
+    public let flags: MemoryAllocateFlags
+    public let deviceMask: UInt32
 
     init(cStruct: VkMemoryAllocateFlagsInfo) {
         self.flags = MemoryAllocateFlags(rawValue: cStruct.flags)
@@ -5559,12 +5559,12 @@ struct MemoryAllocateFlagsInfo: CStructConvertible {
     }
 }
 
-struct BindBufferMemoryInfo: CStructConvertible {
+public struct BindBufferMemoryInfo: CStructConvertible {
     typealias CStruct = VkBindBufferMemoryInfo
 
-    let buffer: Buffer
-    let memory: DeviceMemory
-    let memoryOffset: VkDeviceSize
+    public let buffer: Buffer
+    public let memory: DeviceMemory
+    public let memoryOffset: VkDeviceSize
 
     init(cStruct: VkBindBufferMemoryInfo) {
         fatalError("This initializer should be removed.")
@@ -5581,10 +5581,10 @@ struct BindBufferMemoryInfo: CStructConvertible {
     }
 }
 
-struct BindBufferMemoryDeviceGroupInfo: CStructConvertible {
+public struct BindBufferMemoryDeviceGroupInfo: CStructConvertible {
     typealias CStruct = VkBindBufferMemoryDeviceGroupInfo
 
-    let deviceIndices: Array<UInt32>
+    public let deviceIndices: Array<UInt32>
 
     init(cStruct: VkBindBufferMemoryDeviceGroupInfo) {
         self.deviceIndices = Array(UnsafeBufferPointer(start: cStruct.pDeviceIndices, count: Int(cStruct.deviceIndexCount)))
@@ -5602,12 +5602,12 @@ struct BindBufferMemoryDeviceGroupInfo: CStructConvertible {
     }
 }
 
-struct BindImageMemoryInfo: CStructConvertible {
+public struct BindImageMemoryInfo: CStructConvertible {
     typealias CStruct = VkBindImageMemoryInfo
 
-    let image: Image
-    let memory: DeviceMemory
-    let memoryOffset: VkDeviceSize
+    public let image: Image
+    public let memory: DeviceMemory
+    public let memoryOffset: VkDeviceSize
 
     init(cStruct: VkBindImageMemoryInfo) {
         fatalError("This initializer should be removed.")
@@ -5624,11 +5624,11 @@ struct BindImageMemoryInfo: CStructConvertible {
     }
 }
 
-struct BindImageMemoryDeviceGroupInfo: CStructConvertible {
+public struct BindImageMemoryDeviceGroupInfo: CStructConvertible {
     typealias CStruct = VkBindImageMemoryDeviceGroupInfo
 
-    let deviceIndices: Array<UInt32>
-    let splitInstanceBindRegions: Array<Rect2D>
+    public let deviceIndices: Array<UInt32>
+    public let splitInstanceBindRegions: Array<Rect2D>
 
     init(cStruct: VkBindImageMemoryDeviceGroupInfo) {
         self.deviceIndices = Array(UnsafeBufferPointer(start: cStruct.pDeviceIndices, count: Int(cStruct.deviceIndexCount)))
@@ -5651,11 +5651,11 @@ struct BindImageMemoryDeviceGroupInfo: CStructConvertible {
     }
 }
 
-struct DeviceGroupRenderPassBeginInfo: CStructConvertible {
+public struct DeviceGroupRenderPassBeginInfo: CStructConvertible {
     typealias CStruct = VkDeviceGroupRenderPassBeginInfo
 
-    let deviceMask: UInt32
-    let deviceRenderAreas: Array<Rect2D>
+    public let deviceMask: UInt32
+    public let deviceRenderAreas: Array<Rect2D>
 
     init(cStruct: VkDeviceGroupRenderPassBeginInfo) {
         self.deviceMask = cStruct.deviceMask
@@ -5675,10 +5675,10 @@ struct DeviceGroupRenderPassBeginInfo: CStructConvertible {
     }
 }
 
-struct DeviceGroupCommandBufferBeginInfo: CStructConvertible {
+public struct DeviceGroupCommandBufferBeginInfo: CStructConvertible {
     typealias CStruct = VkDeviceGroupCommandBufferBeginInfo
 
-    let deviceMask: UInt32
+    public let deviceMask: UInt32
 
     init(cStruct: VkDeviceGroupCommandBufferBeginInfo) {
         self.deviceMask = cStruct.deviceMask
@@ -5693,12 +5693,12 @@ struct DeviceGroupCommandBufferBeginInfo: CStructConvertible {
     }
 }
 
-struct DeviceGroupSubmitInfo: CStructConvertible {
+public struct DeviceGroupSubmitInfo: CStructConvertible {
     typealias CStruct = VkDeviceGroupSubmitInfo
 
-    let waitSemaphoreDeviceIndices: Array<UInt32>
-    let commandBufferDeviceMasks: Array<UInt32>
-    let signalSemaphoreDeviceIndices: Array<UInt32>
+    public let waitSemaphoreDeviceIndices: Array<UInt32>
+    public let commandBufferDeviceMasks: Array<UInt32>
+    public let signalSemaphoreDeviceIndices: Array<UInt32>
 
     init(cStruct: VkDeviceGroupSubmitInfo) {
         self.waitSemaphoreDeviceIndices = Array(UnsafeBufferPointer(start: cStruct.pWaitSemaphoreDeviceIndices, count: Int(cStruct.waitSemaphoreCount)))
@@ -5726,11 +5726,11 @@ struct DeviceGroupSubmitInfo: CStructConvertible {
     }
 }
 
-struct DeviceGroupBindSparseInfo: CStructConvertible {
+public struct DeviceGroupBindSparseInfo: CStructConvertible {
     typealias CStruct = VkDeviceGroupBindSparseInfo
 
-    let resourceDeviceIndex: UInt32
-    let memoryDeviceIndex: UInt32
+    public let resourceDeviceIndex: UInt32
+    public let memoryDeviceIndex: UInt32
 
     init(cStruct: VkDeviceGroupBindSparseInfo) {
         self.resourceDeviceIndex = cStruct.resourceDeviceIndex
@@ -5747,11 +5747,11 @@ struct DeviceGroupBindSparseInfo: CStructConvertible {
     }
 }
 
-struct DeviceGroupPresentCapabilitiesKHR: CStructConvertible {
+public struct DeviceGroupPresentCapabilitiesKHR: CStructConvertible {
     typealias CStruct = VkDeviceGroupPresentCapabilitiesKHR
 
-    let presentMask: (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
-    let modes: DeviceGroupPresentModeFlagsKHR
+    public let presentMask: (UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32)
+    public let modes: DeviceGroupPresentModeFlagsKHR
 
     init(cStruct: VkDeviceGroupPresentCapabilitiesKHR) {
         self.presentMask = cStruct.presentMask
@@ -5768,10 +5768,10 @@ struct DeviceGroupPresentCapabilitiesKHR: CStructConvertible {
     }
 }
 
-struct ImageSwapchainCreateInfoKHR: CStructConvertible {
+public struct ImageSwapchainCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkImageSwapchainCreateInfoKHR
 
-    let swapchain: SwapchainKHR?
+    public let swapchain: SwapchainKHR?
 
     init(cStruct: VkImageSwapchainCreateInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5786,11 +5786,11 @@ struct ImageSwapchainCreateInfoKHR: CStructConvertible {
     }
 }
 
-struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
+public struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
     typealias CStruct = VkBindImageMemorySwapchainInfoKHR
 
-    let swapchain: SwapchainKHR
-    let imageIndex: UInt32
+    public let swapchain: SwapchainKHR
+    public let imageIndex: UInt32
 
     init(cStruct: VkBindImageMemorySwapchainInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5806,14 +5806,14 @@ struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
     }
 }
 
-struct AcquireNextImageInfoKHR: CStructConvertible {
+public struct AcquireNextImageInfoKHR: CStructConvertible {
     typealias CStruct = VkAcquireNextImageInfoKHR
 
-    let swapchain: SwapchainKHR
-    let timeout: UInt64
-    let semaphore: Semaphore?
-    let fence: Fence?
-    let deviceMask: UInt32
+    public let swapchain: SwapchainKHR
+    public let timeout: UInt64
+    public let semaphore: Semaphore?
+    public let fence: Fence?
+    public let deviceMask: UInt32
 
     init(cStruct: VkAcquireNextImageInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -5832,11 +5832,11 @@ struct AcquireNextImageInfoKHR: CStructConvertible {
     }
 }
 
-struct DeviceGroupPresentInfoKHR: CStructConvertible {
+public struct DeviceGroupPresentInfoKHR: CStructConvertible {
     typealias CStruct = VkDeviceGroupPresentInfoKHR
 
-    let deviceMasks: Array<UInt32>
-    let mode: DeviceGroupPresentModeFlagsKHR
+    public let deviceMasks: Array<UInt32>
+    public let mode: DeviceGroupPresentModeFlagsKHR
 
     init(cStruct: VkDeviceGroupPresentInfoKHR) {
         self.deviceMasks = Array(UnsafeBufferPointer(start: cStruct.pDeviceMasks, count: Int(cStruct.swapchainCount)))
@@ -5856,10 +5856,10 @@ struct DeviceGroupPresentInfoKHR: CStructConvertible {
     }
 }
 
-struct DeviceGroupDeviceCreateInfo: CStructConvertible {
+public struct DeviceGroupDeviceCreateInfo: CStructConvertible {
     typealias CStruct = VkDeviceGroupDeviceCreateInfo
 
-    let physicalDevices: Array<PhysicalDevice>
+    public let physicalDevices: Array<PhysicalDevice>
 
     init(cStruct: VkDeviceGroupDeviceCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -5877,10 +5877,10 @@ struct DeviceGroupDeviceCreateInfo: CStructConvertible {
     }
 }
 
-struct DeviceGroupSwapchainCreateInfoKHR: CStructConvertible {
+public struct DeviceGroupSwapchainCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkDeviceGroupSwapchainCreateInfoKHR
 
-    let modes: DeviceGroupPresentModeFlagsKHR
+    public let modes: DeviceGroupPresentModeFlagsKHR
 
     init(cStruct: VkDeviceGroupSwapchainCreateInfoKHR) {
         self.modes = DeviceGroupPresentModeFlagsKHR(rawValue: cStruct.modes)
@@ -5895,15 +5895,15 @@ struct DeviceGroupSwapchainCreateInfoKHR: CStructConvertible {
     }
 }
 
-struct DescriptorUpdateTemplateEntry: CStructConvertible {
+public struct DescriptorUpdateTemplateEntry: CStructConvertible {
     typealias CStruct = VkDescriptorUpdateTemplateEntry
 
-    let dstBinding: UInt32
-    let dstArrayElement: UInt32
-    let descriptorCount: UInt32
-    let descriptorType: DescriptorType
-    let offset: Int
-    let stride: Int
+    public let dstBinding: UInt32
+    public let dstArrayElement: UInt32
+    public let descriptorCount: UInt32
+    public let descriptorType: DescriptorType
+    public let offset: Int
+    public let stride: Int
 
     init(cStruct: VkDescriptorUpdateTemplateEntry) {
         self.dstBinding = cStruct.dstBinding
@@ -5926,16 +5926,16 @@ struct DescriptorUpdateTemplateEntry: CStructConvertible {
     }
 }
 
-struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
+public struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorUpdateTemplateCreateInfo
 
-    let flags: DescriptorUpdateTemplateCreateFlags
-    let descriptorUpdateEntries: Array<DescriptorUpdateTemplateEntry>
-    let templateType: DescriptorUpdateTemplateType
-    let descriptorSetLayout: DescriptorSetLayout
-    let pipelineBindPoint: PipelineBindPoint
-    let pipelineLayout: PipelineLayout
-    let set: UInt32
+    public let flags: DescriptorUpdateTemplateCreateFlags
+    public let descriptorUpdateEntries: Array<DescriptorUpdateTemplateEntry>
+    public let templateType: DescriptorUpdateTemplateType
+    public let descriptorSetLayout: DescriptorSetLayout
+    public let pipelineBindPoint: PipelineBindPoint
+    public let pipelineLayout: PipelineLayout
+    public let set: UInt32
 
     init(cStruct: VkDescriptorUpdateTemplateCreateInfo) {
         fatalError("This initializer should be removed.")
@@ -5959,11 +5959,11 @@ struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
     }
 }
 
-struct XYColorEXT: CStructConvertible {
+public struct XYColorEXT: CStructConvertible {
     typealias CStruct = VkXYColorEXT
 
-    let x: Float
-    let y: Float
+    public let x: Float
+    public let y: Float
 
     init(cStruct: VkXYColorEXT) {
         self.x = cStruct.x
@@ -5978,17 +5978,17 @@ struct XYColorEXT: CStructConvertible {
     }
 }
 
-struct HdrMetadataEXT: CStructConvertible {
+public struct HdrMetadataEXT: CStructConvertible {
     typealias CStruct = VkHdrMetadataEXT
 
-    let displayPrimaryRed: XYColorEXT
-    let displayPrimaryGreen: XYColorEXT
-    let displayPrimaryBlue: XYColorEXT
-    let whitePoint: XYColorEXT
-    let maxLuminance: Float
-    let minLuminance: Float
-    let maxContentLightLevel: Float
-    let maxFrameAverageLightLevel: Float
+    public let displayPrimaryRed: XYColorEXT
+    public let displayPrimaryGreen: XYColorEXT
+    public let displayPrimaryBlue: XYColorEXT
+    public let whitePoint: XYColorEXT
+    public let maxLuminance: Float
+    public let minLuminance: Float
+    public let maxContentLightLevel: Float
+    public let maxFrameAverageLightLevel: Float
 
     init(cStruct: VkHdrMetadataEXT) {
         self.displayPrimaryRed = XYColorEXT(cStruct: cStruct.displayPrimaryRed)
@@ -6025,10 +6025,10 @@ struct HdrMetadataEXT: CStructConvertible {
     }
 }
 
-struct DisplayNativeHdrSurfaceCapabilitiesAMD: CStructConvertible {
+public struct DisplayNativeHdrSurfaceCapabilitiesAMD: CStructConvertible {
     typealias CStruct = VkDisplayNativeHdrSurfaceCapabilitiesAMD
 
-    let localDimmingSupport: Bool
+    public let localDimmingSupport: Bool
 
     init(cStruct: VkDisplayNativeHdrSurfaceCapabilitiesAMD) {
         self.localDimmingSupport = cStruct.localDimmingSupport == VK_TRUE
@@ -6043,10 +6043,10 @@ struct DisplayNativeHdrSurfaceCapabilitiesAMD: CStructConvertible {
     }
 }
 
-struct SwapchainDisplayNativeHdrCreateInfoAMD: CStructConvertible {
+public struct SwapchainDisplayNativeHdrCreateInfoAMD: CStructConvertible {
     typealias CStruct = VkSwapchainDisplayNativeHdrCreateInfoAMD
 
-    let localDimmingEnable: Bool
+    public let localDimmingEnable: Bool
 
     init(cStruct: VkSwapchainDisplayNativeHdrCreateInfoAMD) {
         self.localDimmingEnable = cStruct.localDimmingEnable == VK_TRUE
@@ -6061,10 +6061,10 @@ struct SwapchainDisplayNativeHdrCreateInfoAMD: CStructConvertible {
     }
 }
 
-struct RefreshCycleDurationGOOGLE: CStructConvertible {
+public struct RefreshCycleDurationGOOGLE: CStructConvertible {
     typealias CStruct = VkRefreshCycleDurationGOOGLE
 
-    let refreshDuration: UInt64
+    public let refreshDuration: UInt64
 
     init(cStruct: VkRefreshCycleDurationGOOGLE) {
         self.refreshDuration = cStruct.refreshDuration
@@ -6077,14 +6077,14 @@ struct RefreshCycleDurationGOOGLE: CStructConvertible {
     }
 }
 
-struct PastPresentationTimingGOOGLE: CStructConvertible {
+public struct PastPresentationTimingGOOGLE: CStructConvertible {
     typealias CStruct = VkPastPresentationTimingGOOGLE
 
-    let presentID: UInt32
-    let desiredPresentTime: UInt64
-    let actualPresentTime: UInt64
-    let earliestPresentTime: UInt64
-    let presentMargin: UInt64
+    public let presentID: UInt32
+    public let desiredPresentTime: UInt64
+    public let actualPresentTime: UInt64
+    public let earliestPresentTime: UInt64
+    public let presentMargin: UInt64
 
     init(cStruct: VkPastPresentationTimingGOOGLE) {
         self.presentID = cStruct.presentID
@@ -6105,10 +6105,10 @@ struct PastPresentationTimingGOOGLE: CStructConvertible {
     }
 }
 
-struct PresentTimesInfoGOOGLE: CStructConvertible {
+public struct PresentTimesInfoGOOGLE: CStructConvertible {
     typealias CStruct = VkPresentTimesInfoGOOGLE
 
-    let times: Array<PresentTimeGOOGLE>?
+    public let times: Array<PresentTimeGOOGLE>?
 
     init(cStruct: VkPresentTimesInfoGOOGLE) {
         self.times = (cStruct.pTimes != nil) ? UnsafeBufferPointer(start: cStruct.pTimes, count: Int(cStruct.swapchainCount)).map{ PresentTimeGOOGLE(cStruct: $0) } : nil
@@ -6126,11 +6126,11 @@ struct PresentTimesInfoGOOGLE: CStructConvertible {
     }
 }
 
-struct PresentTimeGOOGLE: CStructConvertible {
+public struct PresentTimeGOOGLE: CStructConvertible {
     typealias CStruct = VkPresentTimeGOOGLE
 
-    let presentID: UInt32
-    let desiredPresentTime: UInt64
+    public let presentID: UInt32
+    public let desiredPresentTime: UInt64
 
     init(cStruct: VkPresentTimeGOOGLE) {
         self.presentID = cStruct.presentID
@@ -6145,11 +6145,11 @@ struct PresentTimeGOOGLE: CStructConvertible {
     }
 }
 
-struct ViewportWScalingNV: CStructConvertible {
+public struct ViewportWScalingNV: CStructConvertible {
     typealias CStruct = VkViewportWScalingNV
 
-    let xcoeff: Float
-    let ycoeff: Float
+    public let xcoeff: Float
+    public let ycoeff: Float
 
     init(cStruct: VkViewportWScalingNV) {
         self.xcoeff = cStruct.xcoeff
@@ -6164,11 +6164,11 @@ struct ViewportWScalingNV: CStructConvertible {
     }
 }
 
-struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
+public struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportWScalingStateCreateInfoNV
 
-    let viewportWScalingEnable: Bool
-    let viewportWScalings: Array<ViewportWScalingNV>?
+    public let viewportWScalingEnable: Bool
+    public let viewportWScalings: Array<ViewportWScalingNV>?
 
     init(cStruct: VkPipelineViewportWScalingStateCreateInfoNV) {
         self.viewportWScalingEnable = cStruct.viewportWScalingEnable == VK_TRUE
@@ -6188,13 +6188,13 @@ struct PipelineViewportWScalingStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct ViewportSwizzleNV: CStructConvertible {
+public struct ViewportSwizzleNV: CStructConvertible {
     typealias CStruct = VkViewportSwizzleNV
 
-    let x: ViewportCoordinateSwizzleNV
-    let y: ViewportCoordinateSwizzleNV
-    let z: ViewportCoordinateSwizzleNV
-    let w: ViewportCoordinateSwizzleNV
+    public let x: ViewportCoordinateSwizzleNV
+    public let y: ViewportCoordinateSwizzleNV
+    public let z: ViewportCoordinateSwizzleNV
+    public let w: ViewportCoordinateSwizzleNV
 
     init(cStruct: VkViewportSwizzleNV) {
         self.x = ViewportCoordinateSwizzleNV(rawValue: cStruct.x.rawValue)!
@@ -6213,11 +6213,11 @@ struct ViewportSwizzleNV: CStructConvertible {
     }
 }
 
-struct PipelineViewportSwizzleStateCreateInfoNV: CStructConvertible {
+public struct PipelineViewportSwizzleStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportSwizzleStateCreateInfoNV
 
-    let flags: PipelineViewportSwizzleStateCreateFlagsNV
-    let viewportSwizzles: Array<ViewportSwizzleNV>
+    public let flags: PipelineViewportSwizzleStateCreateFlagsNV
+    public let viewportSwizzles: Array<ViewportSwizzleNV>
 
     init(cStruct: VkPipelineViewportSwizzleStateCreateInfoNV) {
         self.flags = PipelineViewportSwizzleStateCreateFlagsNV(rawValue: cStruct.flags)
@@ -6237,10 +6237,10 @@ struct PipelineViewportSwizzleStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDiscardRectanglePropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceDiscardRectanglePropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDiscardRectanglePropertiesEXT
 
-    let maxDiscardRectangles: UInt32
+    public let maxDiscardRectangles: UInt32
 
     init(cStruct: VkPhysicalDeviceDiscardRectanglePropertiesEXT) {
         self.maxDiscardRectangles = cStruct.maxDiscardRectangles
@@ -6255,12 +6255,12 @@ struct PhysicalDeviceDiscardRectanglePropertiesEXT: CStructConvertible {
     }
 }
 
-struct PipelineDiscardRectangleStateCreateInfoEXT: CStructConvertible {
+public struct PipelineDiscardRectangleStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineDiscardRectangleStateCreateInfoEXT
 
-    let flags: PipelineDiscardRectangleStateCreateFlagsEXT
-    let discardRectangleMode: DiscardRectangleModeEXT
-    let discardRectangles: Array<Rect2D>?
+    public let flags: PipelineDiscardRectangleStateCreateFlagsEXT
+    public let discardRectangleMode: DiscardRectangleModeEXT
+    public let discardRectangles: Array<Rect2D>?
 
     init(cStruct: VkPipelineDiscardRectangleStateCreateInfoEXT) {
         self.flags = PipelineDiscardRectangleStateCreateFlagsEXT(rawValue: cStruct.flags)
@@ -6282,10 +6282,10 @@ struct PipelineDiscardRectangleStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: CStructConvertible {
+public struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX
 
-    let perViewPositionAllComponents: Bool
+    public let perViewPositionAllComponents: Bool
 
     init(cStruct: VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX) {
         self.perViewPositionAllComponents = cStruct.perViewPositionAllComponents == VK_TRUE
@@ -6300,12 +6300,12 @@ struct PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: CStructConvertible
     }
 }
 
-struct InputAttachmentAspectReference: CStructConvertible {
+public struct InputAttachmentAspectReference: CStructConvertible {
     typealias CStruct = VkInputAttachmentAspectReference
 
-    let subpass: UInt32
-    let inputAttachmentIndex: UInt32
-    let aspectMask: ImageAspectFlags
+    public let subpass: UInt32
+    public let inputAttachmentIndex: UInt32
+    public let aspectMask: ImageAspectFlags
 
     init(cStruct: VkInputAttachmentAspectReference) {
         self.subpass = cStruct.subpass
@@ -6322,10 +6322,10 @@ struct InputAttachmentAspectReference: CStructConvertible {
     }
 }
 
-struct RenderPassInputAttachmentAspectCreateInfo: CStructConvertible {
+public struct RenderPassInputAttachmentAspectCreateInfo: CStructConvertible {
     typealias CStruct = VkRenderPassInputAttachmentAspectCreateInfo
 
-    let aspectReferences: Array<InputAttachmentAspectReference>
+    public let aspectReferences: Array<InputAttachmentAspectReference>
 
     init(cStruct: VkRenderPassInputAttachmentAspectCreateInfo) {
         self.aspectReferences = UnsafeBufferPointer(start: cStruct.pAspectReferences, count: Int(cStruct.aspectReferenceCount)).map{ InputAttachmentAspectReference(cStruct: $0) }
@@ -6343,10 +6343,10 @@ struct RenderPassInputAttachmentAspectCreateInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSurfaceInfo2KHR: CStructConvertible {
+public struct PhysicalDeviceSurfaceInfo2KHR: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSurfaceInfo2KHR
 
-    let surface: SurfaceKHR
+    public let surface: SurfaceKHR
 
     init(cStruct: VkPhysicalDeviceSurfaceInfo2KHR) {
         fatalError("This initializer should be removed.")
@@ -6361,10 +6361,10 @@ struct PhysicalDeviceSurfaceInfo2KHR: CStructConvertible {
     }
 }
 
-struct SurfaceCapabilities2KHR: CStructConvertible {
+public struct SurfaceCapabilities2KHR: CStructConvertible {
     typealias CStruct = VkSurfaceCapabilities2KHR
 
-    let surfaceCapabilities: SurfaceCapabilitiesKHR
+    public let surfaceCapabilities: SurfaceCapabilitiesKHR
 
     init(cStruct: VkSurfaceCapabilities2KHR) {
         self.surfaceCapabilities = SurfaceCapabilitiesKHR(cStruct: cStruct.surfaceCapabilities)
@@ -6381,10 +6381,10 @@ struct SurfaceCapabilities2KHR: CStructConvertible {
     }
 }
 
-struct SurfaceFormat2KHR: CStructConvertible {
+public struct SurfaceFormat2KHR: CStructConvertible {
     typealias CStruct = VkSurfaceFormat2KHR
 
-    let surfaceFormat: SurfaceFormatKHR
+    public let surfaceFormat: SurfaceFormatKHR
 
     init(cStruct: VkSurfaceFormat2KHR) {
         self.surfaceFormat = SurfaceFormatKHR(cStruct: cStruct.surfaceFormat)
@@ -6401,10 +6401,10 @@ struct SurfaceFormat2KHR: CStructConvertible {
     }
 }
 
-struct DisplayProperties2KHR: CStructConvertible {
+public struct DisplayProperties2KHR: CStructConvertible {
     typealias CStruct = VkDisplayProperties2KHR
 
-    let displayProperties: DisplayPropertiesKHR
+    public let displayProperties: DisplayPropertiesKHR
 
     init(cStruct: VkDisplayProperties2KHR) {
         self.displayProperties = DisplayPropertiesKHR(cStruct: cStruct.displayProperties)
@@ -6421,10 +6421,10 @@ struct DisplayProperties2KHR: CStructConvertible {
     }
 }
 
-struct DisplayPlaneProperties2KHR: CStructConvertible {
+public struct DisplayPlaneProperties2KHR: CStructConvertible {
     typealias CStruct = VkDisplayPlaneProperties2KHR
 
-    let displayPlaneProperties: DisplayPlanePropertiesKHR
+    public let displayPlaneProperties: DisplayPlanePropertiesKHR
 
     init(cStruct: VkDisplayPlaneProperties2KHR) {
         self.displayPlaneProperties = DisplayPlanePropertiesKHR(cStruct: cStruct.displayPlaneProperties)
@@ -6441,10 +6441,10 @@ struct DisplayPlaneProperties2KHR: CStructConvertible {
     }
 }
 
-struct DisplayModeProperties2KHR: CStructConvertible {
+public struct DisplayModeProperties2KHR: CStructConvertible {
     typealias CStruct = VkDisplayModeProperties2KHR
 
-    let displayModeProperties: DisplayModePropertiesKHR
+    public let displayModeProperties: DisplayModePropertiesKHR
 
     init(cStruct: VkDisplayModeProperties2KHR) {
         self.displayModeProperties = DisplayModePropertiesKHR(cStruct: cStruct.displayModeProperties)
@@ -6461,11 +6461,11 @@ struct DisplayModeProperties2KHR: CStructConvertible {
     }
 }
 
-struct DisplayPlaneInfo2KHR: CStructConvertible {
+public struct DisplayPlaneInfo2KHR: CStructConvertible {
     typealias CStruct = VkDisplayPlaneInfo2KHR
 
-    let mode: DisplayModeKHR
-    let planeIndex: UInt32
+    public let mode: DisplayModeKHR
+    public let planeIndex: UInt32
 
     init(cStruct: VkDisplayPlaneInfo2KHR) {
         fatalError("This initializer should be removed.")
@@ -6481,10 +6481,10 @@ struct DisplayPlaneInfo2KHR: CStructConvertible {
     }
 }
 
-struct DisplayPlaneCapabilities2KHR: CStructConvertible {
+public struct DisplayPlaneCapabilities2KHR: CStructConvertible {
     typealias CStruct = VkDisplayPlaneCapabilities2KHR
 
-    let capabilities: DisplayPlaneCapabilitiesKHR
+    public let capabilities: DisplayPlaneCapabilitiesKHR
 
     init(cStruct: VkDisplayPlaneCapabilities2KHR) {
         self.capabilities = DisplayPlaneCapabilitiesKHR(cStruct: cStruct.capabilities)
@@ -6501,10 +6501,10 @@ struct DisplayPlaneCapabilities2KHR: CStructConvertible {
     }
 }
 
-struct SharedPresentSurfaceCapabilitiesKHR: CStructConvertible {
+public struct SharedPresentSurfaceCapabilitiesKHR: CStructConvertible {
     typealias CStruct = VkSharedPresentSurfaceCapabilitiesKHR
 
-    let sharedPresentSupportedUsageFlags: ImageUsageFlags
+    public let sharedPresentSupportedUsageFlags: ImageUsageFlags
 
     init(cStruct: VkSharedPresentSurfaceCapabilitiesKHR) {
         self.sharedPresentSupportedUsageFlags = ImageUsageFlags(rawValue: cStruct.sharedPresentSupportedUsageFlags)
@@ -6519,13 +6519,13 @@ struct SharedPresentSurfaceCapabilitiesKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDevice16BitStorageFeatures: CStructConvertible {
+public struct PhysicalDevice16BitStorageFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDevice16BitStorageFeatures
 
-    let storageBuffer16BitAccess: Bool
-    let uniformAndStorageBuffer16BitAccess: Bool
-    let storagePushConstant16: Bool
-    let storageInputOutput16: Bool
+    public let storageBuffer16BitAccess: Bool
+    public let uniformAndStorageBuffer16BitAccess: Bool
+    public let storagePushConstant16: Bool
+    public let storageInputOutput16: Bool
 
     init(cStruct: VkPhysicalDevice16BitStorageFeatures) {
         self.storageBuffer16BitAccess = cStruct.storageBuffer16BitAccess == VK_TRUE
@@ -6546,13 +6546,13 @@ struct PhysicalDevice16BitStorageFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSubgroupProperties: CStructConvertible {
+public struct PhysicalDeviceSubgroupProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSubgroupProperties
 
-    let subgroupSize: UInt32
-    let supportedStages: ShaderStageFlags
-    let supportedOperations: SubgroupFeatureFlags
-    let quadOperationsInAllStages: Bool
+    public let subgroupSize: UInt32
+    public let supportedStages: ShaderStageFlags
+    public let supportedOperations: SubgroupFeatureFlags
+    public let quadOperationsInAllStages: Bool
 
     init(cStruct: VkPhysicalDeviceSubgroupProperties) {
         self.subgroupSize = cStruct.subgroupSize
@@ -6573,10 +6573,10 @@ struct PhysicalDeviceSubgroupProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures: CStructConvertible {
+public struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures
 
-    let shaderSubgroupExtendedTypes: Bool
+    public let shaderSubgroupExtendedTypes: Bool
 
     init(cStruct: VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures) {
         self.shaderSubgroupExtendedTypes = cStruct.shaderSubgroupExtendedTypes == VK_TRUE
@@ -6591,10 +6591,10 @@ struct PhysicalDeviceShaderSubgroupExtendedTypesFeatures: CStructConvertible {
     }
 }
 
-struct BufferMemoryRequirementsInfo2: CStructConvertible {
+public struct BufferMemoryRequirementsInfo2: CStructConvertible {
     typealias CStruct = VkBufferMemoryRequirementsInfo2
 
-    let buffer: Buffer
+    public let buffer: Buffer
 
     init(cStruct: VkBufferMemoryRequirementsInfo2) {
         fatalError("This initializer should be removed.")
@@ -6609,10 +6609,10 @@ struct BufferMemoryRequirementsInfo2: CStructConvertible {
     }
 }
 
-struct ImageMemoryRequirementsInfo2: CStructConvertible {
+public struct ImageMemoryRequirementsInfo2: CStructConvertible {
     typealias CStruct = VkImageMemoryRequirementsInfo2
 
-    let image: Image
+    public let image: Image
 
     init(cStruct: VkImageMemoryRequirementsInfo2) {
         fatalError("This initializer should be removed.")
@@ -6627,10 +6627,10 @@ struct ImageMemoryRequirementsInfo2: CStructConvertible {
     }
 }
 
-struct ImageSparseMemoryRequirementsInfo2: CStructConvertible {
+public struct ImageSparseMemoryRequirementsInfo2: CStructConvertible {
     typealias CStruct = VkImageSparseMemoryRequirementsInfo2
 
-    let image: Image
+    public let image: Image
 
     init(cStruct: VkImageSparseMemoryRequirementsInfo2) {
         fatalError("This initializer should be removed.")
@@ -6645,10 +6645,10 @@ struct ImageSparseMemoryRequirementsInfo2: CStructConvertible {
     }
 }
 
-struct MemoryRequirements2: CStructConvertible {
+public struct MemoryRequirements2: CStructConvertible {
     typealias CStruct = VkMemoryRequirements2
 
-    let memoryRequirements: MemoryRequirements
+    public let memoryRequirements: MemoryRequirements
 
     init(cStruct: VkMemoryRequirements2) {
         self.memoryRequirements = MemoryRequirements(cStruct: cStruct.memoryRequirements)
@@ -6665,10 +6665,10 @@ struct MemoryRequirements2: CStructConvertible {
     }
 }
 
-struct SparseImageMemoryRequirements2: CStructConvertible {
+public struct SparseImageMemoryRequirements2: CStructConvertible {
     typealias CStruct = VkSparseImageMemoryRequirements2
 
-    let memoryRequirements: SparseImageMemoryRequirements
+    public let memoryRequirements: SparseImageMemoryRequirements
 
     init(cStruct: VkSparseImageMemoryRequirements2) {
         self.memoryRequirements = SparseImageMemoryRequirements(cStruct: cStruct.memoryRequirements)
@@ -6685,10 +6685,10 @@ struct SparseImageMemoryRequirements2: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePointClippingProperties: CStructConvertible {
+public struct PhysicalDevicePointClippingProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePointClippingProperties
 
-    let pointClippingBehavior: PointClippingBehavior
+    public let pointClippingBehavior: PointClippingBehavior
 
     init(cStruct: VkPhysicalDevicePointClippingProperties) {
         self.pointClippingBehavior = PointClippingBehavior(rawValue: cStruct.pointClippingBehavior.rawValue)!
@@ -6703,11 +6703,11 @@ struct PhysicalDevicePointClippingProperties: CStructConvertible {
     }
 }
 
-struct MemoryDedicatedRequirements: CStructConvertible {
+public struct MemoryDedicatedRequirements: CStructConvertible {
     typealias CStruct = VkMemoryDedicatedRequirements
 
-    let prefersDedicatedAllocation: Bool
-    let requiresDedicatedAllocation: Bool
+    public let prefersDedicatedAllocation: Bool
+    public let requiresDedicatedAllocation: Bool
 
     init(cStruct: VkMemoryDedicatedRequirements) {
         self.prefersDedicatedAllocation = cStruct.prefersDedicatedAllocation == VK_TRUE
@@ -6724,11 +6724,11 @@ struct MemoryDedicatedRequirements: CStructConvertible {
     }
 }
 
-struct MemoryDedicatedAllocateInfo: CStructConvertible {
+public struct MemoryDedicatedAllocateInfo: CStructConvertible {
     typealias CStruct = VkMemoryDedicatedAllocateInfo
 
-    let image: Image?
-    let buffer: Buffer?
+    public let image: Image?
+    public let buffer: Buffer?
 
     init(cStruct: VkMemoryDedicatedAllocateInfo) {
         fatalError("This initializer should be removed.")
@@ -6744,10 +6744,10 @@ struct MemoryDedicatedAllocateInfo: CStructConvertible {
     }
 }
 
-struct ImageViewUsageCreateInfo: CStructConvertible {
+public struct ImageViewUsageCreateInfo: CStructConvertible {
     typealias CStruct = VkImageViewUsageCreateInfo
 
-    let usage: ImageUsageFlags
+    public let usage: ImageUsageFlags
 
     init(cStruct: VkImageViewUsageCreateInfo) {
         self.usage = ImageUsageFlags(rawValue: cStruct.usage)
@@ -6762,10 +6762,10 @@ struct ImageViewUsageCreateInfo: CStructConvertible {
     }
 }
 
-struct PipelineTessellationDomainOriginStateCreateInfo: CStructConvertible {
+public struct PipelineTessellationDomainOriginStateCreateInfo: CStructConvertible {
     typealias CStruct = VkPipelineTessellationDomainOriginStateCreateInfo
 
-    let domainOrigin: TessellationDomainOrigin
+    public let domainOrigin: TessellationDomainOrigin
 
     init(cStruct: VkPipelineTessellationDomainOriginStateCreateInfo) {
         self.domainOrigin = TessellationDomainOrigin(rawValue: cStruct.domainOrigin.rawValue)!
@@ -6780,10 +6780,10 @@ struct PipelineTessellationDomainOriginStateCreateInfo: CStructConvertible {
     }
 }
 
-struct SamplerYcbcrConversionInfo: CStructConvertible {
+public struct SamplerYcbcrConversionInfo: CStructConvertible {
     typealias CStruct = VkSamplerYcbcrConversionInfo
 
-    let conversion: SamplerYcbcrConversion
+    public let conversion: SamplerYcbcrConversion
 
     init(cStruct: VkSamplerYcbcrConversionInfo) {
         fatalError("This initializer should be removed.")
@@ -6798,17 +6798,17 @@ struct SamplerYcbcrConversionInfo: CStructConvertible {
     }
 }
 
-struct SamplerYcbcrConversionCreateInfo: CStructConvertible {
+public struct SamplerYcbcrConversionCreateInfo: CStructConvertible {
     typealias CStruct = VkSamplerYcbcrConversionCreateInfo
 
-    let format: Format
-    let ycbcrModel: SamplerYcbcrModelConversion
-    let ycbcrRange: SamplerYcbcrRange
-    let components: ComponentMapping
-    let xChromaOffset: ChromaLocation
-    let yChromaOffset: ChromaLocation
-    let chromaFilter: Filter
-    let forceExplicitReconstruction: Bool
+    public let format: Format
+    public let ycbcrModel: SamplerYcbcrModelConversion
+    public let ycbcrRange: SamplerYcbcrRange
+    public let components: ComponentMapping
+    public let xChromaOffset: ChromaLocation
+    public let yChromaOffset: ChromaLocation
+    public let chromaFilter: Filter
+    public let forceExplicitReconstruction: Bool
 
     init(cStruct: VkSamplerYcbcrConversionCreateInfo) {
         self.format = Format(rawValue: cStruct.format.rawValue)!
@@ -6839,10 +6839,10 @@ struct SamplerYcbcrConversionCreateInfo: CStructConvertible {
     }
 }
 
-struct BindImagePlaneMemoryInfo: CStructConvertible {
+public struct BindImagePlaneMemoryInfo: CStructConvertible {
     typealias CStruct = VkBindImagePlaneMemoryInfo
 
-    let planeAspect: ImageAspectFlags
+    public let planeAspect: ImageAspectFlags
 
     init(cStruct: VkBindImagePlaneMemoryInfo) {
         self.planeAspect = ImageAspectFlags(rawValue: cStruct.planeAspect.rawValue)
@@ -6857,10 +6857,10 @@ struct BindImagePlaneMemoryInfo: CStructConvertible {
     }
 }
 
-struct ImagePlaneMemoryRequirementsInfo: CStructConvertible {
+public struct ImagePlaneMemoryRequirementsInfo: CStructConvertible {
     typealias CStruct = VkImagePlaneMemoryRequirementsInfo
 
-    let planeAspect: ImageAspectFlags
+    public let planeAspect: ImageAspectFlags
 
     init(cStruct: VkImagePlaneMemoryRequirementsInfo) {
         self.planeAspect = ImageAspectFlags(rawValue: cStruct.planeAspect.rawValue)
@@ -6875,10 +6875,10 @@ struct ImagePlaneMemoryRequirementsInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSamplerYcbcrConversionFeatures: CStructConvertible {
+public struct PhysicalDeviceSamplerYcbcrConversionFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSamplerYcbcrConversionFeatures
 
-    let samplerYcbcrConversion: Bool
+    public let samplerYcbcrConversion: Bool
 
     init(cStruct: VkPhysicalDeviceSamplerYcbcrConversionFeatures) {
         self.samplerYcbcrConversion = cStruct.samplerYcbcrConversion == VK_TRUE
@@ -6893,10 +6893,10 @@ struct PhysicalDeviceSamplerYcbcrConversionFeatures: CStructConvertible {
     }
 }
 
-struct SamplerYcbcrConversionImageFormatProperties: CStructConvertible {
+public struct SamplerYcbcrConversionImageFormatProperties: CStructConvertible {
     typealias CStruct = VkSamplerYcbcrConversionImageFormatProperties
 
-    let combinedImageSamplerDescriptorCount: UInt32
+    public let combinedImageSamplerDescriptorCount: UInt32
 
     init(cStruct: VkSamplerYcbcrConversionImageFormatProperties) {
         self.combinedImageSamplerDescriptorCount = cStruct.combinedImageSamplerDescriptorCount
@@ -6911,10 +6911,10 @@ struct SamplerYcbcrConversionImageFormatProperties: CStructConvertible {
     }
 }
 
-struct TextureLODGatherFormatPropertiesAMD: CStructConvertible {
+public struct TextureLODGatherFormatPropertiesAMD: CStructConvertible {
     typealias CStruct = VkTextureLODGatherFormatPropertiesAMD
 
-    let supportsTextureGatherLODBiasAMD: Bool
+    public let supportsTextureGatherLODBiasAMD: Bool
 
     init(cStruct: VkTextureLODGatherFormatPropertiesAMD) {
         self.supportsTextureGatherLODBiasAMD = cStruct.supportsTextureGatherLODBiasAMD == VK_TRUE
@@ -6929,12 +6929,12 @@ struct TextureLODGatherFormatPropertiesAMD: CStructConvertible {
     }
 }
 
-struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
+public struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
     typealias CStruct = VkConditionalRenderingBeginInfoEXT
 
-    let buffer: Buffer
-    let offset: VkDeviceSize
-    let flags: ConditionalRenderingFlagsEXT
+    public let buffer: Buffer
+    public let offset: VkDeviceSize
+    public let flags: ConditionalRenderingFlagsEXT
 
     init(cStruct: VkConditionalRenderingBeginInfoEXT) {
         fatalError("This initializer should be removed.")
@@ -6951,10 +6951,10 @@ struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
     }
 }
 
-struct ProtectedSubmitInfo: CStructConvertible {
+public struct ProtectedSubmitInfo: CStructConvertible {
     typealias CStruct = VkProtectedSubmitInfo
 
-    let protectedSubmit: Bool
+    public let protectedSubmit: Bool
 
     init(cStruct: VkProtectedSubmitInfo) {
         self.protectedSubmit = cStruct.protectedSubmit == VK_TRUE
@@ -6969,10 +6969,10 @@ struct ProtectedSubmitInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceProtectedMemoryFeatures: CStructConvertible {
+public struct PhysicalDeviceProtectedMemoryFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProtectedMemoryFeatures
 
-    let protectedMemory: Bool
+    public let protectedMemory: Bool
 
     init(cStruct: VkPhysicalDeviceProtectedMemoryFeatures) {
         self.protectedMemory = cStruct.protectedMemory == VK_TRUE
@@ -6987,10 +6987,10 @@ struct PhysicalDeviceProtectedMemoryFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceProtectedMemoryProperties: CStructConvertible {
+public struct PhysicalDeviceProtectedMemoryProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProtectedMemoryProperties
 
-    let protectedNoFault: Bool
+    public let protectedNoFault: Bool
 
     init(cStruct: VkPhysicalDeviceProtectedMemoryProperties) {
         self.protectedNoFault = cStruct.protectedNoFault == VK_TRUE
@@ -7005,12 +7005,12 @@ struct PhysicalDeviceProtectedMemoryProperties: CStructConvertible {
     }
 }
 
-struct DeviceQueueInfo2: CStructConvertible {
+public struct DeviceQueueInfo2: CStructConvertible {
     typealias CStruct = VkDeviceQueueInfo2
 
-    let flags: DeviceQueueCreateFlags
-    let queueFamilyIndex: UInt32
-    let queueIndex: UInt32
+    public let flags: DeviceQueueCreateFlags
+    public let queueFamilyIndex: UInt32
+    public let queueIndex: UInt32
 
     init(cStruct: VkDeviceQueueInfo2) {
         self.flags = DeviceQueueCreateFlags(rawValue: cStruct.flags)
@@ -7029,12 +7029,12 @@ struct DeviceQueueInfo2: CStructConvertible {
     }
 }
 
-struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
+public struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineCoverageToColorStateCreateInfoNV
 
-    let flags: PipelineCoverageToColorStateCreateFlagsNV
-    let coverageToColorEnable: Bool
-    let coverageToColorLocation: UInt32
+    public let flags: PipelineCoverageToColorStateCreateFlagsNV
+    public let coverageToColorEnable: Bool
+    public let coverageToColorLocation: UInt32
 
     init(cStruct: VkPipelineCoverageToColorStateCreateInfoNV) {
         self.flags = PipelineCoverageToColorStateCreateFlagsNV(rawValue: cStruct.flags)
@@ -7053,11 +7053,11 @@ struct PipelineCoverageToColorStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSamplerFilterMinmaxProperties: CStructConvertible {
+public struct PhysicalDeviceSamplerFilterMinmaxProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSamplerFilterMinmaxProperties
 
-    let filterMinmaxSingleComponentFormats: Bool
-    let filterMinmaxImageComponentMapping: Bool
+    public let filterMinmaxSingleComponentFormats: Bool
+    public let filterMinmaxImageComponentMapping: Bool
 
     init(cStruct: VkPhysicalDeviceSamplerFilterMinmaxProperties) {
         self.filterMinmaxSingleComponentFormats = cStruct.filterMinmaxSingleComponentFormats == VK_TRUE
@@ -7074,11 +7074,11 @@ struct PhysicalDeviceSamplerFilterMinmaxProperties: CStructConvertible {
     }
 }
 
-struct SampleLocationEXT: CStructConvertible {
+public struct SampleLocationEXT: CStructConvertible {
     typealias CStruct = VkSampleLocationEXT
 
-    let x: Float
-    let y: Float
+    public let x: Float
+    public let y: Float
 
     init(cStruct: VkSampleLocationEXT) {
         self.x = cStruct.x
@@ -7093,12 +7093,12 @@ struct SampleLocationEXT: CStructConvertible {
     }
 }
 
-struct SampleLocationsInfoEXT: CStructConvertible {
+public struct SampleLocationsInfoEXT: CStructConvertible {
     typealias CStruct = VkSampleLocationsInfoEXT
 
-    let sampleLocationsPerPixel: SampleCountFlags
-    let sampleLocationGridSize: Extent2D
-    let sampleLocations: Array<SampleLocationEXT>
+    public let sampleLocationsPerPixel: SampleCountFlags
+    public let sampleLocationGridSize: Extent2D
+    public let sampleLocations: Array<SampleLocationEXT>
 
     init(cStruct: VkSampleLocationsInfoEXT) {
         self.sampleLocationsPerPixel = SampleCountFlags(rawValue: cStruct.sampleLocationsPerPixel.rawValue)
@@ -7122,11 +7122,11 @@ struct SampleLocationsInfoEXT: CStructConvertible {
     }
 }
 
-struct AttachmentSampleLocationsEXT: CStructConvertible {
+public struct AttachmentSampleLocationsEXT: CStructConvertible {
     typealias CStruct = VkAttachmentSampleLocationsEXT
 
-    let attachmentIndex: UInt32
-    let sampleLocationsInfo: SampleLocationsInfoEXT
+    public let attachmentIndex: UInt32
+    public let sampleLocationsInfo: SampleLocationsInfoEXT
 
     init(cStruct: VkAttachmentSampleLocationsEXT) {
         self.attachmentIndex = cStruct.attachmentIndex
@@ -7143,11 +7143,11 @@ struct AttachmentSampleLocationsEXT: CStructConvertible {
     }
 }
 
-struct SubpassSampleLocationsEXT: CStructConvertible {
+public struct SubpassSampleLocationsEXT: CStructConvertible {
     typealias CStruct = VkSubpassSampleLocationsEXT
 
-    let subpassIndex: UInt32
-    let sampleLocationsInfo: SampleLocationsInfoEXT
+    public let subpassIndex: UInt32
+    public let sampleLocationsInfo: SampleLocationsInfoEXT
 
     init(cStruct: VkSubpassSampleLocationsEXT) {
         self.subpassIndex = cStruct.subpassIndex
@@ -7164,11 +7164,11 @@ struct SubpassSampleLocationsEXT: CStructConvertible {
     }
 }
 
-struct RenderPassSampleLocationsBeginInfoEXT: CStructConvertible {
+public struct RenderPassSampleLocationsBeginInfoEXT: CStructConvertible {
     typealias CStruct = VkRenderPassSampleLocationsBeginInfoEXT
 
-    let attachmentInitialSampleLocations: Array<AttachmentSampleLocationsEXT>
-    let postSubpassSampleLocations: Array<SubpassSampleLocationsEXT>
+    public let attachmentInitialSampleLocations: Array<AttachmentSampleLocationsEXT>
+    public let postSubpassSampleLocations: Array<SubpassSampleLocationsEXT>
 
     init(cStruct: VkRenderPassSampleLocationsBeginInfoEXT) {
         self.attachmentInitialSampleLocations = UnsafeBufferPointer(start: cStruct.pAttachmentInitialSampleLocations, count: Int(cStruct.attachmentInitialSampleLocationsCount)).map{ AttachmentSampleLocationsEXT(cStruct: $0) }
@@ -7191,11 +7191,11 @@ struct RenderPassSampleLocationsBeginInfoEXT: CStructConvertible {
     }
 }
 
-struct PipelineSampleLocationsStateCreateInfoEXT: CStructConvertible {
+public struct PipelineSampleLocationsStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineSampleLocationsStateCreateInfoEXT
 
-    let sampleLocationsEnable: Bool
-    let sampleLocationsInfo: SampleLocationsInfoEXT
+    public let sampleLocationsEnable: Bool
+    public let sampleLocationsInfo: SampleLocationsInfoEXT
 
     init(cStruct: VkPipelineSampleLocationsStateCreateInfoEXT) {
         self.sampleLocationsEnable = cStruct.sampleLocationsEnable == VK_TRUE
@@ -7214,14 +7214,14 @@ struct PipelineSampleLocationsStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSampleLocationsPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceSampleLocationsPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSampleLocationsPropertiesEXT
 
-    let sampleLocationSampleCounts: SampleCountFlags
-    let maxSampleLocationGridSize: Extent2D
-    let sampleLocationCoordinateRange: (Float, Float)
-    let sampleLocationSubPixelBits: UInt32
-    let variableSampleLocations: Bool
+    public let sampleLocationSampleCounts: SampleCountFlags
+    public let maxSampleLocationGridSize: Extent2D
+    public let sampleLocationCoordinateRange: (Float, Float)
+    public let sampleLocationSubPixelBits: UInt32
+    public let variableSampleLocations: Bool
 
     init(cStruct: VkPhysicalDeviceSampleLocationsPropertiesEXT) {
         self.sampleLocationSampleCounts = SampleCountFlags(rawValue: cStruct.sampleLocationSampleCounts)
@@ -7246,10 +7246,10 @@ struct PhysicalDeviceSampleLocationsPropertiesEXT: CStructConvertible {
     }
 }
 
-struct MultisamplePropertiesEXT: CStructConvertible {
+public struct MultisamplePropertiesEXT: CStructConvertible {
     typealias CStruct = VkMultisamplePropertiesEXT
 
-    let maxSampleLocationGridSize: Extent2D
+    public let maxSampleLocationGridSize: Extent2D
 
     init(cStruct: VkMultisamplePropertiesEXT) {
         self.maxSampleLocationGridSize = Extent2D(cStruct: cStruct.maxSampleLocationGridSize)
@@ -7266,10 +7266,10 @@ struct MultisamplePropertiesEXT: CStructConvertible {
     }
 }
 
-struct SamplerReductionModeCreateInfo: CStructConvertible {
+public struct SamplerReductionModeCreateInfo: CStructConvertible {
     typealias CStruct = VkSamplerReductionModeCreateInfo
 
-    let reductionMode: SamplerReductionMode
+    public let reductionMode: SamplerReductionMode
 
     init(cStruct: VkSamplerReductionModeCreateInfo) {
         self.reductionMode = SamplerReductionMode(rawValue: cStruct.reductionMode.rawValue)!
@@ -7284,10 +7284,10 @@ struct SamplerReductionModeCreateInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT
 
-    let advancedBlendCoherentOperations: Bool
+    public let advancedBlendCoherentOperations: Bool
 
     init(cStruct: VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT) {
         self.advancedBlendCoherentOperations = cStruct.advancedBlendCoherentOperations == VK_TRUE
@@ -7302,15 +7302,15 @@ struct PhysicalDeviceBlendOperationAdvancedFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT
 
-    let advancedBlendMaxColorAttachments: UInt32
-    let advancedBlendIndependentBlend: Bool
-    let advancedBlendNonPremultipliedSrcColor: Bool
-    let advancedBlendNonPremultipliedDstColor: Bool
-    let advancedBlendCorrelatedOverlap: Bool
-    let advancedBlendAllOperations: Bool
+    public let advancedBlendMaxColorAttachments: UInt32
+    public let advancedBlendIndependentBlend: Bool
+    public let advancedBlendNonPremultipliedSrcColor: Bool
+    public let advancedBlendNonPremultipliedDstColor: Bool
+    public let advancedBlendCorrelatedOverlap: Bool
+    public let advancedBlendAllOperations: Bool
 
     init(cStruct: VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT) {
         self.advancedBlendMaxColorAttachments = cStruct.advancedBlendMaxColorAttachments
@@ -7335,12 +7335,12 @@ struct PhysicalDeviceBlendOperationAdvancedPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PipelineColorBlendAdvancedStateCreateInfoEXT: CStructConvertible {
+public struct PipelineColorBlendAdvancedStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineColorBlendAdvancedStateCreateInfoEXT
 
-    let srcPremultiplied: Bool
-    let dstPremultiplied: Bool
-    let blendOverlap: BlendOverlapEXT
+    public let srcPremultiplied: Bool
+    public let dstPremultiplied: Bool
+    public let blendOverlap: BlendOverlapEXT
 
     init(cStruct: VkPipelineColorBlendAdvancedStateCreateInfoEXT) {
         self.srcPremultiplied = cStruct.srcPremultiplied == VK_TRUE
@@ -7359,11 +7359,11 @@ struct PipelineColorBlendAdvancedStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceInlineUniformBlockFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceInlineUniformBlockFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceInlineUniformBlockFeaturesEXT
 
-    let inlineUniformBlock: Bool
-    let descriptorBindingInlineUniformBlockUpdateAfterBind: Bool
+    public let inlineUniformBlock: Bool
+    public let descriptorBindingInlineUniformBlockUpdateAfterBind: Bool
 
     init(cStruct: VkPhysicalDeviceInlineUniformBlockFeaturesEXT) {
         self.inlineUniformBlock = cStruct.inlineUniformBlock == VK_TRUE
@@ -7380,14 +7380,14 @@ struct PhysicalDeviceInlineUniformBlockFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceInlineUniformBlockPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceInlineUniformBlockPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceInlineUniformBlockPropertiesEXT
 
-    let maxInlineUniformBlockSize: UInt32
-    let maxPerStageDescriptorInlineUniformBlocks: UInt32
-    let maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks: UInt32
-    let maxDescriptorSetInlineUniformBlocks: UInt32
-    let maxDescriptorSetUpdateAfterBindInlineUniformBlocks: UInt32
+    public let maxInlineUniformBlockSize: UInt32
+    public let maxPerStageDescriptorInlineUniformBlocks: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks: UInt32
+    public let maxDescriptorSetInlineUniformBlocks: UInt32
+    public let maxDescriptorSetUpdateAfterBindInlineUniformBlocks: UInt32
 
     init(cStruct: VkPhysicalDeviceInlineUniformBlockPropertiesEXT) {
         self.maxInlineUniformBlockSize = cStruct.maxInlineUniformBlockSize
@@ -7410,11 +7410,11 @@ struct PhysicalDeviceInlineUniformBlockPropertiesEXT: CStructConvertible {
     }
 }
 
-struct WriteDescriptorSetInlineUniformBlockEXT: CStructConvertible {
+public struct WriteDescriptorSetInlineUniformBlockEXT: CStructConvertible {
     typealias CStruct = VkWriteDescriptorSetInlineUniformBlockEXT
 
-    let dataSize: UInt32
-    let data: UnsafeRawPointer
+    public let dataSize: UInt32
+    public let data: UnsafeRawPointer
 
     init(cStruct: VkWriteDescriptorSetInlineUniformBlockEXT) {
         self.dataSize = cStruct.dataSize
@@ -7431,10 +7431,10 @@ struct WriteDescriptorSetInlineUniformBlockEXT: CStructConvertible {
     }
 }
 
-struct DescriptorPoolInlineUniformBlockCreateInfoEXT: CStructConvertible {
+public struct DescriptorPoolInlineUniformBlockCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkDescriptorPoolInlineUniformBlockCreateInfoEXT
 
-    let maxInlineUniformBlockBindings: UInt32
+    public let maxInlineUniformBlockBindings: UInt32
 
     init(cStruct: VkDescriptorPoolInlineUniformBlockCreateInfoEXT) {
         self.maxInlineUniformBlockBindings = cStruct.maxInlineUniformBlockBindings
@@ -7449,13 +7449,13 @@ struct DescriptorPoolInlineUniformBlockCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
+public struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineCoverageModulationStateCreateInfoNV
 
-    let flags: PipelineCoverageModulationStateCreateFlagsNV
-    let coverageModulationMode: CoverageModulationModeNV
-    let coverageModulationTableEnable: Bool
-    let coverageModulationTable: Array<Float>?
+    public let flags: PipelineCoverageModulationStateCreateFlagsNV
+    public let coverageModulationMode: CoverageModulationModeNV
+    public let coverageModulationTableEnable: Bool
+    public let coverageModulationTable: Array<Float>?
 
     init(cStruct: VkPipelineCoverageModulationStateCreateInfoNV) {
         self.flags = PipelineCoverageModulationStateCreateFlagsNV(rawValue: cStruct.flags)
@@ -7479,10 +7479,10 @@ struct PipelineCoverageModulationStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct ImageFormatListCreateInfo: CStructConvertible {
+public struct ImageFormatListCreateInfo: CStructConvertible {
     typealias CStruct = VkImageFormatListCreateInfo
 
-    let viewFormats: Array<Format>
+    public let viewFormats: Array<Format>
 
     init(cStruct: VkImageFormatListCreateInfo) {
         self.viewFormats = UnsafeBufferPointer(start: cStruct.pViewFormats, count: Int(cStruct.viewFormatCount)).map{ Format(rawValue: $0.rawValue)! }
@@ -7500,12 +7500,12 @@ struct ImageFormatListCreateInfo: CStructConvertible {
     }
 }
 
-struct ValidationCacheCreateInfoEXT: CStructConvertible {
+public struct ValidationCacheCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkValidationCacheCreateInfoEXT
 
-    let flags: ValidationCacheCreateFlagsEXT
-    let initialDataSize: Int
-    let initialData: UnsafeRawPointer
+    public let flags: ValidationCacheCreateFlagsEXT
+    public let initialDataSize: Int
+    public let initialData: UnsafeRawPointer
 
     init(cStruct: VkValidationCacheCreateInfoEXT) {
         self.flags = ValidationCacheCreateFlagsEXT(rawValue: cStruct.flags)
@@ -7524,10 +7524,10 @@ struct ValidationCacheCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct ShaderModuleValidationCacheCreateInfoEXT: CStructConvertible {
+public struct ShaderModuleValidationCacheCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkShaderModuleValidationCacheCreateInfoEXT
 
-    let validationCache: ValidationCacheEXT
+    public let validationCache: ValidationCacheEXT
 
     init(cStruct: VkShaderModuleValidationCacheCreateInfoEXT) {
         fatalError("This initializer should be removed.")
@@ -7542,11 +7542,11 @@ struct ShaderModuleValidationCacheCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMaintenance3Properties: CStructConvertible {
+public struct PhysicalDeviceMaintenance3Properties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMaintenance3Properties
 
-    let maxPerSetDescriptors: UInt32
-    let maxMemoryAllocationSize: VkDeviceSize
+    public let maxPerSetDescriptors: UInt32
+    public let maxMemoryAllocationSize: VkDeviceSize
 
     init(cStruct: VkPhysicalDeviceMaintenance3Properties) {
         self.maxPerSetDescriptors = cStruct.maxPerSetDescriptors
@@ -7563,10 +7563,10 @@ struct PhysicalDeviceMaintenance3Properties: CStructConvertible {
     }
 }
 
-struct DescriptorSetLayoutSupport: CStructConvertible {
+public struct DescriptorSetLayoutSupport: CStructConvertible {
     typealias CStruct = VkDescriptorSetLayoutSupport
 
-    let supported: Bool
+    public let supported: Bool
 
     init(cStruct: VkDescriptorSetLayoutSupport) {
         self.supported = cStruct.supported == VK_TRUE
@@ -7581,10 +7581,10 @@ struct DescriptorSetLayoutSupport: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderDrawParametersFeatures: CStructConvertible {
+public struct PhysicalDeviceShaderDrawParametersFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderDrawParametersFeatures
 
-    let shaderDrawParameters: Bool
+    public let shaderDrawParameters: Bool
 
     init(cStruct: VkPhysicalDeviceShaderDrawParametersFeatures) {
         self.shaderDrawParameters = cStruct.shaderDrawParameters == VK_TRUE
@@ -7599,11 +7599,11 @@ struct PhysicalDeviceShaderDrawParametersFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderFloat16Int8Features: CStructConvertible {
+public struct PhysicalDeviceShaderFloat16Int8Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderFloat16Int8Features
 
-    let shaderFloat16: Bool
-    let shaderInt8: Bool
+    public let shaderFloat16: Bool
+    public let shaderInt8: Bool
 
     init(cStruct: VkPhysicalDeviceShaderFloat16Int8Features) {
         self.shaderFloat16 = cStruct.shaderFloat16 == VK_TRUE
@@ -7620,26 +7620,26 @@ struct PhysicalDeviceShaderFloat16Int8Features: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
+public struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFloatControlsProperties
 
-    let denormBehaviorIndependence: ShaderFloatControlsIndependence
-    let roundingModeIndependence: ShaderFloatControlsIndependence
-    let shaderSignedZeroInfNanPreserveFloat16: Bool
-    let shaderSignedZeroInfNanPreserveFloat32: Bool
-    let shaderSignedZeroInfNanPreserveFloat64: Bool
-    let shaderDenormPreserveFloat16: Bool
-    let shaderDenormPreserveFloat32: Bool
-    let shaderDenormPreserveFloat64: Bool
-    let shaderDenormFlushToZeroFloat16: Bool
-    let shaderDenormFlushToZeroFloat32: Bool
-    let shaderDenormFlushToZeroFloat64: Bool
-    let shaderRoundingModeRTEFloat16: Bool
-    let shaderRoundingModeRTEFloat32: Bool
-    let shaderRoundingModeRTEFloat64: Bool
-    let shaderRoundingModeRTZFloat16: Bool
-    let shaderRoundingModeRTZFloat32: Bool
-    let shaderRoundingModeRTZFloat64: Bool
+    public let denormBehaviorIndependence: ShaderFloatControlsIndependence
+    public let roundingModeIndependence: ShaderFloatControlsIndependence
+    public let shaderSignedZeroInfNanPreserveFloat16: Bool
+    public let shaderSignedZeroInfNanPreserveFloat32: Bool
+    public let shaderSignedZeroInfNanPreserveFloat64: Bool
+    public let shaderDenormPreserveFloat16: Bool
+    public let shaderDenormPreserveFloat32: Bool
+    public let shaderDenormPreserveFloat64: Bool
+    public let shaderDenormFlushToZeroFloat16: Bool
+    public let shaderDenormFlushToZeroFloat32: Bool
+    public let shaderDenormFlushToZeroFloat64: Bool
+    public let shaderRoundingModeRTEFloat16: Bool
+    public let shaderRoundingModeRTEFloat32: Bool
+    public let shaderRoundingModeRTEFloat64: Bool
+    public let shaderRoundingModeRTZFloat16: Bool
+    public let shaderRoundingModeRTZFloat32: Bool
+    public let shaderRoundingModeRTZFloat64: Bool
 
     init(cStruct: VkPhysicalDeviceFloatControlsProperties) {
         self.denormBehaviorIndependence = ShaderFloatControlsIndependence(rawValue: cStruct.denormBehaviorIndependence.rawValue)!
@@ -7686,10 +7686,10 @@ struct PhysicalDeviceFloatControlsProperties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceHostQueryResetFeatures: CStructConvertible {
+public struct PhysicalDeviceHostQueryResetFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceHostQueryResetFeatures
 
-    let hostQueryReset: Bool
+    public let hostQueryReset: Bool
 
     init(cStruct: VkPhysicalDeviceHostQueryResetFeatures) {
         self.hostQueryReset = cStruct.hostQueryReset == VK_TRUE
@@ -7704,14 +7704,14 @@ struct PhysicalDeviceHostQueryResetFeatures: CStructConvertible {
     }
 }
 
-struct ShaderResourceUsageAMD: CStructConvertible {
+public struct ShaderResourceUsageAMD: CStructConvertible {
     typealias CStruct = VkShaderResourceUsageAMD
 
-    let numUsedVgprs: UInt32
-    let numUsedSgprs: UInt32
-    let ldsSizePerLocalWorkGroup: UInt32
-    let ldsUsageSizeInBytes: Int
-    let scratchMemUsageInBytes: Int
+    public let numUsedVgprs: UInt32
+    public let numUsedSgprs: UInt32
+    public let ldsSizePerLocalWorkGroup: UInt32
+    public let ldsUsageSizeInBytes: Int
+    public let scratchMemUsageInBytes: Int
 
     init(cStruct: VkShaderResourceUsageAMD) {
         self.numUsedVgprs = cStruct.numUsedVgprs
@@ -7732,16 +7732,16 @@ struct ShaderResourceUsageAMD: CStructConvertible {
     }
 }
 
-struct ShaderStatisticsInfoAMD: CStructConvertible {
+public struct ShaderStatisticsInfoAMD: CStructConvertible {
     typealias CStruct = VkShaderStatisticsInfoAMD
 
-    let shaderStageMask: ShaderStageFlags
-    let resourceUsage: ShaderResourceUsageAMD
-    let numPhysicalVgprs: UInt32
-    let numPhysicalSgprs: UInt32
-    let numAvailableVgprs: UInt32
-    let numAvailableSgprs: UInt32
-    let computeWorkGroupSize: (UInt32, UInt32, UInt32)
+    public let shaderStageMask: ShaderStageFlags
+    public let resourceUsage: ShaderResourceUsageAMD
+    public let numPhysicalVgprs: UInt32
+    public let numPhysicalSgprs: UInt32
+    public let numAvailableVgprs: UInt32
+    public let numAvailableSgprs: UInt32
+    public let computeWorkGroupSize: (UInt32, UInt32, UInt32)
 
     init(cStruct: VkShaderStatisticsInfoAMD) {
         self.shaderStageMask = ShaderStageFlags(rawValue: cStruct.shaderStageMask)
@@ -7768,10 +7768,10 @@ struct ShaderStatisticsInfoAMD: CStructConvertible {
     }
 }
 
-struct DeviceQueueGlobalPriorityCreateInfoEXT: CStructConvertible {
+public struct DeviceQueueGlobalPriorityCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkDeviceQueueGlobalPriorityCreateInfoEXT
 
-    let globalPriority: QueueGlobalPriorityEXT
+    public let globalPriority: QueueGlobalPriorityEXT
 
     init(cStruct: VkDeviceQueueGlobalPriorityCreateInfoEXT) {
         self.globalPriority = QueueGlobalPriorityEXT(rawValue: cStruct.globalPriority.rawValue)!
@@ -7786,12 +7786,12 @@ struct DeviceQueueGlobalPriorityCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct DebugUtilsObjectNameInfoEXT: CStructConvertible {
+public struct DebugUtilsObjectNameInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsObjectNameInfoEXT
 
-    let objectType: ObjectType
-    let objectHandle: UInt64
-    let objectName: String
+    public let objectType: ObjectType
+    public let objectHandle: UInt64
+    public let objectName: String
 
     init(cStruct: VkDebugUtilsObjectNameInfoEXT) {
         self.objectType = ObjectType(rawValue: cStruct.objectType.rawValue)!
@@ -7812,14 +7812,14 @@ struct DebugUtilsObjectNameInfoEXT: CStructConvertible {
     }
 }
 
-struct DebugUtilsObjectTagInfoEXT: CStructConvertible {
+public struct DebugUtilsObjectTagInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsObjectTagInfoEXT
 
-    let objectType: ObjectType
-    let objectHandle: UInt64
-    let tagName: UInt64
-    let tagSize: Int
-    let tag: UnsafeRawPointer
+    public let objectType: ObjectType
+    public let objectHandle: UInt64
+    public let tagName: UInt64
+    public let tagSize: Int
+    public let tag: UnsafeRawPointer
 
     init(cStruct: VkDebugUtilsObjectTagInfoEXT) {
         self.objectType = ObjectType(rawValue: cStruct.objectType.rawValue)!
@@ -7842,11 +7842,11 @@ struct DebugUtilsObjectTagInfoEXT: CStructConvertible {
     }
 }
 
-struct DebugUtilsLabelEXT: CStructConvertible {
+public struct DebugUtilsLabelEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsLabelEXT
 
-    let labelName: String
-    let color: (Float, Float, Float, Float)
+    public let labelName: String
+    public let color: (Float, Float, Float, Float)
 
     init(cStruct: VkDebugUtilsLabelEXT) {
         self.labelName = String(cString: cStruct.pLabelName)
@@ -7865,14 +7865,14 @@ struct DebugUtilsLabelEXT: CStructConvertible {
     }
 }
 
-struct DebugUtilsMessengerCreateInfoEXT: CStructConvertible {
+public struct DebugUtilsMessengerCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsMessengerCreateInfoEXT
 
-    let flags: DebugUtilsMessengerCreateFlagsEXT
-    let messageSeverity: DebugUtilsMessageSeverityFlagsEXT
-    let messageType: DebugUtilsMessageTypeFlagsEXT
-    let pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT
-    let userData: UnsafeMutableRawPointer
+    public let flags: DebugUtilsMessengerCreateFlagsEXT
+    public let messageSeverity: DebugUtilsMessageSeverityFlagsEXT
+    public let messageType: DebugUtilsMessageTypeFlagsEXT
+    public let pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT
+    public let userData: UnsafeMutableRawPointer
 
     init(cStruct: VkDebugUtilsMessengerCreateInfoEXT) {
         self.flags = DebugUtilsMessengerCreateFlagsEXT(rawValue: cStruct.flags)
@@ -7895,16 +7895,16 @@ struct DebugUtilsMessengerCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
+public struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     typealias CStruct = VkDebugUtilsMessengerCallbackDataEXT
 
-    let flags: DebugUtilsMessengerCallbackDataFlagsEXT
-    let messageIdName: String?
-    let messageIdNumber: Int32
-    let message: String
-    let queueLabels: Array<DebugUtilsLabelEXT>
-    let cmdBufLabels: Array<DebugUtilsLabelEXT>
-    let objects: Array<DebugUtilsObjectNameInfoEXT>
+    public let flags: DebugUtilsMessengerCallbackDataFlagsEXT
+    public let messageIdName: String?
+    public let messageIdNumber: Int32
+    public let message: String
+    public let queueLabels: Array<DebugUtilsLabelEXT>
+    public let cmdBufLabels: Array<DebugUtilsLabelEXT>
+    public let objects: Array<DebugUtilsObjectNameInfoEXT>
 
     init(cStruct: VkDebugUtilsMessengerCallbackDataEXT) {
         self.flags = DebugUtilsMessengerCallbackDataFlagsEXT(rawValue: cStruct.flags)
@@ -7944,11 +7944,11 @@ struct DebugUtilsMessengerCallbackDataEXT: CStructConvertible {
     }
 }
 
-struct ImportMemoryHostPointerInfoEXT: CStructConvertible {
+public struct ImportMemoryHostPointerInfoEXT: CStructConvertible {
     typealias CStruct = VkImportMemoryHostPointerInfoEXT
 
-    let handleType: ExternalMemoryHandleTypeFlags
-    let hostPointer: UnsafeMutableRawPointer
+    public let handleType: ExternalMemoryHandleTypeFlags
+    public let hostPointer: UnsafeMutableRawPointer
 
     init(cStruct: VkImportMemoryHostPointerInfoEXT) {
         self.handleType = ExternalMemoryHandleTypeFlags(rawValue: cStruct.handleType.rawValue)
@@ -7965,10 +7965,10 @@ struct ImportMemoryHostPointerInfoEXT: CStructConvertible {
     }
 }
 
-struct MemoryHostPointerPropertiesEXT: CStructConvertible {
+public struct MemoryHostPointerPropertiesEXT: CStructConvertible {
     typealias CStruct = VkMemoryHostPointerPropertiesEXT
 
-    let memoryTypeBits: UInt32
+    public let memoryTypeBits: UInt32
 
     init(cStruct: VkMemoryHostPointerPropertiesEXT) {
         self.memoryTypeBits = cStruct.memoryTypeBits
@@ -7983,10 +7983,10 @@ struct MemoryHostPointerPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceExternalMemoryHostPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceExternalMemoryHostPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExternalMemoryHostPropertiesEXT
 
-    let minImportedHostPointerAlignment: VkDeviceSize
+    public let minImportedHostPointerAlignment: VkDeviceSize
 
     init(cStruct: VkPhysicalDeviceExternalMemoryHostPropertiesEXT) {
         self.minImportedHostPointerAlignment = cStruct.minImportedHostPointerAlignment
@@ -8001,18 +8001,18 @@ struct PhysicalDeviceExternalMemoryHostPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceConservativeRasterizationPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceConservativeRasterizationPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceConservativeRasterizationPropertiesEXT
 
-    let primitiveOverestimationSize: Float
-    let maxExtraPrimitiveOverestimationSize: Float
-    let extraPrimitiveOverestimationSizeGranularity: Float
-    let primitiveUnderestimation: Bool
-    let conservativePointAndLineRasterization: Bool
-    let degenerateTrianglesRasterized: Bool
-    let degenerateLinesRasterized: Bool
-    let fullyCoveredFragmentShaderInputVariable: Bool
-    let conservativeRasterizationPostDepthCoverage: Bool
+    public let primitiveOverestimationSize: Float
+    public let maxExtraPrimitiveOverestimationSize: Float
+    public let extraPrimitiveOverestimationSizeGranularity: Float
+    public let primitiveUnderestimation: Bool
+    public let conservativePointAndLineRasterization: Bool
+    public let degenerateTrianglesRasterized: Bool
+    public let degenerateLinesRasterized: Bool
+    public let fullyCoveredFragmentShaderInputVariable: Bool
+    public let conservativeRasterizationPostDepthCoverage: Bool
 
     init(cStruct: VkPhysicalDeviceConservativeRasterizationPropertiesEXT) {
         self.primitiveOverestimationSize = cStruct.primitiveOverestimationSize
@@ -8043,10 +8043,10 @@ struct PhysicalDeviceConservativeRasterizationPropertiesEXT: CStructConvertible 
     }
 }
 
-struct CalibratedTimestampInfoEXT: CStructConvertible {
+public struct CalibratedTimestampInfoEXT: CStructConvertible {
     typealias CStruct = VkCalibratedTimestampInfoEXT
 
-    let timeDomain: TimeDomainEXT
+    public let timeDomain: TimeDomainEXT
 
     init(cStruct: VkCalibratedTimestampInfoEXT) {
         self.timeDomain = TimeDomainEXT(rawValue: cStruct.timeDomain.rawValue)!
@@ -8061,23 +8061,23 @@ struct CalibratedTimestampInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderCorePropertiesAMD: CStructConvertible {
+public struct PhysicalDeviceShaderCorePropertiesAMD: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderCorePropertiesAMD
 
-    let shaderEngineCount: UInt32
-    let shaderArraysPerEngineCount: UInt32
-    let computeUnitsPerShaderArray: UInt32
-    let simdPerComputeUnit: UInt32
-    let wavefrontsPerSimd: UInt32
-    let wavefrontSize: UInt32
-    let sgprsPerSimd: UInt32
-    let minSgprAllocation: UInt32
-    let maxSgprAllocation: UInt32
-    let sgprAllocationGranularity: UInt32
-    let vgprsPerSimd: UInt32
-    let minVgprAllocation: UInt32
-    let maxVgprAllocation: UInt32
-    let vgprAllocationGranularity: UInt32
+    public let shaderEngineCount: UInt32
+    public let shaderArraysPerEngineCount: UInt32
+    public let computeUnitsPerShaderArray: UInt32
+    public let simdPerComputeUnit: UInt32
+    public let wavefrontsPerSimd: UInt32
+    public let wavefrontSize: UInt32
+    public let sgprsPerSimd: UInt32
+    public let minSgprAllocation: UInt32
+    public let maxSgprAllocation: UInt32
+    public let sgprAllocationGranularity: UInt32
+    public let vgprsPerSimd: UInt32
+    public let minVgprAllocation: UInt32
+    public let maxVgprAllocation: UInt32
+    public let vgprAllocationGranularity: UInt32
 
     init(cStruct: VkPhysicalDeviceShaderCorePropertiesAMD) {
         self.shaderEngineCount = cStruct.shaderEngineCount
@@ -8118,11 +8118,11 @@ struct PhysicalDeviceShaderCorePropertiesAMD: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderCoreProperties2AMD: CStructConvertible {
+public struct PhysicalDeviceShaderCoreProperties2AMD: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderCoreProperties2AMD
 
-    let shaderCoreFeatures: ShaderCorePropertiesFlagsAMD
-    let activeComputeUnitCount: UInt32
+    public let shaderCoreFeatures: ShaderCorePropertiesFlagsAMD
+    public let activeComputeUnitCount: UInt32
 
     init(cStruct: VkPhysicalDeviceShaderCoreProperties2AMD) {
         self.shaderCoreFeatures = ShaderCorePropertiesFlagsAMD(rawValue: cStruct.shaderCoreFeatures)
@@ -8139,12 +8139,12 @@ struct PhysicalDeviceShaderCoreProperties2AMD: CStructConvertible {
     }
 }
 
-struct PipelineRasterizationConservativeStateCreateInfoEXT: CStructConvertible {
+public struct PipelineRasterizationConservativeStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationConservativeStateCreateInfoEXT
 
-    let flags: PipelineRasterizationConservativeStateCreateFlagsEXT
-    let conservativeRasterizationMode: ConservativeRasterizationModeEXT
-    let extraPrimitiveOverestimationSize: Float
+    public let flags: PipelineRasterizationConservativeStateCreateFlagsEXT
+    public let conservativeRasterizationMode: ConservativeRasterizationModeEXT
+    public let extraPrimitiveOverestimationSize: Float
 
     init(cStruct: VkPipelineRasterizationConservativeStateCreateInfoEXT) {
         self.flags = PipelineRasterizationConservativeStateCreateFlagsEXT(rawValue: cStruct.flags)
@@ -8163,29 +8163,29 @@ struct PipelineRasterizationConservativeStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDescriptorIndexingFeatures: CStructConvertible {
+public struct PhysicalDeviceDescriptorIndexingFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDescriptorIndexingFeatures
 
-    let shaderInputAttachmentArrayDynamicIndexing: Bool
-    let shaderUniformTexelBufferArrayDynamicIndexing: Bool
-    let shaderStorageTexelBufferArrayDynamicIndexing: Bool
-    let shaderUniformBufferArrayNonUniformIndexing: Bool
-    let shaderSampledImageArrayNonUniformIndexing: Bool
-    let shaderStorageBufferArrayNonUniformIndexing: Bool
-    let shaderStorageImageArrayNonUniformIndexing: Bool
-    let shaderInputAttachmentArrayNonUniformIndexing: Bool
-    let shaderUniformTexelBufferArrayNonUniformIndexing: Bool
-    let shaderStorageTexelBufferArrayNonUniformIndexing: Bool
-    let descriptorBindingUniformBufferUpdateAfterBind: Bool
-    let descriptorBindingSampledImageUpdateAfterBind: Bool
-    let descriptorBindingStorageImageUpdateAfterBind: Bool
-    let descriptorBindingStorageBufferUpdateAfterBind: Bool
-    let descriptorBindingUniformTexelBufferUpdateAfterBind: Bool
-    let descriptorBindingStorageTexelBufferUpdateAfterBind: Bool
-    let descriptorBindingUpdateUnusedWhilePending: Bool
-    let descriptorBindingPartiallyBound: Bool
-    let descriptorBindingVariableDescriptorCount: Bool
-    let runtimeDescriptorArray: Bool
+    public let shaderInputAttachmentArrayDynamicIndexing: Bool
+    public let shaderUniformTexelBufferArrayDynamicIndexing: Bool
+    public let shaderStorageTexelBufferArrayDynamicIndexing: Bool
+    public let shaderUniformBufferArrayNonUniformIndexing: Bool
+    public let shaderSampledImageArrayNonUniformIndexing: Bool
+    public let shaderStorageBufferArrayNonUniformIndexing: Bool
+    public let shaderStorageImageArrayNonUniformIndexing: Bool
+    public let shaderInputAttachmentArrayNonUniformIndexing: Bool
+    public let shaderUniformTexelBufferArrayNonUniformIndexing: Bool
+    public let shaderStorageTexelBufferArrayNonUniformIndexing: Bool
+    public let descriptorBindingUniformBufferUpdateAfterBind: Bool
+    public let descriptorBindingSampledImageUpdateAfterBind: Bool
+    public let descriptorBindingStorageImageUpdateAfterBind: Bool
+    public let descriptorBindingStorageBufferUpdateAfterBind: Bool
+    public let descriptorBindingUniformTexelBufferUpdateAfterBind: Bool
+    public let descriptorBindingStorageTexelBufferUpdateAfterBind: Bool
+    public let descriptorBindingUpdateUnusedWhilePending: Bool
+    public let descriptorBindingPartiallyBound: Bool
+    public let descriptorBindingVariableDescriptorCount: Bool
+    public let runtimeDescriptorArray: Bool
 
     init(cStruct: VkPhysicalDeviceDescriptorIndexingFeatures) {
         self.shaderInputAttachmentArrayDynamicIndexing = cStruct.shaderInputAttachmentArrayDynamicIndexing == VK_TRUE
@@ -8238,32 +8238,32 @@ struct PhysicalDeviceDescriptorIndexingFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
+public struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDescriptorIndexingProperties
 
-    let maxUpdateAfterBindDescriptorsInAllPools: UInt32
-    let shaderUniformBufferArrayNonUniformIndexingNative: Bool
-    let shaderSampledImageArrayNonUniformIndexingNative: Bool
-    let shaderStorageBufferArrayNonUniformIndexingNative: Bool
-    let shaderStorageImageArrayNonUniformIndexingNative: Bool
-    let shaderInputAttachmentArrayNonUniformIndexingNative: Bool
-    let robustBufferAccessUpdateAfterBind: Bool
-    let quadDivergentImplicitLod: Bool
-    let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
-    let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
-    let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
-    let maxPerStageDescriptorUpdateAfterBindSampledImages: UInt32
-    let maxPerStageDescriptorUpdateAfterBindStorageImages: UInt32
-    let maxPerStageDescriptorUpdateAfterBindInputAttachments: UInt32
-    let maxPerStageUpdateAfterBindResources: UInt32
-    let maxDescriptorSetUpdateAfterBindSamplers: UInt32
-    let maxDescriptorSetUpdateAfterBindUniformBuffers: UInt32
-    let maxDescriptorSetUpdateAfterBindUniformBuffersDynamic: UInt32
-    let maxDescriptorSetUpdateAfterBindStorageBuffers: UInt32
-    let maxDescriptorSetUpdateAfterBindStorageBuffersDynamic: UInt32
-    let maxDescriptorSetUpdateAfterBindSampledImages: UInt32
-    let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
-    let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
+    public let maxUpdateAfterBindDescriptorsInAllPools: UInt32
+    public let shaderUniformBufferArrayNonUniformIndexingNative: Bool
+    public let shaderSampledImageArrayNonUniformIndexingNative: Bool
+    public let shaderStorageBufferArrayNonUniformIndexingNative: Bool
+    public let shaderStorageImageArrayNonUniformIndexingNative: Bool
+    public let shaderInputAttachmentArrayNonUniformIndexingNative: Bool
+    public let robustBufferAccessUpdateAfterBind: Bool
+    public let quadDivergentImplicitLod: Bool
+    public let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindSampledImages: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindStorageImages: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindInputAttachments: UInt32
+    public let maxPerStageUpdateAfterBindResources: UInt32
+    public let maxDescriptorSetUpdateAfterBindSamplers: UInt32
+    public let maxDescriptorSetUpdateAfterBindUniformBuffers: UInt32
+    public let maxDescriptorSetUpdateAfterBindUniformBuffersDynamic: UInt32
+    public let maxDescriptorSetUpdateAfterBindStorageBuffers: UInt32
+    public let maxDescriptorSetUpdateAfterBindStorageBuffersDynamic: UInt32
+    public let maxDescriptorSetUpdateAfterBindSampledImages: UInt32
+    public let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
+    public let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
 
     init(cStruct: VkPhysicalDeviceDescriptorIndexingProperties) {
         self.maxUpdateAfterBindDescriptorsInAllPools = cStruct.maxUpdateAfterBindDescriptorsInAllPools
@@ -8322,10 +8322,10 @@ struct PhysicalDeviceDescriptorIndexingProperties: CStructConvertible {
     }
 }
 
-struct DescriptorSetLayoutBindingFlagsCreateInfo: CStructConvertible {
+public struct DescriptorSetLayoutBindingFlagsCreateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorSetLayoutBindingFlagsCreateInfo
 
-    let bindingFlags: Array<DescriptorBindingFlags>?
+    public let bindingFlags: Array<DescriptorBindingFlags>?
 
     init(cStruct: VkDescriptorSetLayoutBindingFlagsCreateInfo) {
         self.bindingFlags = (cStruct.pBindingFlags != nil) ? UnsafeBufferPointer(start: cStruct.pBindingFlags, count: Int(cStruct.bindingCount)).map{ DescriptorBindingFlags(rawValue: $0) } : nil
@@ -8343,10 +8343,10 @@ struct DescriptorSetLayoutBindingFlagsCreateInfo: CStructConvertible {
     }
 }
 
-struct DescriptorSetVariableDescriptorCountAllocateInfo: CStructConvertible {
+public struct DescriptorSetVariableDescriptorCountAllocateInfo: CStructConvertible {
     typealias CStruct = VkDescriptorSetVariableDescriptorCountAllocateInfo
 
-    let descriptorCounts: Array<UInt32>
+    public let descriptorCounts: Array<UInt32>
 
     init(cStruct: VkDescriptorSetVariableDescriptorCountAllocateInfo) {
         self.descriptorCounts = Array(UnsafeBufferPointer(start: cStruct.pDescriptorCounts, count: Int(cStruct.descriptorSetCount)))
@@ -8364,10 +8364,10 @@ struct DescriptorSetVariableDescriptorCountAllocateInfo: CStructConvertible {
     }
 }
 
-struct DescriptorSetVariableDescriptorCountLayoutSupport: CStructConvertible {
+public struct DescriptorSetVariableDescriptorCountLayoutSupport: CStructConvertible {
     typealias CStruct = VkDescriptorSetVariableDescriptorCountLayoutSupport
 
-    let maxVariableDescriptorCount: UInt32
+    public let maxVariableDescriptorCount: UInt32
 
     init(cStruct: VkDescriptorSetVariableDescriptorCountLayoutSupport) {
         self.maxVariableDescriptorCount = cStruct.maxVariableDescriptorCount
@@ -8382,18 +8382,18 @@ struct DescriptorSetVariableDescriptorCountLayoutSupport: CStructConvertible {
     }
 }
 
-struct AttachmentDescription2: CStructConvertible {
+public struct AttachmentDescription2: CStructConvertible {
     typealias CStruct = VkAttachmentDescription2
 
-    let flags: AttachmentDescriptionFlags
-    let format: Format
-    let samples: SampleCountFlags
-    let loadOp: AttachmentLoadOp
-    let storeOp: AttachmentStoreOp
-    let stencilLoadOp: AttachmentLoadOp
-    let stencilStoreOp: AttachmentStoreOp
-    let initialLayout: ImageLayout
-    let finalLayout: ImageLayout
+    public let flags: AttachmentDescriptionFlags
+    public let format: Format
+    public let samples: SampleCountFlags
+    public let loadOp: AttachmentLoadOp
+    public let storeOp: AttachmentStoreOp
+    public let stencilLoadOp: AttachmentLoadOp
+    public let stencilStoreOp: AttachmentStoreOp
+    public let initialLayout: ImageLayout
+    public let finalLayout: ImageLayout
 
     init(cStruct: VkAttachmentDescription2) {
         self.flags = AttachmentDescriptionFlags(rawValue: cStruct.flags)
@@ -8424,12 +8424,12 @@ struct AttachmentDescription2: CStructConvertible {
     }
 }
 
-struct AttachmentReference2: CStructConvertible {
+public struct AttachmentReference2: CStructConvertible {
     typealias CStruct = VkAttachmentReference2
 
-    let attachment: UInt32
-    let layout: ImageLayout
-    let aspectMask: ImageAspectFlags
+    public let attachment: UInt32
+    public let layout: ImageLayout
+    public let aspectMask: ImageAspectFlags
 
     init(cStruct: VkAttachmentReference2) {
         self.attachment = cStruct.attachment
@@ -8448,17 +8448,17 @@ struct AttachmentReference2: CStructConvertible {
     }
 }
 
-struct SubpassDescription2: CStructConvertible {
+public struct SubpassDescription2: CStructConvertible {
     typealias CStruct = VkSubpassDescription2
 
-    let flags: SubpassDescriptionFlags
-    let pipelineBindPoint: PipelineBindPoint
-    let viewMask: UInt32
-    let inputAttachments: Array<AttachmentReference2>
-    let colorAttachments: Array<AttachmentReference2>
-    let resolveAttachments: Array<AttachmentReference2>?
-    let depthStencilAttachment: AttachmentReference2?
-    let preserveAttachments: Array<UInt32>
+    public let flags: SubpassDescriptionFlags
+    public let pipelineBindPoint: PipelineBindPoint
+    public let viewMask: UInt32
+    public let inputAttachments: Array<AttachmentReference2>
+    public let colorAttachments: Array<AttachmentReference2>
+    public let resolveAttachments: Array<AttachmentReference2>?
+    public let depthStencilAttachment: AttachmentReference2?
+    public let preserveAttachments: Array<UInt32>
 
     init(cStruct: VkSubpassDescription2) {
         self.flags = SubpassDescriptionFlags(rawValue: cStruct.flags)
@@ -8500,17 +8500,17 @@ struct SubpassDescription2: CStructConvertible {
     }
 }
 
-struct SubpassDependency2: CStructConvertible {
+public struct SubpassDependency2: CStructConvertible {
     typealias CStruct = VkSubpassDependency2
 
-    let srcSubpass: UInt32
-    let dstSubpass: UInt32
-    let srcStageMask: PipelineStageFlags
-    let dstStageMask: PipelineStageFlags
-    let srcAccessMask: AccessFlags
-    let dstAccessMask: AccessFlags
-    let dependencyFlags: DependencyFlags
-    let viewOffset: Int32
+    public let srcSubpass: UInt32
+    public let dstSubpass: UInt32
+    public let srcStageMask: PipelineStageFlags
+    public let dstStageMask: PipelineStageFlags
+    public let srcAccessMask: AccessFlags
+    public let dstAccessMask: AccessFlags
+    public let dependencyFlags: DependencyFlags
+    public let viewOffset: Int32
 
     init(cStruct: VkSubpassDependency2) {
         self.srcSubpass = cStruct.srcSubpass
@@ -8539,14 +8539,14 @@ struct SubpassDependency2: CStructConvertible {
     }
 }
 
-struct RenderPassCreateInfo2: CStructConvertible {
+public struct RenderPassCreateInfo2: CStructConvertible {
     typealias CStruct = VkRenderPassCreateInfo2
 
-    let flags: RenderPassCreateFlags
-    let attachments: Array<AttachmentDescription2>
-    let subpasses: Array<SubpassDescription2>
-    let dependencies: Array<SubpassDependency2>
-    let correlatedViewMasks: Array<UInt32>
+    public let flags: RenderPassCreateFlags
+    public let attachments: Array<AttachmentDescription2>
+    public let subpasses: Array<SubpassDescription2>
+    public let dependencies: Array<SubpassDependency2>
+    public let correlatedViewMasks: Array<UInt32>
 
     init(cStruct: VkRenderPassCreateInfo2) {
         self.flags = RenderPassCreateFlags(rawValue: cStruct.flags)
@@ -8581,10 +8581,10 @@ struct RenderPassCreateInfo2: CStructConvertible {
     }
 }
 
-struct SubpassBeginInfo: CStructConvertible {
+public struct SubpassBeginInfo: CStructConvertible {
     typealias CStruct = VkSubpassBeginInfo
 
-    let contents: SubpassContents
+    public let contents: SubpassContents
 
     init(cStruct: VkSubpassBeginInfo) {
         self.contents = SubpassContents(rawValue: cStruct.contents.rawValue)!
@@ -8599,7 +8599,7 @@ struct SubpassBeginInfo: CStructConvertible {
     }
 }
 
-struct SubpassEndInfo: CStructConvertible {
+public struct SubpassEndInfo: CStructConvertible {
     typealias CStruct = VkSubpassEndInfo
 
 
@@ -8614,10 +8614,10 @@ struct SubpassEndInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceTimelineSemaphoreFeatures: CStructConvertible {
+public struct PhysicalDeviceTimelineSemaphoreFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTimelineSemaphoreFeatures
 
-    let timelineSemaphore: Bool
+    public let timelineSemaphore: Bool
 
     init(cStruct: VkPhysicalDeviceTimelineSemaphoreFeatures) {
         self.timelineSemaphore = cStruct.timelineSemaphore == VK_TRUE
@@ -8632,10 +8632,10 @@ struct PhysicalDeviceTimelineSemaphoreFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceTimelineSemaphoreProperties: CStructConvertible {
+public struct PhysicalDeviceTimelineSemaphoreProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTimelineSemaphoreProperties
 
-    let maxTimelineSemaphoreValueDifference: UInt64
+    public let maxTimelineSemaphoreValueDifference: UInt64
 
     init(cStruct: VkPhysicalDeviceTimelineSemaphoreProperties) {
         self.maxTimelineSemaphoreValueDifference = cStruct.maxTimelineSemaphoreValueDifference
@@ -8650,11 +8650,11 @@ struct PhysicalDeviceTimelineSemaphoreProperties: CStructConvertible {
     }
 }
 
-struct SemaphoreTypeCreateInfo: CStructConvertible {
+public struct SemaphoreTypeCreateInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreTypeCreateInfo
 
-    let semaphoreType: SemaphoreType
-    let initialValue: UInt64
+    public let semaphoreType: SemaphoreType
+    public let initialValue: UInt64
 
     init(cStruct: VkSemaphoreTypeCreateInfo) {
         self.semaphoreType = SemaphoreType(rawValue: cStruct.semaphoreType.rawValue)!
@@ -8671,11 +8671,11 @@ struct SemaphoreTypeCreateInfo: CStructConvertible {
     }
 }
 
-struct TimelineSemaphoreSubmitInfo: CStructConvertible {
+public struct TimelineSemaphoreSubmitInfo: CStructConvertible {
     typealias CStruct = VkTimelineSemaphoreSubmitInfo
 
-    let waitSemaphoreValues: Array<UInt64>?
-    let signalSemaphoreValues: Array<UInt64>?
+    public let waitSemaphoreValues: Array<UInt64>?
+    public let signalSemaphoreValues: Array<UInt64>?
 
     init(cStruct: VkTimelineSemaphoreSubmitInfo) {
         self.waitSemaphoreValues = (cStruct.pWaitSemaphoreValues != nil) ? Array(UnsafeBufferPointer(start: cStruct.pWaitSemaphoreValues, count: Int(cStruct.waitSemaphoreValueCount))) : nil
@@ -8698,12 +8698,12 @@ struct TimelineSemaphoreSubmitInfo: CStructConvertible {
     }
 }
 
-struct SemaphoreWaitInfo: CStructConvertible {
+public struct SemaphoreWaitInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreWaitInfo
 
-    let flags: SemaphoreWaitFlags
-    let semaphores: Array<Semaphore>
-    let values: Array<UInt64>
+    public let flags: SemaphoreWaitFlags
+    public let semaphores: Array<Semaphore>
+    public let values: Array<UInt64>
 
     init(cStruct: VkSemaphoreWaitInfo) {
         fatalError("This initializer should be removed.")
@@ -8725,11 +8725,11 @@ struct SemaphoreWaitInfo: CStructConvertible {
     }
 }
 
-struct SemaphoreSignalInfo: CStructConvertible {
+public struct SemaphoreSignalInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreSignalInfo
 
-    let semaphore: Semaphore
-    let value: UInt64
+    public let semaphore: Semaphore
+    public let value: UInt64
 
     init(cStruct: VkSemaphoreSignalInfo) {
         fatalError("This initializer should be removed.")
@@ -8745,11 +8745,11 @@ struct SemaphoreSignalInfo: CStructConvertible {
     }
 }
 
-struct VertexInputBindingDivisorDescriptionEXT: CStructConvertible {
+public struct VertexInputBindingDivisorDescriptionEXT: CStructConvertible {
     typealias CStruct = VkVertexInputBindingDivisorDescriptionEXT
 
-    let binding: UInt32
-    let divisor: UInt32
+    public let binding: UInt32
+    public let divisor: UInt32
 
     init(cStruct: VkVertexInputBindingDivisorDescriptionEXT) {
         self.binding = cStruct.binding
@@ -8764,10 +8764,10 @@ struct VertexInputBindingDivisorDescriptionEXT: CStructConvertible {
     }
 }
 
-struct PipelineVertexInputDivisorStateCreateInfoEXT: CStructConvertible {
+public struct PipelineVertexInputDivisorStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineVertexInputDivisorStateCreateInfoEXT
 
-    let vertexBindingDivisors: Array<VertexInputBindingDivisorDescriptionEXT>
+    public let vertexBindingDivisors: Array<VertexInputBindingDivisorDescriptionEXT>
 
     init(cStruct: VkPipelineVertexInputDivisorStateCreateInfoEXT) {
         self.vertexBindingDivisors = UnsafeBufferPointer(start: cStruct.pVertexBindingDivisors, count: Int(cStruct.vertexBindingDivisorCount)).map{ VertexInputBindingDivisorDescriptionEXT(cStruct: $0) }
@@ -8785,10 +8785,10 @@ struct PipelineVertexInputDivisorStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVertexAttributeDivisorPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceVertexAttributeDivisorPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT
 
-    let maxVertexAttribDivisor: UInt32
+    public let maxVertexAttribDivisor: UInt32
 
     init(cStruct: VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT) {
         self.maxVertexAttribDivisor = cStruct.maxVertexAttribDivisor
@@ -8803,13 +8803,13 @@ struct PhysicalDeviceVertexAttributeDivisorPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePCIBusInfoPropertiesEXT: CStructConvertible {
+public struct PhysicalDevicePCIBusInfoPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePCIBusInfoPropertiesEXT
 
-    let pciDomain: UInt32
-    let pciBus: UInt32
-    let pciDevice: UInt32
-    let pciFunction: UInt32
+    public let pciDomain: UInt32
+    public let pciBus: UInt32
+    public let pciDevice: UInt32
+    public let pciFunction: UInt32
 
     init(cStruct: VkPhysicalDevicePCIBusInfoPropertiesEXT) {
         self.pciDomain = cStruct.pciDomain
@@ -8830,10 +8830,10 @@ struct PhysicalDevicePCIBusInfoPropertiesEXT: CStructConvertible {
     }
 }
 
-struct CommandBufferInheritanceConditionalRenderingInfoEXT: CStructConvertible {
+public struct CommandBufferInheritanceConditionalRenderingInfoEXT: CStructConvertible {
     typealias CStruct = VkCommandBufferInheritanceConditionalRenderingInfoEXT
 
-    let conditionalRenderingEnable: Bool
+    public let conditionalRenderingEnable: Bool
 
     init(cStruct: VkCommandBufferInheritanceConditionalRenderingInfoEXT) {
         self.conditionalRenderingEnable = cStruct.conditionalRenderingEnable == VK_TRUE
@@ -8848,12 +8848,12 @@ struct CommandBufferInheritanceConditionalRenderingInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDevice8BitStorageFeatures: CStructConvertible {
+public struct PhysicalDevice8BitStorageFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDevice8BitStorageFeatures
 
-    let storageBuffer8BitAccess: Bool
-    let uniformAndStorageBuffer8BitAccess: Bool
-    let storagePushConstant8: Bool
+    public let storageBuffer8BitAccess: Bool
+    public let uniformAndStorageBuffer8BitAccess: Bool
+    public let storagePushConstant8: Bool
 
     init(cStruct: VkPhysicalDevice8BitStorageFeatures) {
         self.storageBuffer8BitAccess = cStruct.storageBuffer8BitAccess == VK_TRUE
@@ -8872,11 +8872,11 @@ struct PhysicalDevice8BitStorageFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceConditionalRenderingFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceConditionalRenderingFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceConditionalRenderingFeaturesEXT
 
-    let conditionalRendering: Bool
-    let inheritedConditionalRendering: Bool
+    public let conditionalRendering: Bool
+    public let inheritedConditionalRendering: Bool
 
     init(cStruct: VkPhysicalDeviceConditionalRenderingFeaturesEXT) {
         self.conditionalRendering = cStruct.conditionalRendering == VK_TRUE
@@ -8893,12 +8893,12 @@ struct PhysicalDeviceConditionalRenderingFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVulkanMemoryModelFeatures: CStructConvertible {
+public struct PhysicalDeviceVulkanMemoryModelFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkanMemoryModelFeatures
 
-    let vulkanMemoryModel: Bool
-    let vulkanMemoryModelDeviceScope: Bool
-    let vulkanMemoryModelAvailabilityVisibilityChains: Bool
+    public let vulkanMemoryModel: Bool
+    public let vulkanMemoryModelDeviceScope: Bool
+    public let vulkanMemoryModelAvailabilityVisibilityChains: Bool
 
     init(cStruct: VkPhysicalDeviceVulkanMemoryModelFeatures) {
         self.vulkanMemoryModel = cStruct.vulkanMemoryModel == VK_TRUE
@@ -8917,11 +8917,11 @@ struct PhysicalDeviceVulkanMemoryModelFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderAtomicInt64Features: CStructConvertible {
+public struct PhysicalDeviceShaderAtomicInt64Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderAtomicInt64Features
 
-    let shaderBufferInt64Atomics: Bool
-    let shaderSharedInt64Atomics: Bool
+    public let shaderBufferInt64Atomics: Bool
+    public let shaderSharedInt64Atomics: Bool
 
     init(cStruct: VkPhysicalDeviceShaderAtomicInt64Features) {
         self.shaderBufferInt64Atomics = cStruct.shaderBufferInt64Atomics == VK_TRUE
@@ -8938,11 +8938,11 @@ struct PhysicalDeviceShaderAtomicInt64Features: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
 
-    let vertexAttributeInstanceRateDivisor: Bool
-    let vertexAttributeInstanceRateZeroDivisor: Bool
+    public let vertexAttributeInstanceRateDivisor: Bool
+    public let vertexAttributeInstanceRateZeroDivisor: Bool
 
     init(cStruct: VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT) {
         self.vertexAttributeInstanceRateDivisor = cStruct.vertexAttributeInstanceRateDivisor == VK_TRUE
@@ -8959,10 +8959,10 @@ struct PhysicalDeviceVertexAttributeDivisorFeaturesEXT: CStructConvertible {
     }
 }
 
-struct QueueFamilyCheckpointPropertiesNV: CStructConvertible {
+public struct QueueFamilyCheckpointPropertiesNV: CStructConvertible {
     typealias CStruct = VkQueueFamilyCheckpointPropertiesNV
 
-    let checkpointExecutionStageMask: PipelineStageFlags
+    public let checkpointExecutionStageMask: PipelineStageFlags
 
     init(cStruct: VkQueueFamilyCheckpointPropertiesNV) {
         self.checkpointExecutionStageMask = PipelineStageFlags(rawValue: cStruct.checkpointExecutionStageMask)
@@ -8977,11 +8977,11 @@ struct QueueFamilyCheckpointPropertiesNV: CStructConvertible {
     }
 }
 
-struct CheckpointDataNV: CStructConvertible {
+public struct CheckpointDataNV: CStructConvertible {
     typealias CStruct = VkCheckpointDataNV
 
-    let stage: PipelineStageFlags
-    let checkpointMarker: UnsafeMutableRawPointer
+    public let stage: PipelineStageFlags
+    public let checkpointMarker: UnsafeMutableRawPointer
 
     init(cStruct: VkCheckpointDataNV) {
         self.stage = PipelineStageFlags(rawValue: cStruct.stage.rawValue)
@@ -8998,13 +8998,13 @@ struct CheckpointDataNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDepthStencilResolveProperties: CStructConvertible {
+public struct PhysicalDeviceDepthStencilResolveProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDepthStencilResolveProperties
 
-    let supportedDepthResolveModes: ResolveModeFlags
-    let supportedStencilResolveModes: ResolveModeFlags
-    let independentResolveNone: Bool
-    let independentResolve: Bool
+    public let supportedDepthResolveModes: ResolveModeFlags
+    public let supportedStencilResolveModes: ResolveModeFlags
+    public let independentResolveNone: Bool
+    public let independentResolve: Bool
 
     init(cStruct: VkPhysicalDeviceDepthStencilResolveProperties) {
         self.supportedDepthResolveModes = ResolveModeFlags(rawValue: cStruct.supportedDepthResolveModes)
@@ -9025,12 +9025,12 @@ struct PhysicalDeviceDepthStencilResolveProperties: CStructConvertible {
     }
 }
 
-struct SubpassDescriptionDepthStencilResolve: CStructConvertible {
+public struct SubpassDescriptionDepthStencilResolve: CStructConvertible {
     typealias CStruct = VkSubpassDescriptionDepthStencilResolve
 
-    let depthResolveMode: ResolveModeFlags
-    let stencilResolveMode: ResolveModeFlags
-    let depthStencilResolveAttachment: AttachmentReference2?
+    public let depthResolveMode: ResolveModeFlags
+    public let stencilResolveMode: ResolveModeFlags
+    public let depthStencilResolveAttachment: AttachmentReference2?
 
     init(cStruct: VkSubpassDescriptionDepthStencilResolve) {
         self.depthResolveMode = ResolveModeFlags(rawValue: cStruct.depthResolveMode.rawValue)
@@ -9051,10 +9051,10 @@ struct SubpassDescriptionDepthStencilResolve: CStructConvertible {
     }
 }
 
-struct ImageViewASTCDecodeModeEXT: CStructConvertible {
+public struct ImageViewASTCDecodeModeEXT: CStructConvertible {
     typealias CStruct = VkImageViewASTCDecodeModeEXT
 
-    let decodeMode: Format
+    public let decodeMode: Format
 
     init(cStruct: VkImageViewASTCDecodeModeEXT) {
         self.decodeMode = Format(rawValue: cStruct.decodeMode.rawValue)!
@@ -9069,10 +9069,10 @@ struct ImageViewASTCDecodeModeEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceASTCDecodeFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceASTCDecodeFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceASTCDecodeFeaturesEXT
 
-    let decodeModeSharedExponent: Bool
+    public let decodeModeSharedExponent: Bool
 
     init(cStruct: VkPhysicalDeviceASTCDecodeFeaturesEXT) {
         self.decodeModeSharedExponent = cStruct.decodeModeSharedExponent == VK_TRUE
@@ -9087,11 +9087,11 @@ struct PhysicalDeviceASTCDecodeFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceTransformFeedbackFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceTransformFeedbackFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTransformFeedbackFeaturesEXT
 
-    let transformFeedback: Bool
-    let geometryStreams: Bool
+    public let transformFeedback: Bool
+    public let geometryStreams: Bool
 
     init(cStruct: VkPhysicalDeviceTransformFeedbackFeaturesEXT) {
         self.transformFeedback = cStruct.transformFeedback == VK_TRUE
@@ -9108,19 +9108,19 @@ struct PhysicalDeviceTransformFeedbackFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceTransformFeedbackPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceTransformFeedbackPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTransformFeedbackPropertiesEXT
 
-    let maxTransformFeedbackStreams: UInt32
-    let maxTransformFeedbackBuffers: UInt32
-    let maxTransformFeedbackBufferSize: VkDeviceSize
-    let maxTransformFeedbackStreamDataSize: UInt32
-    let maxTransformFeedbackBufferDataSize: UInt32
-    let maxTransformFeedbackBufferDataStride: UInt32
-    let transformFeedbackQueries: Bool
-    let transformFeedbackStreamsLinesTriangles: Bool
-    let transformFeedbackRasterizationStreamSelect: Bool
-    let transformFeedbackDraw: Bool
+    public let maxTransformFeedbackStreams: UInt32
+    public let maxTransformFeedbackBuffers: UInt32
+    public let maxTransformFeedbackBufferSize: VkDeviceSize
+    public let maxTransformFeedbackStreamDataSize: UInt32
+    public let maxTransformFeedbackBufferDataSize: UInt32
+    public let maxTransformFeedbackBufferDataStride: UInt32
+    public let transformFeedbackQueries: Bool
+    public let transformFeedbackStreamsLinesTriangles: Bool
+    public let transformFeedbackRasterizationStreamSelect: Bool
+    public let transformFeedbackDraw: Bool
 
     init(cStruct: VkPhysicalDeviceTransformFeedbackPropertiesEXT) {
         self.maxTransformFeedbackStreams = cStruct.maxTransformFeedbackStreams
@@ -9153,11 +9153,11 @@ struct PhysicalDeviceTransformFeedbackPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PipelineRasterizationStateStreamCreateInfoEXT: CStructConvertible {
+public struct PipelineRasterizationStateStreamCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationStateStreamCreateInfoEXT
 
-    let flags: PipelineRasterizationStateStreamCreateFlagsEXT
-    let rasterizationStream: UInt32
+    public let flags: PipelineRasterizationStateStreamCreateFlagsEXT
+    public let rasterizationStream: UInt32
 
     init(cStruct: VkPipelineRasterizationStateStreamCreateInfoEXT) {
         self.flags = PipelineRasterizationStateStreamCreateFlagsEXT(rawValue: cStruct.flags)
@@ -9174,10 +9174,10 @@ struct PipelineRasterizationStateStreamCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV
 
-    let representativeFragmentTest: Bool
+    public let representativeFragmentTest: Bool
 
     init(cStruct: VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV) {
         self.representativeFragmentTest = cStruct.representativeFragmentTest == VK_TRUE
@@ -9192,10 +9192,10 @@ struct PhysicalDeviceRepresentativeFragmentTestFeaturesNV: CStructConvertible {
     }
 }
 
-struct PipelineRepresentativeFragmentTestStateCreateInfoNV: CStructConvertible {
+public struct PipelineRepresentativeFragmentTestStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineRepresentativeFragmentTestStateCreateInfoNV
 
-    let representativeFragmentTestEnable: Bool
+    public let representativeFragmentTestEnable: Bool
 
     init(cStruct: VkPipelineRepresentativeFragmentTestStateCreateInfoNV) {
         self.representativeFragmentTestEnable = cStruct.representativeFragmentTestEnable == VK_TRUE
@@ -9210,10 +9210,10 @@ struct PipelineRepresentativeFragmentTestStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceExclusiveScissorFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceExclusiveScissorFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceExclusiveScissorFeaturesNV
 
-    let exclusiveScissor: Bool
+    public let exclusiveScissor: Bool
 
     init(cStruct: VkPhysicalDeviceExclusiveScissorFeaturesNV) {
         self.exclusiveScissor = cStruct.exclusiveScissor == VK_TRUE
@@ -9228,10 +9228,10 @@ struct PhysicalDeviceExclusiveScissorFeaturesNV: CStructConvertible {
     }
 }
 
-struct PipelineViewportExclusiveScissorStateCreateInfoNV: CStructConvertible {
+public struct PipelineViewportExclusiveScissorStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportExclusiveScissorStateCreateInfoNV
 
-    let exclusiveScissors: Array<Rect2D>?
+    public let exclusiveScissors: Array<Rect2D>?
 
     init(cStruct: VkPipelineViewportExclusiveScissorStateCreateInfoNV) {
         self.exclusiveScissors = (cStruct.pExclusiveScissors != nil) ? UnsafeBufferPointer(start: cStruct.pExclusiveScissors, count: Int(cStruct.exclusiveScissorCount)).map{ Rect2D(cStruct: $0) } : nil
@@ -9249,10 +9249,10 @@ struct PipelineViewportExclusiveScissorStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceCornerSampledImageFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceCornerSampledImageFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCornerSampledImageFeaturesNV
 
-    let cornerSampledImage: Bool
+    public let cornerSampledImage: Bool
 
     init(cStruct: VkPhysicalDeviceCornerSampledImageFeaturesNV) {
         self.cornerSampledImage = cStruct.cornerSampledImage == VK_TRUE
@@ -9267,11 +9267,11 @@ struct PhysicalDeviceCornerSampledImageFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceComputeShaderDerivativesFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceComputeShaderDerivativesFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
 
-    let computeDerivativeGroupQuads: Bool
-    let computeDerivativeGroupLinear: Bool
+    public let computeDerivativeGroupQuads: Bool
+    public let computeDerivativeGroupLinear: Bool
 
     init(cStruct: VkPhysicalDeviceComputeShaderDerivativesFeaturesNV) {
         self.computeDerivativeGroupQuads = cStruct.computeDerivativeGroupQuads == VK_TRUE
@@ -9288,10 +9288,10 @@ struct PhysicalDeviceComputeShaderDerivativesFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV
 
-    let fragmentShaderBarycentric: Bool
+    public let fragmentShaderBarycentric: Bool
 
     init(cStruct: VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV) {
         self.fragmentShaderBarycentric = cStruct.fragmentShaderBarycentric == VK_TRUE
@@ -9306,10 +9306,10 @@ struct PhysicalDeviceFragmentShaderBarycentricFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderImageFootprintFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceShaderImageFootprintFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderImageFootprintFeaturesNV
 
-    let imageFootprint: Bool
+    public let imageFootprint: Bool
 
     init(cStruct: VkPhysicalDeviceShaderImageFootprintFeaturesNV) {
         self.imageFootprint = cStruct.imageFootprint == VK_TRUE
@@ -9324,10 +9324,10 @@ struct PhysicalDeviceShaderImageFootprintFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
 
-    let dedicatedAllocationImageAliasing: Bool
+    public let dedicatedAllocationImageAliasing: Bool
 
     init(cStruct: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV) {
         self.dedicatedAllocationImageAliasing = cStruct.dedicatedAllocationImageAliasing == VK_TRUE
@@ -9342,10 +9342,10 @@ struct PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: CStructConverti
     }
 }
 
-struct ShadingRatePaletteNV: CStructConvertible {
+public struct ShadingRatePaletteNV: CStructConvertible {
     typealias CStruct = VkShadingRatePaletteNV
 
-    let shadingRatePaletteEntries: Array<ShadingRatePaletteEntryNV>
+    public let shadingRatePaletteEntries: Array<ShadingRatePaletteEntryNV>
 
     init(cStruct: VkShadingRatePaletteNV) {
         self.shadingRatePaletteEntries = UnsafeBufferPointer(start: cStruct.pShadingRatePaletteEntries, count: Int(cStruct.shadingRatePaletteEntryCount)).map{ ShadingRatePaletteEntryNV(rawValue: $0.rawValue)! }
@@ -9361,11 +9361,11 @@ struct ShadingRatePaletteNV: CStructConvertible {
     }
 }
 
-struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
+public struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportShadingRateImageStateCreateInfoNV
 
-    let shadingRateImageEnable: Bool
-    let shadingRatePalettes: Array<ShadingRatePaletteNV>?
+    public let shadingRateImageEnable: Bool
+    public let shadingRatePalettes: Array<ShadingRatePaletteNV>?
 
     init(cStruct: VkPipelineViewportShadingRateImageStateCreateInfoNV) {
         self.shadingRateImageEnable = cStruct.shadingRateImageEnable == VK_TRUE
@@ -9385,11 +9385,11 @@ struct PipelineViewportShadingRateImageStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShadingRateImageFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceShadingRateImageFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShadingRateImageFeaturesNV
 
-    let shadingRateImage: Bool
-    let shadingRateCoarseSampleOrder: Bool
+    public let shadingRateImage: Bool
+    public let shadingRateCoarseSampleOrder: Bool
 
     init(cStruct: VkPhysicalDeviceShadingRateImageFeaturesNV) {
         self.shadingRateImage = cStruct.shadingRateImage == VK_TRUE
@@ -9406,12 +9406,12 @@ struct PhysicalDeviceShadingRateImageFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShadingRateImagePropertiesNV: CStructConvertible {
+public struct PhysicalDeviceShadingRateImagePropertiesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShadingRateImagePropertiesNV
 
-    let shadingRateTexelSize: Extent2D
-    let shadingRatePaletteSize: UInt32
-    let shadingRateMaxCoarseSamples: UInt32
+    public let shadingRateTexelSize: Extent2D
+    public let shadingRatePaletteSize: UInt32
+    public let shadingRateMaxCoarseSamples: UInt32
 
     init(cStruct: VkPhysicalDeviceShadingRateImagePropertiesNV) {
         self.shadingRateTexelSize = Extent2D(cStruct: cStruct.shadingRateTexelSize)
@@ -9432,12 +9432,12 @@ struct PhysicalDeviceShadingRateImagePropertiesNV: CStructConvertible {
     }
 }
 
-struct CoarseSampleLocationNV: CStructConvertible {
+public struct CoarseSampleLocationNV: CStructConvertible {
     typealias CStruct = VkCoarseSampleLocationNV
 
-    let pixelX: UInt32
-    let pixelY: UInt32
-    let sample: UInt32
+    public let pixelX: UInt32
+    public let pixelY: UInt32
+    public let sample: UInt32
 
     init(cStruct: VkCoarseSampleLocationNV) {
         self.pixelX = cStruct.pixelX
@@ -9454,12 +9454,12 @@ struct CoarseSampleLocationNV: CStructConvertible {
     }
 }
 
-struct CoarseSampleOrderCustomNV: CStructConvertible {
+public struct CoarseSampleOrderCustomNV: CStructConvertible {
     typealias CStruct = VkCoarseSampleOrderCustomNV
 
-    let shadingRate: ShadingRatePaletteEntryNV
-    let sampleCount: UInt32
-    let sampleLocations: Array<CoarseSampleLocationNV>
+    public let shadingRate: ShadingRatePaletteEntryNV
+    public let sampleCount: UInt32
+    public let sampleLocations: Array<CoarseSampleLocationNV>
 
     init(cStruct: VkCoarseSampleOrderCustomNV) {
         self.shadingRate = ShadingRatePaletteEntryNV(rawValue: cStruct.shadingRate.rawValue)!
@@ -9479,11 +9479,11 @@ struct CoarseSampleOrderCustomNV: CStructConvertible {
     }
 }
 
-struct PipelineViewportCoarseSampleOrderStateCreateInfoNV: CStructConvertible {
+public struct PipelineViewportCoarseSampleOrderStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineViewportCoarseSampleOrderStateCreateInfoNV
 
-    let sampleOrderType: CoarseSampleOrderTypeNV
-    let customSampleOrders: Array<CoarseSampleOrderCustomNV>
+    public let sampleOrderType: CoarseSampleOrderTypeNV
+    public let customSampleOrders: Array<CoarseSampleOrderCustomNV>
 
     init(cStruct: VkPipelineViewportCoarseSampleOrderStateCreateInfoNV) {
         self.sampleOrderType = CoarseSampleOrderTypeNV(rawValue: cStruct.sampleOrderType.rawValue)!
@@ -9503,11 +9503,11 @@ struct PipelineViewportCoarseSampleOrderStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMeshShaderFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceMeshShaderFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMeshShaderFeaturesNV
 
-    let taskShader: Bool
-    let meshShader: Bool
+    public let taskShader: Bool
+    public let meshShader: Bool
 
     init(cStruct: VkPhysicalDeviceMeshShaderFeaturesNV) {
         self.taskShader = cStruct.taskShader == VK_TRUE
@@ -9524,22 +9524,22 @@ struct PhysicalDeviceMeshShaderFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMeshShaderPropertiesNV: CStructConvertible {
+public struct PhysicalDeviceMeshShaderPropertiesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMeshShaderPropertiesNV
 
-    let maxDrawMeshTasksCount: UInt32
-    let maxTaskWorkGroupInvocations: UInt32
-    let maxTaskWorkGroupSize: (UInt32, UInt32, UInt32)
-    let maxTaskTotalMemorySize: UInt32
-    let maxTaskOutputCount: UInt32
-    let maxMeshWorkGroupInvocations: UInt32
-    let maxMeshWorkGroupSize: (UInt32, UInt32, UInt32)
-    let maxMeshTotalMemorySize: UInt32
-    let maxMeshOutputVertices: UInt32
-    let maxMeshOutputPrimitives: UInt32
-    let maxMeshMultiviewViewCount: UInt32
-    let meshOutputPerVertexGranularity: UInt32
-    let meshOutputPerPrimitiveGranularity: UInt32
+    public let maxDrawMeshTasksCount: UInt32
+    public let maxTaskWorkGroupInvocations: UInt32
+    public let maxTaskWorkGroupSize: (UInt32, UInt32, UInt32)
+    public let maxTaskTotalMemorySize: UInt32
+    public let maxTaskOutputCount: UInt32
+    public let maxMeshWorkGroupInvocations: UInt32
+    public let maxMeshWorkGroupSize: (UInt32, UInt32, UInt32)
+    public let maxMeshTotalMemorySize: UInt32
+    public let maxMeshOutputVertices: UInt32
+    public let maxMeshOutputPrimitives: UInt32
+    public let maxMeshMultiviewViewCount: UInt32
+    public let meshOutputPerVertexGranularity: UInt32
+    public let meshOutputPerPrimitiveGranularity: UInt32
 
     init(cStruct: VkPhysicalDeviceMeshShaderPropertiesNV) {
         self.maxDrawMeshTasksCount = cStruct.maxDrawMeshTasksCount
@@ -9578,11 +9578,11 @@ struct PhysicalDeviceMeshShaderPropertiesNV: CStructConvertible {
     }
 }
 
-struct DrawMeshTasksIndirectCommandNV: CStructConvertible {
+public struct DrawMeshTasksIndirectCommandNV: CStructConvertible {
     typealias CStruct = VkDrawMeshTasksIndirectCommandNV
 
-    let taskCount: UInt32
-    let firstTask: UInt32
+    public let taskCount: UInt32
+    public let firstTask: UInt32
 
     init(cStruct: VkDrawMeshTasksIndirectCommandNV) {
         self.taskCount = cStruct.taskCount
@@ -9597,14 +9597,14 @@ struct DrawMeshTasksIndirectCommandNV: CStructConvertible {
     }
 }
 
-struct RayTracingShaderGroupCreateInfoNV: CStructConvertible {
+public struct RayTracingShaderGroupCreateInfoNV: CStructConvertible {
     typealias CStruct = VkRayTracingShaderGroupCreateInfoNV
 
-    let type: VkRayTracingShaderGroupTypeKHR
-    let generalShader: UInt32
-    let closestHitShader: UInt32
-    let anyHitShader: UInt32
-    let intersectionShader: UInt32
+    public let type: VkRayTracingShaderGroupTypeKHR
+    public let generalShader: UInt32
+    public let closestHitShader: UInt32
+    public let anyHitShader: UInt32
+    public let intersectionShader: UInt32
 
     init(cStruct: VkRayTracingShaderGroupCreateInfoNV) {
         self.type = cStruct.type
@@ -9627,16 +9627,16 @@ struct RayTracingShaderGroupCreateInfoNV: CStructConvertible {
     }
 }
 
-struct RayTracingPipelineCreateInfoNV: CStructConvertible {
+public struct RayTracingPipelineCreateInfoNV: CStructConvertible {
     typealias CStruct = VkRayTracingPipelineCreateInfoNV
 
-    let flags: PipelineCreateFlags
-    let stages: Array<PipelineShaderStageCreateInfo>
-    let groups: Array<RayTracingShaderGroupCreateInfoNV>
-    let maxRecursionDepth: UInt32
-    let layout: PipelineLayout
-    let basePipelineHandle: Pipeline?
-    let basePipelineIndex: Int32
+    public let flags: PipelineCreateFlags
+    public let stages: Array<PipelineShaderStageCreateInfo>
+    public let groups: Array<RayTracingShaderGroupCreateInfoNV>
+    public let maxRecursionDepth: UInt32
+    public let layout: PipelineLayout
+    public let basePipelineHandle: Pipeline?
+    public let basePipelineIndex: Int32
 
     init(cStruct: VkRayTracingPipelineCreateInfoNV) {
         fatalError("This initializer should be removed.")
@@ -9663,20 +9663,20 @@ struct RayTracingPipelineCreateInfoNV: CStructConvertible {
     }
 }
 
-struct GeometryTrianglesNV: CStructConvertible {
+public struct GeometryTrianglesNV: CStructConvertible {
     typealias CStruct = VkGeometryTrianglesNV
 
-    let vertexData: Buffer?
-    let vertexOffset: VkDeviceSize
-    let vertexCount: UInt32
-    let vertexStride: VkDeviceSize
-    let vertexFormat: Format
-    let indexData: Buffer?
-    let indexOffset: VkDeviceSize
-    let indexCount: UInt32
-    let indexType: IndexType
-    let transformData: Buffer?
-    let transformOffset: VkDeviceSize
+    public let vertexData: Buffer?
+    public let vertexOffset: VkDeviceSize
+    public let vertexCount: UInt32
+    public let vertexStride: VkDeviceSize
+    public let vertexFormat: Format
+    public let indexData: Buffer?
+    public let indexOffset: VkDeviceSize
+    public let indexCount: UInt32
+    public let indexType: IndexType
+    public let transformData: Buffer?
+    public let transformOffset: VkDeviceSize
 
     init(cStruct: VkGeometryTrianglesNV) {
         fatalError("This initializer should be removed.")
@@ -9701,13 +9701,13 @@ struct GeometryTrianglesNV: CStructConvertible {
     }
 }
 
-struct GeometryAABBNV: CStructConvertible {
+public struct GeometryAABBNV: CStructConvertible {
     typealias CStruct = VkGeometryAABBNV
 
-    let aabbData: Buffer?
-    let numAABBs: UInt32
-    let stride: UInt32
-    let offset: VkDeviceSize
+    public let aabbData: Buffer?
+    public let numAABBs: UInt32
+    public let stride: UInt32
+    public let offset: VkDeviceSize
 
     init(cStruct: VkGeometryAABBNV) {
         fatalError("This initializer should be removed.")
@@ -9725,11 +9725,11 @@ struct GeometryAABBNV: CStructConvertible {
     }
 }
 
-struct GeometryDataNV: CStructConvertible {
+public struct GeometryDataNV: CStructConvertible {
     typealias CStruct = VkGeometryDataNV
 
-    let triangles: GeometryTrianglesNV
-    let aabbs: GeometryAABBNV
+    public let triangles: GeometryTrianglesNV
+    public let aabbs: GeometryAABBNV
 
     init(cStruct: VkGeometryDataNV) {
         self.triangles = GeometryTrianglesNV(cStruct: cStruct.triangles)
@@ -9748,12 +9748,12 @@ struct GeometryDataNV: CStructConvertible {
     }
 }
 
-struct GeometryNV: CStructConvertible {
+public struct GeometryNV: CStructConvertible {
     typealias CStruct = VkGeometryNV
 
-    let geometryType: VkGeometryTypeKHR
-    let geometry: GeometryDataNV
-    let flags: VkGeometryFlagsKHR
+    public let geometryType: VkGeometryTypeKHR
+    public let geometry: GeometryDataNV
+    public let flags: VkGeometryFlagsKHR
 
     init(cStruct: VkGeometryNV) {
         self.geometryType = cStruct.geometryType
@@ -9774,13 +9774,13 @@ struct GeometryNV: CStructConvertible {
     }
 }
 
-struct AccelerationStructureInfoNV: CStructConvertible {
+public struct AccelerationStructureInfoNV: CStructConvertible {
     typealias CStruct = VkAccelerationStructureInfoNV
 
-    let type: VkAccelerationStructureTypeNV
-    let flags: VkBuildAccelerationStructureFlagsNV
-    let instanceCount: UInt32
-    let geometries: Array<GeometryNV>
+    public let type: VkAccelerationStructureTypeNV
+    public let flags: VkBuildAccelerationStructureFlagsNV
+    public let instanceCount: UInt32
+    public let geometries: Array<GeometryNV>
 
     init(cStruct: VkAccelerationStructureInfoNV) {
         self.type = cStruct.type
@@ -9804,11 +9804,11 @@ struct AccelerationStructureInfoNV: CStructConvertible {
     }
 }
 
-struct AccelerationStructureCreateInfoNV: CStructConvertible {
+public struct AccelerationStructureCreateInfoNV: CStructConvertible {
     typealias CStruct = VkAccelerationStructureCreateInfoNV
 
-    let compactedSize: VkDeviceSize
-    let info: AccelerationStructureInfoNV
+    public let compactedSize: VkDeviceSize
+    public let info: AccelerationStructureInfoNV
 
     init(cStruct: VkAccelerationStructureCreateInfoNV) {
         self.compactedSize = cStruct.compactedSize
@@ -9827,11 +9827,11 @@ struct AccelerationStructureCreateInfoNV: CStructConvertible {
     }
 }
 
-struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible {
+public struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible {
     typealias CStruct = VkAccelerationStructureMemoryRequirementsInfoNV
 
-    let type: VkAccelerationStructureMemoryRequirementsTypeNV
-    let accelerationStructure: AccelerationStructureNV
+    public let type: VkAccelerationStructureMemoryRequirementsTypeNV
+    public let accelerationStructure: AccelerationStructureNV
 
     init(cStruct: VkAccelerationStructureMemoryRequirementsInfoNV) {
         fatalError("This initializer should be removed.")
@@ -9847,17 +9847,17 @@ struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceRayTracingPropertiesNV: CStructConvertible {
+public struct PhysicalDeviceRayTracingPropertiesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceRayTracingPropertiesNV
 
-    let shaderGroupHandleSize: UInt32
-    let maxRecursionDepth: UInt32
-    let maxShaderGroupStride: UInt32
-    let shaderGroupBaseAlignment: UInt32
-    let maxGeometryCount: UInt64
-    let maxInstanceCount: UInt64
-    let maxTriangleCount: UInt64
-    let maxDescriptorSetAccelerationStructures: UInt32
+    public let shaderGroupHandleSize: UInt32
+    public let maxRecursionDepth: UInt32
+    public let maxShaderGroupStride: UInt32
+    public let shaderGroupBaseAlignment: UInt32
+    public let maxGeometryCount: UInt64
+    public let maxInstanceCount: UInt64
+    public let maxTriangleCount: UInt64
+    public let maxDescriptorSetAccelerationStructures: UInt32
 
     init(cStruct: VkPhysicalDeviceRayTracingPropertiesNV) {
         self.shaderGroupHandleSize = cStruct.shaderGroupHandleSize
@@ -9886,11 +9886,11 @@ struct PhysicalDeviceRayTracingPropertiesNV: CStructConvertible {
     }
 }
 
-struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
+public struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
     typealias CStruct = VkDrmFormatModifierPropertiesListEXT
 
-    let drmFormatModifierCount: UInt32
-    let drmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
+    public let drmFormatModifierCount: UInt32
+    public let drmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
 
     init(cStruct: VkDrmFormatModifierPropertiesListEXT) {
         self.drmFormatModifierCount = cStruct.drmFormatModifierCount
@@ -9907,12 +9907,12 @@ struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
     }
 }
 
-struct DrmFormatModifierPropertiesEXT: CStructConvertible {
+public struct DrmFormatModifierPropertiesEXT: CStructConvertible {
     typealias CStruct = VkDrmFormatModifierPropertiesEXT
 
-    let drmFormatModifier: UInt64
-    let drmFormatModifierPlaneCount: UInt32
-    let drmFormatModifierTilingFeatures: FormatFeatureFlags
+    public let drmFormatModifier: UInt64
+    public let drmFormatModifierPlaneCount: UInt32
+    public let drmFormatModifierTilingFeatures: FormatFeatureFlags
 
     init(cStruct: VkDrmFormatModifierPropertiesEXT) {
         self.drmFormatModifier = cStruct.drmFormatModifier
@@ -9929,12 +9929,12 @@ struct DrmFormatModifierPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceImageDrmFormatModifierInfoEXT: CStructConvertible {
+public struct PhysicalDeviceImageDrmFormatModifierInfoEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceImageDrmFormatModifierInfoEXT
 
-    let drmFormatModifier: UInt64
-    let sharingMode: SharingMode
-    let queueFamilyIndices: Array<UInt32>
+    public let drmFormatModifier: UInt64
+    public let sharingMode: SharingMode
+    public let queueFamilyIndices: Array<UInt32>
 
     init(cStruct: VkPhysicalDeviceImageDrmFormatModifierInfoEXT) {
         self.drmFormatModifier = cStruct.drmFormatModifier
@@ -9956,10 +9956,10 @@ struct PhysicalDeviceImageDrmFormatModifierInfoEXT: CStructConvertible {
     }
 }
 
-struct ImageDrmFormatModifierListCreateInfoEXT: CStructConvertible {
+public struct ImageDrmFormatModifierListCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkImageDrmFormatModifierListCreateInfoEXT
 
-    let drmFormatModifiers: Array<UInt64>
+    public let drmFormatModifiers: Array<UInt64>
 
     init(cStruct: VkImageDrmFormatModifierListCreateInfoEXT) {
         self.drmFormatModifiers = Array(UnsafeBufferPointer(start: cStruct.pDrmFormatModifiers, count: Int(cStruct.drmFormatModifierCount)))
@@ -9977,11 +9977,11 @@ struct ImageDrmFormatModifierListCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct ImageDrmFormatModifierExplicitCreateInfoEXT: CStructConvertible {
+public struct ImageDrmFormatModifierExplicitCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkImageDrmFormatModifierExplicitCreateInfoEXT
 
-    let drmFormatModifier: UInt64
-    let planeLayouts: Array<SubresourceLayout>
+    public let drmFormatModifier: UInt64
+    public let planeLayouts: Array<SubresourceLayout>
 
     init(cStruct: VkImageDrmFormatModifierExplicitCreateInfoEXT) {
         self.drmFormatModifier = cStruct.drmFormatModifier
@@ -10001,10 +10001,10 @@ struct ImageDrmFormatModifierExplicitCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct ImageDrmFormatModifierPropertiesEXT: CStructConvertible {
+public struct ImageDrmFormatModifierPropertiesEXT: CStructConvertible {
     typealias CStruct = VkImageDrmFormatModifierPropertiesEXT
 
-    let drmFormatModifier: UInt64
+    public let drmFormatModifier: UInt64
 
     init(cStruct: VkImageDrmFormatModifierPropertiesEXT) {
         self.drmFormatModifier = cStruct.drmFormatModifier
@@ -10019,10 +10019,10 @@ struct ImageDrmFormatModifierPropertiesEXT: CStructConvertible {
     }
 }
 
-struct ImageStencilUsageCreateInfo: CStructConvertible {
+public struct ImageStencilUsageCreateInfo: CStructConvertible {
     typealias CStruct = VkImageStencilUsageCreateInfo
 
-    let stencilUsage: ImageUsageFlags
+    public let stencilUsage: ImageUsageFlags
 
     init(cStruct: VkImageStencilUsageCreateInfo) {
         self.stencilUsage = ImageUsageFlags(rawValue: cStruct.stencilUsage)
@@ -10037,10 +10037,10 @@ struct ImageStencilUsageCreateInfo: CStructConvertible {
     }
 }
 
-struct DeviceMemoryOverallocationCreateInfoAMD: CStructConvertible {
+public struct DeviceMemoryOverallocationCreateInfoAMD: CStructConvertible {
     typealias CStruct = VkDeviceMemoryOverallocationCreateInfoAMD
 
-    let overallocationBehavior: MemoryOverallocationBehaviorAMD
+    public let overallocationBehavior: MemoryOverallocationBehaviorAMD
 
     init(cStruct: VkDeviceMemoryOverallocationCreateInfoAMD) {
         self.overallocationBehavior = MemoryOverallocationBehaviorAMD(rawValue: cStruct.overallocationBehavior.rawValue)!
@@ -10055,12 +10055,12 @@ struct DeviceMemoryOverallocationCreateInfoAMD: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFragmentDensityMapFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceFragmentDensityMapFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentDensityMapFeaturesEXT
 
-    let fragmentDensityMap: Bool
-    let fragmentDensityMapDynamic: Bool
-    let fragmentDensityMapNonSubsampledImages: Bool
+    public let fragmentDensityMap: Bool
+    public let fragmentDensityMapDynamic: Bool
+    public let fragmentDensityMapNonSubsampledImages: Bool
 
     init(cStruct: VkPhysicalDeviceFragmentDensityMapFeaturesEXT) {
         self.fragmentDensityMap = cStruct.fragmentDensityMap == VK_TRUE
@@ -10079,12 +10079,12 @@ struct PhysicalDeviceFragmentDensityMapFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFragmentDensityMapPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceFragmentDensityMapPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentDensityMapPropertiesEXT
 
-    let minFragmentDensityTexelSize: Extent2D
-    let maxFragmentDensityTexelSize: Extent2D
-    let fragmentDensityInvocations: Bool
+    public let minFragmentDensityTexelSize: Extent2D
+    public let maxFragmentDensityTexelSize: Extent2D
+    public let fragmentDensityInvocations: Bool
 
     init(cStruct: VkPhysicalDeviceFragmentDensityMapPropertiesEXT) {
         self.minFragmentDensityTexelSize = Extent2D(cStruct: cStruct.minFragmentDensityTexelSize)
@@ -10107,10 +10107,10 @@ struct PhysicalDeviceFragmentDensityMapPropertiesEXT: CStructConvertible {
     }
 }
 
-struct RenderPassFragmentDensityMapCreateInfoEXT: CStructConvertible {
+public struct RenderPassFragmentDensityMapCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkRenderPassFragmentDensityMapCreateInfoEXT
 
-    let fragmentDensityMapAttachment: AttachmentReference
+    public let fragmentDensityMapAttachment: AttachmentReference
 
     init(cStruct: VkRenderPassFragmentDensityMapCreateInfoEXT) {
         self.fragmentDensityMapAttachment = AttachmentReference(cStruct: cStruct.fragmentDensityMapAttachment)
@@ -10127,10 +10127,10 @@ struct RenderPassFragmentDensityMapCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceScalarBlockLayoutFeatures: CStructConvertible {
+public struct PhysicalDeviceScalarBlockLayoutFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceScalarBlockLayoutFeatures
 
-    let scalarBlockLayout: Bool
+    public let scalarBlockLayout: Bool
 
     init(cStruct: VkPhysicalDeviceScalarBlockLayoutFeatures) {
         self.scalarBlockLayout = cStruct.scalarBlockLayout == VK_TRUE
@@ -10145,10 +10145,10 @@ struct PhysicalDeviceScalarBlockLayoutFeatures: CStructConvertible {
     }
 }
 
-struct SurfaceProtectedCapabilitiesKHR: CStructConvertible {
+public struct SurfaceProtectedCapabilitiesKHR: CStructConvertible {
     typealias CStruct = VkSurfaceProtectedCapabilitiesKHR
 
-    let supportsProtected: Bool
+    public let supportsProtected: Bool
 
     init(cStruct: VkSurfaceProtectedCapabilitiesKHR) {
         self.supportsProtected = cStruct.supportsProtected == VK_TRUE
@@ -10163,10 +10163,10 @@ struct SurfaceProtectedCapabilitiesKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceUniformBufferStandardLayoutFeatures: CStructConvertible {
+public struct PhysicalDeviceUniformBufferStandardLayoutFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceUniformBufferStandardLayoutFeatures
 
-    let uniformBufferStandardLayout: Bool
+    public let uniformBufferStandardLayout: Bool
 
     init(cStruct: VkPhysicalDeviceUniformBufferStandardLayoutFeatures) {
         self.uniformBufferStandardLayout = cStruct.uniformBufferStandardLayout == VK_TRUE
@@ -10181,10 +10181,10 @@ struct PhysicalDeviceUniformBufferStandardLayoutFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDepthClipEnableFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceDepthClipEnableFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDepthClipEnableFeaturesEXT
 
-    let depthClipEnable: Bool
+    public let depthClipEnable: Bool
 
     init(cStruct: VkPhysicalDeviceDepthClipEnableFeaturesEXT) {
         self.depthClipEnable = cStruct.depthClipEnable == VK_TRUE
@@ -10199,11 +10199,11 @@ struct PhysicalDeviceDepthClipEnableFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PipelineRasterizationDepthClipStateCreateInfoEXT: CStructConvertible {
+public struct PipelineRasterizationDepthClipStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationDepthClipStateCreateInfoEXT
 
-    let flags: PipelineRasterizationDepthClipStateCreateFlagsEXT
-    let depthClipEnable: Bool
+    public let flags: PipelineRasterizationDepthClipStateCreateFlagsEXT
+    public let depthClipEnable: Bool
 
     init(cStruct: VkPipelineRasterizationDepthClipStateCreateInfoEXT) {
         self.flags = PipelineRasterizationDepthClipStateCreateFlagsEXT(rawValue: cStruct.flags)
@@ -10220,11 +10220,11 @@ struct PipelineRasterizationDepthClipStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMemoryBudgetPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceMemoryBudgetPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMemoryBudgetPropertiesEXT
 
-    let heapBudget: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
-    let heapUsage: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
+    public let heapBudget: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
+    public let heapUsage: (VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize, VkDeviceSize)
 
     init(cStruct: VkPhysicalDeviceMemoryBudgetPropertiesEXT) {
         self.heapBudget = cStruct.heapBudget
@@ -10241,10 +10241,10 @@ struct PhysicalDeviceMemoryBudgetPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceMemoryPriorityFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceMemoryPriorityFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMemoryPriorityFeaturesEXT
 
-    let memoryPriority: Bool
+    public let memoryPriority: Bool
 
     init(cStruct: VkPhysicalDeviceMemoryPriorityFeaturesEXT) {
         self.memoryPriority = cStruct.memoryPriority == VK_TRUE
@@ -10259,10 +10259,10 @@ struct PhysicalDeviceMemoryPriorityFeaturesEXT: CStructConvertible {
     }
 }
 
-struct MemoryPriorityAllocateInfoEXT: CStructConvertible {
+public struct MemoryPriorityAllocateInfoEXT: CStructConvertible {
     typealias CStruct = VkMemoryPriorityAllocateInfoEXT
 
-    let priority: Float
+    public let priority: Float
 
     init(cStruct: VkMemoryPriorityAllocateInfoEXT) {
         self.priority = cStruct.priority
@@ -10277,12 +10277,12 @@ struct MemoryPriorityAllocateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceBufferDeviceAddressFeatures: CStructConvertible {
+public struct PhysicalDeviceBufferDeviceAddressFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBufferDeviceAddressFeatures
 
-    let bufferDeviceAddress: Bool
-    let bufferDeviceAddressCaptureReplay: Bool
-    let bufferDeviceAddressMultiDevice: Bool
+    public let bufferDeviceAddress: Bool
+    public let bufferDeviceAddressCaptureReplay: Bool
+    public let bufferDeviceAddressMultiDevice: Bool
 
     init(cStruct: VkPhysicalDeviceBufferDeviceAddressFeatures) {
         self.bufferDeviceAddress = cStruct.bufferDeviceAddress == VK_TRUE
@@ -10301,12 +10301,12 @@ struct PhysicalDeviceBufferDeviceAddressFeatures: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceBufferDeviceAddressFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceBufferDeviceAddressFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
 
-    let bufferDeviceAddress: Bool
-    let bufferDeviceAddressCaptureReplay: Bool
-    let bufferDeviceAddressMultiDevice: Bool
+    public let bufferDeviceAddress: Bool
+    public let bufferDeviceAddressCaptureReplay: Bool
+    public let bufferDeviceAddressMultiDevice: Bool
 
     init(cStruct: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT) {
         self.bufferDeviceAddress = cStruct.bufferDeviceAddress == VK_TRUE
@@ -10325,10 +10325,10 @@ struct PhysicalDeviceBufferDeviceAddressFeaturesEXT: CStructConvertible {
     }
 }
 
-struct BufferDeviceAddressInfo: CStructConvertible {
+public struct BufferDeviceAddressInfo: CStructConvertible {
     typealias CStruct = VkBufferDeviceAddressInfo
 
-    let buffer: Buffer
+    public let buffer: Buffer
 
     init(cStruct: VkBufferDeviceAddressInfo) {
         fatalError("This initializer should be removed.")
@@ -10343,10 +10343,10 @@ struct BufferDeviceAddressInfo: CStructConvertible {
     }
 }
 
-struct BufferOpaqueCaptureAddressCreateInfo: CStructConvertible {
+public struct BufferOpaqueCaptureAddressCreateInfo: CStructConvertible {
     typealias CStruct = VkBufferOpaqueCaptureAddressCreateInfo
 
-    let opaqueCaptureAddress: UInt64
+    public let opaqueCaptureAddress: UInt64
 
     init(cStruct: VkBufferOpaqueCaptureAddressCreateInfo) {
         self.opaqueCaptureAddress = cStruct.opaqueCaptureAddress
@@ -10361,10 +10361,10 @@ struct BufferOpaqueCaptureAddressCreateInfo: CStructConvertible {
     }
 }
 
-struct BufferDeviceAddressCreateInfoEXT: CStructConvertible {
+public struct BufferDeviceAddressCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkBufferDeviceAddressCreateInfoEXT
 
-    let deviceAddress: VkDeviceAddress
+    public let deviceAddress: VkDeviceAddress
 
     init(cStruct: VkBufferDeviceAddressCreateInfoEXT) {
         self.deviceAddress = cStruct.deviceAddress
@@ -10379,10 +10379,10 @@ struct BufferDeviceAddressCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceImageViewImageFormatInfoEXT: CStructConvertible {
+public struct PhysicalDeviceImageViewImageFormatInfoEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceImageViewImageFormatInfoEXT
 
-    let imageViewType: ImageViewType
+    public let imageViewType: ImageViewType
 
     init(cStruct: VkPhysicalDeviceImageViewImageFormatInfoEXT) {
         self.imageViewType = ImageViewType(rawValue: cStruct.imageViewType.rawValue)!
@@ -10397,11 +10397,11 @@ struct PhysicalDeviceImageViewImageFormatInfoEXT: CStructConvertible {
     }
 }
 
-struct FilterCubicImageViewImageFormatPropertiesEXT: CStructConvertible {
+public struct FilterCubicImageViewImageFormatPropertiesEXT: CStructConvertible {
     typealias CStruct = VkFilterCubicImageViewImageFormatPropertiesEXT
 
-    let filterCubic: Bool
-    let filterCubicMinmax: Bool
+    public let filterCubic: Bool
+    public let filterCubicMinmax: Bool
 
     init(cStruct: VkFilterCubicImageViewImageFormatPropertiesEXT) {
         self.filterCubic = cStruct.filterCubic == VK_TRUE
@@ -10418,10 +10418,10 @@ struct FilterCubicImageViewImageFormatPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceImagelessFramebufferFeatures: CStructConvertible {
+public struct PhysicalDeviceImagelessFramebufferFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceImagelessFramebufferFeatures
 
-    let imagelessFramebuffer: Bool
+    public let imagelessFramebuffer: Bool
 
     init(cStruct: VkPhysicalDeviceImagelessFramebufferFeatures) {
         self.imagelessFramebuffer = cStruct.imagelessFramebuffer == VK_TRUE
@@ -10436,10 +10436,10 @@ struct PhysicalDeviceImagelessFramebufferFeatures: CStructConvertible {
     }
 }
 
-struct FramebufferAttachmentsCreateInfo: CStructConvertible {
+public struct FramebufferAttachmentsCreateInfo: CStructConvertible {
     typealias CStruct = VkFramebufferAttachmentsCreateInfo
 
-    let attachmentImageInfos: Array<FramebufferAttachmentImageInfo>
+    public let attachmentImageInfos: Array<FramebufferAttachmentImageInfo>
 
     init(cStruct: VkFramebufferAttachmentsCreateInfo) {
         self.attachmentImageInfos = UnsafeBufferPointer(start: cStruct.pAttachmentImageInfos, count: Int(cStruct.attachmentImageInfoCount)).map{ FramebufferAttachmentImageInfo(cStruct: $0) }
@@ -10457,15 +10457,15 @@ struct FramebufferAttachmentsCreateInfo: CStructConvertible {
     }
 }
 
-struct FramebufferAttachmentImageInfo: CStructConvertible {
+public struct FramebufferAttachmentImageInfo: CStructConvertible {
     typealias CStruct = VkFramebufferAttachmentImageInfo
 
-    let flags: ImageCreateFlags
-    let usage: ImageUsageFlags
-    let width: UInt32
-    let height: UInt32
-    let layerCount: UInt32
-    let viewFormats: Array<Format>
+    public let flags: ImageCreateFlags
+    public let usage: ImageUsageFlags
+    public let width: UInt32
+    public let height: UInt32
+    public let layerCount: UInt32
+    public let viewFormats: Array<Format>
 
     init(cStruct: VkFramebufferAttachmentImageInfo) {
         self.flags = ImageCreateFlags(rawValue: cStruct.flags)
@@ -10493,10 +10493,10 @@ struct FramebufferAttachmentImageInfo: CStructConvertible {
     }
 }
 
-struct RenderPassAttachmentBeginInfo: CStructConvertible {
+public struct RenderPassAttachmentBeginInfo: CStructConvertible {
     typealias CStruct = VkRenderPassAttachmentBeginInfo
 
-    let attachments: Array<ImageView>
+    public let attachments: Array<ImageView>
 
     init(cStruct: VkRenderPassAttachmentBeginInfo) {
         fatalError("This initializer should be removed.")
@@ -10514,10 +10514,10 @@ struct RenderPassAttachmentBeginInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT
 
-    let textureCompressionASTC_HDR: Bool
+    public let textureCompressionASTC_HDR: Bool
 
     init(cStruct: VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT) {
         self.textureCompressionASTC_HDR = cStruct.textureCompressionASTC_HDR == VK_TRUE
@@ -10532,11 +10532,11 @@ struct PhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceCooperativeMatrixFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceCooperativeMatrixFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCooperativeMatrixFeaturesNV
 
-    let cooperativeMatrix: Bool
-    let cooperativeMatrixRobustBufferAccess: Bool
+    public let cooperativeMatrix: Bool
+    public let cooperativeMatrixRobustBufferAccess: Bool
 
     init(cStruct: VkPhysicalDeviceCooperativeMatrixFeaturesNV) {
         self.cooperativeMatrix = cStruct.cooperativeMatrix == VK_TRUE
@@ -10553,10 +10553,10 @@ struct PhysicalDeviceCooperativeMatrixFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceCooperativeMatrixPropertiesNV: CStructConvertible {
+public struct PhysicalDeviceCooperativeMatrixPropertiesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCooperativeMatrixPropertiesNV
 
-    let cooperativeMatrixSupportedStages: ShaderStageFlags
+    public let cooperativeMatrixSupportedStages: ShaderStageFlags
 
     init(cStruct: VkPhysicalDeviceCooperativeMatrixPropertiesNV) {
         self.cooperativeMatrixSupportedStages = ShaderStageFlags(rawValue: cStruct.cooperativeMatrixSupportedStages)
@@ -10571,17 +10571,17 @@ struct PhysicalDeviceCooperativeMatrixPropertiesNV: CStructConvertible {
     }
 }
 
-struct CooperativeMatrixPropertiesNV: CStructConvertible {
+public struct CooperativeMatrixPropertiesNV: CStructConvertible {
     typealias CStruct = VkCooperativeMatrixPropertiesNV
 
-    let MSize: UInt32
-    let NSize: UInt32
-    let KSize: UInt32
-    let AType: ComponentTypeNV
-    let BType: ComponentTypeNV
-    let CType: ComponentTypeNV
-    let DType: ComponentTypeNV
-    let scope: ScopeNV
+    public let MSize: UInt32
+    public let NSize: UInt32
+    public let KSize: UInt32
+    public let AType: ComponentTypeNV
+    public let BType: ComponentTypeNV
+    public let CType: ComponentTypeNV
+    public let DType: ComponentTypeNV
+    public let scope: ScopeNV
 
     init(cStruct: VkCooperativeMatrixPropertiesNV) {
         self.MSize = cStruct.MSize
@@ -10610,10 +10610,10 @@ struct CooperativeMatrixPropertiesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceYcbcrImageArraysFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceYcbcrImageArraysFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT
 
-    let ycbcrImageArrays: Bool
+    public let ycbcrImageArrays: Bool
 
     init(cStruct: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT) {
         self.ycbcrImageArrays = cStruct.ycbcrImageArrays == VK_TRUE
@@ -10628,12 +10628,12 @@ struct PhysicalDeviceYcbcrImageArraysFeaturesEXT: CStructConvertible {
     }
 }
 
-struct ImageViewHandleInfoNVX: CStructConvertible {
+public struct ImageViewHandleInfoNVX: CStructConvertible {
     typealias CStruct = VkImageViewHandleInfoNVX
 
-    let imageView: ImageView
-    let descriptorType: DescriptorType
-    let sampler: Sampler?
+    public let imageView: ImageView
+    public let descriptorType: DescriptorType
+    public let sampler: Sampler?
 
     init(cStruct: VkImageViewHandleInfoNVX) {
         fatalError("This initializer should be removed.")
@@ -10650,11 +10650,11 @@ struct ImageViewHandleInfoNVX: CStructConvertible {
     }
 }
 
-struct PipelineCreationFeedbackEXT: CStructConvertible {
+public struct PipelineCreationFeedbackEXT: CStructConvertible {
     typealias CStruct = VkPipelineCreationFeedbackEXT
 
-    let flags: PipelineCreationFeedbackFlagsEXT
-    let duration: UInt64
+    public let flags: PipelineCreationFeedbackFlagsEXT
+    public let duration: UInt64
 
     init(cStruct: VkPipelineCreationFeedbackEXT) {
         self.flags = PipelineCreationFeedbackFlagsEXT(rawValue: cStruct.flags)
@@ -10669,12 +10669,12 @@ struct PipelineCreationFeedbackEXT: CStructConvertible {
     }
 }
 
-struct PipelineCreationFeedbackCreateInfoEXT: CStructConvertible {
+public struct PipelineCreationFeedbackCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineCreationFeedbackCreateInfoEXT
 
-    let pipelineCreationFeedback: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
-    let pipelineStageCreationFeedbackCount: UInt32
-    let pipelineStageCreationFeedbacks: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
+    public let pipelineCreationFeedback: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
+    public let pipelineStageCreationFeedbackCount: UInt32
+    public let pipelineStageCreationFeedbacks: UnsafeMutablePointer<VkPipelineCreationFeedbackEXT>
 
     init(cStruct: VkPipelineCreationFeedbackCreateInfoEXT) {
         self.pipelineCreationFeedback = cStruct.pPipelineCreationFeedback
@@ -10693,11 +10693,11 @@ struct PipelineCreationFeedbackCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePerformanceQueryFeaturesKHR: CStructConvertible {
+public struct PhysicalDevicePerformanceQueryFeaturesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePerformanceQueryFeaturesKHR
 
-    let performanceCounterQueryPools: Bool
-    let performanceCounterMultipleQueryPools: Bool
+    public let performanceCounterQueryPools: Bool
+    public let performanceCounterMultipleQueryPools: Bool
 
     init(cStruct: VkPhysicalDevicePerformanceQueryFeaturesKHR) {
         self.performanceCounterQueryPools = cStruct.performanceCounterQueryPools == VK_TRUE
@@ -10714,10 +10714,10 @@ struct PhysicalDevicePerformanceQueryFeaturesKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePerformanceQueryPropertiesKHR: CStructConvertible {
+public struct PhysicalDevicePerformanceQueryPropertiesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePerformanceQueryPropertiesKHR
 
-    let allowCommandBufferQueryCopies: Bool
+    public let allowCommandBufferQueryCopies: Bool
 
     init(cStruct: VkPhysicalDevicePerformanceQueryPropertiesKHR) {
         self.allowCommandBufferQueryCopies = cStruct.allowCommandBufferQueryCopies == VK_TRUE
@@ -10732,13 +10732,13 @@ struct PhysicalDevicePerformanceQueryPropertiesKHR: CStructConvertible {
     }
 }
 
-struct PerformanceCounterKHR: CStructConvertible {
+public struct PerformanceCounterKHR: CStructConvertible {
     typealias CStruct = VkPerformanceCounterKHR
 
-    let unit: PerformanceCounterUnitKHR
-    let scope: PerformanceCounterScopeKHR
-    let storage: PerformanceCounterStorageKHR
-    let uuid: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let unit: PerformanceCounterUnitKHR
+    public let scope: PerformanceCounterScopeKHR
+    public let storage: PerformanceCounterStorageKHR
+    public let uuid: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
 
     init(cStruct: VkPerformanceCounterKHR) {
         self.unit = PerformanceCounterUnitKHR(rawValue: cStruct.unit.rawValue)!
@@ -10759,13 +10759,13 @@ struct PerformanceCounterKHR: CStructConvertible {
     }
 }
 
-struct PerformanceCounterDescriptionKHR: CStructConvertible {
+public struct PerformanceCounterDescriptionKHR: CStructConvertible {
     typealias CStruct = VkPerformanceCounterDescriptionKHR
 
-    let flags: PerformanceCounterDescriptionFlagsKHR
-    let name: String
-    let category: String
-    let description: String
+    public let flags: PerformanceCounterDescriptionFlagsKHR
+    public let name: String
+    public let category: String
+    public let description: String
 
     init(cStruct: VkPerformanceCounterDescriptionKHR) {
         self.flags = PerformanceCounterDescriptionFlagsKHR(rawValue: cStruct.flags)
@@ -10786,11 +10786,11 @@ struct PerformanceCounterDescriptionKHR: CStructConvertible {
     }
 }
 
-struct QueryPoolPerformanceCreateInfoKHR: CStructConvertible {
+public struct QueryPoolPerformanceCreateInfoKHR: CStructConvertible {
     typealias CStruct = VkQueryPoolPerformanceCreateInfoKHR
 
-    let queueFamilyIndex: UInt32
-    let counterIndices: Array<UInt32>
+    public let queueFamilyIndex: UInt32
+    public let counterIndices: Array<UInt32>
 
     init(cStruct: VkQueryPoolPerformanceCreateInfoKHR) {
         self.queueFamilyIndex = cStruct.queueFamilyIndex
@@ -10810,11 +10810,11 @@ struct QueryPoolPerformanceCreateInfoKHR: CStructConvertible {
     }
 }
 
-struct AcquireProfilingLockInfoKHR: CStructConvertible {
+public struct AcquireProfilingLockInfoKHR: CStructConvertible {
     typealias CStruct = VkAcquireProfilingLockInfoKHR
 
-    let flags: AcquireProfilingLockFlagsKHR
-    let timeout: UInt64
+    public let flags: AcquireProfilingLockFlagsKHR
+    public let timeout: UInt64
 
     init(cStruct: VkAcquireProfilingLockInfoKHR) {
         self.flags = AcquireProfilingLockFlagsKHR(rawValue: cStruct.flags)
@@ -10831,10 +10831,10 @@ struct AcquireProfilingLockInfoKHR: CStructConvertible {
     }
 }
 
-struct PerformanceQuerySubmitInfoKHR: CStructConvertible {
+public struct PerformanceQuerySubmitInfoKHR: CStructConvertible {
     typealias CStruct = VkPerformanceQuerySubmitInfoKHR
 
-    let counterPassIndex: UInt32
+    public let counterPassIndex: UInt32
 
     init(cStruct: VkPerformanceQuerySubmitInfoKHR) {
         self.counterPassIndex = cStruct.counterPassIndex
@@ -10849,10 +10849,10 @@ struct PerformanceQuerySubmitInfoKHR: CStructConvertible {
     }
 }
 
-struct HeadlessSurfaceCreateInfoEXT: CStructConvertible {
+public struct HeadlessSurfaceCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkHeadlessSurfaceCreateInfoEXT
 
-    let flags: HeadlessSurfaceCreateFlagsEXT
+    public let flags: HeadlessSurfaceCreateFlagsEXT
 
     init(cStruct: VkHeadlessSurfaceCreateInfoEXT) {
         self.flags = HeadlessSurfaceCreateFlagsEXT(rawValue: cStruct.flags)
@@ -10867,10 +10867,10 @@ struct HeadlessSurfaceCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceCoverageReductionModeFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceCoverageReductionModeFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCoverageReductionModeFeaturesNV
 
-    let coverageReductionMode: Bool
+    public let coverageReductionMode: Bool
 
     init(cStruct: VkPhysicalDeviceCoverageReductionModeFeaturesNV) {
         self.coverageReductionMode = cStruct.coverageReductionMode == VK_TRUE
@@ -10885,11 +10885,11 @@ struct PhysicalDeviceCoverageReductionModeFeaturesNV: CStructConvertible {
     }
 }
 
-struct PipelineCoverageReductionStateCreateInfoNV: CStructConvertible {
+public struct PipelineCoverageReductionStateCreateInfoNV: CStructConvertible {
     typealias CStruct = VkPipelineCoverageReductionStateCreateInfoNV
 
-    let flags: PipelineCoverageReductionStateCreateFlagsNV
-    let coverageReductionMode: CoverageReductionModeNV
+    public let flags: PipelineCoverageReductionStateCreateFlagsNV
+    public let coverageReductionMode: CoverageReductionModeNV
 
     init(cStruct: VkPipelineCoverageReductionStateCreateInfoNV) {
         self.flags = PipelineCoverageReductionStateCreateFlagsNV(rawValue: cStruct.flags)
@@ -10906,13 +10906,13 @@ struct PipelineCoverageReductionStateCreateInfoNV: CStructConvertible {
     }
 }
 
-struct FramebufferMixedSamplesCombinationNV: CStructConvertible {
+public struct FramebufferMixedSamplesCombinationNV: CStructConvertible {
     typealias CStruct = VkFramebufferMixedSamplesCombinationNV
 
-    let coverageReductionMode: CoverageReductionModeNV
-    let rasterizationSamples: SampleCountFlags
-    let depthStencilSamples: SampleCountFlags
-    let colorSamples: SampleCountFlags
+    public let coverageReductionMode: CoverageReductionModeNV
+    public let rasterizationSamples: SampleCountFlags
+    public let depthStencilSamples: SampleCountFlags
+    public let colorSamples: SampleCountFlags
 
     init(cStruct: VkFramebufferMixedSamplesCombinationNV) {
         self.coverageReductionMode = CoverageReductionModeNV(rawValue: cStruct.coverageReductionMode.rawValue)!
@@ -10933,10 +10933,10 @@ struct FramebufferMixedSamplesCombinationNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: CStructConvertible {
+public struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL
 
-    let shaderIntegerFunctions2: Bool
+    public let shaderIntegerFunctions2: Bool
 
     init(cStruct: VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL) {
         self.shaderIntegerFunctions2 = cStruct.shaderIntegerFunctions2 == VK_TRUE
@@ -10951,11 +10951,11 @@ struct PhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: CStructConvertible {
     }
 }
 
-struct PerformanceValueINTEL: CStructConvertible {
+public struct PerformanceValueINTEL: CStructConvertible {
     typealias CStruct = VkPerformanceValueINTEL
 
-    let type: PerformanceValueTypeINTEL
-    let data: VkPerformanceValueDataINTEL
+    public let type: PerformanceValueTypeINTEL
+    public let data: VkPerformanceValueDataINTEL
 
     init(cStruct: VkPerformanceValueINTEL) {
         self.type = PerformanceValueTypeINTEL(rawValue: cStruct.type.rawValue)!
@@ -10970,10 +10970,10 @@ struct PerformanceValueINTEL: CStructConvertible {
     }
 }
 
-struct InitializePerformanceApiInfoINTEL: CStructConvertible {
+public struct InitializePerformanceApiInfoINTEL: CStructConvertible {
     typealias CStruct = VkInitializePerformanceApiInfoINTEL
 
-    let userData: UnsafeMutableRawPointer
+    public let userData: UnsafeMutableRawPointer
 
     init(cStruct: VkInitializePerformanceApiInfoINTEL) {
         self.userData = cStruct.pUserData
@@ -10988,10 +10988,10 @@ struct InitializePerformanceApiInfoINTEL: CStructConvertible {
     }
 }
 
-struct QueryPoolPerformanceQueryCreateInfoINTEL: CStructConvertible {
+public struct QueryPoolPerformanceQueryCreateInfoINTEL: CStructConvertible {
     typealias CStruct = VkQueryPoolPerformanceQueryCreateInfoINTEL
 
-    let performanceCountersSampling: QueryPoolSamplingModeINTEL
+    public let performanceCountersSampling: QueryPoolSamplingModeINTEL
 
     init(cStruct: VkQueryPoolPerformanceQueryCreateInfoINTEL) {
         self.performanceCountersSampling = QueryPoolSamplingModeINTEL(rawValue: cStruct.performanceCountersSampling.rawValue)!
@@ -11006,10 +11006,10 @@ struct QueryPoolPerformanceQueryCreateInfoINTEL: CStructConvertible {
     }
 }
 
-struct PerformanceMarkerInfoINTEL: CStructConvertible {
+public struct PerformanceMarkerInfoINTEL: CStructConvertible {
     typealias CStruct = VkPerformanceMarkerInfoINTEL
 
-    let marker: UInt64
+    public let marker: UInt64
 
     init(cStruct: VkPerformanceMarkerInfoINTEL) {
         self.marker = cStruct.marker
@@ -11024,10 +11024,10 @@ struct PerformanceMarkerInfoINTEL: CStructConvertible {
     }
 }
 
-struct PerformanceStreamMarkerInfoINTEL: CStructConvertible {
+public struct PerformanceStreamMarkerInfoINTEL: CStructConvertible {
     typealias CStruct = VkPerformanceStreamMarkerInfoINTEL
 
-    let marker: UInt32
+    public let marker: UInt32
 
     init(cStruct: VkPerformanceStreamMarkerInfoINTEL) {
         self.marker = cStruct.marker
@@ -11042,12 +11042,12 @@ struct PerformanceStreamMarkerInfoINTEL: CStructConvertible {
     }
 }
 
-struct PerformanceOverrideInfoINTEL: CStructConvertible {
+public struct PerformanceOverrideInfoINTEL: CStructConvertible {
     typealias CStruct = VkPerformanceOverrideInfoINTEL
 
-    let type: PerformanceOverrideTypeINTEL
-    let enable: Bool
-    let parameter: UInt64
+    public let type: PerformanceOverrideTypeINTEL
+    public let enable: Bool
+    public let parameter: UInt64
 
     init(cStruct: VkPerformanceOverrideInfoINTEL) {
         self.type = PerformanceOverrideTypeINTEL(rawValue: cStruct.type.rawValue)!
@@ -11066,10 +11066,10 @@ struct PerformanceOverrideInfoINTEL: CStructConvertible {
     }
 }
 
-struct PerformanceConfigurationAcquireInfoINTEL: CStructConvertible {
+public struct PerformanceConfigurationAcquireInfoINTEL: CStructConvertible {
     typealias CStruct = VkPerformanceConfigurationAcquireInfoINTEL
 
-    let type: PerformanceConfigurationTypeINTEL
+    public let type: PerformanceConfigurationTypeINTEL
 
     init(cStruct: VkPerformanceConfigurationAcquireInfoINTEL) {
         self.type = PerformanceConfigurationTypeINTEL(rawValue: cStruct.type.rawValue)!
@@ -11084,11 +11084,11 @@ struct PerformanceConfigurationAcquireInfoINTEL: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderClockFeaturesKHR: CStructConvertible {
+public struct PhysicalDeviceShaderClockFeaturesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderClockFeaturesKHR
 
-    let shaderSubgroupClock: Bool
-    let shaderDeviceClock: Bool
+    public let shaderSubgroupClock: Bool
+    public let shaderDeviceClock: Bool
 
     init(cStruct: VkPhysicalDeviceShaderClockFeaturesKHR) {
         self.shaderSubgroupClock = cStruct.shaderSubgroupClock == VK_TRUE
@@ -11105,10 +11105,10 @@ struct PhysicalDeviceShaderClockFeaturesKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceIndexTypeUint8FeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceIndexTypeUint8FeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceIndexTypeUint8FeaturesEXT
 
-    let indexTypeUint8: Bool
+    public let indexTypeUint8: Bool
 
     init(cStruct: VkPhysicalDeviceIndexTypeUint8FeaturesEXT) {
         self.indexTypeUint8 = cStruct.indexTypeUint8 == VK_TRUE
@@ -11123,11 +11123,11 @@ struct PhysicalDeviceIndexTypeUint8FeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderSMBuiltinsPropertiesNV: CStructConvertible {
+public struct PhysicalDeviceShaderSMBuiltinsPropertiesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV
 
-    let shaderSMCount: UInt32
-    let shaderWarpsPerSM: UInt32
+    public let shaderSMCount: UInt32
+    public let shaderWarpsPerSM: UInt32
 
     init(cStruct: VkPhysicalDeviceShaderSMBuiltinsPropertiesNV) {
         self.shaderSMCount = cStruct.shaderSMCount
@@ -11144,10 +11144,10 @@ struct PhysicalDeviceShaderSMBuiltinsPropertiesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderSMBuiltinsFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceShaderSMBuiltinsFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV
 
-    let shaderSMBuiltins: Bool
+    public let shaderSMBuiltins: Bool
 
     init(cStruct: VkPhysicalDeviceShaderSMBuiltinsFeaturesNV) {
         self.shaderSMBuiltins = cStruct.shaderSMBuiltins == VK_TRUE
@@ -11162,12 +11162,12 @@ struct PhysicalDeviceShaderSMBuiltinsFeaturesNV: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT
 
-    let fragmentShaderSampleInterlock: Bool
-    let fragmentShaderPixelInterlock: Bool
-    let fragmentShaderShadingRateInterlock: Bool
+    public let fragmentShaderSampleInterlock: Bool
+    public let fragmentShaderPixelInterlock: Bool
+    public let fragmentShaderShadingRateInterlock: Bool
 
     init(cStruct: VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT) {
         self.fragmentShaderSampleInterlock = cStruct.fragmentShaderSampleInterlock == VK_TRUE
@@ -11186,10 +11186,10 @@ struct PhysicalDeviceFragmentShaderInterlockFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures: CStructConvertible {
+public struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures
 
-    let separateDepthStencilLayouts: Bool
+    public let separateDepthStencilLayouts: Bool
 
     init(cStruct: VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures) {
         self.separateDepthStencilLayouts = cStruct.separateDepthStencilLayouts == VK_TRUE
@@ -11204,10 +11204,10 @@ struct PhysicalDeviceSeparateDepthStencilLayoutsFeatures: CStructConvertible {
     }
 }
 
-struct AttachmentReferenceStencilLayout: CStructConvertible {
+public struct AttachmentReferenceStencilLayout: CStructConvertible {
     typealias CStruct = VkAttachmentReferenceStencilLayout
 
-    let stencilLayout: ImageLayout
+    public let stencilLayout: ImageLayout
 
     init(cStruct: VkAttachmentReferenceStencilLayout) {
         self.stencilLayout = ImageLayout(rawValue: cStruct.stencilLayout.rawValue)!
@@ -11222,11 +11222,11 @@ struct AttachmentReferenceStencilLayout: CStructConvertible {
     }
 }
 
-struct AttachmentDescriptionStencilLayout: CStructConvertible {
+public struct AttachmentDescriptionStencilLayout: CStructConvertible {
     typealias CStruct = VkAttachmentDescriptionStencilLayout
 
-    let stencilInitialLayout: ImageLayout
-    let stencilFinalLayout: ImageLayout
+    public let stencilInitialLayout: ImageLayout
+    public let stencilFinalLayout: ImageLayout
 
     init(cStruct: VkAttachmentDescriptionStencilLayout) {
         self.stencilInitialLayout = ImageLayout(rawValue: cStruct.stencilInitialLayout.rawValue)!
@@ -11243,10 +11243,10 @@ struct AttachmentDescriptionStencilLayout: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR: CStructConvertible {
+public struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR
 
-    let pipelineExecutableInfo: Bool
+    public let pipelineExecutableInfo: Bool
 
     init(cStruct: VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR) {
         self.pipelineExecutableInfo = cStruct.pipelineExecutableInfo == VK_TRUE
@@ -11261,10 +11261,10 @@ struct PhysicalDevicePipelineExecutablePropertiesFeaturesKHR: CStructConvertible
     }
 }
 
-struct PipelineInfoKHR: CStructConvertible {
+public struct PipelineInfoKHR: CStructConvertible {
     typealias CStruct = VkPipelineInfoKHR
 
-    let pipeline: Pipeline
+    public let pipeline: Pipeline
 
     init(cStruct: VkPipelineInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -11279,13 +11279,13 @@ struct PipelineInfoKHR: CStructConvertible {
     }
 }
 
-struct PipelineExecutablePropertiesKHR: CStructConvertible {
+public struct PipelineExecutablePropertiesKHR: CStructConvertible {
     typealias CStruct = VkPipelineExecutablePropertiesKHR
 
-    let stages: ShaderStageFlags
-    let name: String
-    let description: String
-    let subgroupSize: UInt32
+    public let stages: ShaderStageFlags
+    public let name: String
+    public let description: String
+    public let subgroupSize: UInt32
 
     init(cStruct: VkPipelineExecutablePropertiesKHR) {
         self.stages = ShaderStageFlags(rawValue: cStruct.stages)
@@ -11306,11 +11306,11 @@ struct PipelineExecutablePropertiesKHR: CStructConvertible {
     }
 }
 
-struct PipelineExecutableInfoKHR: CStructConvertible {
+public struct PipelineExecutableInfoKHR: CStructConvertible {
     typealias CStruct = VkPipelineExecutableInfoKHR
 
-    let pipeline: Pipeline
-    let executableIndex: UInt32
+    public let pipeline: Pipeline
+    public let executableIndex: UInt32
 
     init(cStruct: VkPipelineExecutableInfoKHR) {
         fatalError("This initializer should be removed.")
@@ -11326,13 +11326,13 @@ struct PipelineExecutableInfoKHR: CStructConvertible {
     }
 }
 
-struct PipelineExecutableStatisticKHR: CStructConvertible {
+public struct PipelineExecutableStatisticKHR: CStructConvertible {
     typealias CStruct = VkPipelineExecutableStatisticKHR
 
-    let name: String
-    let description: String
-    let format: PipelineExecutableStatisticFormatKHR
-    let value: VkPipelineExecutableStatisticValueKHR
+    public let name: String
+    public let description: String
+    public let format: PipelineExecutableStatisticFormatKHR
+    public let value: VkPipelineExecutableStatisticValueKHR
 
     init(cStruct: VkPipelineExecutableStatisticKHR) {
         self.name = String(unsafeBytesOf: cStruct.name)
@@ -11353,14 +11353,14 @@ struct PipelineExecutableStatisticKHR: CStructConvertible {
     }
 }
 
-struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
+public struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
     typealias CStruct = VkPipelineExecutableInternalRepresentationKHR
 
-    let name: String
-    let description: String
-    let isText: Bool
-    let dataSize: Int
-    let data: UnsafeMutableRawPointer
+    public let name: String
+    public let description: String
+    public let isText: Bool
+    public let dataSize: Int
+    public let data: UnsafeMutableRawPointer
 
     init(cStruct: VkPipelineExecutableInternalRepresentationKHR) {
         self.name = String(unsafeBytesOf: cStruct.name)
@@ -11383,10 +11383,10 @@ struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT
 
-    let shaderDemoteToHelperInvocation: Bool
+    public let shaderDemoteToHelperInvocation: Bool
 
     init(cStruct: VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT) {
         self.shaderDemoteToHelperInvocation = cStruct.shaderDemoteToHelperInvocation == VK_TRUE
@@ -11401,10 +11401,10 @@ struct PhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: CStructConvertib
     }
 }
 
-struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT
 
-    let texelBufferAlignment: Bool
+    public let texelBufferAlignment: Bool
 
     init(cStruct: VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT) {
         self.texelBufferAlignment = cStruct.texelBufferAlignment == VK_TRUE
@@ -11419,13 +11419,13 @@ struct PhysicalDeviceTexelBufferAlignmentFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT
 
-    let storageTexelBufferOffsetAlignmentBytes: VkDeviceSize
-    let storageTexelBufferOffsetSingleTexelAlignment: Bool
-    let uniformTexelBufferOffsetAlignmentBytes: VkDeviceSize
-    let uniformTexelBufferOffsetSingleTexelAlignment: Bool
+    public let storageTexelBufferOffsetAlignmentBytes: VkDeviceSize
+    public let storageTexelBufferOffsetSingleTexelAlignment: Bool
+    public let uniformTexelBufferOffsetAlignmentBytes: VkDeviceSize
+    public let uniformTexelBufferOffsetSingleTexelAlignment: Bool
 
     init(cStruct: VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT) {
         self.storageTexelBufferOffsetAlignmentBytes = cStruct.storageTexelBufferOffsetAlignmentBytes
@@ -11446,11 +11446,11 @@ struct PhysicalDeviceTexelBufferAlignmentPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSubgroupSizeControlFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceSubgroupSizeControlFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT
 
-    let subgroupSizeControl: Bool
-    let computeFullSubgroups: Bool
+    public let subgroupSizeControl: Bool
+    public let computeFullSubgroups: Bool
 
     init(cStruct: VkPhysicalDeviceSubgroupSizeControlFeaturesEXT) {
         self.subgroupSizeControl = cStruct.subgroupSizeControl == VK_TRUE
@@ -11467,13 +11467,13 @@ struct PhysicalDeviceSubgroupSizeControlFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceSubgroupSizeControlPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceSubgroupSizeControlPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT
 
-    let minSubgroupSize: UInt32
-    let maxSubgroupSize: UInt32
-    let maxComputeWorkgroupSubgroups: UInt32
-    let requiredSubgroupSizeStages: ShaderStageFlags
+    public let minSubgroupSize: UInt32
+    public let maxSubgroupSize: UInt32
+    public let maxComputeWorkgroupSubgroups: UInt32
+    public let requiredSubgroupSizeStages: ShaderStageFlags
 
     init(cStruct: VkPhysicalDeviceSubgroupSizeControlPropertiesEXT) {
         self.minSubgroupSize = cStruct.minSubgroupSize
@@ -11494,10 +11494,10 @@ struct PhysicalDeviceSubgroupSizeControlPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: CStructConvertible {
+public struct PipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT
 
-    let requiredSubgroupSize: UInt32
+    public let requiredSubgroupSize: UInt32
 
     init(cStruct: VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT) {
         self.requiredSubgroupSize = cStruct.requiredSubgroupSize
@@ -11512,10 +11512,10 @@ struct PipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: CStructConvertible 
     }
 }
 
-struct MemoryOpaqueCaptureAddressAllocateInfo: CStructConvertible {
+public struct MemoryOpaqueCaptureAddressAllocateInfo: CStructConvertible {
     typealias CStruct = VkMemoryOpaqueCaptureAddressAllocateInfo
 
-    let opaqueCaptureAddress: UInt64
+    public let opaqueCaptureAddress: UInt64
 
     init(cStruct: VkMemoryOpaqueCaptureAddressAllocateInfo) {
         self.opaqueCaptureAddress = cStruct.opaqueCaptureAddress
@@ -11530,10 +11530,10 @@ struct MemoryOpaqueCaptureAddressAllocateInfo: CStructConvertible {
     }
 }
 
-struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
+public struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
     typealias CStruct = VkDeviceMemoryOpaqueCaptureAddressInfo
 
-    let memory: DeviceMemory
+    public let memory: DeviceMemory
 
     init(cStruct: VkDeviceMemoryOpaqueCaptureAddressInfo) {
         fatalError("This initializer should be removed.")
@@ -11548,15 +11548,15 @@ struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceLineRasterizationFeaturesEXT: CStructConvertible {
+public struct PhysicalDeviceLineRasterizationFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceLineRasterizationFeaturesEXT
 
-    let rectangularLines: Bool
-    let bresenhamLines: Bool
-    let smoothLines: Bool
-    let stippledRectangularLines: Bool
-    let stippledBresenhamLines: Bool
-    let stippledSmoothLines: Bool
+    public let rectangularLines: Bool
+    public let bresenhamLines: Bool
+    public let smoothLines: Bool
+    public let stippledRectangularLines: Bool
+    public let stippledBresenhamLines: Bool
+    public let stippledSmoothLines: Bool
 
     init(cStruct: VkPhysicalDeviceLineRasterizationFeaturesEXT) {
         self.rectangularLines = cStruct.rectangularLines == VK_TRUE
@@ -11581,10 +11581,10 @@ struct PhysicalDeviceLineRasterizationFeaturesEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceLineRasterizationPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceLineRasterizationPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceLineRasterizationPropertiesEXT
 
-    let lineSubPixelPrecisionBits: UInt32
+    public let lineSubPixelPrecisionBits: UInt32
 
     init(cStruct: VkPhysicalDeviceLineRasterizationPropertiesEXT) {
         self.lineSubPixelPrecisionBits = cStruct.lineSubPixelPrecisionBits
@@ -11599,13 +11599,13 @@ struct PhysicalDeviceLineRasterizationPropertiesEXT: CStructConvertible {
     }
 }
 
-struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
+public struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
     typealias CStruct = VkPipelineRasterizationLineStateCreateInfoEXT
 
-    let lineRasterizationMode: LineRasterizationModeEXT
-    let stippledLineEnable: Bool
-    let lineStippleFactor: UInt32
-    let lineStipplePattern: UInt16
+    public let lineRasterizationMode: LineRasterizationModeEXT
+    public let stippledLineEnable: Bool
+    public let lineStippleFactor: UInt32
+    public let lineStipplePattern: UInt16
 
     init(cStruct: VkPipelineRasterizationLineStateCreateInfoEXT) {
         self.lineRasterizationMode = LineRasterizationModeEXT(rawValue: cStruct.lineRasterizationMode.rawValue)!
@@ -11626,10 +11626,10 @@ struct PipelineRasterizationLineStateCreateInfoEXT: CStructConvertible {
     }
 }
 
-struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT: CStructConvertible {
+public struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT
 
-    let pipelineCreationCacheControl: Bool
+    public let pipelineCreationCacheControl: Bool
 
     init(cStruct: VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT) {
         self.pipelineCreationCacheControl = cStruct.pipelineCreationCacheControl == VK_TRUE
@@ -11644,21 +11644,21 @@ struct PhysicalDevicePipelineCreationCacheControlFeaturesEXT: CStructConvertible
     }
 }
 
-struct PhysicalDeviceVulkan11Features: CStructConvertible {
+public struct PhysicalDeviceVulkan11Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkan11Features
 
-    let storageBuffer16BitAccess: Bool
-    let uniformAndStorageBuffer16BitAccess: Bool
-    let storagePushConstant16: Bool
-    let storageInputOutput16: Bool
-    let multiview: Bool
-    let multiviewGeometryShader: Bool
-    let multiviewTessellationShader: Bool
-    let variablePointersStorageBuffer: Bool
-    let variablePointers: Bool
-    let protectedMemory: Bool
-    let samplerYcbcrConversion: Bool
-    let shaderDrawParameters: Bool
+    public let storageBuffer16BitAccess: Bool
+    public let uniformAndStorageBuffer16BitAccess: Bool
+    public let storagePushConstant16: Bool
+    public let storageInputOutput16: Bool
+    public let multiview: Bool
+    public let multiviewGeometryShader: Bool
+    public let multiviewTessellationShader: Bool
+    public let variablePointersStorageBuffer: Bool
+    public let variablePointers: Bool
+    public let protectedMemory: Bool
+    public let samplerYcbcrConversion: Bool
+    public let shaderDrawParameters: Bool
 
     init(cStruct: VkPhysicalDeviceVulkan11Features) {
         self.storageBuffer16BitAccess = cStruct.storageBuffer16BitAccess == VK_TRUE
@@ -11695,24 +11695,24 @@ struct PhysicalDeviceVulkan11Features: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVulkan11Properties: CStructConvertible {
+public struct PhysicalDeviceVulkan11Properties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkan11Properties
 
-    let deviceUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    let deviceNodeMask: UInt32
-    let deviceLUIDValid: Bool
-    let subgroupSize: UInt32
-    let subgroupSupportedStages: ShaderStageFlags
-    let subgroupSupportedOperations: SubgroupFeatureFlags
-    let subgroupQuadOperationsInAllStages: Bool
-    let pointClippingBehavior: PointClippingBehavior
-    let maxMultiviewViewCount: UInt32
-    let maxMultiviewInstanceIndex: UInt32
-    let protectedNoFault: Bool
-    let maxPerSetDescriptors: UInt32
-    let maxMemoryAllocationSize: VkDeviceSize
+    public let deviceUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let driverUUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let deviceLUID: (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    public let deviceNodeMask: UInt32
+    public let deviceLUIDValid: Bool
+    public let subgroupSize: UInt32
+    public let subgroupSupportedStages: ShaderStageFlags
+    public let subgroupSupportedOperations: SubgroupFeatureFlags
+    public let subgroupQuadOperationsInAllStages: Bool
+    public let pointClippingBehavior: PointClippingBehavior
+    public let maxMultiviewViewCount: UInt32
+    public let maxMultiviewInstanceIndex: UInt32
+    public let protectedNoFault: Bool
+    public let maxPerSetDescriptors: UInt32
+    public let maxMemoryAllocationSize: VkDeviceSize
 
     init(cStruct: VkPhysicalDeviceVulkan11Properties) {
         self.deviceUUID = cStruct.deviceUUID
@@ -11755,56 +11755,56 @@ struct PhysicalDeviceVulkan11Properties: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVulkan12Features: CStructConvertible {
+public struct PhysicalDeviceVulkan12Features: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkan12Features
 
-    let samplerMirrorClampToEdge: Bool
-    let drawIndirectCount: Bool
-    let storageBuffer8BitAccess: Bool
-    let uniformAndStorageBuffer8BitAccess: Bool
-    let storagePushConstant8: Bool
-    let shaderBufferInt64Atomics: Bool
-    let shaderSharedInt64Atomics: Bool
-    let shaderFloat16: Bool
-    let shaderInt8: Bool
-    let descriptorIndexing: Bool
-    let shaderInputAttachmentArrayDynamicIndexing: Bool
-    let shaderUniformTexelBufferArrayDynamicIndexing: Bool
-    let shaderStorageTexelBufferArrayDynamicIndexing: Bool
-    let shaderUniformBufferArrayNonUniformIndexing: Bool
-    let shaderSampledImageArrayNonUniformIndexing: Bool
-    let shaderStorageBufferArrayNonUniformIndexing: Bool
-    let shaderStorageImageArrayNonUniformIndexing: Bool
-    let shaderInputAttachmentArrayNonUniformIndexing: Bool
-    let shaderUniformTexelBufferArrayNonUniformIndexing: Bool
-    let shaderStorageTexelBufferArrayNonUniformIndexing: Bool
-    let descriptorBindingUniformBufferUpdateAfterBind: Bool
-    let descriptorBindingSampledImageUpdateAfterBind: Bool
-    let descriptorBindingStorageImageUpdateAfterBind: Bool
-    let descriptorBindingStorageBufferUpdateAfterBind: Bool
-    let descriptorBindingUniformTexelBufferUpdateAfterBind: Bool
-    let descriptorBindingStorageTexelBufferUpdateAfterBind: Bool
-    let descriptorBindingUpdateUnusedWhilePending: Bool
-    let descriptorBindingPartiallyBound: Bool
-    let descriptorBindingVariableDescriptorCount: Bool
-    let runtimeDescriptorArray: Bool
-    let samplerFilterMinmax: Bool
-    let scalarBlockLayout: Bool
-    let imagelessFramebuffer: Bool
-    let uniformBufferStandardLayout: Bool
-    let shaderSubgroupExtendedTypes: Bool
-    let separateDepthStencilLayouts: Bool
-    let hostQueryReset: Bool
-    let timelineSemaphore: Bool
-    let bufferDeviceAddress: Bool
-    let bufferDeviceAddressCaptureReplay: Bool
-    let bufferDeviceAddressMultiDevice: Bool
-    let vulkanMemoryModel: Bool
-    let vulkanMemoryModelDeviceScope: Bool
-    let vulkanMemoryModelAvailabilityVisibilityChains: Bool
-    let shaderOutputViewportIndex: Bool
-    let shaderOutputLayer: Bool
-    let subgroupBroadcastDynamicId: Bool
+    public let samplerMirrorClampToEdge: Bool
+    public let drawIndirectCount: Bool
+    public let storageBuffer8BitAccess: Bool
+    public let uniformAndStorageBuffer8BitAccess: Bool
+    public let storagePushConstant8: Bool
+    public let shaderBufferInt64Atomics: Bool
+    public let shaderSharedInt64Atomics: Bool
+    public let shaderFloat16: Bool
+    public let shaderInt8: Bool
+    public let descriptorIndexing: Bool
+    public let shaderInputAttachmentArrayDynamicIndexing: Bool
+    public let shaderUniformTexelBufferArrayDynamicIndexing: Bool
+    public let shaderStorageTexelBufferArrayDynamicIndexing: Bool
+    public let shaderUniformBufferArrayNonUniformIndexing: Bool
+    public let shaderSampledImageArrayNonUniformIndexing: Bool
+    public let shaderStorageBufferArrayNonUniformIndexing: Bool
+    public let shaderStorageImageArrayNonUniformIndexing: Bool
+    public let shaderInputAttachmentArrayNonUniformIndexing: Bool
+    public let shaderUniformTexelBufferArrayNonUniformIndexing: Bool
+    public let shaderStorageTexelBufferArrayNonUniformIndexing: Bool
+    public let descriptorBindingUniformBufferUpdateAfterBind: Bool
+    public let descriptorBindingSampledImageUpdateAfterBind: Bool
+    public let descriptorBindingStorageImageUpdateAfterBind: Bool
+    public let descriptorBindingStorageBufferUpdateAfterBind: Bool
+    public let descriptorBindingUniformTexelBufferUpdateAfterBind: Bool
+    public let descriptorBindingStorageTexelBufferUpdateAfterBind: Bool
+    public let descriptorBindingUpdateUnusedWhilePending: Bool
+    public let descriptorBindingPartiallyBound: Bool
+    public let descriptorBindingVariableDescriptorCount: Bool
+    public let runtimeDescriptorArray: Bool
+    public let samplerFilterMinmax: Bool
+    public let scalarBlockLayout: Bool
+    public let imagelessFramebuffer: Bool
+    public let uniformBufferStandardLayout: Bool
+    public let shaderSubgroupExtendedTypes: Bool
+    public let separateDepthStencilLayouts: Bool
+    public let hostQueryReset: Bool
+    public let timelineSemaphore: Bool
+    public let bufferDeviceAddress: Bool
+    public let bufferDeviceAddressCaptureReplay: Bool
+    public let bufferDeviceAddressMultiDevice: Bool
+    public let vulkanMemoryModel: Bool
+    public let vulkanMemoryModelDeviceScope: Bool
+    public let vulkanMemoryModelAvailabilityVisibilityChains: Bool
+    public let shaderOutputViewportIndex: Bool
+    public let shaderOutputLayer: Bool
+    public let subgroupBroadcastDynamicId: Bool
 
     init(cStruct: VkPhysicalDeviceVulkan12Features) {
         self.samplerMirrorClampToEdge = cStruct.samplerMirrorClampToEdge == VK_TRUE
@@ -11911,61 +11911,61 @@ struct PhysicalDeviceVulkan12Features: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceVulkan12Properties: CStructConvertible {
+public struct PhysicalDeviceVulkan12Properties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceVulkan12Properties
 
-    let driverID: DriverId
-    let driverName: String
-    let driverInfo: String
-    let conformanceVersion: ConformanceVersion
-    let denormBehaviorIndependence: ShaderFloatControlsIndependence
-    let roundingModeIndependence: ShaderFloatControlsIndependence
-    let shaderSignedZeroInfNanPreserveFloat16: Bool
-    let shaderSignedZeroInfNanPreserveFloat32: Bool
-    let shaderSignedZeroInfNanPreserveFloat64: Bool
-    let shaderDenormPreserveFloat16: Bool
-    let shaderDenormPreserveFloat32: Bool
-    let shaderDenormPreserveFloat64: Bool
-    let shaderDenormFlushToZeroFloat16: Bool
-    let shaderDenormFlushToZeroFloat32: Bool
-    let shaderDenormFlushToZeroFloat64: Bool
-    let shaderRoundingModeRTEFloat16: Bool
-    let shaderRoundingModeRTEFloat32: Bool
-    let shaderRoundingModeRTEFloat64: Bool
-    let shaderRoundingModeRTZFloat16: Bool
-    let shaderRoundingModeRTZFloat32: Bool
-    let shaderRoundingModeRTZFloat64: Bool
-    let maxUpdateAfterBindDescriptorsInAllPools: UInt32
-    let shaderUniformBufferArrayNonUniformIndexingNative: Bool
-    let shaderSampledImageArrayNonUniformIndexingNative: Bool
-    let shaderStorageBufferArrayNonUniformIndexingNative: Bool
-    let shaderStorageImageArrayNonUniformIndexingNative: Bool
-    let shaderInputAttachmentArrayNonUniformIndexingNative: Bool
-    let robustBufferAccessUpdateAfterBind: Bool
-    let quadDivergentImplicitLod: Bool
-    let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
-    let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
-    let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
-    let maxPerStageDescriptorUpdateAfterBindSampledImages: UInt32
-    let maxPerStageDescriptorUpdateAfterBindStorageImages: UInt32
-    let maxPerStageDescriptorUpdateAfterBindInputAttachments: UInt32
-    let maxPerStageUpdateAfterBindResources: UInt32
-    let maxDescriptorSetUpdateAfterBindSamplers: UInt32
-    let maxDescriptorSetUpdateAfterBindUniformBuffers: UInt32
-    let maxDescriptorSetUpdateAfterBindUniformBuffersDynamic: UInt32
-    let maxDescriptorSetUpdateAfterBindStorageBuffers: UInt32
-    let maxDescriptorSetUpdateAfterBindStorageBuffersDynamic: UInt32
-    let maxDescriptorSetUpdateAfterBindSampledImages: UInt32
-    let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
-    let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
-    let supportedDepthResolveModes: ResolveModeFlags
-    let supportedStencilResolveModes: ResolveModeFlags
-    let independentResolveNone: Bool
-    let independentResolve: Bool
-    let filterMinmaxSingleComponentFormats: Bool
-    let filterMinmaxImageComponentMapping: Bool
-    let maxTimelineSemaphoreValueDifference: UInt64
-    let framebufferIntegerColorSampleCounts: SampleCountFlags
+    public let driverID: DriverId
+    public let driverName: String
+    public let driverInfo: String
+    public let conformanceVersion: ConformanceVersion
+    public let denormBehaviorIndependence: ShaderFloatControlsIndependence
+    public let roundingModeIndependence: ShaderFloatControlsIndependence
+    public let shaderSignedZeroInfNanPreserveFloat16: Bool
+    public let shaderSignedZeroInfNanPreserveFloat32: Bool
+    public let shaderSignedZeroInfNanPreserveFloat64: Bool
+    public let shaderDenormPreserveFloat16: Bool
+    public let shaderDenormPreserveFloat32: Bool
+    public let shaderDenormPreserveFloat64: Bool
+    public let shaderDenormFlushToZeroFloat16: Bool
+    public let shaderDenormFlushToZeroFloat32: Bool
+    public let shaderDenormFlushToZeroFloat64: Bool
+    public let shaderRoundingModeRTEFloat16: Bool
+    public let shaderRoundingModeRTEFloat32: Bool
+    public let shaderRoundingModeRTEFloat64: Bool
+    public let shaderRoundingModeRTZFloat16: Bool
+    public let shaderRoundingModeRTZFloat32: Bool
+    public let shaderRoundingModeRTZFloat64: Bool
+    public let maxUpdateAfterBindDescriptorsInAllPools: UInt32
+    public let shaderUniformBufferArrayNonUniformIndexingNative: Bool
+    public let shaderSampledImageArrayNonUniformIndexingNative: Bool
+    public let shaderStorageBufferArrayNonUniformIndexingNative: Bool
+    public let shaderStorageImageArrayNonUniformIndexingNative: Bool
+    public let shaderInputAttachmentArrayNonUniformIndexingNative: Bool
+    public let robustBufferAccessUpdateAfterBind: Bool
+    public let quadDivergentImplicitLod: Bool
+    public let maxPerStageDescriptorUpdateAfterBindSamplers: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindUniformBuffers: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindStorageBuffers: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindSampledImages: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindStorageImages: UInt32
+    public let maxPerStageDescriptorUpdateAfterBindInputAttachments: UInt32
+    public let maxPerStageUpdateAfterBindResources: UInt32
+    public let maxDescriptorSetUpdateAfterBindSamplers: UInt32
+    public let maxDescriptorSetUpdateAfterBindUniformBuffers: UInt32
+    public let maxDescriptorSetUpdateAfterBindUniformBuffersDynamic: UInt32
+    public let maxDescriptorSetUpdateAfterBindStorageBuffers: UInt32
+    public let maxDescriptorSetUpdateAfterBindStorageBuffersDynamic: UInt32
+    public let maxDescriptorSetUpdateAfterBindSampledImages: UInt32
+    public let maxDescriptorSetUpdateAfterBindStorageImages: UInt32
+    public let maxDescriptorSetUpdateAfterBindInputAttachments: UInt32
+    public let supportedDepthResolveModes: ResolveModeFlags
+    public let supportedStencilResolveModes: ResolveModeFlags
+    public let independentResolveNone: Bool
+    public let independentResolve: Bool
+    public let filterMinmaxSingleComponentFormats: Bool
+    public let filterMinmaxImageComponentMapping: Bool
+    public let maxTimelineSemaphoreValueDifference: UInt64
+    public let framebufferIntegerColorSampleCounts: SampleCountFlags
 
     init(cStruct: VkPhysicalDeviceVulkan12Properties) {
         self.driverID = DriverId(rawValue: cStruct.driverID.rawValue)!
@@ -12084,10 +12084,10 @@ struct PhysicalDeviceVulkan12Properties: CStructConvertible {
     }
 }
 
-struct PipelineCompilerControlCreateInfoAMD: CStructConvertible {
+public struct PipelineCompilerControlCreateInfoAMD: CStructConvertible {
     typealias CStruct = VkPipelineCompilerControlCreateInfoAMD
 
-    let compilerControlFlags: PipelineCompilerControlFlagsAMD
+    public let compilerControlFlags: PipelineCompilerControlFlagsAMD
 
     init(cStruct: VkPipelineCompilerControlCreateInfoAMD) {
         self.compilerControlFlags = PipelineCompilerControlFlagsAMD(rawValue: cStruct.compilerControlFlags)
@@ -12102,10 +12102,10 @@ struct PipelineCompilerControlCreateInfoAMD: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceCoherentMemoryFeaturesAMD: CStructConvertible {
+public struct PhysicalDeviceCoherentMemoryFeaturesAMD: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceCoherentMemoryFeaturesAMD
 
-    let deviceCoherentMemory: Bool
+    public let deviceCoherentMemory: Bool
 
     init(cStruct: VkPhysicalDeviceCoherentMemoryFeaturesAMD) {
         self.deviceCoherentMemory = cStruct.deviceCoherentMemory == VK_TRUE
@@ -12120,14 +12120,14 @@ struct PhysicalDeviceCoherentMemoryFeaturesAMD: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceToolPropertiesEXT: CStructConvertible {
+public struct PhysicalDeviceToolPropertiesEXT: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceToolPropertiesEXT
 
-    let name: String
-    let version: String
-    let purposes: ToolPurposeFlagsEXT
-    let description: String
-    let layer: String
+    public let name: String
+    public let version: String
+    public let purposes: ToolPurposeFlagsEXT
+    public let description: String
+    public let layer: String
 
     init(cStruct: VkPhysicalDeviceToolPropertiesEXT) {
         self.name = String(unsafeBytesOf: cStruct.name)
@@ -12150,10 +12150,10 @@ struct PhysicalDeviceToolPropertiesEXT: CStructConvertible {
     }
 }
 
-struct RenderPassTransformBeginInfoQCOM: CStructConvertible {
+public struct RenderPassTransformBeginInfoQCOM: CStructConvertible {
     typealias CStruct = VkRenderPassTransformBeginInfoQCOM
 
-    let transform: SurfaceTransformFlagsKHR
+    public let transform: SurfaceTransformFlagsKHR
 
     init(cStruct: VkRenderPassTransformBeginInfoQCOM) {
         self.transform = SurfaceTransformFlagsKHR(rawValue: cStruct.transform.rawValue)
@@ -12168,11 +12168,11 @@ struct RenderPassTransformBeginInfoQCOM: CStructConvertible {
     }
 }
 
-struct CommandBufferInheritanceRenderPassTransformInfoQCOM: CStructConvertible {
+public struct CommandBufferInheritanceRenderPassTransformInfoQCOM: CStructConvertible {
     typealias CStruct = VkCommandBufferInheritanceRenderPassTransformInfoQCOM
 
-    let transform: SurfaceTransformFlagsKHR
-    let renderArea: Rect2D
+    public let transform: SurfaceTransformFlagsKHR
+    public let renderArea: Rect2D
 
     init(cStruct: VkCommandBufferInheritanceRenderPassTransformInfoQCOM) {
         self.transform = SurfaceTransformFlagsKHR(rawValue: cStruct.transform.rawValue)
@@ -12191,10 +12191,10 @@ struct CommandBufferInheritanceRenderPassTransformInfoQCOM: CStructConvertible {
     }
 }
 
-struct PhysicalDeviceDiagnosticsConfigFeaturesNV: CStructConvertible {
+public struct PhysicalDeviceDiagnosticsConfigFeaturesNV: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceDiagnosticsConfigFeaturesNV
 
-    let diagnosticsConfig: Bool
+    public let diagnosticsConfig: Bool
 
     init(cStruct: VkPhysicalDeviceDiagnosticsConfigFeaturesNV) {
         self.diagnosticsConfig = cStruct.diagnosticsConfig == VK_TRUE
@@ -12209,10 +12209,10 @@ struct PhysicalDeviceDiagnosticsConfigFeaturesNV: CStructConvertible {
     }
 }
 
-struct DeviceDiagnosticsConfigCreateInfoNV: CStructConvertible {
+public struct DeviceDiagnosticsConfigCreateInfoNV: CStructConvertible {
     typealias CStruct = VkDeviceDiagnosticsConfigCreateInfoNV
 
-    let flags: DeviceDiagnosticsConfigFlagsNV
+    public let flags: DeviceDiagnosticsConfigFlagsNV
 
     init(cStruct: VkDeviceDiagnosticsConfigCreateInfoNV) {
         self.flags = DeviceDiagnosticsConfigFlagsNV(rawValue: cStruct.flags)

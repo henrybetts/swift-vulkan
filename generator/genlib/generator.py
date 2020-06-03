@@ -42,24 +42,29 @@ class Generator(BaseGenerator):
         types = [enum.raw_type]
         if enum.error:
             types.append('Error')
-        with self.indent(f'enum {enum.name}: {", ".join(types)} {{', '}'):
+        with self.indent(f'public enum {enum.name}: {", ".join(types)} {{', '}'):
             for case in enum.cases:
                 self << f'case {safe_name(case.name)} = {case.value}'
         self.linebreak()
 
     def generate_option_set(self, option_set: SwiftOptionSet):
-        with self.indent(f'struct {option_set.name}: OptionSet {{', '}'):
-            self << f'let rawValue: {option_set.raw_type}'
-            for case in option_set.cases:
-                self << f'static let {case.name} = {option_set.name}(rawValue: {case.value})'
+        with self.indent(f'public struct {option_set.name}: OptionSet {{', '}'):
+            self << f'public let rawValue: {option_set.raw_type}'
+            self.linebreak()
+            if option_set.cases:
+                for case in option_set.cases:
+                    self << f'public static let {case.name} = {option_set.name}(rawValue: {case.value})'
+                self.linebreak()
+            with self.indent(f'public init(rawValue: {option_set.raw_type}) {{', '}'):
+                self << 'self.rawValue = rawValue'
         self.linebreak()
 
     def generate_struct(self, struct: SwiftStruct):
-        with self.indent(f'struct {struct.name}: CStructConvertible {{', '}'):
+        with self.indent(f'public struct {struct.name}: CStructConvertible {{', '}'):
             self << f'typealias CStruct = {struct.c_struct.name}'
             self.linebreak()
             for member in struct.members:
-                self << f'let {safe_name(member.name)}: {member.type}'
+                self << f'public let {safe_name(member.name)}: {member.type}'
             self.linebreak()
             self.generate_struct_c_to_swift_method(struct)
             self.linebreak()
@@ -91,11 +96,11 @@ class Generator(BaseGenerator):
                 self << 'return try body(&cStruct)'
 
     def generate_class(self, cls: SwiftClass):
-        with self.indent(f'class {cls.name} {{', '}'):
+        with self.indent(f'public class {cls.name} {{', '}'):
             if cls.c_handle:
                 self << f'let handle: {cls.c_handle.name}!'
             if cls.parent:
-                self << f'let {cls.parent.reference_name}: {cls.parent.name}'
+                self << f'public let {cls.parent.reference_name}: {cls.parent.name}'
             if cls.dispatch_table:
                 self << f'let dispatchTable: {cls.dispatch_table.name}'
 
@@ -115,7 +120,9 @@ class Generator(BaseGenerator):
         if cls.parent:
             params.append(f'{cls.parent.reference_name}: {cls.parent.name}')
 
-        with self.indent(f'init({", ".join(params)}) {{', '}'):
+        access = '' if cls.c_handle else 'public '
+
+        with self.indent(f'{access}init({", ".join(params)}) {{', '}'):
             if cls.c_handle:
                 self << 'self.handle = handle'
             if cls.parent:
@@ -138,7 +145,7 @@ class Generator(BaseGenerator):
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
         throws_string = ' throws' if command.throws else ''
 
-        with self.indent(f'func {command.name}({param_string})'
+        with self.indent(f'public func {command.name}({param_string})'
                          f'{throws_string} -> {command.return_type} {{', '}'):
             with self.closures(closures, throws=command.throws):
                 params = []
@@ -209,7 +216,7 @@ class Generator(BaseGenerator):
                         self << result_string
 
     def generate_alias(self, alias: SwiftAlias):
-        self << f'typealias {alias.name} = {alias.alias}'
+        self << f'public typealias {alias.name} = {alias.alias}'
 
     def generate_dispatch_table(self, dispatch_table: DispatchTable):
         with self.indent(f'struct {dispatch_table.name} {{', '}'):

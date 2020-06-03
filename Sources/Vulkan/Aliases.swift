@@ -1,3 +1,3 @@
-typealias DescriptorUpdateTemplateKHR = DescriptorUpdateTemplate
-typealias SamplerYcbcrConversionKHR = SamplerYcbcrConversion
-typealias AccelerationStructureNV = AccelerationStructureKHR
+public typealias DescriptorUpdateTemplateKHR = DescriptorUpdateTemplate
+public typealias SamplerYcbcrConversionKHR = SamplerYcbcrConversion
+public typealias AccelerationStructureNV = AccelerationStructureKHR

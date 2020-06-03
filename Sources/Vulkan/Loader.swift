@@ -1,5 +1,5 @@
 import CVulkan
 
-protocol Loader {
+public protocol Loader {
     var vkGetInstanceProcAddr: PFN_vkGetInstanceProcAddr { get }
 }

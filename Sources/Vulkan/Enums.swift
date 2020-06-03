@@ -1,4 +1,4 @@
-enum ImageLayout: UInt32 {
+public enum ImageLayout: UInt32 {
     case undefined = 0
     case general = 1
     case colorAttachmentOptimal = 2
@@ -14,30 +14,30 @@ enum ImageLayout: UInt32 {
     case fragmentDensityMapOptimalEXT = 1000218000
 }
 
-enum AttachmentLoadOp: UInt32 {
+public enum AttachmentLoadOp: UInt32 {
     case load = 0
     case clear = 1
     case dontCare = 2
 }
 
-enum AttachmentStoreOp: UInt32 {
+public enum AttachmentStoreOp: UInt32 {
     case store = 0
     case dontCare = 1
 }
 
-enum ImageType: UInt32 {
+public enum ImageType: UInt32 {
     case type1d = 0
     case type2d = 1
     case type3d = 2
 }
 
-enum ImageTiling: UInt32 {
+public enum ImageTiling: UInt32 {
     case optimal = 0
     case linear = 1
     case drmFormatModifierEXT = 1000158000
 }
 
-enum ImageViewType: UInt32 {
+public enum ImageViewType: UInt32 {
     case type1d = 0
     case type2d = 1
     case type3d = 2
@@ -47,12 +47,12 @@ enum ImageViewType: UInt32 {
     case typeCubeArray = 6
 }
 
-enum CommandBufferLevel: UInt32 {
+public enum CommandBufferLevel: UInt32 {
     case primary = 0
     case secondary = 1
 }
 
-enum ComponentSwizzle: UInt32 {
+public enum ComponentSwizzle: UInt32 {
     case identity = 0
     case zero = 1
     case one = 2
@@ -62,7 +62,7 @@ enum ComponentSwizzle: UInt32 {
     case a = 6
 }
 
-enum DescriptorType: UInt32 {
+public enum DescriptorType: UInt32 {
     case sampler = 0
     case combinedImageSampler = 1
     case sampledImage = 2
@@ -77,7 +77,7 @@ enum DescriptorType: UInt32 {
     case inlineUniformBlockEXT = 1000138000
 }
 
-enum QueryType: UInt32 {
+public enum QueryType: UInt32 {
     case occlusion = 0
     case pipelineStatistics = 1
     case timestamp = 2
@@ -86,7 +86,7 @@ enum QueryType: UInt32 {
     case performanceQueryINTEL = 1000210000
 }
 
-enum BorderColor: UInt32 {
+public enum BorderColor: UInt32 {
     case floatTransparentBlack = 0
     case intTransparentBlack = 1
     case floatOpaqueBlack = 2
@@ -95,16 +95,16 @@ enum BorderColor: UInt32 {
     case intOpaqueWhite = 5
 }
 
-enum PipelineBindPoint: UInt32 {
+public enum PipelineBindPoint: UInt32 {
     case graphics = 0
     case compute = 1
 }
 
-enum PipelineCacheHeaderVersion: UInt32 {
+public enum PipelineCacheHeaderVersion: UInt32 {
     case one = 1
 }
 
-enum PrimitiveTopology: UInt32 {
+public enum PrimitiveTopology: UInt32 {
     case pointList = 0
     case lineList = 1
     case lineStrip = 2
@@ -118,29 +118,29 @@ enum PrimitiveTopology: UInt32 {
     case patchList = 10
 }
 
-enum SharingMode: UInt32 {
+public enum SharingMode: UInt32 {
     case exclusive = 0
     case concurrent = 1
 }
 
-enum IndexType: UInt32 {
+public enum IndexType: UInt32 {
     case uint16 = 0
     case uint32 = 1
     case uint8EXT = 1000265000
 }
 
-enum Filter: UInt32 {
+public enum Filter: UInt32 {
     case nearest = 0
     case linear = 1
     case cubicIMG = 1000015000
 }
 
-enum SamplerMipmapMode: UInt32 {
+public enum SamplerMipmapMode: UInt32 {
     case nearest = 0
     case linear = 1
 }
 
-enum SamplerAddressMode: UInt32 {
+public enum SamplerAddressMode: UInt32 {
     case `repeat` = 0
     case mirroredRepeat = 1
     case clampToEdge = 2
@@ -148,7 +148,7 @@ enum SamplerAddressMode: UInt32 {
     case mirrorClampToEdge = 4
 }
 
-enum CompareOp: UInt32 {
+public enum CompareOp: UInt32 {
     case never = 0
     case less = 1
     case equal = 2
@@ -159,19 +159,19 @@ enum CompareOp: UInt32 {
     case always = 7
 }
 
-enum PolygonMode: UInt32 {
+public enum PolygonMode: UInt32 {
     case fill = 0
     case line = 1
     case point = 2
     case fillRectangleNV = 1000153000
 }
 
-enum FrontFace: UInt32 {
+public enum FrontFace: UInt32 {
     case counterClockwise = 0
     case clockwise = 1
 }
 
-enum BlendFactor: UInt32 {
+public enum BlendFactor: UInt32 {
     case zero = 0
     case one = 1
     case srcColor = 2
@@ -193,7 +193,7 @@ enum BlendFactor: UInt32 {
     case oneMinusSrc1Alpha = 18
 }
 
-enum BlendOp: UInt32 {
+public enum BlendOp: UInt32 {
     case add = 0
     case subtract = 1
     case reverseSubtract = 2
@@ -247,7 +247,7 @@ enum BlendOp: UInt32 {
     case blueEXT = 1000148045
 }
 
-enum StencilOp: UInt32 {
+public enum StencilOp: UInt32 {
     case keep = 0
     case zero = 1
     case replace = 2
@@ -258,7 +258,7 @@ enum StencilOp: UInt32 {
     case decrementAndWrap = 7
 }
 
-enum LogicOp: UInt32 {
+public enum LogicOp: UInt32 {
     case clear = 0
     case and = 1
     case andReverse = 2
@@ -277,11 +277,11 @@ enum LogicOp: UInt32 {
     case set = 15
 }
 
-enum InternalAllocationType: UInt32 {
+public enum InternalAllocationType: UInt32 {
     case executable = 0
 }
 
-enum SystemAllocationScope: UInt32 {
+public enum SystemAllocationScope: UInt32 {
     case command = 0
     case object = 1
     case cache = 2
@@ -289,7 +289,7 @@ enum SystemAllocationScope: UInt32 {
     case instance = 4
 }
 
-enum PhysicalDeviceType: UInt32 {
+public enum PhysicalDeviceType: UInt32 {
     case other = 0
     case integratedGpu = 1
     case discreteGpu = 2
@@ -297,12 +297,12 @@ enum PhysicalDeviceType: UInt32 {
     case cpu = 4
 }
 
-enum VertexInputRate: UInt32 {
+public enum VertexInputRate: UInt32 {
     case vertex = 0
     case instance = 1
 }
 
-enum Format: UInt32 {
+public enum Format: UInt32 {
     case undefined = 0
     case r4g4UnormPack8 = 1
     case r4g4b4a4UnormPack16 = 2
@@ -512,7 +512,7 @@ enum Format: UInt32 {
     case astc12x12SfloatBlockEXT = 1000066013
 }
 
-enum StructureType: UInt32 {
+public enum StructureType: UInt32 {
     case applicationInfo = 0
     case instanceCreateInfo = 1
     case deviceQueueCreateInfo = 2
@@ -769,12 +769,12 @@ enum StructureType: UInt32 {
     case deviceDiagnosticsConfigCreateInfoNV = 1000300001
 }
 
-enum SubpassContents: UInt32 {
+public enum SubpassContents: UInt32 {
     case inline = 0
     case secondaryCommandBuffers = 1
 }
 
-enum Result: Int32, Error {
+public enum Result: Int32, Error {
     case success = 0
     case notReady = 1
     case timeout = 2
@@ -806,7 +806,7 @@ enum Result: Int32, Error {
     case errorPipelineCompileRequiredEXT = 1000297000
 }
 
-enum DynamicState: UInt32 {
+public enum DynamicState: UInt32 {
     case viewport = 0
     case scissor = 1
     case lineWidth = 2
@@ -825,12 +825,12 @@ enum DynamicState: UInt32 {
     case lineStippleEXT = 1000259000
 }
 
-enum DescriptorUpdateTemplateType: UInt32 {
+public enum DescriptorUpdateTemplateType: UInt32 {
     case descriptorSet = 0
     case pushDescriptorsKHR = 1
 }
 
-enum ObjectType: UInt32 {
+public enum ObjectType: UInt32 {
     case unknown = 0
     case instance = 1
     case physicalDevice = 2
@@ -868,12 +868,12 @@ enum ObjectType: UInt32 {
     case indirectCommandsLayoutNV = 1000277000
 }
 
-enum SemaphoreType: UInt32 {
+public enum SemaphoreType: UInt32 {
     case binary = 0
     case timeline = 1
 }
 
-enum PresentModeKHR: UInt32 {
+public enum PresentModeKHR: UInt32 {
     case immediate = 0
     case mailbox = 1
     case fifo = 2
@@ -882,7 +882,7 @@ enum PresentModeKHR: UInt32 {
     case sharedContinuousRefresh = 1000111001
 }
 
-enum ColorSpaceKHR: UInt32 {
+public enum ColorSpaceKHR: UInt32 {
     case srgbNonlinear = 0
     case displayP3NonlinearEXT = 1000104001
     case extendedSrgbLinearEXT = 1000104002
@@ -901,14 +901,14 @@ enum ColorSpaceKHR: UInt32 {
     case displayNativeAMD = 1000213000
 }
 
-enum TimeDomainEXT: UInt32 {
+public enum TimeDomainEXT: UInt32 {
     case device = 0
     case clockMonotonic = 1
     case clockMonotonicRaw = 2
     case queryPerformanceCounter = 3
 }
 
-enum DebugReportObjectTypeEXT: UInt32 {
+public enum DebugReportObjectTypeEXT: UInt32 {
     case unknown = 0
     case instance = 1
     case physicalDevice = 2
@@ -945,24 +945,24 @@ enum DebugReportObjectTypeEXT: UInt32 {
     case descriptorUpdateTemplate = 1000085000
 }
 
-enum RasterizationOrderAMD: UInt32 {
+public enum RasterizationOrderAMD: UInt32 {
     case strict = 0
     case relaxed = 1
 }
 
-enum ValidationCheckEXT: UInt32 {
+public enum ValidationCheckEXT: UInt32 {
     case all = 0
     case shaders = 1
 }
 
-enum ValidationFeatureEnableEXT: UInt32 {
+public enum ValidationFeatureEnableEXT: UInt32 {
     case gpuAssisted = 0
     case gpuAssistedReserveBindingSlot = 1
     case bestPractices = 2
     case debugPrintf = 3
 }
 
-enum ValidationFeatureDisableEXT: UInt32 {
+public enum ValidationFeatureDisableEXT: UInt32 {
     case all = 0
     case shaders = 1
     case threadSafety = 2
@@ -972,7 +972,7 @@ enum ValidationFeatureDisableEXT: UInt32 {
     case uniqueHandles = 6
 }
 
-enum IndirectCommandsTokenTypeNV: UInt32 {
+public enum IndirectCommandsTokenTypeNV: UInt32 {
     case shaderGroup = 0
     case stateFlags = 1
     case indexBuffer = 2
@@ -983,21 +983,21 @@ enum IndirectCommandsTokenTypeNV: UInt32 {
     case drawTasks = 7
 }
 
-enum DisplayPowerStateEXT: UInt32 {
+public enum DisplayPowerStateEXT: UInt32 {
     case off = 0
     case suspend = 1
     case on = 2
 }
 
-enum DeviceEventTypeEXT: UInt32 {
+public enum DeviceEventTypeEXT: UInt32 {
     case displayHotplug = 0
 }
 
-enum DisplayEventTypeEXT: UInt32 {
+public enum DisplayEventTypeEXT: UInt32 {
     case firstPixelOut = 0
 }
 
-enum ViewportCoordinateSwizzleNV: UInt32 {
+public enum ViewportCoordinateSwizzleNV: UInt32 {
     case positiveX = 0
     case negativeX = 1
     case positiveY = 2
@@ -1008,28 +1008,28 @@ enum ViewportCoordinateSwizzleNV: UInt32 {
     case negativeW = 7
 }
 
-enum DiscardRectangleModeEXT: UInt32 {
+public enum DiscardRectangleModeEXT: UInt32 {
     case inclusive = 0
     case exclusive = 1
 }
 
-enum PointClippingBehavior: UInt32 {
+public enum PointClippingBehavior: UInt32 {
     case allClipPlanes = 0
     case userClipPlanesOnly = 1
 }
 
-enum SamplerReductionMode: UInt32 {
+public enum SamplerReductionMode: UInt32 {
     case weightedAverage = 0
     case min = 1
     case max = 2
 }
 
-enum TessellationDomainOrigin: UInt32 {
+public enum TessellationDomainOrigin: UInt32 {
     case upperLeft = 0
     case lowerLeft = 1
 }
 
-enum SamplerYcbcrModelConversion: UInt32 {
+public enum SamplerYcbcrModelConversion: UInt32 {
     case rgbIdentity = 0
     case ycbcrIdentity = 1
     case ycbcr709 = 2
@@ -1037,65 +1037,65 @@ enum SamplerYcbcrModelConversion: UInt32 {
     case ycbcr2020 = 4
 }
 
-enum SamplerYcbcrRange: UInt32 {
+public enum SamplerYcbcrRange: UInt32 {
     case ituFull = 0
     case ituNarrow = 1
 }
 
-enum ChromaLocation: UInt32 {
+public enum ChromaLocation: UInt32 {
     case cositedEven = 0
     case midpoint = 1
 }
 
-enum BlendOverlapEXT: UInt32 {
+public enum BlendOverlapEXT: UInt32 {
     case uncorrelated = 0
     case disjoint = 1
     case conjoint = 2
 }
 
-enum CoverageModulationModeNV: UInt32 {
+public enum CoverageModulationModeNV: UInt32 {
     case none = 0
     case rgb = 1
     case alpha = 2
     case rgba = 3
 }
 
-enum CoverageReductionModeNV: UInt32 {
+public enum CoverageReductionModeNV: UInt32 {
     case merge = 0
     case truncate = 1
 }
 
-enum ValidationCacheHeaderVersionEXT: UInt32 {
+public enum ValidationCacheHeaderVersionEXT: UInt32 {
     case one = 1
 }
 
-enum ShaderInfoTypeAMD: UInt32 {
+public enum ShaderInfoTypeAMD: UInt32 {
     case statistics = 0
     case binary = 1
     case disassembly = 2
 }
 
-enum QueueGlobalPriorityEXT: UInt32 {
+public enum QueueGlobalPriorityEXT: UInt32 {
     case low = 128
     case medium = 256
     case high = 512
     case realtime = 1024
 }
 
-enum ConservativeRasterizationModeEXT: UInt32 {
+public enum ConservativeRasterizationModeEXT: UInt32 {
     case disabled = 0
     case overestimate = 1
     case underestimate = 2
 }
 
-enum VendorId: UInt32 {
+public enum VendorId: UInt32 {
     case viv = 0x10001
     case vsi = 0x10002
     case kazan = 0x10003
     case codeplay = 0x10004
 }
 
-enum DriverId: UInt32 {
+public enum DriverId: UInt32 {
     case amdProprietary = 1
     case amdOpenSource = 2
     case mesaRadv = 3
@@ -1110,7 +1110,7 @@ enum DriverId: UInt32 {
     case broadcomProprietary = 12
 }
 
-enum ShadingRatePaletteEntryNV: UInt32 {
+public enum ShadingRatePaletteEntryNV: UInt32 {
     case typeNoInvocations = 0
     case type16InvocationsPerPixel = 1
     case type8InvocationsPerPixel = 2
@@ -1125,27 +1125,27 @@ enum ShadingRatePaletteEntryNV: UInt32 {
     case type1InvocationPer4x4Pixels = 11
 }
 
-enum CoarseSampleOrderTypeNV: UInt32 {
+public enum CoarseSampleOrderTypeNV: UInt32 {
     case `default` = 0
     case custom = 1
     case pixelMajor = 2
     case sampleMajor = 3
 }
 
-enum MemoryOverallocationBehaviorAMD: UInt32 {
+public enum MemoryOverallocationBehaviorAMD: UInt32 {
     case `default` = 0
     case allowed = 1
     case disallowed = 2
 }
 
-enum ScopeNV: UInt32 {
+public enum ScopeNV: UInt32 {
     case device = 1
     case workgroup = 2
     case subgroup = 3
     case queueFamily = 5
 }
 
-enum ComponentTypeNV: UInt32 {
+public enum ComponentTypeNV: UInt32 {
     case float16 = 0
     case float32 = 1
     case float64 = 2
@@ -1159,13 +1159,13 @@ enum ComponentTypeNV: UInt32 {
     case uint64 = 10
 }
 
-enum PerformanceCounterScopeKHR: UInt32 {
+public enum PerformanceCounterScopeKHR: UInt32 {
     case commandBuffer = 0
     case renderPass = 1
     case command = 2
 }
 
-enum PerformanceCounterUnitKHR: UInt32 {
+public enum PerformanceCounterUnitKHR: UInt32 {
     case generic = 0
     case percentage = 1
     case nanoseconds = 2
@@ -1179,7 +1179,7 @@ enum PerformanceCounterUnitKHR: UInt32 {
     case cycles = 10
 }
 
-enum PerformanceCounterStorageKHR: UInt32 {
+public enum PerformanceCounterStorageKHR: UInt32 {
     case int32 = 0
     case int64 = 1
     case uint32 = 2
@@ -1188,25 +1188,25 @@ enum PerformanceCounterStorageKHR: UInt32 {
     case float64 = 5
 }
 
-enum PerformanceConfigurationTypeINTEL: UInt32 {
+public enum PerformanceConfigurationTypeINTEL: UInt32 {
     case commandQueueMetricsDiscoveryActivated = 0
 }
 
-enum QueryPoolSamplingModeINTEL: UInt32 {
+public enum QueryPoolSamplingModeINTEL: UInt32 {
     case manual = 0
 }
 
-enum PerformanceOverrideTypeINTEL: UInt32 {
+public enum PerformanceOverrideTypeINTEL: UInt32 {
     case nullHardware = 0
     case flushGpuCaches = 1
 }
 
-enum PerformanceParameterTypeINTEL: UInt32 {
+public enum PerformanceParameterTypeINTEL: UInt32 {
     case hwCountersSupported = 0
     case streamMarkerValidBits = 1
 }
 
-enum PerformanceValueTypeINTEL: UInt32 {
+public enum PerformanceValueTypeINTEL: UInt32 {
     case uint32 = 0
     case uint64 = 1
     case float = 2
@@ -1214,20 +1214,20 @@ enum PerformanceValueTypeINTEL: UInt32 {
     case string = 4
 }
 
-enum ShaderFloatControlsIndependence: UInt32 {
+public enum ShaderFloatControlsIndependence: UInt32 {
     case type32BitOnly = 0
     case typeAll = 1
     case typeNone = 2
 }
 
-enum PipelineExecutableStatisticFormatKHR: UInt32 {
+public enum PipelineExecutableStatisticFormatKHR: UInt32 {
     case bool32 = 0
     case int64 = 1
     case uint64 = 2
     case float64 = 3
 }
 
-enum LineRasterizationModeEXT: UInt32 {
+public enum LineRasterizationModeEXT: UInt32 {
     case `default` = 0
     case rectangular = 1
     case bresenham = 2
