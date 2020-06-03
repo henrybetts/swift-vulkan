@@ -75,7 +75,11 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_struct_init(self, struct: SwiftStruct):
-        params = [f'{member.name}: {member.type}' for member in struct.members]
+        params = []
+        for member in struct.members:
+            escaping = '@escaping ' if member.is_closure else ''
+            params.append(f'{member.name}: {escaping}{member.type}')
+
         with self.indent(f'public init({", ".join(params)}) {{', '}'):
             for member in struct.members:
                 self << f'self.{member.name} = {member.name}'

@@ -416,7 +416,7 @@ public struct AllocationCallbacks: CStructConvertible {
     public let pfnInternalAllocation: PFN_vkInternalAllocationNotification
     public let pfnInternalFree: PFN_vkInternalFreeNotification
 
-    public init(userData: UnsafeMutableRawPointer, pfnAllocation: @escaping PFN_vkAllocationFunction, pfnReallocation: PFN_vkReallocationFunction, pfnFree: PFN_vkFreeFunction, pfnInternalAllocation: PFN_vkInternalAllocationNotification, pfnInternalFree: PFN_vkInternalFreeNotification) {
+    public init(userData: UnsafeMutableRawPointer, pfnAllocation: @escaping PFN_vkAllocationFunction, pfnReallocation: @escaping PFN_vkReallocationFunction, pfnFree: @escaping PFN_vkFreeFunction, pfnInternalAllocation: @escaping PFN_vkInternalAllocationNotification, pfnInternalFree: @escaping PFN_vkInternalFreeNotification) {
         self.userData = userData
         self.pfnAllocation = pfnAllocation
         self.pfnReallocation = pfnReallocation
@@ -4640,7 +4640,7 @@ public struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
     public let pfnCallback: PFN_vkDebugReportCallbackEXT
     public let userData: UnsafeMutableRawPointer
 
-    public init(flags: DebugReportFlagsEXT, pfnCallback: PFN_vkDebugReportCallbackEXT, userData: UnsafeMutableRawPointer) {
+    public init(flags: DebugReportFlagsEXT, pfnCallback: @escaping PFN_vkDebugReportCallbackEXT, userData: UnsafeMutableRawPointer) {
         self.flags = flags
         self.pfnCallback = pfnCallback
         self.userData = userData
@@ -9313,7 +9313,7 @@ public struct DebugUtilsMessengerCreateInfoEXT: CStructConvertible {
     public let pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT
     public let userData: UnsafeMutableRawPointer
 
-    public init(flags: DebugUtilsMessengerCreateFlagsEXT, messageSeverity: DebugUtilsMessageSeverityFlagsEXT, messageType: DebugUtilsMessageTypeFlagsEXT, pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT, userData: UnsafeMutableRawPointer) {
+    public init(flags: DebugUtilsMessengerCreateFlagsEXT, messageSeverity: DebugUtilsMessageSeverityFlagsEXT, messageType: DebugUtilsMessageTypeFlagsEXT, pfnUserCallback: @escaping PFN_vkDebugUtilsMessengerCallbackEXT, userData: UnsafeMutableRawPointer) {
         self.flags = flags
         self.messageSeverity = messageSeverity
         self.messageType = messageType

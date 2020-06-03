@@ -20,10 +20,11 @@ class SwiftOptionSet(CEnum):
 
 
 class SwiftMember:
-    def __init__(self, name: str, type_: str, value_generator: tc.ValueGenerator):
+    def __init__(self, name: str, type_: str, value_generator: tc.ValueGenerator, is_closure: bool = False):
         self.name = name
         self.type = type_
         self.value_generator = value_generator
+        self.is_closure = is_closure
 
 
 class SwiftStruct:
@@ -486,8 +487,11 @@ class Importer:
             if isinstance(conversion, tc.ArrayConversion):
                 c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(swift_name))
 
+            is_closure = c_member.type.name and c_member.type.name.startswith('PFN_')
+
             member = SwiftMember(name=swift_name, type_=swift_type,
-                                 value_generator=conversion.get_swift_value_generator(c_member.name))
+                                 value_generator=conversion.get_swift_value_generator(c_member.name),
+                                 is_closure=is_closure)
             members.append(member)
 
         return (members,
