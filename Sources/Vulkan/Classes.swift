@@ -19,7 +19,7 @@ class Entry {
         }
     }
 
-    func getInstanceProcAddr(instance: Instance?, name: String) -> PFN_vkVoidFunction {
+    func getInstanceProcAddr(instance: Instance?, name: String) -> PFN_vkVoidFunction? {
         name.withCString { cString_name in
             self.loader.vkGetInstanceProcAddr(instance?.handle, cString_name)
         }
@@ -443,7 +443,7 @@ class Device {
         self.dispatchTable = DeviceDispatchTable(vkGetDeviceProcAddr: vkGetDeviceProcAddr, device: handle)
     }
 
-    func getProcAddr(name: String) -> PFN_vkVoidFunction {
+    func getProcAddr(name: String) -> PFN_vkVoidFunction? {
         name.withCString { cString_name in
             self.physicalDevice.instance.dispatchTable.vkGetDeviceProcAddr(self.handle, cString_name)
         }

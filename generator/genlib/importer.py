@@ -343,6 +343,8 @@ class Importer:
             c_return_type = CType(name='void')
 
         return_type, return_conversion = self.get_type_conversion(c_return_type, current_class=current_class)
+        if self.is_pointer_type(c_return_type):
+            return_type += '?'
 
         output_param: str = None
         output_param_implicit_type: str = None
@@ -610,7 +612,7 @@ class Importer:
 
     def is_pointer_type(self, c_type: CType) -> bool:
         return (c_type.pointer_to is not None
-                or (c_type.name and c_type.name in self.pointer_types))
+                or (c_type.name and (c_type.name in self.pointer_types or c_type.name.startswith('PFN_'))))
 
     def pop_extension_tag(self, string: str) -> Tuple[str, Optional[str]]:
         for tag in self.c_context.extension_tags:
