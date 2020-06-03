@@ -66,10 +66,19 @@ class Generator(BaseGenerator):
             for member in struct.members:
                 self << f'public let {safe_name(member.name)}: {member.type}'
             self.linebreak()
+            if not struct.c_struct.returned_only:
+                self.generate_struct_init(struct)
+                self.linebreak()
             self.generate_struct_c_to_swift_method(struct)
             self.linebreak()
             self.generate_struct_swift_to_c_method(struct)
         self.linebreak()
+
+    def generate_struct_init(self, struct: SwiftStruct):
+        params = [f'{member.name}: {member.type}' for member in struct.members]
+        with self.indent(f'public init({", ".join(params)}) {{', '}'):
+            for member in struct.members:
+                self << f'self.{member.name} = {member.name}'
 
     def generate_struct_c_to_swift_method(self, struct: SwiftStruct):
         with self.indent(f'init(cStruct: {struct.c_struct.name}) {{', '}'):
