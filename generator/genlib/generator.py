@@ -122,7 +122,7 @@ class Generator(BaseGenerator):
                 self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
             if cls.dispatch_table:
                 loader_name, _ = cls.dispatch_table.loader
-                params = [f'{loader_name}: {loader_name}']
+                params = [f'{loader_name}: {get_dispatch_table_path(cls, cls.dispatcher)}.{loader_name}']
                 if cls.dispatch_table.param:
                     param_name, _ = cls.dispatch_table.param
                     params.append(f'{param_name}: handle')
@@ -155,10 +155,8 @@ class Generator(BaseGenerator):
                     else:
                         params.append(command.c_value_generators[param.name](swift_values_map))
                 param_string = ', '.join(params)
-                dispatcher = get_class_chain(cls, command.dispatcher)
-                if command.dispatcher.dispatch_table:
-                    dispatcher += '.dispatchTable'
-                call_string = f'{dispatcher}.{command.c_command.name}({param_string})'
+                dispatch_path = get_dispatch_table_path(cls, command.dispatcher)
+                call_string = f'{dispatch_path}.{command.c_command.name}({param_string})'
 
                 if command.output_param:
                     if isinstance(command.return_conversion, tc.ArrayConversion):
@@ -251,3 +249,10 @@ def safe_name(name: str) -> str:
     if name in ('repeat', 'default'):
         return f'`{name}`'
     return name
+
+
+def get_dispatch_table_path(cls: SwiftClass, dispatcher: SwiftClass):
+    path = get_class_chain(cls, dispatcher)
+    if dispatcher.dispatch_table:
+        path += '.dispatchTable'
+    return path

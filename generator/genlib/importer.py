@@ -73,12 +73,14 @@ class DispatchTable:
 
 class SwiftClass:
     def __init__(self, name: str, reference_name: str, c_handle: CHandle = None,  parent: 'SwiftClass' = None,
-                 dispatch_table: DispatchTable = None, commands: List[SwiftCommand] = None):
+                 dispatch_table: DispatchTable = None, dispatcher: 'SwiftClass' = None,
+                 commands: List[SwiftCommand] = None):
         self.c_handle = c_handle
         self.name = name
         self.reference_name = reference_name
         self.parent = parent
         self.dispatch_table = dispatch_table
+        self.dispatcher = dispatcher
         self.commands = commands or []
 
     @property
@@ -276,7 +278,7 @@ class Importer:
         dispatch_table = DispatchTable('EntryDispatchTable', ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'))
         loader = SwiftClass(name='Loader', reference_name='loader')
         entry = SwiftClass(name='Entry', reference_name='entry', parent=loader,
-                           dispatch_table=dispatch_table)
+                           dispatch_table=dispatch_table, dispatcher=loader)
 
         self.swift_context.dispatch_tables.append(dispatch_table)
         self.swift_context.classes.append(entry)
@@ -302,12 +304,15 @@ class Importer:
             dispatch_table = DispatchTable('InstanceDispatchTable',
                                            ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'),
                                            ('instance', 'VkInstance'))
+            dispatcher = self.imported_classes['entry'].parent
         elif handle.name == 'VkDevice':
             dispatch_table = DispatchTable('DeviceDispatchTable',
                                            ('vkGetDeviceProcAddr', 'PFN_vkGetDeviceProcAddr'),
                                            ('device', 'VkDevice'))
+            dispatcher = self.imported_classes['VkInstance']
         else:
             dispatch_table = None
+            dispatcher = None
 
         if dispatch_table:
             self.swift_context.dispatch_tables.append(dispatch_table)
@@ -317,7 +322,8 @@ class Importer:
             name=name,
             reference_name=reference_name,
             parent=parent,
-            dispatch_table=dispatch_table
+            dispatch_table=dispatch_table,
+            dispatcher=dispatcher
         )
         self.swift_context.classes.append(cls)
         self.imported_classes[handle.name] = cls

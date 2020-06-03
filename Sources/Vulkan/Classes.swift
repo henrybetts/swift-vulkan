@@ -6,7 +6,7 @@ class Entry {
 
     init(loader: Loader) {
         self.loader = loader
-        self.dispatchTable = EntryDispatchTable(vkGetInstanceProcAddr: vkGetInstanceProcAddr)
+        self.dispatchTable = EntryDispatchTable(vkGetInstanceProcAddr: self.loader.vkGetInstanceProcAddr)
     }
 
     func createInstance(createInfo: InstanceCreateInfo) throws -> Instance {
@@ -56,7 +56,7 @@ class Instance {
     init(handle: VkInstance!, entry: Entry) {
         self.handle = handle
         self.entry = entry
-        self.dispatchTable = InstanceDispatchTable(vkGetInstanceProcAddr: vkGetInstanceProcAddr, instance: handle)
+        self.dispatchTable = InstanceDispatchTable(vkGetInstanceProcAddr: self.entry.loader.vkGetInstanceProcAddr, instance: handle)
     }
 
     func destroy() -> Void {
@@ -440,7 +440,7 @@ class Device {
     init(handle: VkDevice!, physicalDevice: PhysicalDevice) {
         self.handle = handle
         self.physicalDevice = physicalDevice
-        self.dispatchTable = DeviceDispatchTable(vkGetDeviceProcAddr: vkGetDeviceProcAddr, device: handle)
+        self.dispatchTable = DeviceDispatchTable(vkGetDeviceProcAddr: self.physicalDevice.instance.dispatchTable.vkGetDeviceProcAddr, device: handle)
     }
 
     func getProcAddr(name: String) -> PFN_vkVoidFunction? {
