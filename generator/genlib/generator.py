@@ -96,6 +96,8 @@ class Generator(BaseGenerator):
                 self << f'let handle: {cls.c_handle.name}!'
             if cls.parent:
                 self << f'let {cls.parent.reference_name}: {cls.parent.name}'
+            if cls.dispatch_table:
+                self << f'let dispatchTable: {cls.dispatch_table.name}'
 
             self.linebreak()
             self.generate_class_init(cls)
@@ -107,17 +109,24 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_class_init(self, cls: SwiftClass):
-        param_string = ''
+        params = []
         if cls.c_handle:
-            param_string = f'handle: {cls.c_handle.name}!'
+            params.append(f'handle: {cls.c_handle.name}!')
         if cls.parent:
-            param_string += f', {cls.parent.reference_name}: {cls.parent.name}'
+            params.append(f'{cls.parent.reference_name}: {cls.parent.name}')
 
-        with self.indent(f'init({param_string}) {{', '}'):
+        with self.indent(f'init({", ".join(params)}) {{', '}'):
             if cls.c_handle:
                 self << 'self.handle = handle'
             if cls.parent:
                 self << f'self.{cls.parent.reference_name} = {cls.parent.reference_name}'
+            if cls.dispatch_table:
+                loader_name, _ = cls.dispatch_table.loader
+                params = [f'{loader_name}: {loader_name}']
+                if cls.dispatch_table.param:
+                    param_name, _ = cls.dispatch_table.param
+                    params.append(f'{param_name}: handle')
+                self << f'self.dispatchTable = {cls.dispatch_table.name}({", ".join(params)})'
 
     def generate_command(self, command: SwiftCommand, cls: SwiftClass):
         swift_values_map = {param.name: param.name for param in command.params}
@@ -146,7 +155,10 @@ class Generator(BaseGenerator):
                     else:
                         params.append(command.c_value_generators[param.name](swift_values_map))
                 param_string = ', '.join(params)
-                call_string = f'{command.c_command.name}({param_string})'
+                dispatcher = get_class_chain(cls, command.dispatcher)
+                if command.dispatcher.dispatch_table:
+                    dispatcher += '.dispatchTable'
+                call_string = f'{dispatcher}.{command.c_command.name}({param_string})'
 
                 if command.output_param:
                     if isinstance(command.return_conversion, tc.ArrayConversion):

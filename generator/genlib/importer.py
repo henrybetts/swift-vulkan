@@ -44,7 +44,7 @@ class SwiftCommand:
                  c_value_generators: Dict[str, tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
                  return_conversion: tc.Conversion, output_param: str = None, output_param_implicit_type: str = None,
                  unwrap_output_param: bool = False, enumeration_pointer_param: str = None,
-                 enumeration_count_param: str = None):
+                 enumeration_count_param: str = None, dispatcher: 'SwiftClass' = None):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
@@ -59,15 +59,26 @@ class SwiftCommand:
         self.unwrap_output_param = unwrap_output_param
         self.enumeration_pointer_param = enumeration_pointer_param
         self.enumeration_count_param = enumeration_count_param
+        self.dispatcher = dispatcher
+
+
+class DispatchTable:
+    def __init__(self, name: str, loader: Tuple[str, str], param: Tuple[str, str] = None,
+                 commands: List[CCommand] = None):
+        self.name = name
+        self.loader = loader
+        self.param = param
+        self.commands = commands or []
 
 
 class SwiftClass:
     def __init__(self, name: str, reference_name: str, c_handle: CHandle = None,  parent: 'SwiftClass' = None,
-                 commands: List[SwiftCommand] = None):
+                 dispatch_table: DispatchTable = None, commands: List[SwiftCommand] = None):
         self.c_handle = c_handle
         self.name = name
         self.reference_name = reference_name
         self.parent = parent
+        self.dispatch_table = dispatch_table
         self.commands = commands or []
 
     @property
@@ -85,15 +96,6 @@ class SwiftAlias:
         self.c_alias = c_alias
         self.name = name
         self.alias = alias
-
-
-class DispatchTable:
-    def __init__(self, name: str, loader: Tuple[str, str], param: Tuple[str, str] = None,
-                 commands: List[CCommand] = None):
-        self.name = name
-        self.loader = loader
-        self.param = param
-        self.commands = commands or []
 
 
 class SwiftContext:
@@ -116,9 +118,6 @@ class Importer:
         self.imported_structs: Dict[str, str] = {}
         self.imported_classes: Dict[str, SwiftClass] = {}
         self.imported_aliases: Dict[str, SwiftAlias] = {}
-        self.entry_dispatch_table: DispatchTable = None
-        self.instance_dispatch_table: DispatchTable = None
-        self.device_dispatch_table: DispatchTable = None
         self.pointer_types = [handle.name for handle in c_context.handles] + [alias.name for alias in c_context.aliases]
 
     def import_all(self) -> SwiftContext:
@@ -141,8 +140,6 @@ class Importer:
 
         for struct in self.c_context.structs:
             self.import_struct(struct)
-
-        self.create_dispatch_tables()
 
         for command in self.c_context.commands:
             self.import_command(command)
@@ -276,7 +273,12 @@ class Importer:
         if 'entry' in self.imported_classes:
             return self.imported_classes['entry']
 
-        entry = SwiftClass(name='Entry', reference_name='entry')
+        dispatch_table = DispatchTable('EntryDispatchTable', ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'))
+        loader = SwiftClass(name='Loader', reference_name='loader')
+        entry = SwiftClass(name='Entry', reference_name='entry', parent=loader,
+                           dispatch_table=dispatch_table)
+
+        self.swift_context.dispatch_tables.append(dispatch_table)
         self.swift_context.classes.append(entry)
         self.imported_classes['entry'] = entry
         return entry
@@ -296,11 +298,26 @@ class Importer:
         else:
             parent = self.import_handle(handle.parent) if handle.parent else None
 
+        if handle.name == 'VkInstance':
+            dispatch_table = DispatchTable('InstanceDispatchTable',
+                                           ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'),
+                                           ('instance', 'VkInstance'))
+        elif handle.name == 'VkDevice':
+            dispatch_table = DispatchTable('DeviceDispatchTable',
+                                           ('vkGetDeviceProcAddr', 'PFN_vkGetDeviceProcAddr'),
+                                           ('device', 'VkDevice'))
+        else:
+            dispatch_table = None
+
+        if dispatch_table:
+            self.swift_context.dispatch_tables.append(dispatch_table)
+
         cls = SwiftClass(
             c_handle=handle,
             name=name,
             reference_name=reference_name,
-            parent=parent
+            parent=parent,
+            dispatch_table=dispatch_table
         )
         self.swift_context.classes.append(cls)
         self.imported_classes[handle.name] = cls
@@ -366,9 +383,9 @@ class Importer:
         params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params,
                                                                                      convert_array_to_pointer=True)
 
-        dispatch_table = self.get_dispatch_table(c_command)
-        if dispatch_table:
-            dispatch_table.commands.append(c_command)
+        dispatcher = self.get_dispatcher(c_command)
+        if dispatcher.dispatch_table:
+            dispatcher.dispatch_table.commands.append(c_command)
 
         command = SwiftCommand(
             c_command=c_command,
@@ -384,7 +401,8 @@ class Importer:
             output_param_implicit_type=output_param_implicit_type,
             unwrap_output_param=unwrap_output_param,
             enumeration_pointer_param=enumeration_pointer_param,
-            enumeration_count_param=enumeration_count_param
+            enumeration_count_param=enumeration_count_param,
+            dispatcher=dispatcher
         )
 
         current_class.commands.append(command)
@@ -396,35 +414,20 @@ class Importer:
         self.imported_aliases[c_alias.name] = alias
         return alias
 
-    def create_dispatch_tables(self) -> List[DispatchTable]:
-        self.entry_dispatch_table = DispatchTable('EntryDispatchTable',
-                                                  ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'))
-        self.instance_dispatch_table = DispatchTable('InstanceDispatchTable',
-                                                     ('vkGetInstanceProcAddr', 'PFN_vkGetInstanceProcAddr'),
-                                                     ('instance', 'VkInstance'))
-        self.device_dispatch_table = DispatchTable('DeviceDispatchTable',
-                                                   ('vkGetDeviceProcAddr', 'PFN_vkGetDeviceProcAddr'),
-                                                   ('device', 'VkDevice'))
-        dispatch_tables = [self.entry_dispatch_table, self.instance_dispatch_table, self.device_dispatch_table]
-        self.swift_context.dispatch_tables = dispatch_tables
-        return dispatch_tables
-
-    def get_dispatch_table(self, command: CCommand) -> Optional[DispatchTable]:
+    def get_dispatcher(self, command: CCommand) -> SwiftClass:
         if command.name == 'vkGetInstanceProcAddr':
-            return None
+            return self.imported_classes['entry'].parent
         if command.name == 'vkGetDeviceProcAddr':
-            return self.instance_dispatch_table
+            return self.imported_classes['VkInstance']
 
         if command.params:
             param = command.params[0]
             if param.type.name and param.type.name in self.imported_classes:
                 cls = self.imported_classes[param.type.name]
                 for ancestor in [cls] + cls.ancestors:
-                    if ancestor.c_handle.name == 'VkDevice':
-                        return self.device_dispatch_table
-                    if ancestor.c_handle.name == 'VkInstance':
-                        return self.instance_dispatch_table
-        return self.entry_dispatch_table
+                    if ancestor.c_handle.name in ('VkInstance', 'VkDevice'):
+                        return ancestor
+        return self.imported_classes['entry']
 
     def get_class_params(self, command: CCommand) -> List[Tuple[CMember, SwiftClass]]:
         class_params: List[Tuple[CMember, SwiftClass]] = []
