@@ -21,3 +21,9 @@ public struct Version: RawRepresentable {
         return rawValue & 0xfff
     }
 }
+
+extension Version: CustomStringConvertible {
+    public var description: String {
+        return "\(major).\(minor).\(patch)"
+    }
+}
