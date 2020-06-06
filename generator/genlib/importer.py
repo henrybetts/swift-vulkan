@@ -259,7 +259,7 @@ class Importer:
                 convertible_from_c_struct = False
                 break
 
-        members, conversions = self.get_member_conversions(c_struct.members)
+        members, conversions = self.get_member_conversions(c_struct.members, c_struct=c_struct)
         struct = SwiftStruct(c_struct=c_struct,
                              name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
                              members=members,
@@ -385,7 +385,7 @@ class Importer:
         output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
         c_input_params = [param for param in c_command.params if param.name not in output_params]
         c_input_params = class_params + c_input_params[len(class_params):]
-        params, conversions = self.get_member_conversions(c_input_params, convert_array_to_pointer=True)
+        params, conversions = self.get_member_conversions(c_input_params, c_command=c_command)
 
         dispatcher = self.get_dispatcher(c_command)
         if dispatcher.dispatch_table:
@@ -446,7 +446,7 @@ class Importer:
             break
         return class_params
 
-    def get_member_conversions(self, c_members: List[CMember], convert_array_to_pointer: bool = False
+    def get_member_conversions(self, c_members: List[CMember], c_struct: CStruct = None, c_command: CCommand = None
                                ) -> Tuple[List[SwiftMember], tc.MemberConversions]:
         members: List[SwiftMember] = []
         conversions = tc.MemberConversions()
@@ -464,20 +464,30 @@ class Importer:
                 conversions.add_static_value(c_member.name, c_member.values[0])
                 continue
 
-            if c_member.name in ('pNext', 'pAllocator'):
+            if c_command and c_member.name == 'pAllocator':
                 conversions.add_static_value(c_member.name, 'nil')
                 continue
 
-            swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
-                                                              convert_array_to_pointer=convert_array_to_pointer)
+            if c_struct and c_member.name == 'pNext':
+                conversions.add_static_value(c_member.name, 'nil')
+                continue
+
+            if (c_struct and (
+                (c_struct.name in ('VkPhysicalDeviceProperties', 'VkApplicationInfo')
+                    and c_member.name == 'apiVersion')
+                or (c_struct.name == 'VkLayerProperties' and c_member.name == 'specVersion')
+            )):
+                swift_type, conversion = 'Version', tc.version_conversion
+            else:
+                swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
+                                                                  convert_array_to_pointer=c_command is not None)
+
             swift_name = get_member_name(c_member.name, c_member.type)
-
-            conversions.add_conversion(c_member.name, swift_name, conversion)
-
             is_closure = c_member.type.name and c_member.type.name.startswith('PFN_')
 
             member = SwiftMember(name=swift_name, type_=swift_type, is_closure=is_closure)
             members.append(member)
+            conversions.add_conversion(c_member.name, swift_name, conversion)
 
         return members, conversions
 

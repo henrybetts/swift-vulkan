@@ -279,7 +279,7 @@ public struct ComponentMapping: CStructConvertible {
 public struct PhysicalDeviceProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProperties
 
-    public let apiVersion: UInt32
+    public let apiVersion: Version
     public let driverVersion: UInt32
     public let vendorID: UInt32
     public let deviceID: UInt32
@@ -290,7 +290,7 @@ public struct PhysicalDeviceProperties: CStructConvertible {
     public let sparseProperties: PhysicalDeviceSparseProperties
 
     init(cStruct: VkPhysicalDeviceProperties) {
-        self.apiVersion = cStruct.apiVersion
+        self.apiVersion = Version(rawValue: cStruct.apiVersion)
         self.driverVersion = cStruct.driverVersion
         self.vendorID = cStruct.vendorID
         self.deviceID = cStruct.deviceID
@@ -305,7 +305,7 @@ public struct PhysicalDeviceProperties: CStructConvertible {
         try self.limits.withCStruct { ptr_limits in
             try self.sparseProperties.withCStruct { ptr_sparseProperties in
                 var cStruct = VkPhysicalDeviceProperties()
-                cStruct.apiVersion = self.apiVersion
+                cStruct.apiVersion = self.apiVersion.rawValue
                 cStruct.driverVersion = self.driverVersion
                 cStruct.vendorID = self.vendorID
                 cStruct.deviceID = self.deviceID
@@ -343,13 +343,13 @@ public struct LayerProperties: CStructConvertible {
     typealias CStruct = VkLayerProperties
 
     public let layerName: String
-    public let specVersion: UInt32
+    public let specVersion: Version
     public let implementationVersion: UInt32
     public let description: String
 
     init(cStruct: VkLayerProperties) {
         self.layerName = String(unsafeBytesOf: cStruct.layerName)
-        self.specVersion = cStruct.specVersion
+        self.specVersion = Version(rawValue: cStruct.specVersion)
         self.implementationVersion = cStruct.implementationVersion
         self.description = String(unsafeBytesOf: cStruct.description)
     }
@@ -357,7 +357,7 @@ public struct LayerProperties: CStructConvertible {
     func withCStruct<R>(_ body: (UnsafePointer<VkLayerProperties>) throws -> R) rethrows -> R {
         var cStruct = VkLayerProperties()
         cStruct.layerName = self.layerName.unsafeBytesCopy()
-        cStruct.specVersion = self.specVersion
+        cStruct.specVersion = self.specVersion.rawValue
         cStruct.implementationVersion = self.implementationVersion
         cStruct.description = self.description.unsafeBytesCopy()
         return try body(&cStruct)
@@ -371,9 +371,9 @@ public struct ApplicationInfo: CStructConvertible {
     public let applicationVersion: UInt32
     public let engineName: String?
     public let engineVersion: UInt32
-    public let apiVersion: UInt32
+    public let apiVersion: Version
 
-    public init(applicationName: String?, applicationVersion: UInt32, engineName: String?, engineVersion: UInt32, apiVersion: UInt32) {
+    public init(applicationName: String?, applicationVersion: UInt32, engineName: String?, engineVersion: UInt32, apiVersion: Version) {
         self.applicationName = applicationName
         self.applicationVersion = applicationVersion
         self.engineName = engineName
@@ -386,7 +386,7 @@ public struct ApplicationInfo: CStructConvertible {
         self.applicationVersion = cStruct.applicationVersion
         self.engineName = (cStruct.pEngineName != nil) ? String(cString: cStruct.pEngineName) : nil
         self.engineVersion = cStruct.engineVersion
-        self.apiVersion = cStruct.apiVersion
+        self.apiVersion = Version(rawValue: cStruct.apiVersion)
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkApplicationInfo>) throws -> R) rethrows -> R {
@@ -399,7 +399,7 @@ public struct ApplicationInfo: CStructConvertible {
                 cStruct.applicationVersion = self.applicationVersion
                 cStruct.pEngineName = cString_engineName
                 cStruct.engineVersion = self.engineVersion
-                cStruct.apiVersion = self.apiVersion
+                cStruct.apiVersion = self.apiVersion.rawValue
                 return try body(&cStruct)
             }
         }
