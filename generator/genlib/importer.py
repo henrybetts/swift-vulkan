@@ -20,21 +20,19 @@ class SwiftOptionSet(CEnum):
 
 
 class SwiftMember:
-    def __init__(self, name: str, type_: str, value_generator: tc.ValueGenerator, is_closure: bool = False):
+    def __init__(self, name: str, type_: str, is_closure: bool = False):
         self.name = name
         self.type = type_
-        self.value_generator = value_generator
         self.is_closure = is_closure
 
 
 class SwiftStruct:
-    def __init__(self, c_struct: CStruct, name: str, members: List[SwiftMember],
-                 c_value_generators: List[tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
+    def __init__(self, c_struct: CStruct, name: str,
+                 members: List[SwiftMember], member_conversions: tc.MemberConversions,
                  convertible_from_c_struct: bool = True):
         self.name = name
         self.members = members
-        self.c_value_generators = c_value_generators
-        self.closure_generators = closure_generators
+        self.member_conversions: tc.MemberConversions = member_conversions
         self.c_struct = c_struct
         self.convertible_from_c_struct = convertible_from_c_struct
 
@@ -42,18 +40,17 @@ class SwiftStruct:
 class SwiftCommand:
     def __init__(self, c_command: CCommand, name: str, return_type: str, throws: bool,
                  class_params: Dict[str, 'SwiftClass'], params: List[SwiftMember],
-                 c_value_generators: Dict[str, tc.ValueGenerator], closure_generators: List[tc.ClosureGenerator],
-                 return_conversion: tc.Conversion, output_param: str = None, output_param_implicit_type: str = None,
-                 unwrap_output_param: bool = False, enumeration_pointer_param: str = None,
-                 enumeration_count_param: str = None, dispatcher: 'SwiftClass' = None):
+                 param_conversions: tc.MemberConversions, return_conversion: tc.Conversion,
+                 output_param: str = None, output_param_implicit_type: str = None, unwrap_output_param: bool = False,
+                 enumeration_pointer_param: str = None, enumeration_count_param: str = None,
+                 dispatcher: 'SwiftClass' = None):
         self.c_command = c_command
         self.name = name
         self.return_type = return_type
         self.throws = throws
         self.class_params = class_params
         self.params = params
-        self.c_value_generators = c_value_generators
-        self.closure_generators = closure_generators
+        self.param_conversions = param_conversions
         self.return_conversion = return_conversion
         self.output_param = output_param
         self.output_param_implicit_type = output_param_implicit_type
@@ -262,12 +259,11 @@ class Importer:
                 convertible_from_c_struct = False
                 break
 
-        members, c_value_generators, closure_generators = self.get_member_conversions(c_struct.members)
+        members, conversions = self.get_member_conversions(c_struct.members)
         struct = SwiftStruct(c_struct=c_struct,
                              name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
                              members=members,
-                             c_value_generators=c_value_generators,
-                             closure_generators=closure_generators,
+                             member_conversions=conversions,
                              convertible_from_c_struct=convertible_from_c_struct)
         self.swift_context.structs.append(struct)
         return struct
@@ -389,8 +385,7 @@ class Importer:
         output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
         c_input_params = [param for param in c_command.params if param.name not in output_params]
         c_input_params = class_params + c_input_params[len(class_params):]
-        params, c_value_generators, closure_generators = self.get_member_conversions(c_input_params,
-                                                                                     convert_array_to_pointer=True)
+        params, conversions = self.get_member_conversions(c_input_params, convert_array_to_pointer=True)
 
         dispatcher = self.get_dispatcher(c_command)
         if dispatcher.dispatch_table:
@@ -403,8 +398,7 @@ class Importer:
             throws=throws,
             class_params={param.name: cls for param, cls in class_params_and_classes},
             params=params[len(class_params):],
-            c_value_generators={param.name: gen for param, gen in zip(c_input_params, c_value_generators)},
-            closure_generators=closure_generators,
+            param_conversions=conversions,
             return_conversion=return_conversion,
             output_param=output_param,
             output_param_implicit_type=output_param_implicit_type,
@@ -453,10 +447,9 @@ class Importer:
         return class_params
 
     def get_member_conversions(self, c_members: List[CMember], convert_array_to_pointer: bool = False
-                               ) -> Tuple[List[SwiftMember], List[tc.ValueGenerator], List[tc.ClosureGenerator]]:
+                               ) -> Tuple[List[SwiftMember], tc.MemberConversions]:
         members: List[SwiftMember] = []
-        c_value_generators: Dict[str, tc.ValueGenerator] = {}
-        c_closure_generators: List[tc.ClosureGenerator] = []
+        conversions = tc.MemberConversions()
         lengths: List[str] = []
 
         for c_member in c_members:
@@ -468,35 +461,25 @@ class Importer:
                 continue
 
             if len(c_member.values) == 1:
-                c_value_generators.setdefault(c_member.name, static_value_generator(c_member.values[0]))
+                conversions.add_static_value(c_member.name, c_member.values[0])
                 continue
 
             if c_member.name in ('pNext', 'pAllocator'):
-                c_value_generators.setdefault(c_member.name, static_value_generator('nil'))
+                conversions.add_static_value(c_member.name, 'nil')
                 continue
 
             swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
                                                               convert_array_to_pointer=convert_array_to_pointer)
             swift_name = get_member_name(c_member.name, c_member.type)
 
-            c_value_generators.setdefault(c_member.name, conversion.get_c_value_generator(swift_name))
-
-            if conversion.requires_closure:
-                c_closure_generators.append(conversion.get_c_closure_generator(swift_name))
-
-            if isinstance(conversion, tc.ArrayConversion):
-                c_value_generators.setdefault(conversion.length, conversion.get_c_length_generator(swift_name))
+            conversions.add_conversion(c_member.name, swift_name, conversion)
 
             is_closure = c_member.type.name and c_member.type.name.startswith('PFN_')
 
-            member = SwiftMember(name=swift_name, type_=swift_type,
-                                 value_generator=conversion.get_swift_value_generator(c_member.name),
-                                 is_closure=is_closure)
+            member = SwiftMember(name=swift_name, type_=swift_type, is_closure=is_closure)
             members.append(member)
 
-        return (members,
-                [c_value_generators[member.name] for member in c_members],
-                c_closure_generators)
+        return members, conversions
 
     def get_type_conversion(self, c_type: CType, members: List[CMember] = None, implicit_only: bool = False,
                             convert_array_to_pointer: bool = False,
@@ -665,12 +648,6 @@ def snake_to_pascal(string: str) -> str:
 def snake_to_camel(string: str) -> str:
     pascal = snake_to_pascal(string)
     return pascal[0].lower() + pascal[1:]
-
-
-def static_value_generator(static_value: str) -> tc.ValueGenerator:
-    def generator(_) -> str:
-        return static_value
-    return generator
 
 
 def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:

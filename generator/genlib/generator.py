@@ -90,22 +90,24 @@ class Generator(BaseGenerator):
                 self << 'fatalError("This initializer should be removed.")'
                 return
             
-            c_values_map = {member.name: f'cStruct.{member.name}' for member in struct.c_struct.members}
+            c_values = {member.name: f'cStruct.{member.name}' for member in struct.c_struct.members}
+            swift_values = struct.member_conversions.get_swift_values(c_values)
             for member in struct.members:
-                self << f'self.{member.name} = {member.value_generator(c_values_map)}'
+                self << f'self.{member.name} = {swift_values[member.name]}'
 
     def generate_struct_swift_to_c_method(self, struct: SwiftStruct):
         with self.indent('func withCStruct<R>'
                          f'(_ body: (UnsafePointer<{struct.c_struct.name}>) throws -> R)'
                          ' rethrows -> R {', '}'):
 
-            swift_values_map = {member.name: f'self.{member.name}' for member in struct.members}
-            closures = [gen(swift_values_map) for gen in struct.closure_generators]
+            swift_values = {member.name: f'self.{member.name}' for member in struct.members}
+            c_values = struct.member_conversions.get_c_values(swift_values)
+            closures = struct.member_conversions.get_c_closures(swift_values)
 
             with self.closures(closures, throws=True):
                 self << f'var cStruct = {struct.c_struct.name}()'
-                for member, generator in zip(struct.c_struct.members, struct.c_value_generators):
-                    self << f'cStruct.{member.name} = {generator(swift_values_map)}'
+                for member in struct.c_struct.members:
+                    self << f'cStruct.{member.name} = {c_values[member.name]}'
                 self << 'return try body(&cStruct)'
 
     def generate_class(self, cls: SwiftClass):
@@ -149,11 +151,12 @@ class Generator(BaseGenerator):
                 self << f'self.dispatchTable = {cls.dispatch_table.name}({", ".join(params)})'
 
     def generate_command(self, command: SwiftCommand, cls: SwiftClass):
-        swift_values_map = {param.name: param.name for param in command.params}
-        swift_values_map.update(
+        swift_values = {param.name: param.name for param in command.params}
+        swift_values.update(
             {param: get_class_chain(cls, target_class) for param, target_class in command.class_params.items()}
         )
-        closures = [gen(swift_values_map) for gen in command.closure_generators]
+        closures = command.param_conversions.get_c_closures(swift_values)
+        c_values = command.param_conversions.get_c_values(swift_values)
 
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
         throws_string = ' throws' if command.throws else ''
@@ -173,7 +176,7 @@ class Generator(BaseGenerator):
                     elif param.name == command.enumeration_count_param:
                         params.append(command.enumeration_count_param)
                     else:
-                        params.append(command.c_value_generators[param.name](swift_values_map))
+                        params.append(c_values[param.name])
                 param_string = ', '.join(params)
                 dispatch_path = get_dispatch_table_path(cls, command.dispatcher)
                 call_string = f'{dispatch_path}.{command.c_command.name}({param_string})'
@@ -184,7 +187,7 @@ class Generator(BaseGenerator):
                         map_string = f'.map {{ {conversion.swift_map_template} }}' \
                             if conversion.swift_map_template else ''
                         length_path = conversion.length.split('::')
-                        count_value = command.c_value_generators[length_path[0]](swift_values_map)
+                        count_value = c_values[length_path[0]]
                         if len(length_path) > 1:
                             count_value = '.'.join(
                                 [count_value, 'pointee'] + length_path[1:]
@@ -210,7 +213,7 @@ class Generator(BaseGenerator):
                                 self << call_string
                         else:
                             self << call_string
-                        self << f'return {command.return_conversion.get_swift_value_generator("out")({"out": "out"})}'
+                        self << f'return {command.return_conversion.get_swift_value("out")}'
 
                 elif command.enumeration_pointer_param:
                     assert isinstance(command.return_conversion, tc.ArrayConversion)
@@ -221,7 +224,7 @@ class Generator(BaseGenerator):
                                      f'{command.enumeration_count_param} in', f'}}{map_string}'):
                         self << call_string
                 else:
-                    result_string = command.return_conversion.get_swift_value_generator('return')({'return': call_string})
+                    result_string = command.return_conversion.get_swift_value(call_string)
                     if command.throws:
                         with self.indent('try checkResult(', ')'):
                             self << result_string

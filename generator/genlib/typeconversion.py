@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Tuple
+from typing import Dict, Tuple, List
 from string import Template
 
 IMPLICIT_TYPE_MAP = {
@@ -16,9 +16,6 @@ IMPLICIT_TYPE_MAP = {
     'int': 'Int32'
 }
 
-ValueGenerator = Callable[[Dict[str, str]], str]
-ClosureGenerator = Callable[[Dict[str, str]], Tuple[str, str]]
-
 
 class Conversion:
     def __init__(self, swift_value_template: str, c_value_template: str, c_closure_template: Tuple[str, str] = None):
@@ -30,23 +27,20 @@ class Conversion:
     def requires_closure(self) -> bool:
         return self.c_closure_template is not None
 
-    def get_c_value_generator(self, name: str) -> ValueGenerator:
-        def generator(values_map: Dict[str, str]) -> str:
-            return Template(self.c_value_template).substitute(name=name, value=values_map[name])
-        return generator
+    def get_c_value(self, name: str, values: Dict[str, str] = None) -> str:
+        value = values[name] if values is not None else name
+        return Template(self.c_value_template).substitute(name=name, value=value)
 
-    def get_c_closure_generator(self, name: str) -> ClosureGenerator:
-        def generator(values_map: Dict[str, str]) -> Tuple[str, str]:
-            return (
-                Template(self.c_closure_template[0]).substitute(name=name, value=values_map[name]),
-                Template(self.c_closure_template[1]).substitute(name=name, value=values_map[name])
-            )
-        return generator
+    def get_c_closure(self, name: str, values: Dict[str, str] = None) -> Tuple[str, str]:
+        value = values[name] if values is not None else name
+        return (
+            Template(self.c_closure_template[0]).substitute(name=name, value=value),
+            Template(self.c_closure_template[1]).substitute(name=name, value=value)
+        )
 
-    def get_swift_value_generator(self, name: str) -> ValueGenerator:
-        def generator(values_map: Dict[str, str]) -> str:
-            return Template(self.swift_value_template).substitute(value=values_map[name])
-        return generator
+    def get_swift_value(self, name: str, values: Dict[str, str] = None) -> str:
+        value = values[name] if values is not None else name
+        return Template(self.swift_value_template).substitute(name=name, value=value)
 
 
 class ArrayConversion(Conversion):
@@ -57,16 +51,48 @@ class ArrayConversion(Conversion):
         self.c_length_template = c_length_template
         self.swift_map_template = swift_map_template
 
-    def get_c_length_generator(self, name: str) -> ValueGenerator:
-        def generator(values_map: Dict[str, str]) -> str:
-            return Template(self.c_length_template).substitute(name=name, value=values_map[name])
-        return generator
+    def get_c_length(self, name: str, values: Dict[str, str] = None) -> str:
+        value = values[name] if values is not None else name
+        return Template(self.c_length_template).substitute(name=name, value=value)
 
-    def get_swift_value_generator(self, name: str) -> ValueGenerator:
-        def generator(values_map: Dict[str, str]) -> str:
-            return Template(self.swift_value_template).substitute(value=values_map[name],
-                                                                  length=values_map[self.length])
-        return generator
+    def get_swift_value(self, name: str, values: Dict[str, str] = None) -> str:
+        value, length = (values[name], values[self.length]) if values is not None else (name, self.length)
+        return Template(self.swift_value_template).substitute(name=name, value=value, length=length)
+
+
+class MemberConversions:
+    def __init__(self):
+        self.conversions: List[Tuple[str, str, Conversion]] = []
+        self.static_values: List[Tuple[str, str]] = []
+
+    def add_conversion(self, c_member: str, swift_member: str, conversion: Conversion):
+        self.conversions.append((c_member, swift_member, conversion))
+
+    def add_static_value(self, c_member: str, value: str):
+        self.static_values.append((c_member, value))
+
+    def get_swift_values(self, c_values: Dict[str, str]) -> Dict[str, str]:
+        result: Dict[str, str] = {}
+        for c_member, swift_member, conversion in self.conversions:
+            result.setdefault(swift_member, conversion.get_swift_value(c_member, c_values))
+        return result
+
+    def get_c_closures(self, swift_values: Dict[str, str]) -> List[Tuple[str, str]]:
+        result: List[Tuple[str, str]] = []
+        for _, swift_member, conversion in self.conversions:
+            if conversion.requires_closure:
+                result.append(conversion.get_c_closure(swift_member, swift_values))
+        return result
+
+    def get_c_values(self, swift_values: Dict[str, str]) -> Dict[str, str]:
+        result: Dict[str, str] = {}
+        for c_member, swift_member, conversion in self.conversions:
+            result.setdefault(c_member, conversion.get_c_value(swift_member, swift_values))
+            if isinstance(conversion, ArrayConversion):
+                result.setdefault(conversion.length, conversion.get_c_length(swift_member, swift_values))
+        for c_member, static_value in self.static_values:
+            result.setdefault(c_member, static_value)
+        return result
 
 
 implicit_conversion = Conversion(
@@ -217,9 +243,9 @@ def optional_struct_array_conversion(swift_struct: str, length: str) -> ArrayCon
 
 def array_mapped_conversion(element_conversion: Conversion, length: str) -> ArrayConversion:
     assert not element_conversion.requires_closure
-    swift_element = element_conversion.get_swift_value_generator('element')({'element': '$$0'})
-    c_element = element_conversion.get_c_value_generator('element')({'element': '$$0'})
-    swift_map_template = element_conversion.get_swift_value_generator('element')({'element': '$0'})
+    swift_element = element_conversion.get_swift_value('$$0')
+    c_element = element_conversion.get_c_value('$$0')
+    swift_map_template = element_conversion.get_swift_value('$0')
     return ArrayConversion(
         length=length,
         swift_value_template=f'UnsafeBufferPointer(start: $value, count: Int($length)).map{{ {swift_element} }}',
@@ -232,8 +258,8 @@ def array_mapped_conversion(element_conversion: Conversion, length: str) -> Arra
 
 def optional_array_mapped_conversion(element_conversion: Conversion, length: str) -> ArrayConversion:
     assert not element_conversion.requires_closure
-    swift_element = element_conversion.get_swift_value_generator('element')({'element': '$$0'})
-    c_element = element_conversion.get_c_value_generator('element')({'element': '$$0'})
+    swift_element = element_conversion.get_swift_value('$$0')
+    c_element = element_conversion.get_c_value('$$0')
     return ArrayConversion(
         length=length,
         swift_value_template='($value != nil) ? UnsafeBufferPointer(start: $value, count: Int($length))'
