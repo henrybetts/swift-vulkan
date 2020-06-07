@@ -136,3 +136,15 @@ func enumerate<R>(_ body: (UnsafeMutablePointer<R>?, UnsafeMutablePointer<UInt32
         initializedCount = Int(count)
     }
 }
+
+
+protocol StringConvertibleOptionSet: OptionSet, CustomStringConvertible {
+    static var descriptions: [(Self.Element, String)] {get}
+}
+
+extension StringConvertibleOptionSet {
+    public var description: String {
+        let descriptions = Self.descriptions.filter{ self.contains($0.0) }.map{ $0.1 }
+        return "[\(descriptions.joined(separator: ", "))]"
+    }
+}

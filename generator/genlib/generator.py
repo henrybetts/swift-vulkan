@@ -48,7 +48,7 @@ class Generator(BaseGenerator):
         self.linebreak()
 
     def generate_option_set(self, option_set: SwiftOptionSet):
-        with self.indent(f'public struct {option_set.name}: OptionSet {{', '}'):
+        with self.indent(f'public struct {option_set.name}: OptionSet, StringConvertibleOptionSet {{', '}'):
             self << f'public let rawValue: {option_set.raw_type}'
             self.linebreak()
             if option_set.cases:
@@ -57,6 +57,10 @@ class Generator(BaseGenerator):
                 self.linebreak()
             with self.indent(f'public init(rawValue: {option_set.raw_type}) {{', '}'):
                 self << 'self.rawValue = rawValue'
+            self.linebreak()
+            with self.indent('static let descriptions: [(Self, String)] = [', ']'):
+                for case in option_set.cases:
+                    self << f'(.{case.name}, "{case.name}"),'
         self.linebreak()
 
     def generate_struct(self, struct: SwiftStruct):
