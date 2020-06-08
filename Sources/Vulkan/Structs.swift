@@ -1,47 +1,5 @@
 import CVulkan
 
-public struct BaseOutStructure: CStructConvertible {
-    typealias CStruct = VkBaseOutStructure
-
-    public let sType: StructureType
-
-    public init(sType: StructureType) {
-        self.sType = sType
-    }
-
-    init(cStruct: VkBaseOutStructure) {
-        self.sType = StructureType(rawValue: cStruct.sType.rawValue)!
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkBaseOutStructure>) throws -> R) rethrows -> R {
-        var cStruct = VkBaseOutStructure()
-        cStruct.sType = VkStructureType(rawValue: self.sType.rawValue)
-        cStruct.pNext = nil
-        return try body(&cStruct)
-    }
-}
-
-public struct BaseInStructure: CStructConvertible {
-    typealias CStruct = VkBaseInStructure
-
-    public let sType: StructureType
-
-    public init(sType: StructureType) {
-        self.sType = sType
-    }
-
-    init(cStruct: VkBaseInStructure) {
-        self.sType = StructureType(rawValue: cStruct.sType.rawValue)!
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkBaseInStructure>) throws -> R) rethrows -> R {
-        var cStruct = VkBaseInStructure()
-        cStruct.sType = VkStructureType(rawValue: self.sType.rawValue)
-        cStruct.pNext = nil
-        return try body(&cStruct)
-    }
-}
-
 public struct Offset2D: CStructConvertible {
     typealias CStruct = VkOffset2D
 
@@ -276,6 +234,365 @@ public struct ComponentMapping: CStructConvertible {
     }
 }
 
+public struct PhysicalDeviceLimits: CStructConvertible {
+    typealias CStruct = VkPhysicalDeviceLimits
+
+    public let maxImageDimension1D: UInt32
+    public let maxImageDimension2D: UInt32
+    public let maxImageDimension3D: UInt32
+    public let maxImageDimensionCube: UInt32
+    public let maxImageArrayLayers: UInt32
+    public let maxTexelBufferElements: UInt32
+    public let maxUniformBufferRange: UInt32
+    public let maxStorageBufferRange: UInt32
+    public let maxPushConstantsSize: UInt32
+    public let maxMemoryAllocationCount: UInt32
+    public let maxSamplerAllocationCount: UInt32
+    public let bufferImageGranularity: VkDeviceSize
+    public let sparseAddressSpaceSize: VkDeviceSize
+    public let maxBoundDescriptorSets: UInt32
+    public let maxPerStageDescriptorSamplers: UInt32
+    public let maxPerStageDescriptorUniformBuffers: UInt32
+    public let maxPerStageDescriptorStorageBuffers: UInt32
+    public let maxPerStageDescriptorSampledImages: UInt32
+    public let maxPerStageDescriptorStorageImages: UInt32
+    public let maxPerStageDescriptorInputAttachments: UInt32
+    public let maxPerStageResources: UInt32
+    public let maxDescriptorSetSamplers: UInt32
+    public let maxDescriptorSetUniformBuffers: UInt32
+    public let maxDescriptorSetUniformBuffersDynamic: UInt32
+    public let maxDescriptorSetStorageBuffers: UInt32
+    public let maxDescriptorSetStorageBuffersDynamic: UInt32
+    public let maxDescriptorSetSampledImages: UInt32
+    public let maxDescriptorSetStorageImages: UInt32
+    public let maxDescriptorSetInputAttachments: UInt32
+    public let maxVertexInputAttributes: UInt32
+    public let maxVertexInputBindings: UInt32
+    public let maxVertexInputAttributeOffset: UInt32
+    public let maxVertexInputBindingStride: UInt32
+    public let maxVertexOutputComponents: UInt32
+    public let maxTessellationGenerationLevel: UInt32
+    public let maxTessellationPatchSize: UInt32
+    public let maxTessellationControlPerVertexInputComponents: UInt32
+    public let maxTessellationControlPerVertexOutputComponents: UInt32
+    public let maxTessellationControlPerPatchOutputComponents: UInt32
+    public let maxTessellationControlTotalOutputComponents: UInt32
+    public let maxTessellationEvaluationInputComponents: UInt32
+    public let maxTessellationEvaluationOutputComponents: UInt32
+    public let maxGeometryShaderInvocations: UInt32
+    public let maxGeometryInputComponents: UInt32
+    public let maxGeometryOutputComponents: UInt32
+    public let maxGeometryOutputVertices: UInt32
+    public let maxGeometryTotalOutputComponents: UInt32
+    public let maxFragmentInputComponents: UInt32
+    public let maxFragmentOutputAttachments: UInt32
+    public let maxFragmentDualSrcAttachments: UInt32
+    public let maxFragmentCombinedOutputResources: UInt32
+    public let maxComputeSharedMemorySize: UInt32
+    public let maxComputeWorkGroupCount: (UInt32, UInt32, UInt32)
+    public let maxComputeWorkGroupInvocations: UInt32
+    public let maxComputeWorkGroupSize: (UInt32, UInt32, UInt32)
+    public let subPixelPrecisionBits: UInt32
+    public let subTexelPrecisionBits: UInt32
+    public let mipmapPrecisionBits: UInt32
+    public let maxDrawIndexedIndexValue: UInt32
+    public let maxDrawIndirectCount: UInt32
+    public let maxSamplerLodBias: Float
+    public let maxSamplerAnisotropy: Float
+    public let maxViewports: UInt32
+    public let maxViewportDimensions: (UInt32, UInt32)
+    public let viewportBoundsRange: (Float, Float)
+    public let viewportSubPixelBits: UInt32
+    public let minMemoryMapAlignment: Int
+    public let minTexelBufferOffsetAlignment: VkDeviceSize
+    public let minUniformBufferOffsetAlignment: VkDeviceSize
+    public let minStorageBufferOffsetAlignment: VkDeviceSize
+    public let minTexelOffset: Int32
+    public let maxTexelOffset: UInt32
+    public let minTexelGatherOffset: Int32
+    public let maxTexelGatherOffset: UInt32
+    public let minInterpolationOffset: Float
+    public let maxInterpolationOffset: Float
+    public let subPixelInterpolationOffsetBits: UInt32
+    public let maxFramebufferWidth: UInt32
+    public let maxFramebufferHeight: UInt32
+    public let maxFramebufferLayers: UInt32
+    public let framebufferColorSampleCounts: SampleCountFlags
+    public let framebufferDepthSampleCounts: SampleCountFlags
+    public let framebufferStencilSampleCounts: SampleCountFlags
+    public let framebufferNoAttachmentsSampleCounts: SampleCountFlags
+    public let maxColorAttachments: UInt32
+    public let sampledImageColorSampleCounts: SampleCountFlags
+    public let sampledImageIntegerSampleCounts: SampleCountFlags
+    public let sampledImageDepthSampleCounts: SampleCountFlags
+    public let sampledImageStencilSampleCounts: SampleCountFlags
+    public let storageImageSampleCounts: SampleCountFlags
+    public let maxSampleMaskWords: UInt32
+    public let timestampComputeAndGraphics: Bool
+    public let timestampPeriod: Float
+    public let maxClipDistances: UInt32
+    public let maxCullDistances: UInt32
+    public let maxCombinedClipAndCullDistances: UInt32
+    public let discreteQueuePriorities: UInt32
+    public let pointSizeRange: (Float, Float)
+    public let lineWidthRange: (Float, Float)
+    public let pointSizeGranularity: Float
+    public let lineWidthGranularity: Float
+    public let strictLines: Bool
+    public let standardSampleLocations: Bool
+    public let optimalBufferCopyOffsetAlignment: VkDeviceSize
+    public let optimalBufferCopyRowPitchAlignment: VkDeviceSize
+    public let nonCoherentAtomSize: VkDeviceSize
+
+    init(cStruct: VkPhysicalDeviceLimits) {
+        self.maxImageDimension1D = cStruct.maxImageDimension1D
+        self.maxImageDimension2D = cStruct.maxImageDimension2D
+        self.maxImageDimension3D = cStruct.maxImageDimension3D
+        self.maxImageDimensionCube = cStruct.maxImageDimensionCube
+        self.maxImageArrayLayers = cStruct.maxImageArrayLayers
+        self.maxTexelBufferElements = cStruct.maxTexelBufferElements
+        self.maxUniformBufferRange = cStruct.maxUniformBufferRange
+        self.maxStorageBufferRange = cStruct.maxStorageBufferRange
+        self.maxPushConstantsSize = cStruct.maxPushConstantsSize
+        self.maxMemoryAllocationCount = cStruct.maxMemoryAllocationCount
+        self.maxSamplerAllocationCount = cStruct.maxSamplerAllocationCount
+        self.bufferImageGranularity = cStruct.bufferImageGranularity
+        self.sparseAddressSpaceSize = cStruct.sparseAddressSpaceSize
+        self.maxBoundDescriptorSets = cStruct.maxBoundDescriptorSets
+        self.maxPerStageDescriptorSamplers = cStruct.maxPerStageDescriptorSamplers
+        self.maxPerStageDescriptorUniformBuffers = cStruct.maxPerStageDescriptorUniformBuffers
+        self.maxPerStageDescriptorStorageBuffers = cStruct.maxPerStageDescriptorStorageBuffers
+        self.maxPerStageDescriptorSampledImages = cStruct.maxPerStageDescriptorSampledImages
+        self.maxPerStageDescriptorStorageImages = cStruct.maxPerStageDescriptorStorageImages
+        self.maxPerStageDescriptorInputAttachments = cStruct.maxPerStageDescriptorInputAttachments
+        self.maxPerStageResources = cStruct.maxPerStageResources
+        self.maxDescriptorSetSamplers = cStruct.maxDescriptorSetSamplers
+        self.maxDescriptorSetUniformBuffers = cStruct.maxDescriptorSetUniformBuffers
+        self.maxDescriptorSetUniformBuffersDynamic = cStruct.maxDescriptorSetUniformBuffersDynamic
+        self.maxDescriptorSetStorageBuffers = cStruct.maxDescriptorSetStorageBuffers
+        self.maxDescriptorSetStorageBuffersDynamic = cStruct.maxDescriptorSetStorageBuffersDynamic
+        self.maxDescriptorSetSampledImages = cStruct.maxDescriptorSetSampledImages
+        self.maxDescriptorSetStorageImages = cStruct.maxDescriptorSetStorageImages
+        self.maxDescriptorSetInputAttachments = cStruct.maxDescriptorSetInputAttachments
+        self.maxVertexInputAttributes = cStruct.maxVertexInputAttributes
+        self.maxVertexInputBindings = cStruct.maxVertexInputBindings
+        self.maxVertexInputAttributeOffset = cStruct.maxVertexInputAttributeOffset
+        self.maxVertexInputBindingStride = cStruct.maxVertexInputBindingStride
+        self.maxVertexOutputComponents = cStruct.maxVertexOutputComponents
+        self.maxTessellationGenerationLevel = cStruct.maxTessellationGenerationLevel
+        self.maxTessellationPatchSize = cStruct.maxTessellationPatchSize
+        self.maxTessellationControlPerVertexInputComponents = cStruct.maxTessellationControlPerVertexInputComponents
+        self.maxTessellationControlPerVertexOutputComponents = cStruct.maxTessellationControlPerVertexOutputComponents
+        self.maxTessellationControlPerPatchOutputComponents = cStruct.maxTessellationControlPerPatchOutputComponents
+        self.maxTessellationControlTotalOutputComponents = cStruct.maxTessellationControlTotalOutputComponents
+        self.maxTessellationEvaluationInputComponents = cStruct.maxTessellationEvaluationInputComponents
+        self.maxTessellationEvaluationOutputComponents = cStruct.maxTessellationEvaluationOutputComponents
+        self.maxGeometryShaderInvocations = cStruct.maxGeometryShaderInvocations
+        self.maxGeometryInputComponents = cStruct.maxGeometryInputComponents
+        self.maxGeometryOutputComponents = cStruct.maxGeometryOutputComponents
+        self.maxGeometryOutputVertices = cStruct.maxGeometryOutputVertices
+        self.maxGeometryTotalOutputComponents = cStruct.maxGeometryTotalOutputComponents
+        self.maxFragmentInputComponents = cStruct.maxFragmentInputComponents
+        self.maxFragmentOutputAttachments = cStruct.maxFragmentOutputAttachments
+        self.maxFragmentDualSrcAttachments = cStruct.maxFragmentDualSrcAttachments
+        self.maxFragmentCombinedOutputResources = cStruct.maxFragmentCombinedOutputResources
+        self.maxComputeSharedMemorySize = cStruct.maxComputeSharedMemorySize
+        self.maxComputeWorkGroupCount = cStruct.maxComputeWorkGroupCount
+        self.maxComputeWorkGroupInvocations = cStruct.maxComputeWorkGroupInvocations
+        self.maxComputeWorkGroupSize = cStruct.maxComputeWorkGroupSize
+        self.subPixelPrecisionBits = cStruct.subPixelPrecisionBits
+        self.subTexelPrecisionBits = cStruct.subTexelPrecisionBits
+        self.mipmapPrecisionBits = cStruct.mipmapPrecisionBits
+        self.maxDrawIndexedIndexValue = cStruct.maxDrawIndexedIndexValue
+        self.maxDrawIndirectCount = cStruct.maxDrawIndirectCount
+        self.maxSamplerLodBias = cStruct.maxSamplerLodBias
+        self.maxSamplerAnisotropy = cStruct.maxSamplerAnisotropy
+        self.maxViewports = cStruct.maxViewports
+        self.maxViewportDimensions = cStruct.maxViewportDimensions
+        self.viewportBoundsRange = cStruct.viewportBoundsRange
+        self.viewportSubPixelBits = cStruct.viewportSubPixelBits
+        self.minMemoryMapAlignment = cStruct.minMemoryMapAlignment
+        self.minTexelBufferOffsetAlignment = cStruct.minTexelBufferOffsetAlignment
+        self.minUniformBufferOffsetAlignment = cStruct.minUniformBufferOffsetAlignment
+        self.minStorageBufferOffsetAlignment = cStruct.minStorageBufferOffsetAlignment
+        self.minTexelOffset = cStruct.minTexelOffset
+        self.maxTexelOffset = cStruct.maxTexelOffset
+        self.minTexelGatherOffset = cStruct.minTexelGatherOffset
+        self.maxTexelGatherOffset = cStruct.maxTexelGatherOffset
+        self.minInterpolationOffset = cStruct.minInterpolationOffset
+        self.maxInterpolationOffset = cStruct.maxInterpolationOffset
+        self.subPixelInterpolationOffsetBits = cStruct.subPixelInterpolationOffsetBits
+        self.maxFramebufferWidth = cStruct.maxFramebufferWidth
+        self.maxFramebufferHeight = cStruct.maxFramebufferHeight
+        self.maxFramebufferLayers = cStruct.maxFramebufferLayers
+        self.framebufferColorSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferColorSampleCounts)
+        self.framebufferDepthSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferDepthSampleCounts)
+        self.framebufferStencilSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferStencilSampleCounts)
+        self.framebufferNoAttachmentsSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferNoAttachmentsSampleCounts)
+        self.maxColorAttachments = cStruct.maxColorAttachments
+        self.sampledImageColorSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageColorSampleCounts)
+        self.sampledImageIntegerSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageIntegerSampleCounts)
+        self.sampledImageDepthSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageDepthSampleCounts)
+        self.sampledImageStencilSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageStencilSampleCounts)
+        self.storageImageSampleCounts = SampleCountFlags(rawValue: cStruct.storageImageSampleCounts)
+        self.maxSampleMaskWords = cStruct.maxSampleMaskWords
+        self.timestampComputeAndGraphics = cStruct.timestampComputeAndGraphics == VK_TRUE
+        self.timestampPeriod = cStruct.timestampPeriod
+        self.maxClipDistances = cStruct.maxClipDistances
+        self.maxCullDistances = cStruct.maxCullDistances
+        self.maxCombinedClipAndCullDistances = cStruct.maxCombinedClipAndCullDistances
+        self.discreteQueuePriorities = cStruct.discreteQueuePriorities
+        self.pointSizeRange = cStruct.pointSizeRange
+        self.lineWidthRange = cStruct.lineWidthRange
+        self.pointSizeGranularity = cStruct.pointSizeGranularity
+        self.lineWidthGranularity = cStruct.lineWidthGranularity
+        self.strictLines = cStruct.strictLines == VK_TRUE
+        self.standardSampleLocations = cStruct.standardSampleLocations == VK_TRUE
+        self.optimalBufferCopyOffsetAlignment = cStruct.optimalBufferCopyOffsetAlignment
+        self.optimalBufferCopyRowPitchAlignment = cStruct.optimalBufferCopyRowPitchAlignment
+        self.nonCoherentAtomSize = cStruct.nonCoherentAtomSize
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceLimits>) throws -> R) rethrows -> R {
+        var cStruct = VkPhysicalDeviceLimits()
+        cStruct.maxImageDimension1D = self.maxImageDimension1D
+        cStruct.maxImageDimension2D = self.maxImageDimension2D
+        cStruct.maxImageDimension3D = self.maxImageDimension3D
+        cStruct.maxImageDimensionCube = self.maxImageDimensionCube
+        cStruct.maxImageArrayLayers = self.maxImageArrayLayers
+        cStruct.maxTexelBufferElements = self.maxTexelBufferElements
+        cStruct.maxUniformBufferRange = self.maxUniformBufferRange
+        cStruct.maxStorageBufferRange = self.maxStorageBufferRange
+        cStruct.maxPushConstantsSize = self.maxPushConstantsSize
+        cStruct.maxMemoryAllocationCount = self.maxMemoryAllocationCount
+        cStruct.maxSamplerAllocationCount = self.maxSamplerAllocationCount
+        cStruct.bufferImageGranularity = self.bufferImageGranularity
+        cStruct.sparseAddressSpaceSize = self.sparseAddressSpaceSize
+        cStruct.maxBoundDescriptorSets = self.maxBoundDescriptorSets
+        cStruct.maxPerStageDescriptorSamplers = self.maxPerStageDescriptorSamplers
+        cStruct.maxPerStageDescriptorUniformBuffers = self.maxPerStageDescriptorUniformBuffers
+        cStruct.maxPerStageDescriptorStorageBuffers = self.maxPerStageDescriptorStorageBuffers
+        cStruct.maxPerStageDescriptorSampledImages = self.maxPerStageDescriptorSampledImages
+        cStruct.maxPerStageDescriptorStorageImages = self.maxPerStageDescriptorStorageImages
+        cStruct.maxPerStageDescriptorInputAttachments = self.maxPerStageDescriptorInputAttachments
+        cStruct.maxPerStageResources = self.maxPerStageResources
+        cStruct.maxDescriptorSetSamplers = self.maxDescriptorSetSamplers
+        cStruct.maxDescriptorSetUniformBuffers = self.maxDescriptorSetUniformBuffers
+        cStruct.maxDescriptorSetUniformBuffersDynamic = self.maxDescriptorSetUniformBuffersDynamic
+        cStruct.maxDescriptorSetStorageBuffers = self.maxDescriptorSetStorageBuffers
+        cStruct.maxDescriptorSetStorageBuffersDynamic = self.maxDescriptorSetStorageBuffersDynamic
+        cStruct.maxDescriptorSetSampledImages = self.maxDescriptorSetSampledImages
+        cStruct.maxDescriptorSetStorageImages = self.maxDescriptorSetStorageImages
+        cStruct.maxDescriptorSetInputAttachments = self.maxDescriptorSetInputAttachments
+        cStruct.maxVertexInputAttributes = self.maxVertexInputAttributes
+        cStruct.maxVertexInputBindings = self.maxVertexInputBindings
+        cStruct.maxVertexInputAttributeOffset = self.maxVertexInputAttributeOffset
+        cStruct.maxVertexInputBindingStride = self.maxVertexInputBindingStride
+        cStruct.maxVertexOutputComponents = self.maxVertexOutputComponents
+        cStruct.maxTessellationGenerationLevel = self.maxTessellationGenerationLevel
+        cStruct.maxTessellationPatchSize = self.maxTessellationPatchSize
+        cStruct.maxTessellationControlPerVertexInputComponents = self.maxTessellationControlPerVertexInputComponents
+        cStruct.maxTessellationControlPerVertexOutputComponents = self.maxTessellationControlPerVertexOutputComponents
+        cStruct.maxTessellationControlPerPatchOutputComponents = self.maxTessellationControlPerPatchOutputComponents
+        cStruct.maxTessellationControlTotalOutputComponents = self.maxTessellationControlTotalOutputComponents
+        cStruct.maxTessellationEvaluationInputComponents = self.maxTessellationEvaluationInputComponents
+        cStruct.maxTessellationEvaluationOutputComponents = self.maxTessellationEvaluationOutputComponents
+        cStruct.maxGeometryShaderInvocations = self.maxGeometryShaderInvocations
+        cStruct.maxGeometryInputComponents = self.maxGeometryInputComponents
+        cStruct.maxGeometryOutputComponents = self.maxGeometryOutputComponents
+        cStruct.maxGeometryOutputVertices = self.maxGeometryOutputVertices
+        cStruct.maxGeometryTotalOutputComponents = self.maxGeometryTotalOutputComponents
+        cStruct.maxFragmentInputComponents = self.maxFragmentInputComponents
+        cStruct.maxFragmentOutputAttachments = self.maxFragmentOutputAttachments
+        cStruct.maxFragmentDualSrcAttachments = self.maxFragmentDualSrcAttachments
+        cStruct.maxFragmentCombinedOutputResources = self.maxFragmentCombinedOutputResources
+        cStruct.maxComputeSharedMemorySize = self.maxComputeSharedMemorySize
+        cStruct.maxComputeWorkGroupCount = self.maxComputeWorkGroupCount
+        cStruct.maxComputeWorkGroupInvocations = self.maxComputeWorkGroupInvocations
+        cStruct.maxComputeWorkGroupSize = self.maxComputeWorkGroupSize
+        cStruct.subPixelPrecisionBits = self.subPixelPrecisionBits
+        cStruct.subTexelPrecisionBits = self.subTexelPrecisionBits
+        cStruct.mipmapPrecisionBits = self.mipmapPrecisionBits
+        cStruct.maxDrawIndexedIndexValue = self.maxDrawIndexedIndexValue
+        cStruct.maxDrawIndirectCount = self.maxDrawIndirectCount
+        cStruct.maxSamplerLodBias = self.maxSamplerLodBias
+        cStruct.maxSamplerAnisotropy = self.maxSamplerAnisotropy
+        cStruct.maxViewports = self.maxViewports
+        cStruct.maxViewportDimensions = self.maxViewportDimensions
+        cStruct.viewportBoundsRange = self.viewportBoundsRange
+        cStruct.viewportSubPixelBits = self.viewportSubPixelBits
+        cStruct.minMemoryMapAlignment = self.minMemoryMapAlignment
+        cStruct.minTexelBufferOffsetAlignment = self.minTexelBufferOffsetAlignment
+        cStruct.minUniformBufferOffsetAlignment = self.minUniformBufferOffsetAlignment
+        cStruct.minStorageBufferOffsetAlignment = self.minStorageBufferOffsetAlignment
+        cStruct.minTexelOffset = self.minTexelOffset
+        cStruct.maxTexelOffset = self.maxTexelOffset
+        cStruct.minTexelGatherOffset = self.minTexelGatherOffset
+        cStruct.maxTexelGatherOffset = self.maxTexelGatherOffset
+        cStruct.minInterpolationOffset = self.minInterpolationOffset
+        cStruct.maxInterpolationOffset = self.maxInterpolationOffset
+        cStruct.subPixelInterpolationOffsetBits = self.subPixelInterpolationOffsetBits
+        cStruct.maxFramebufferWidth = self.maxFramebufferWidth
+        cStruct.maxFramebufferHeight = self.maxFramebufferHeight
+        cStruct.maxFramebufferLayers = self.maxFramebufferLayers
+        cStruct.framebufferColorSampleCounts = self.framebufferColorSampleCounts.rawValue
+        cStruct.framebufferDepthSampleCounts = self.framebufferDepthSampleCounts.rawValue
+        cStruct.framebufferStencilSampleCounts = self.framebufferStencilSampleCounts.rawValue
+        cStruct.framebufferNoAttachmentsSampleCounts = self.framebufferNoAttachmentsSampleCounts.rawValue
+        cStruct.maxColorAttachments = self.maxColorAttachments
+        cStruct.sampledImageColorSampleCounts = self.sampledImageColorSampleCounts.rawValue
+        cStruct.sampledImageIntegerSampleCounts = self.sampledImageIntegerSampleCounts.rawValue
+        cStruct.sampledImageDepthSampleCounts = self.sampledImageDepthSampleCounts.rawValue
+        cStruct.sampledImageStencilSampleCounts = self.sampledImageStencilSampleCounts.rawValue
+        cStruct.storageImageSampleCounts = self.storageImageSampleCounts.rawValue
+        cStruct.maxSampleMaskWords = self.maxSampleMaskWords
+        cStruct.timestampComputeAndGraphics = VkBool32(self.timestampComputeAndGraphics ? VK_TRUE : VK_FALSE)
+        cStruct.timestampPeriod = self.timestampPeriod
+        cStruct.maxClipDistances = self.maxClipDistances
+        cStruct.maxCullDistances = self.maxCullDistances
+        cStruct.maxCombinedClipAndCullDistances = self.maxCombinedClipAndCullDistances
+        cStruct.discreteQueuePriorities = self.discreteQueuePriorities
+        cStruct.pointSizeRange = self.pointSizeRange
+        cStruct.lineWidthRange = self.lineWidthRange
+        cStruct.pointSizeGranularity = self.pointSizeGranularity
+        cStruct.lineWidthGranularity = self.lineWidthGranularity
+        cStruct.strictLines = VkBool32(self.strictLines ? VK_TRUE : VK_FALSE)
+        cStruct.standardSampleLocations = VkBool32(self.standardSampleLocations ? VK_TRUE : VK_FALSE)
+        cStruct.optimalBufferCopyOffsetAlignment = self.optimalBufferCopyOffsetAlignment
+        cStruct.optimalBufferCopyRowPitchAlignment = self.optimalBufferCopyRowPitchAlignment
+        cStruct.nonCoherentAtomSize = self.nonCoherentAtomSize
+        return try body(&cStruct)
+    }
+}
+
+public struct PhysicalDeviceSparseProperties: CStructConvertible {
+    typealias CStruct = VkPhysicalDeviceSparseProperties
+
+    public let residencyStandard2DBlockShape: Bool
+    public let residencyStandard2DMultisampleBlockShape: Bool
+    public let residencyStandard3DBlockShape: Bool
+    public let residencyAlignedMipSize: Bool
+    public let residencyNonResidentStrict: Bool
+
+    init(cStruct: VkPhysicalDeviceSparseProperties) {
+        self.residencyStandard2DBlockShape = cStruct.residencyStandard2DBlockShape == VK_TRUE
+        self.residencyStandard2DMultisampleBlockShape = cStruct.residencyStandard2DMultisampleBlockShape == VK_TRUE
+        self.residencyStandard3DBlockShape = cStruct.residencyStandard3DBlockShape == VK_TRUE
+        self.residencyAlignedMipSize = cStruct.residencyAlignedMipSize == VK_TRUE
+        self.residencyNonResidentStrict = cStruct.residencyNonResidentStrict == VK_TRUE
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseProperties>) throws -> R) rethrows -> R {
+        var cStruct = VkPhysicalDeviceSparseProperties()
+        cStruct.residencyStandard2DBlockShape = VkBool32(self.residencyStandard2DBlockShape ? VK_TRUE : VK_FALSE)
+        cStruct.residencyStandard2DMultisampleBlockShape = VkBool32(self.residencyStandard2DMultisampleBlockShape ? VK_TRUE : VK_FALSE)
+        cStruct.residencyStandard3DBlockShape = VkBool32(self.residencyStandard3DBlockShape ? VK_TRUE : VK_FALSE)
+        cStruct.residencyAlignedMipSize = VkBool32(self.residencyAlignedMipSize ? VK_TRUE : VK_FALSE)
+        cStruct.residencyNonResidentStrict = VkBool32(self.residencyNonResidentStrict ? VK_TRUE : VK_FALSE)
+        return try body(&cStruct)
+    }
+}
+
 public struct PhysicalDeviceProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceProperties
 
@@ -479,6 +796,242 @@ public struct DeviceQueueCreateInfo: CStructConvertible {
     }
 }
 
+public struct PhysicalDeviceFeatures: CStructConvertible {
+    typealias CStruct = VkPhysicalDeviceFeatures
+
+    public let robustBufferAccess: Bool
+    public let fullDrawIndexUint32: Bool
+    public let imageCubeArray: Bool
+    public let independentBlend: Bool
+    public let geometryShader: Bool
+    public let tessellationShader: Bool
+    public let sampleRateShading: Bool
+    public let dualSrcBlend: Bool
+    public let logicOp: Bool
+    public let multiDrawIndirect: Bool
+    public let drawIndirectFirstInstance: Bool
+    public let depthClamp: Bool
+    public let depthBiasClamp: Bool
+    public let fillModeNonSolid: Bool
+    public let depthBounds: Bool
+    public let wideLines: Bool
+    public let largePoints: Bool
+    public let alphaToOne: Bool
+    public let multiViewport: Bool
+    public let samplerAnisotropy: Bool
+    public let textureCompressionETC2: Bool
+    public let textureCompressionASTC_LDR: Bool
+    public let textureCompressionBC: Bool
+    public let occlusionQueryPrecise: Bool
+    public let pipelineStatisticsQuery: Bool
+    public let vertexPipelineStoresAndAtomics: Bool
+    public let fragmentStoresAndAtomics: Bool
+    public let shaderTessellationAndGeometryPointSize: Bool
+    public let shaderImageGatherExtended: Bool
+    public let shaderStorageImageExtendedFormats: Bool
+    public let shaderStorageImageMultisample: Bool
+    public let shaderStorageImageReadWithoutFormat: Bool
+    public let shaderStorageImageWriteWithoutFormat: Bool
+    public let shaderUniformBufferArrayDynamicIndexing: Bool
+    public let shaderSampledImageArrayDynamicIndexing: Bool
+    public let shaderStorageBufferArrayDynamicIndexing: Bool
+    public let shaderStorageImageArrayDynamicIndexing: Bool
+    public let shaderClipDistance: Bool
+    public let shaderCullDistance: Bool
+    public let shaderFloat64: Bool
+    public let shaderInt64: Bool
+    public let shaderInt16: Bool
+    public let shaderResourceResidency: Bool
+    public let shaderResourceMinLod: Bool
+    public let sparseBinding: Bool
+    public let sparseResidencyBuffer: Bool
+    public let sparseResidencyImage2D: Bool
+    public let sparseResidencyImage3D: Bool
+    public let sparseResidency2Samples: Bool
+    public let sparseResidency4Samples: Bool
+    public let sparseResidency8Samples: Bool
+    public let sparseResidency16Samples: Bool
+    public let sparseResidencyAliased: Bool
+    public let variableMultisampleRate: Bool
+    public let inheritedQueries: Bool
+
+    public init(robustBufferAccess: Bool, fullDrawIndexUint32: Bool, imageCubeArray: Bool, independentBlend: Bool, geometryShader: Bool, tessellationShader: Bool, sampleRateShading: Bool, dualSrcBlend: Bool, logicOp: Bool, multiDrawIndirect: Bool, drawIndirectFirstInstance: Bool, depthClamp: Bool, depthBiasClamp: Bool, fillModeNonSolid: Bool, depthBounds: Bool, wideLines: Bool, largePoints: Bool, alphaToOne: Bool, multiViewport: Bool, samplerAnisotropy: Bool, textureCompressionETC2: Bool, textureCompressionASTC_LDR: Bool, textureCompressionBC: Bool, occlusionQueryPrecise: Bool, pipelineStatisticsQuery: Bool, vertexPipelineStoresAndAtomics: Bool, fragmentStoresAndAtomics: Bool, shaderTessellationAndGeometryPointSize: Bool, shaderImageGatherExtended: Bool, shaderStorageImageExtendedFormats: Bool, shaderStorageImageMultisample: Bool, shaderStorageImageReadWithoutFormat: Bool, shaderStorageImageWriteWithoutFormat: Bool, shaderUniformBufferArrayDynamicIndexing: Bool, shaderSampledImageArrayDynamicIndexing: Bool, shaderStorageBufferArrayDynamicIndexing: Bool, shaderStorageImageArrayDynamicIndexing: Bool, shaderClipDistance: Bool, shaderCullDistance: Bool, shaderFloat64: Bool, shaderInt64: Bool, shaderInt16: Bool, shaderResourceResidency: Bool, shaderResourceMinLod: Bool, sparseBinding: Bool, sparseResidencyBuffer: Bool, sparseResidencyImage2D: Bool, sparseResidencyImage3D: Bool, sparseResidency2Samples: Bool, sparseResidency4Samples: Bool, sparseResidency8Samples: Bool, sparseResidency16Samples: Bool, sparseResidencyAliased: Bool, variableMultisampleRate: Bool, inheritedQueries: Bool) {
+        self.robustBufferAccess = robustBufferAccess
+        self.fullDrawIndexUint32 = fullDrawIndexUint32
+        self.imageCubeArray = imageCubeArray
+        self.independentBlend = independentBlend
+        self.geometryShader = geometryShader
+        self.tessellationShader = tessellationShader
+        self.sampleRateShading = sampleRateShading
+        self.dualSrcBlend = dualSrcBlend
+        self.logicOp = logicOp
+        self.multiDrawIndirect = multiDrawIndirect
+        self.drawIndirectFirstInstance = drawIndirectFirstInstance
+        self.depthClamp = depthClamp
+        self.depthBiasClamp = depthBiasClamp
+        self.fillModeNonSolid = fillModeNonSolid
+        self.depthBounds = depthBounds
+        self.wideLines = wideLines
+        self.largePoints = largePoints
+        self.alphaToOne = alphaToOne
+        self.multiViewport = multiViewport
+        self.samplerAnisotropy = samplerAnisotropy
+        self.textureCompressionETC2 = textureCompressionETC2
+        self.textureCompressionASTC_LDR = textureCompressionASTC_LDR
+        self.textureCompressionBC = textureCompressionBC
+        self.occlusionQueryPrecise = occlusionQueryPrecise
+        self.pipelineStatisticsQuery = pipelineStatisticsQuery
+        self.vertexPipelineStoresAndAtomics = vertexPipelineStoresAndAtomics
+        self.fragmentStoresAndAtomics = fragmentStoresAndAtomics
+        self.shaderTessellationAndGeometryPointSize = shaderTessellationAndGeometryPointSize
+        self.shaderImageGatherExtended = shaderImageGatherExtended
+        self.shaderStorageImageExtendedFormats = shaderStorageImageExtendedFormats
+        self.shaderStorageImageMultisample = shaderStorageImageMultisample
+        self.shaderStorageImageReadWithoutFormat = shaderStorageImageReadWithoutFormat
+        self.shaderStorageImageWriteWithoutFormat = shaderStorageImageWriteWithoutFormat
+        self.shaderUniformBufferArrayDynamicIndexing = shaderUniformBufferArrayDynamicIndexing
+        self.shaderSampledImageArrayDynamicIndexing = shaderSampledImageArrayDynamicIndexing
+        self.shaderStorageBufferArrayDynamicIndexing = shaderStorageBufferArrayDynamicIndexing
+        self.shaderStorageImageArrayDynamicIndexing = shaderStorageImageArrayDynamicIndexing
+        self.shaderClipDistance = shaderClipDistance
+        self.shaderCullDistance = shaderCullDistance
+        self.shaderFloat64 = shaderFloat64
+        self.shaderInt64 = shaderInt64
+        self.shaderInt16 = shaderInt16
+        self.shaderResourceResidency = shaderResourceResidency
+        self.shaderResourceMinLod = shaderResourceMinLod
+        self.sparseBinding = sparseBinding
+        self.sparseResidencyBuffer = sparseResidencyBuffer
+        self.sparseResidencyImage2D = sparseResidencyImage2D
+        self.sparseResidencyImage3D = sparseResidencyImage3D
+        self.sparseResidency2Samples = sparseResidency2Samples
+        self.sparseResidency4Samples = sparseResidency4Samples
+        self.sparseResidency8Samples = sparseResidency8Samples
+        self.sparseResidency16Samples = sparseResidency16Samples
+        self.sparseResidencyAliased = sparseResidencyAliased
+        self.variableMultisampleRate = variableMultisampleRate
+        self.inheritedQueries = inheritedQueries
+    }
+
+    init(cStruct: VkPhysicalDeviceFeatures) {
+        self.robustBufferAccess = cStruct.robustBufferAccess == VK_TRUE
+        self.fullDrawIndexUint32 = cStruct.fullDrawIndexUint32 == VK_TRUE
+        self.imageCubeArray = cStruct.imageCubeArray == VK_TRUE
+        self.independentBlend = cStruct.independentBlend == VK_TRUE
+        self.geometryShader = cStruct.geometryShader == VK_TRUE
+        self.tessellationShader = cStruct.tessellationShader == VK_TRUE
+        self.sampleRateShading = cStruct.sampleRateShading == VK_TRUE
+        self.dualSrcBlend = cStruct.dualSrcBlend == VK_TRUE
+        self.logicOp = cStruct.logicOp == VK_TRUE
+        self.multiDrawIndirect = cStruct.multiDrawIndirect == VK_TRUE
+        self.drawIndirectFirstInstance = cStruct.drawIndirectFirstInstance == VK_TRUE
+        self.depthClamp = cStruct.depthClamp == VK_TRUE
+        self.depthBiasClamp = cStruct.depthBiasClamp == VK_TRUE
+        self.fillModeNonSolid = cStruct.fillModeNonSolid == VK_TRUE
+        self.depthBounds = cStruct.depthBounds == VK_TRUE
+        self.wideLines = cStruct.wideLines == VK_TRUE
+        self.largePoints = cStruct.largePoints == VK_TRUE
+        self.alphaToOne = cStruct.alphaToOne == VK_TRUE
+        self.multiViewport = cStruct.multiViewport == VK_TRUE
+        self.samplerAnisotropy = cStruct.samplerAnisotropy == VK_TRUE
+        self.textureCompressionETC2 = cStruct.textureCompressionETC2 == VK_TRUE
+        self.textureCompressionASTC_LDR = cStruct.textureCompressionASTC_LDR == VK_TRUE
+        self.textureCompressionBC = cStruct.textureCompressionBC == VK_TRUE
+        self.occlusionQueryPrecise = cStruct.occlusionQueryPrecise == VK_TRUE
+        self.pipelineStatisticsQuery = cStruct.pipelineStatisticsQuery == VK_TRUE
+        self.vertexPipelineStoresAndAtomics = cStruct.vertexPipelineStoresAndAtomics == VK_TRUE
+        self.fragmentStoresAndAtomics = cStruct.fragmentStoresAndAtomics == VK_TRUE
+        self.shaderTessellationAndGeometryPointSize = cStruct.shaderTessellationAndGeometryPointSize == VK_TRUE
+        self.shaderImageGatherExtended = cStruct.shaderImageGatherExtended == VK_TRUE
+        self.shaderStorageImageExtendedFormats = cStruct.shaderStorageImageExtendedFormats == VK_TRUE
+        self.shaderStorageImageMultisample = cStruct.shaderStorageImageMultisample == VK_TRUE
+        self.shaderStorageImageReadWithoutFormat = cStruct.shaderStorageImageReadWithoutFormat == VK_TRUE
+        self.shaderStorageImageWriteWithoutFormat = cStruct.shaderStorageImageWriteWithoutFormat == VK_TRUE
+        self.shaderUniformBufferArrayDynamicIndexing = cStruct.shaderUniformBufferArrayDynamicIndexing == VK_TRUE
+        self.shaderSampledImageArrayDynamicIndexing = cStruct.shaderSampledImageArrayDynamicIndexing == VK_TRUE
+        self.shaderStorageBufferArrayDynamicIndexing = cStruct.shaderStorageBufferArrayDynamicIndexing == VK_TRUE
+        self.shaderStorageImageArrayDynamicIndexing = cStruct.shaderStorageImageArrayDynamicIndexing == VK_TRUE
+        self.shaderClipDistance = cStruct.shaderClipDistance == VK_TRUE
+        self.shaderCullDistance = cStruct.shaderCullDistance == VK_TRUE
+        self.shaderFloat64 = cStruct.shaderFloat64 == VK_TRUE
+        self.shaderInt64 = cStruct.shaderInt64 == VK_TRUE
+        self.shaderInt16 = cStruct.shaderInt16 == VK_TRUE
+        self.shaderResourceResidency = cStruct.shaderResourceResidency == VK_TRUE
+        self.shaderResourceMinLod = cStruct.shaderResourceMinLod == VK_TRUE
+        self.sparseBinding = cStruct.sparseBinding == VK_TRUE
+        self.sparseResidencyBuffer = cStruct.sparseResidencyBuffer == VK_TRUE
+        self.sparseResidencyImage2D = cStruct.sparseResidencyImage2D == VK_TRUE
+        self.sparseResidencyImage3D = cStruct.sparseResidencyImage3D == VK_TRUE
+        self.sparseResidency2Samples = cStruct.sparseResidency2Samples == VK_TRUE
+        self.sparseResidency4Samples = cStruct.sparseResidency4Samples == VK_TRUE
+        self.sparseResidency8Samples = cStruct.sparseResidency8Samples == VK_TRUE
+        self.sparseResidency16Samples = cStruct.sparseResidency16Samples == VK_TRUE
+        self.sparseResidencyAliased = cStruct.sparseResidencyAliased == VK_TRUE
+        self.variableMultisampleRate = cStruct.variableMultisampleRate == VK_TRUE
+        self.inheritedQueries = cStruct.inheritedQueries == VK_TRUE
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures>) throws -> R) rethrows -> R {
+        var cStruct = VkPhysicalDeviceFeatures()
+        cStruct.robustBufferAccess = VkBool32(self.robustBufferAccess ? VK_TRUE : VK_FALSE)
+        cStruct.fullDrawIndexUint32 = VkBool32(self.fullDrawIndexUint32 ? VK_TRUE : VK_FALSE)
+        cStruct.imageCubeArray = VkBool32(self.imageCubeArray ? VK_TRUE : VK_FALSE)
+        cStruct.independentBlend = VkBool32(self.independentBlend ? VK_TRUE : VK_FALSE)
+        cStruct.geometryShader = VkBool32(self.geometryShader ? VK_TRUE : VK_FALSE)
+        cStruct.tessellationShader = VkBool32(self.tessellationShader ? VK_TRUE : VK_FALSE)
+        cStruct.sampleRateShading = VkBool32(self.sampleRateShading ? VK_TRUE : VK_FALSE)
+        cStruct.dualSrcBlend = VkBool32(self.dualSrcBlend ? VK_TRUE : VK_FALSE)
+        cStruct.logicOp = VkBool32(self.logicOp ? VK_TRUE : VK_FALSE)
+        cStruct.multiDrawIndirect = VkBool32(self.multiDrawIndirect ? VK_TRUE : VK_FALSE)
+        cStruct.drawIndirectFirstInstance = VkBool32(self.drawIndirectFirstInstance ? VK_TRUE : VK_FALSE)
+        cStruct.depthClamp = VkBool32(self.depthClamp ? VK_TRUE : VK_FALSE)
+        cStruct.depthBiasClamp = VkBool32(self.depthBiasClamp ? VK_TRUE : VK_FALSE)
+        cStruct.fillModeNonSolid = VkBool32(self.fillModeNonSolid ? VK_TRUE : VK_FALSE)
+        cStruct.depthBounds = VkBool32(self.depthBounds ? VK_TRUE : VK_FALSE)
+        cStruct.wideLines = VkBool32(self.wideLines ? VK_TRUE : VK_FALSE)
+        cStruct.largePoints = VkBool32(self.largePoints ? VK_TRUE : VK_FALSE)
+        cStruct.alphaToOne = VkBool32(self.alphaToOne ? VK_TRUE : VK_FALSE)
+        cStruct.multiViewport = VkBool32(self.multiViewport ? VK_TRUE : VK_FALSE)
+        cStruct.samplerAnisotropy = VkBool32(self.samplerAnisotropy ? VK_TRUE : VK_FALSE)
+        cStruct.textureCompressionETC2 = VkBool32(self.textureCompressionETC2 ? VK_TRUE : VK_FALSE)
+        cStruct.textureCompressionASTC_LDR = VkBool32(self.textureCompressionASTC_LDR ? VK_TRUE : VK_FALSE)
+        cStruct.textureCompressionBC = VkBool32(self.textureCompressionBC ? VK_TRUE : VK_FALSE)
+        cStruct.occlusionQueryPrecise = VkBool32(self.occlusionQueryPrecise ? VK_TRUE : VK_FALSE)
+        cStruct.pipelineStatisticsQuery = VkBool32(self.pipelineStatisticsQuery ? VK_TRUE : VK_FALSE)
+        cStruct.vertexPipelineStoresAndAtomics = VkBool32(self.vertexPipelineStoresAndAtomics ? VK_TRUE : VK_FALSE)
+        cStruct.fragmentStoresAndAtomics = VkBool32(self.fragmentStoresAndAtomics ? VK_TRUE : VK_FALSE)
+        cStruct.shaderTessellationAndGeometryPointSize = VkBool32(self.shaderTessellationAndGeometryPointSize ? VK_TRUE : VK_FALSE)
+        cStruct.shaderImageGatherExtended = VkBool32(self.shaderImageGatherExtended ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageExtendedFormats = VkBool32(self.shaderStorageImageExtendedFormats ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageMultisample = VkBool32(self.shaderStorageImageMultisample ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageReadWithoutFormat = VkBool32(self.shaderStorageImageReadWithoutFormat ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageWriteWithoutFormat = VkBool32(self.shaderStorageImageWriteWithoutFormat ? VK_TRUE : VK_FALSE)
+        cStruct.shaderUniformBufferArrayDynamicIndexing = VkBool32(self.shaderUniformBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderSampledImageArrayDynamicIndexing = VkBool32(self.shaderSampledImageArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageBufferArrayDynamicIndexing = VkBool32(self.shaderStorageBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderStorageImageArrayDynamicIndexing = VkBool32(self.shaderStorageImageArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
+        cStruct.shaderClipDistance = VkBool32(self.shaderClipDistance ? VK_TRUE : VK_FALSE)
+        cStruct.shaderCullDistance = VkBool32(self.shaderCullDistance ? VK_TRUE : VK_FALSE)
+        cStruct.shaderFloat64 = VkBool32(self.shaderFloat64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInt64 = VkBool32(self.shaderInt64 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderInt16 = VkBool32(self.shaderInt16 ? VK_TRUE : VK_FALSE)
+        cStruct.shaderResourceResidency = VkBool32(self.shaderResourceResidency ? VK_TRUE : VK_FALSE)
+        cStruct.shaderResourceMinLod = VkBool32(self.shaderResourceMinLod ? VK_TRUE : VK_FALSE)
+        cStruct.sparseBinding = VkBool32(self.sparseBinding ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyBuffer = VkBool32(self.sparseResidencyBuffer ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyImage2D = VkBool32(self.sparseResidencyImage2D ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyImage3D = VkBool32(self.sparseResidencyImage3D ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency2Samples = VkBool32(self.sparseResidency2Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency4Samples = VkBool32(self.sparseResidency4Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency8Samples = VkBool32(self.sparseResidency8Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidency16Samples = VkBool32(self.sparseResidency16Samples ? VK_TRUE : VK_FALSE)
+        cStruct.sparseResidencyAliased = VkBool32(self.sparseResidencyAliased ? VK_TRUE : VK_FALSE)
+        cStruct.variableMultisampleRate = VkBool32(self.variableMultisampleRate ? VK_TRUE : VK_FALSE)
+        cStruct.inheritedQueries = VkBool32(self.inheritedQueries ? VK_TRUE : VK_FALSE)
+        return try body(&cStruct)
+    }
+}
+
 public struct DeviceCreateInfo: CStructConvertible {
     typealias CStruct = VkDeviceCreateInfo
 
@@ -594,6 +1147,44 @@ public struct QueueFamilyProperties: CStructConvertible {
             cStruct.minImageTransferGranularity = ptr_minImageTransferGranularity.pointee
             return try body(&cStruct)
         }
+    }
+}
+
+public struct MemoryType: CStructConvertible {
+    typealias CStruct = VkMemoryType
+
+    public let propertyFlags: MemoryPropertyFlags
+    public let heapIndex: UInt32
+
+    init(cStruct: VkMemoryType) {
+        self.propertyFlags = MemoryPropertyFlags(rawValue: cStruct.propertyFlags)
+        self.heapIndex = cStruct.heapIndex
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryType>) throws -> R) rethrows -> R {
+        var cStruct = VkMemoryType()
+        cStruct.propertyFlags = self.propertyFlags.rawValue
+        cStruct.heapIndex = self.heapIndex
+        return try body(&cStruct)
+    }
+}
+
+public struct MemoryHeap: CStructConvertible {
+    typealias CStruct = VkMemoryHeap
+
+    public let size: VkDeviceSize
+    public let flags: MemoryHeapFlags
+
+    init(cStruct: VkMemoryHeap) {
+        self.size = cStruct.size
+        self.flags = MemoryHeapFlags(rawValue: cStruct.flags)
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryHeap>) throws -> R) rethrows -> R {
+        var cStruct = VkMemoryHeap()
+        cStruct.size = self.size
+        cStruct.flags = self.flags.rawValue
+        return try body(&cStruct)
     }
 }
 
@@ -721,44 +1312,6 @@ public struct SparseImageMemoryRequirements: CStructConvertible {
             cStruct.imageMipTailStride = self.imageMipTailStride
             return try body(&cStruct)
         }
-    }
-}
-
-public struct MemoryType: CStructConvertible {
-    typealias CStruct = VkMemoryType
-
-    public let propertyFlags: MemoryPropertyFlags
-    public let heapIndex: UInt32
-
-    init(cStruct: VkMemoryType) {
-        self.propertyFlags = MemoryPropertyFlags(rawValue: cStruct.propertyFlags)
-        self.heapIndex = cStruct.heapIndex
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryType>) throws -> R) rethrows -> R {
-        var cStruct = VkMemoryType()
-        cStruct.propertyFlags = self.propertyFlags.rawValue
-        cStruct.heapIndex = self.heapIndex
-        return try body(&cStruct)
-    }
-}
-
-public struct MemoryHeap: CStructConvertible {
-    typealias CStruct = VkMemoryHeap
-
-    public let size: VkDeviceSize
-    public let flags: MemoryHeapFlags
-
-    init(cStruct: VkMemoryHeap) {
-        self.size = cStruct.size
-        self.flags = MemoryHeapFlags(rawValue: cStruct.flags)
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkMemoryHeap>) throws -> R) rethrows -> R {
-        var cStruct = VkMemoryHeap()
-        cStruct.size = self.size
-        cStruct.flags = self.flags.rawValue
-        return try body(&cStruct)
     }
 }
 
@@ -3367,601 +3920,6 @@ public struct FenceCreateInfo: CStructConvertible {
     }
 }
 
-public struct PhysicalDeviceFeatures: CStructConvertible {
-    typealias CStruct = VkPhysicalDeviceFeatures
-
-    public let robustBufferAccess: Bool
-    public let fullDrawIndexUint32: Bool
-    public let imageCubeArray: Bool
-    public let independentBlend: Bool
-    public let geometryShader: Bool
-    public let tessellationShader: Bool
-    public let sampleRateShading: Bool
-    public let dualSrcBlend: Bool
-    public let logicOp: Bool
-    public let multiDrawIndirect: Bool
-    public let drawIndirectFirstInstance: Bool
-    public let depthClamp: Bool
-    public let depthBiasClamp: Bool
-    public let fillModeNonSolid: Bool
-    public let depthBounds: Bool
-    public let wideLines: Bool
-    public let largePoints: Bool
-    public let alphaToOne: Bool
-    public let multiViewport: Bool
-    public let samplerAnisotropy: Bool
-    public let textureCompressionETC2: Bool
-    public let textureCompressionASTC_LDR: Bool
-    public let textureCompressionBC: Bool
-    public let occlusionQueryPrecise: Bool
-    public let pipelineStatisticsQuery: Bool
-    public let vertexPipelineStoresAndAtomics: Bool
-    public let fragmentStoresAndAtomics: Bool
-    public let shaderTessellationAndGeometryPointSize: Bool
-    public let shaderImageGatherExtended: Bool
-    public let shaderStorageImageExtendedFormats: Bool
-    public let shaderStorageImageMultisample: Bool
-    public let shaderStorageImageReadWithoutFormat: Bool
-    public let shaderStorageImageWriteWithoutFormat: Bool
-    public let shaderUniformBufferArrayDynamicIndexing: Bool
-    public let shaderSampledImageArrayDynamicIndexing: Bool
-    public let shaderStorageBufferArrayDynamicIndexing: Bool
-    public let shaderStorageImageArrayDynamicIndexing: Bool
-    public let shaderClipDistance: Bool
-    public let shaderCullDistance: Bool
-    public let shaderFloat64: Bool
-    public let shaderInt64: Bool
-    public let shaderInt16: Bool
-    public let shaderResourceResidency: Bool
-    public let shaderResourceMinLod: Bool
-    public let sparseBinding: Bool
-    public let sparseResidencyBuffer: Bool
-    public let sparseResidencyImage2D: Bool
-    public let sparseResidencyImage3D: Bool
-    public let sparseResidency2Samples: Bool
-    public let sparseResidency4Samples: Bool
-    public let sparseResidency8Samples: Bool
-    public let sparseResidency16Samples: Bool
-    public let sparseResidencyAliased: Bool
-    public let variableMultisampleRate: Bool
-    public let inheritedQueries: Bool
-
-    public init(robustBufferAccess: Bool, fullDrawIndexUint32: Bool, imageCubeArray: Bool, independentBlend: Bool, geometryShader: Bool, tessellationShader: Bool, sampleRateShading: Bool, dualSrcBlend: Bool, logicOp: Bool, multiDrawIndirect: Bool, drawIndirectFirstInstance: Bool, depthClamp: Bool, depthBiasClamp: Bool, fillModeNonSolid: Bool, depthBounds: Bool, wideLines: Bool, largePoints: Bool, alphaToOne: Bool, multiViewport: Bool, samplerAnisotropy: Bool, textureCompressionETC2: Bool, textureCompressionASTC_LDR: Bool, textureCompressionBC: Bool, occlusionQueryPrecise: Bool, pipelineStatisticsQuery: Bool, vertexPipelineStoresAndAtomics: Bool, fragmentStoresAndAtomics: Bool, shaderTessellationAndGeometryPointSize: Bool, shaderImageGatherExtended: Bool, shaderStorageImageExtendedFormats: Bool, shaderStorageImageMultisample: Bool, shaderStorageImageReadWithoutFormat: Bool, shaderStorageImageWriteWithoutFormat: Bool, shaderUniformBufferArrayDynamicIndexing: Bool, shaderSampledImageArrayDynamicIndexing: Bool, shaderStorageBufferArrayDynamicIndexing: Bool, shaderStorageImageArrayDynamicIndexing: Bool, shaderClipDistance: Bool, shaderCullDistance: Bool, shaderFloat64: Bool, shaderInt64: Bool, shaderInt16: Bool, shaderResourceResidency: Bool, shaderResourceMinLod: Bool, sparseBinding: Bool, sparseResidencyBuffer: Bool, sparseResidencyImage2D: Bool, sparseResidencyImage3D: Bool, sparseResidency2Samples: Bool, sparseResidency4Samples: Bool, sparseResidency8Samples: Bool, sparseResidency16Samples: Bool, sparseResidencyAliased: Bool, variableMultisampleRate: Bool, inheritedQueries: Bool) {
-        self.robustBufferAccess = robustBufferAccess
-        self.fullDrawIndexUint32 = fullDrawIndexUint32
-        self.imageCubeArray = imageCubeArray
-        self.independentBlend = independentBlend
-        self.geometryShader = geometryShader
-        self.tessellationShader = tessellationShader
-        self.sampleRateShading = sampleRateShading
-        self.dualSrcBlend = dualSrcBlend
-        self.logicOp = logicOp
-        self.multiDrawIndirect = multiDrawIndirect
-        self.drawIndirectFirstInstance = drawIndirectFirstInstance
-        self.depthClamp = depthClamp
-        self.depthBiasClamp = depthBiasClamp
-        self.fillModeNonSolid = fillModeNonSolid
-        self.depthBounds = depthBounds
-        self.wideLines = wideLines
-        self.largePoints = largePoints
-        self.alphaToOne = alphaToOne
-        self.multiViewport = multiViewport
-        self.samplerAnisotropy = samplerAnisotropy
-        self.textureCompressionETC2 = textureCompressionETC2
-        self.textureCompressionASTC_LDR = textureCompressionASTC_LDR
-        self.textureCompressionBC = textureCompressionBC
-        self.occlusionQueryPrecise = occlusionQueryPrecise
-        self.pipelineStatisticsQuery = pipelineStatisticsQuery
-        self.vertexPipelineStoresAndAtomics = vertexPipelineStoresAndAtomics
-        self.fragmentStoresAndAtomics = fragmentStoresAndAtomics
-        self.shaderTessellationAndGeometryPointSize = shaderTessellationAndGeometryPointSize
-        self.shaderImageGatherExtended = shaderImageGatherExtended
-        self.shaderStorageImageExtendedFormats = shaderStorageImageExtendedFormats
-        self.shaderStorageImageMultisample = shaderStorageImageMultisample
-        self.shaderStorageImageReadWithoutFormat = shaderStorageImageReadWithoutFormat
-        self.shaderStorageImageWriteWithoutFormat = shaderStorageImageWriteWithoutFormat
-        self.shaderUniformBufferArrayDynamicIndexing = shaderUniformBufferArrayDynamicIndexing
-        self.shaderSampledImageArrayDynamicIndexing = shaderSampledImageArrayDynamicIndexing
-        self.shaderStorageBufferArrayDynamicIndexing = shaderStorageBufferArrayDynamicIndexing
-        self.shaderStorageImageArrayDynamicIndexing = shaderStorageImageArrayDynamicIndexing
-        self.shaderClipDistance = shaderClipDistance
-        self.shaderCullDistance = shaderCullDistance
-        self.shaderFloat64 = shaderFloat64
-        self.shaderInt64 = shaderInt64
-        self.shaderInt16 = shaderInt16
-        self.shaderResourceResidency = shaderResourceResidency
-        self.shaderResourceMinLod = shaderResourceMinLod
-        self.sparseBinding = sparseBinding
-        self.sparseResidencyBuffer = sparseResidencyBuffer
-        self.sparseResidencyImage2D = sparseResidencyImage2D
-        self.sparseResidencyImage3D = sparseResidencyImage3D
-        self.sparseResidency2Samples = sparseResidency2Samples
-        self.sparseResidency4Samples = sparseResidency4Samples
-        self.sparseResidency8Samples = sparseResidency8Samples
-        self.sparseResidency16Samples = sparseResidency16Samples
-        self.sparseResidencyAliased = sparseResidencyAliased
-        self.variableMultisampleRate = variableMultisampleRate
-        self.inheritedQueries = inheritedQueries
-    }
-
-    init(cStruct: VkPhysicalDeviceFeatures) {
-        self.robustBufferAccess = cStruct.robustBufferAccess == VK_TRUE
-        self.fullDrawIndexUint32 = cStruct.fullDrawIndexUint32 == VK_TRUE
-        self.imageCubeArray = cStruct.imageCubeArray == VK_TRUE
-        self.independentBlend = cStruct.independentBlend == VK_TRUE
-        self.geometryShader = cStruct.geometryShader == VK_TRUE
-        self.tessellationShader = cStruct.tessellationShader == VK_TRUE
-        self.sampleRateShading = cStruct.sampleRateShading == VK_TRUE
-        self.dualSrcBlend = cStruct.dualSrcBlend == VK_TRUE
-        self.logicOp = cStruct.logicOp == VK_TRUE
-        self.multiDrawIndirect = cStruct.multiDrawIndirect == VK_TRUE
-        self.drawIndirectFirstInstance = cStruct.drawIndirectFirstInstance == VK_TRUE
-        self.depthClamp = cStruct.depthClamp == VK_TRUE
-        self.depthBiasClamp = cStruct.depthBiasClamp == VK_TRUE
-        self.fillModeNonSolid = cStruct.fillModeNonSolid == VK_TRUE
-        self.depthBounds = cStruct.depthBounds == VK_TRUE
-        self.wideLines = cStruct.wideLines == VK_TRUE
-        self.largePoints = cStruct.largePoints == VK_TRUE
-        self.alphaToOne = cStruct.alphaToOne == VK_TRUE
-        self.multiViewport = cStruct.multiViewport == VK_TRUE
-        self.samplerAnisotropy = cStruct.samplerAnisotropy == VK_TRUE
-        self.textureCompressionETC2 = cStruct.textureCompressionETC2 == VK_TRUE
-        self.textureCompressionASTC_LDR = cStruct.textureCompressionASTC_LDR == VK_TRUE
-        self.textureCompressionBC = cStruct.textureCompressionBC == VK_TRUE
-        self.occlusionQueryPrecise = cStruct.occlusionQueryPrecise == VK_TRUE
-        self.pipelineStatisticsQuery = cStruct.pipelineStatisticsQuery == VK_TRUE
-        self.vertexPipelineStoresAndAtomics = cStruct.vertexPipelineStoresAndAtomics == VK_TRUE
-        self.fragmentStoresAndAtomics = cStruct.fragmentStoresAndAtomics == VK_TRUE
-        self.shaderTessellationAndGeometryPointSize = cStruct.shaderTessellationAndGeometryPointSize == VK_TRUE
-        self.shaderImageGatherExtended = cStruct.shaderImageGatherExtended == VK_TRUE
-        self.shaderStorageImageExtendedFormats = cStruct.shaderStorageImageExtendedFormats == VK_TRUE
-        self.shaderStorageImageMultisample = cStruct.shaderStorageImageMultisample == VK_TRUE
-        self.shaderStorageImageReadWithoutFormat = cStruct.shaderStorageImageReadWithoutFormat == VK_TRUE
-        self.shaderStorageImageWriteWithoutFormat = cStruct.shaderStorageImageWriteWithoutFormat == VK_TRUE
-        self.shaderUniformBufferArrayDynamicIndexing = cStruct.shaderUniformBufferArrayDynamicIndexing == VK_TRUE
-        self.shaderSampledImageArrayDynamicIndexing = cStruct.shaderSampledImageArrayDynamicIndexing == VK_TRUE
-        self.shaderStorageBufferArrayDynamicIndexing = cStruct.shaderStorageBufferArrayDynamicIndexing == VK_TRUE
-        self.shaderStorageImageArrayDynamicIndexing = cStruct.shaderStorageImageArrayDynamicIndexing == VK_TRUE
-        self.shaderClipDistance = cStruct.shaderClipDistance == VK_TRUE
-        self.shaderCullDistance = cStruct.shaderCullDistance == VK_TRUE
-        self.shaderFloat64 = cStruct.shaderFloat64 == VK_TRUE
-        self.shaderInt64 = cStruct.shaderInt64 == VK_TRUE
-        self.shaderInt16 = cStruct.shaderInt16 == VK_TRUE
-        self.shaderResourceResidency = cStruct.shaderResourceResidency == VK_TRUE
-        self.shaderResourceMinLod = cStruct.shaderResourceMinLod == VK_TRUE
-        self.sparseBinding = cStruct.sparseBinding == VK_TRUE
-        self.sparseResidencyBuffer = cStruct.sparseResidencyBuffer == VK_TRUE
-        self.sparseResidencyImage2D = cStruct.sparseResidencyImage2D == VK_TRUE
-        self.sparseResidencyImage3D = cStruct.sparseResidencyImage3D == VK_TRUE
-        self.sparseResidency2Samples = cStruct.sparseResidency2Samples == VK_TRUE
-        self.sparseResidency4Samples = cStruct.sparseResidency4Samples == VK_TRUE
-        self.sparseResidency8Samples = cStruct.sparseResidency8Samples == VK_TRUE
-        self.sparseResidency16Samples = cStruct.sparseResidency16Samples == VK_TRUE
-        self.sparseResidencyAliased = cStruct.sparseResidencyAliased == VK_TRUE
-        self.variableMultisampleRate = cStruct.variableMultisampleRate == VK_TRUE
-        self.inheritedQueries = cStruct.inheritedQueries == VK_TRUE
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceFeatures>) throws -> R) rethrows -> R {
-        var cStruct = VkPhysicalDeviceFeatures()
-        cStruct.robustBufferAccess = VkBool32(self.robustBufferAccess ? VK_TRUE : VK_FALSE)
-        cStruct.fullDrawIndexUint32 = VkBool32(self.fullDrawIndexUint32 ? VK_TRUE : VK_FALSE)
-        cStruct.imageCubeArray = VkBool32(self.imageCubeArray ? VK_TRUE : VK_FALSE)
-        cStruct.independentBlend = VkBool32(self.independentBlend ? VK_TRUE : VK_FALSE)
-        cStruct.geometryShader = VkBool32(self.geometryShader ? VK_TRUE : VK_FALSE)
-        cStruct.tessellationShader = VkBool32(self.tessellationShader ? VK_TRUE : VK_FALSE)
-        cStruct.sampleRateShading = VkBool32(self.sampleRateShading ? VK_TRUE : VK_FALSE)
-        cStruct.dualSrcBlend = VkBool32(self.dualSrcBlend ? VK_TRUE : VK_FALSE)
-        cStruct.logicOp = VkBool32(self.logicOp ? VK_TRUE : VK_FALSE)
-        cStruct.multiDrawIndirect = VkBool32(self.multiDrawIndirect ? VK_TRUE : VK_FALSE)
-        cStruct.drawIndirectFirstInstance = VkBool32(self.drawIndirectFirstInstance ? VK_TRUE : VK_FALSE)
-        cStruct.depthClamp = VkBool32(self.depthClamp ? VK_TRUE : VK_FALSE)
-        cStruct.depthBiasClamp = VkBool32(self.depthBiasClamp ? VK_TRUE : VK_FALSE)
-        cStruct.fillModeNonSolid = VkBool32(self.fillModeNonSolid ? VK_TRUE : VK_FALSE)
-        cStruct.depthBounds = VkBool32(self.depthBounds ? VK_TRUE : VK_FALSE)
-        cStruct.wideLines = VkBool32(self.wideLines ? VK_TRUE : VK_FALSE)
-        cStruct.largePoints = VkBool32(self.largePoints ? VK_TRUE : VK_FALSE)
-        cStruct.alphaToOne = VkBool32(self.alphaToOne ? VK_TRUE : VK_FALSE)
-        cStruct.multiViewport = VkBool32(self.multiViewport ? VK_TRUE : VK_FALSE)
-        cStruct.samplerAnisotropy = VkBool32(self.samplerAnisotropy ? VK_TRUE : VK_FALSE)
-        cStruct.textureCompressionETC2 = VkBool32(self.textureCompressionETC2 ? VK_TRUE : VK_FALSE)
-        cStruct.textureCompressionASTC_LDR = VkBool32(self.textureCompressionASTC_LDR ? VK_TRUE : VK_FALSE)
-        cStruct.textureCompressionBC = VkBool32(self.textureCompressionBC ? VK_TRUE : VK_FALSE)
-        cStruct.occlusionQueryPrecise = VkBool32(self.occlusionQueryPrecise ? VK_TRUE : VK_FALSE)
-        cStruct.pipelineStatisticsQuery = VkBool32(self.pipelineStatisticsQuery ? VK_TRUE : VK_FALSE)
-        cStruct.vertexPipelineStoresAndAtomics = VkBool32(self.vertexPipelineStoresAndAtomics ? VK_TRUE : VK_FALSE)
-        cStruct.fragmentStoresAndAtomics = VkBool32(self.fragmentStoresAndAtomics ? VK_TRUE : VK_FALSE)
-        cStruct.shaderTessellationAndGeometryPointSize = VkBool32(self.shaderTessellationAndGeometryPointSize ? VK_TRUE : VK_FALSE)
-        cStruct.shaderImageGatherExtended = VkBool32(self.shaderImageGatherExtended ? VK_TRUE : VK_FALSE)
-        cStruct.shaderStorageImageExtendedFormats = VkBool32(self.shaderStorageImageExtendedFormats ? VK_TRUE : VK_FALSE)
-        cStruct.shaderStorageImageMultisample = VkBool32(self.shaderStorageImageMultisample ? VK_TRUE : VK_FALSE)
-        cStruct.shaderStorageImageReadWithoutFormat = VkBool32(self.shaderStorageImageReadWithoutFormat ? VK_TRUE : VK_FALSE)
-        cStruct.shaderStorageImageWriteWithoutFormat = VkBool32(self.shaderStorageImageWriteWithoutFormat ? VK_TRUE : VK_FALSE)
-        cStruct.shaderUniformBufferArrayDynamicIndexing = VkBool32(self.shaderUniformBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
-        cStruct.shaderSampledImageArrayDynamicIndexing = VkBool32(self.shaderSampledImageArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
-        cStruct.shaderStorageBufferArrayDynamicIndexing = VkBool32(self.shaderStorageBufferArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
-        cStruct.shaderStorageImageArrayDynamicIndexing = VkBool32(self.shaderStorageImageArrayDynamicIndexing ? VK_TRUE : VK_FALSE)
-        cStruct.shaderClipDistance = VkBool32(self.shaderClipDistance ? VK_TRUE : VK_FALSE)
-        cStruct.shaderCullDistance = VkBool32(self.shaderCullDistance ? VK_TRUE : VK_FALSE)
-        cStruct.shaderFloat64 = VkBool32(self.shaderFloat64 ? VK_TRUE : VK_FALSE)
-        cStruct.shaderInt64 = VkBool32(self.shaderInt64 ? VK_TRUE : VK_FALSE)
-        cStruct.shaderInt16 = VkBool32(self.shaderInt16 ? VK_TRUE : VK_FALSE)
-        cStruct.shaderResourceResidency = VkBool32(self.shaderResourceResidency ? VK_TRUE : VK_FALSE)
-        cStruct.shaderResourceMinLod = VkBool32(self.shaderResourceMinLod ? VK_TRUE : VK_FALSE)
-        cStruct.sparseBinding = VkBool32(self.sparseBinding ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidencyBuffer = VkBool32(self.sparseResidencyBuffer ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidencyImage2D = VkBool32(self.sparseResidencyImage2D ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidencyImage3D = VkBool32(self.sparseResidencyImage3D ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidency2Samples = VkBool32(self.sparseResidency2Samples ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidency4Samples = VkBool32(self.sparseResidency4Samples ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidency8Samples = VkBool32(self.sparseResidency8Samples ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidency16Samples = VkBool32(self.sparseResidency16Samples ? VK_TRUE : VK_FALSE)
-        cStruct.sparseResidencyAliased = VkBool32(self.sparseResidencyAliased ? VK_TRUE : VK_FALSE)
-        cStruct.variableMultisampleRate = VkBool32(self.variableMultisampleRate ? VK_TRUE : VK_FALSE)
-        cStruct.inheritedQueries = VkBool32(self.inheritedQueries ? VK_TRUE : VK_FALSE)
-        return try body(&cStruct)
-    }
-}
-
-public struct PhysicalDeviceSparseProperties: CStructConvertible {
-    typealias CStruct = VkPhysicalDeviceSparseProperties
-
-    public let residencyStandard2DBlockShape: Bool
-    public let residencyStandard2DMultisampleBlockShape: Bool
-    public let residencyStandard3DBlockShape: Bool
-    public let residencyAlignedMipSize: Bool
-    public let residencyNonResidentStrict: Bool
-
-    init(cStruct: VkPhysicalDeviceSparseProperties) {
-        self.residencyStandard2DBlockShape = cStruct.residencyStandard2DBlockShape == VK_TRUE
-        self.residencyStandard2DMultisampleBlockShape = cStruct.residencyStandard2DMultisampleBlockShape == VK_TRUE
-        self.residencyStandard3DBlockShape = cStruct.residencyStandard3DBlockShape == VK_TRUE
-        self.residencyAlignedMipSize = cStruct.residencyAlignedMipSize == VK_TRUE
-        self.residencyNonResidentStrict = cStruct.residencyNonResidentStrict == VK_TRUE
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSparseProperties>) throws -> R) rethrows -> R {
-        var cStruct = VkPhysicalDeviceSparseProperties()
-        cStruct.residencyStandard2DBlockShape = VkBool32(self.residencyStandard2DBlockShape ? VK_TRUE : VK_FALSE)
-        cStruct.residencyStandard2DMultisampleBlockShape = VkBool32(self.residencyStandard2DMultisampleBlockShape ? VK_TRUE : VK_FALSE)
-        cStruct.residencyStandard3DBlockShape = VkBool32(self.residencyStandard3DBlockShape ? VK_TRUE : VK_FALSE)
-        cStruct.residencyAlignedMipSize = VkBool32(self.residencyAlignedMipSize ? VK_TRUE : VK_FALSE)
-        cStruct.residencyNonResidentStrict = VkBool32(self.residencyNonResidentStrict ? VK_TRUE : VK_FALSE)
-        return try body(&cStruct)
-    }
-}
-
-public struct PhysicalDeviceLimits: CStructConvertible {
-    typealias CStruct = VkPhysicalDeviceLimits
-
-    public let maxImageDimension1D: UInt32
-    public let maxImageDimension2D: UInt32
-    public let maxImageDimension3D: UInt32
-    public let maxImageDimensionCube: UInt32
-    public let maxImageArrayLayers: UInt32
-    public let maxTexelBufferElements: UInt32
-    public let maxUniformBufferRange: UInt32
-    public let maxStorageBufferRange: UInt32
-    public let maxPushConstantsSize: UInt32
-    public let maxMemoryAllocationCount: UInt32
-    public let maxSamplerAllocationCount: UInt32
-    public let bufferImageGranularity: VkDeviceSize
-    public let sparseAddressSpaceSize: VkDeviceSize
-    public let maxBoundDescriptorSets: UInt32
-    public let maxPerStageDescriptorSamplers: UInt32
-    public let maxPerStageDescriptorUniformBuffers: UInt32
-    public let maxPerStageDescriptorStorageBuffers: UInt32
-    public let maxPerStageDescriptorSampledImages: UInt32
-    public let maxPerStageDescriptorStorageImages: UInt32
-    public let maxPerStageDescriptorInputAttachments: UInt32
-    public let maxPerStageResources: UInt32
-    public let maxDescriptorSetSamplers: UInt32
-    public let maxDescriptorSetUniformBuffers: UInt32
-    public let maxDescriptorSetUniformBuffersDynamic: UInt32
-    public let maxDescriptorSetStorageBuffers: UInt32
-    public let maxDescriptorSetStorageBuffersDynamic: UInt32
-    public let maxDescriptorSetSampledImages: UInt32
-    public let maxDescriptorSetStorageImages: UInt32
-    public let maxDescriptorSetInputAttachments: UInt32
-    public let maxVertexInputAttributes: UInt32
-    public let maxVertexInputBindings: UInt32
-    public let maxVertexInputAttributeOffset: UInt32
-    public let maxVertexInputBindingStride: UInt32
-    public let maxVertexOutputComponents: UInt32
-    public let maxTessellationGenerationLevel: UInt32
-    public let maxTessellationPatchSize: UInt32
-    public let maxTessellationControlPerVertexInputComponents: UInt32
-    public let maxTessellationControlPerVertexOutputComponents: UInt32
-    public let maxTessellationControlPerPatchOutputComponents: UInt32
-    public let maxTessellationControlTotalOutputComponents: UInt32
-    public let maxTessellationEvaluationInputComponents: UInt32
-    public let maxTessellationEvaluationOutputComponents: UInt32
-    public let maxGeometryShaderInvocations: UInt32
-    public let maxGeometryInputComponents: UInt32
-    public let maxGeometryOutputComponents: UInt32
-    public let maxGeometryOutputVertices: UInt32
-    public let maxGeometryTotalOutputComponents: UInt32
-    public let maxFragmentInputComponents: UInt32
-    public let maxFragmentOutputAttachments: UInt32
-    public let maxFragmentDualSrcAttachments: UInt32
-    public let maxFragmentCombinedOutputResources: UInt32
-    public let maxComputeSharedMemorySize: UInt32
-    public let maxComputeWorkGroupCount: (UInt32, UInt32, UInt32)
-    public let maxComputeWorkGroupInvocations: UInt32
-    public let maxComputeWorkGroupSize: (UInt32, UInt32, UInt32)
-    public let subPixelPrecisionBits: UInt32
-    public let subTexelPrecisionBits: UInt32
-    public let mipmapPrecisionBits: UInt32
-    public let maxDrawIndexedIndexValue: UInt32
-    public let maxDrawIndirectCount: UInt32
-    public let maxSamplerLodBias: Float
-    public let maxSamplerAnisotropy: Float
-    public let maxViewports: UInt32
-    public let maxViewportDimensions: (UInt32, UInt32)
-    public let viewportBoundsRange: (Float, Float)
-    public let viewportSubPixelBits: UInt32
-    public let minMemoryMapAlignment: Int
-    public let minTexelBufferOffsetAlignment: VkDeviceSize
-    public let minUniformBufferOffsetAlignment: VkDeviceSize
-    public let minStorageBufferOffsetAlignment: VkDeviceSize
-    public let minTexelOffset: Int32
-    public let maxTexelOffset: UInt32
-    public let minTexelGatherOffset: Int32
-    public let maxTexelGatherOffset: UInt32
-    public let minInterpolationOffset: Float
-    public let maxInterpolationOffset: Float
-    public let subPixelInterpolationOffsetBits: UInt32
-    public let maxFramebufferWidth: UInt32
-    public let maxFramebufferHeight: UInt32
-    public let maxFramebufferLayers: UInt32
-    public let framebufferColorSampleCounts: SampleCountFlags
-    public let framebufferDepthSampleCounts: SampleCountFlags
-    public let framebufferStencilSampleCounts: SampleCountFlags
-    public let framebufferNoAttachmentsSampleCounts: SampleCountFlags
-    public let maxColorAttachments: UInt32
-    public let sampledImageColorSampleCounts: SampleCountFlags
-    public let sampledImageIntegerSampleCounts: SampleCountFlags
-    public let sampledImageDepthSampleCounts: SampleCountFlags
-    public let sampledImageStencilSampleCounts: SampleCountFlags
-    public let storageImageSampleCounts: SampleCountFlags
-    public let maxSampleMaskWords: UInt32
-    public let timestampComputeAndGraphics: Bool
-    public let timestampPeriod: Float
-    public let maxClipDistances: UInt32
-    public let maxCullDistances: UInt32
-    public let maxCombinedClipAndCullDistances: UInt32
-    public let discreteQueuePriorities: UInt32
-    public let pointSizeRange: (Float, Float)
-    public let lineWidthRange: (Float, Float)
-    public let pointSizeGranularity: Float
-    public let lineWidthGranularity: Float
-    public let strictLines: Bool
-    public let standardSampleLocations: Bool
-    public let optimalBufferCopyOffsetAlignment: VkDeviceSize
-    public let optimalBufferCopyRowPitchAlignment: VkDeviceSize
-    public let nonCoherentAtomSize: VkDeviceSize
-
-    init(cStruct: VkPhysicalDeviceLimits) {
-        self.maxImageDimension1D = cStruct.maxImageDimension1D
-        self.maxImageDimension2D = cStruct.maxImageDimension2D
-        self.maxImageDimension3D = cStruct.maxImageDimension3D
-        self.maxImageDimensionCube = cStruct.maxImageDimensionCube
-        self.maxImageArrayLayers = cStruct.maxImageArrayLayers
-        self.maxTexelBufferElements = cStruct.maxTexelBufferElements
-        self.maxUniformBufferRange = cStruct.maxUniformBufferRange
-        self.maxStorageBufferRange = cStruct.maxStorageBufferRange
-        self.maxPushConstantsSize = cStruct.maxPushConstantsSize
-        self.maxMemoryAllocationCount = cStruct.maxMemoryAllocationCount
-        self.maxSamplerAllocationCount = cStruct.maxSamplerAllocationCount
-        self.bufferImageGranularity = cStruct.bufferImageGranularity
-        self.sparseAddressSpaceSize = cStruct.sparseAddressSpaceSize
-        self.maxBoundDescriptorSets = cStruct.maxBoundDescriptorSets
-        self.maxPerStageDescriptorSamplers = cStruct.maxPerStageDescriptorSamplers
-        self.maxPerStageDescriptorUniformBuffers = cStruct.maxPerStageDescriptorUniformBuffers
-        self.maxPerStageDescriptorStorageBuffers = cStruct.maxPerStageDescriptorStorageBuffers
-        self.maxPerStageDescriptorSampledImages = cStruct.maxPerStageDescriptorSampledImages
-        self.maxPerStageDescriptorStorageImages = cStruct.maxPerStageDescriptorStorageImages
-        self.maxPerStageDescriptorInputAttachments = cStruct.maxPerStageDescriptorInputAttachments
-        self.maxPerStageResources = cStruct.maxPerStageResources
-        self.maxDescriptorSetSamplers = cStruct.maxDescriptorSetSamplers
-        self.maxDescriptorSetUniformBuffers = cStruct.maxDescriptorSetUniformBuffers
-        self.maxDescriptorSetUniformBuffersDynamic = cStruct.maxDescriptorSetUniformBuffersDynamic
-        self.maxDescriptorSetStorageBuffers = cStruct.maxDescriptorSetStorageBuffers
-        self.maxDescriptorSetStorageBuffersDynamic = cStruct.maxDescriptorSetStorageBuffersDynamic
-        self.maxDescriptorSetSampledImages = cStruct.maxDescriptorSetSampledImages
-        self.maxDescriptorSetStorageImages = cStruct.maxDescriptorSetStorageImages
-        self.maxDescriptorSetInputAttachments = cStruct.maxDescriptorSetInputAttachments
-        self.maxVertexInputAttributes = cStruct.maxVertexInputAttributes
-        self.maxVertexInputBindings = cStruct.maxVertexInputBindings
-        self.maxVertexInputAttributeOffset = cStruct.maxVertexInputAttributeOffset
-        self.maxVertexInputBindingStride = cStruct.maxVertexInputBindingStride
-        self.maxVertexOutputComponents = cStruct.maxVertexOutputComponents
-        self.maxTessellationGenerationLevel = cStruct.maxTessellationGenerationLevel
-        self.maxTessellationPatchSize = cStruct.maxTessellationPatchSize
-        self.maxTessellationControlPerVertexInputComponents = cStruct.maxTessellationControlPerVertexInputComponents
-        self.maxTessellationControlPerVertexOutputComponents = cStruct.maxTessellationControlPerVertexOutputComponents
-        self.maxTessellationControlPerPatchOutputComponents = cStruct.maxTessellationControlPerPatchOutputComponents
-        self.maxTessellationControlTotalOutputComponents = cStruct.maxTessellationControlTotalOutputComponents
-        self.maxTessellationEvaluationInputComponents = cStruct.maxTessellationEvaluationInputComponents
-        self.maxTessellationEvaluationOutputComponents = cStruct.maxTessellationEvaluationOutputComponents
-        self.maxGeometryShaderInvocations = cStruct.maxGeometryShaderInvocations
-        self.maxGeometryInputComponents = cStruct.maxGeometryInputComponents
-        self.maxGeometryOutputComponents = cStruct.maxGeometryOutputComponents
-        self.maxGeometryOutputVertices = cStruct.maxGeometryOutputVertices
-        self.maxGeometryTotalOutputComponents = cStruct.maxGeometryTotalOutputComponents
-        self.maxFragmentInputComponents = cStruct.maxFragmentInputComponents
-        self.maxFragmentOutputAttachments = cStruct.maxFragmentOutputAttachments
-        self.maxFragmentDualSrcAttachments = cStruct.maxFragmentDualSrcAttachments
-        self.maxFragmentCombinedOutputResources = cStruct.maxFragmentCombinedOutputResources
-        self.maxComputeSharedMemorySize = cStruct.maxComputeSharedMemorySize
-        self.maxComputeWorkGroupCount = cStruct.maxComputeWorkGroupCount
-        self.maxComputeWorkGroupInvocations = cStruct.maxComputeWorkGroupInvocations
-        self.maxComputeWorkGroupSize = cStruct.maxComputeWorkGroupSize
-        self.subPixelPrecisionBits = cStruct.subPixelPrecisionBits
-        self.subTexelPrecisionBits = cStruct.subTexelPrecisionBits
-        self.mipmapPrecisionBits = cStruct.mipmapPrecisionBits
-        self.maxDrawIndexedIndexValue = cStruct.maxDrawIndexedIndexValue
-        self.maxDrawIndirectCount = cStruct.maxDrawIndirectCount
-        self.maxSamplerLodBias = cStruct.maxSamplerLodBias
-        self.maxSamplerAnisotropy = cStruct.maxSamplerAnisotropy
-        self.maxViewports = cStruct.maxViewports
-        self.maxViewportDimensions = cStruct.maxViewportDimensions
-        self.viewportBoundsRange = cStruct.viewportBoundsRange
-        self.viewportSubPixelBits = cStruct.viewportSubPixelBits
-        self.minMemoryMapAlignment = cStruct.minMemoryMapAlignment
-        self.minTexelBufferOffsetAlignment = cStruct.minTexelBufferOffsetAlignment
-        self.minUniformBufferOffsetAlignment = cStruct.minUniformBufferOffsetAlignment
-        self.minStorageBufferOffsetAlignment = cStruct.minStorageBufferOffsetAlignment
-        self.minTexelOffset = cStruct.minTexelOffset
-        self.maxTexelOffset = cStruct.maxTexelOffset
-        self.minTexelGatherOffset = cStruct.minTexelGatherOffset
-        self.maxTexelGatherOffset = cStruct.maxTexelGatherOffset
-        self.minInterpolationOffset = cStruct.minInterpolationOffset
-        self.maxInterpolationOffset = cStruct.maxInterpolationOffset
-        self.subPixelInterpolationOffsetBits = cStruct.subPixelInterpolationOffsetBits
-        self.maxFramebufferWidth = cStruct.maxFramebufferWidth
-        self.maxFramebufferHeight = cStruct.maxFramebufferHeight
-        self.maxFramebufferLayers = cStruct.maxFramebufferLayers
-        self.framebufferColorSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferColorSampleCounts)
-        self.framebufferDepthSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferDepthSampleCounts)
-        self.framebufferStencilSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferStencilSampleCounts)
-        self.framebufferNoAttachmentsSampleCounts = SampleCountFlags(rawValue: cStruct.framebufferNoAttachmentsSampleCounts)
-        self.maxColorAttachments = cStruct.maxColorAttachments
-        self.sampledImageColorSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageColorSampleCounts)
-        self.sampledImageIntegerSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageIntegerSampleCounts)
-        self.sampledImageDepthSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageDepthSampleCounts)
-        self.sampledImageStencilSampleCounts = SampleCountFlags(rawValue: cStruct.sampledImageStencilSampleCounts)
-        self.storageImageSampleCounts = SampleCountFlags(rawValue: cStruct.storageImageSampleCounts)
-        self.maxSampleMaskWords = cStruct.maxSampleMaskWords
-        self.timestampComputeAndGraphics = cStruct.timestampComputeAndGraphics == VK_TRUE
-        self.timestampPeriod = cStruct.timestampPeriod
-        self.maxClipDistances = cStruct.maxClipDistances
-        self.maxCullDistances = cStruct.maxCullDistances
-        self.maxCombinedClipAndCullDistances = cStruct.maxCombinedClipAndCullDistances
-        self.discreteQueuePriorities = cStruct.discreteQueuePriorities
-        self.pointSizeRange = cStruct.pointSizeRange
-        self.lineWidthRange = cStruct.lineWidthRange
-        self.pointSizeGranularity = cStruct.pointSizeGranularity
-        self.lineWidthGranularity = cStruct.lineWidthGranularity
-        self.strictLines = cStruct.strictLines == VK_TRUE
-        self.standardSampleLocations = cStruct.standardSampleLocations == VK_TRUE
-        self.optimalBufferCopyOffsetAlignment = cStruct.optimalBufferCopyOffsetAlignment
-        self.optimalBufferCopyRowPitchAlignment = cStruct.optimalBufferCopyRowPitchAlignment
-        self.nonCoherentAtomSize = cStruct.nonCoherentAtomSize
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceLimits>) throws -> R) rethrows -> R {
-        var cStruct = VkPhysicalDeviceLimits()
-        cStruct.maxImageDimension1D = self.maxImageDimension1D
-        cStruct.maxImageDimension2D = self.maxImageDimension2D
-        cStruct.maxImageDimension3D = self.maxImageDimension3D
-        cStruct.maxImageDimensionCube = self.maxImageDimensionCube
-        cStruct.maxImageArrayLayers = self.maxImageArrayLayers
-        cStruct.maxTexelBufferElements = self.maxTexelBufferElements
-        cStruct.maxUniformBufferRange = self.maxUniformBufferRange
-        cStruct.maxStorageBufferRange = self.maxStorageBufferRange
-        cStruct.maxPushConstantsSize = self.maxPushConstantsSize
-        cStruct.maxMemoryAllocationCount = self.maxMemoryAllocationCount
-        cStruct.maxSamplerAllocationCount = self.maxSamplerAllocationCount
-        cStruct.bufferImageGranularity = self.bufferImageGranularity
-        cStruct.sparseAddressSpaceSize = self.sparseAddressSpaceSize
-        cStruct.maxBoundDescriptorSets = self.maxBoundDescriptorSets
-        cStruct.maxPerStageDescriptorSamplers = self.maxPerStageDescriptorSamplers
-        cStruct.maxPerStageDescriptorUniformBuffers = self.maxPerStageDescriptorUniformBuffers
-        cStruct.maxPerStageDescriptorStorageBuffers = self.maxPerStageDescriptorStorageBuffers
-        cStruct.maxPerStageDescriptorSampledImages = self.maxPerStageDescriptorSampledImages
-        cStruct.maxPerStageDescriptorStorageImages = self.maxPerStageDescriptorStorageImages
-        cStruct.maxPerStageDescriptorInputAttachments = self.maxPerStageDescriptorInputAttachments
-        cStruct.maxPerStageResources = self.maxPerStageResources
-        cStruct.maxDescriptorSetSamplers = self.maxDescriptorSetSamplers
-        cStruct.maxDescriptorSetUniformBuffers = self.maxDescriptorSetUniformBuffers
-        cStruct.maxDescriptorSetUniformBuffersDynamic = self.maxDescriptorSetUniformBuffersDynamic
-        cStruct.maxDescriptorSetStorageBuffers = self.maxDescriptorSetStorageBuffers
-        cStruct.maxDescriptorSetStorageBuffersDynamic = self.maxDescriptorSetStorageBuffersDynamic
-        cStruct.maxDescriptorSetSampledImages = self.maxDescriptorSetSampledImages
-        cStruct.maxDescriptorSetStorageImages = self.maxDescriptorSetStorageImages
-        cStruct.maxDescriptorSetInputAttachments = self.maxDescriptorSetInputAttachments
-        cStruct.maxVertexInputAttributes = self.maxVertexInputAttributes
-        cStruct.maxVertexInputBindings = self.maxVertexInputBindings
-        cStruct.maxVertexInputAttributeOffset = self.maxVertexInputAttributeOffset
-        cStruct.maxVertexInputBindingStride = self.maxVertexInputBindingStride
-        cStruct.maxVertexOutputComponents = self.maxVertexOutputComponents
-        cStruct.maxTessellationGenerationLevel = self.maxTessellationGenerationLevel
-        cStruct.maxTessellationPatchSize = self.maxTessellationPatchSize
-        cStruct.maxTessellationControlPerVertexInputComponents = self.maxTessellationControlPerVertexInputComponents
-        cStruct.maxTessellationControlPerVertexOutputComponents = self.maxTessellationControlPerVertexOutputComponents
-        cStruct.maxTessellationControlPerPatchOutputComponents = self.maxTessellationControlPerPatchOutputComponents
-        cStruct.maxTessellationControlTotalOutputComponents = self.maxTessellationControlTotalOutputComponents
-        cStruct.maxTessellationEvaluationInputComponents = self.maxTessellationEvaluationInputComponents
-        cStruct.maxTessellationEvaluationOutputComponents = self.maxTessellationEvaluationOutputComponents
-        cStruct.maxGeometryShaderInvocations = self.maxGeometryShaderInvocations
-        cStruct.maxGeometryInputComponents = self.maxGeometryInputComponents
-        cStruct.maxGeometryOutputComponents = self.maxGeometryOutputComponents
-        cStruct.maxGeometryOutputVertices = self.maxGeometryOutputVertices
-        cStruct.maxGeometryTotalOutputComponents = self.maxGeometryTotalOutputComponents
-        cStruct.maxFragmentInputComponents = self.maxFragmentInputComponents
-        cStruct.maxFragmentOutputAttachments = self.maxFragmentOutputAttachments
-        cStruct.maxFragmentDualSrcAttachments = self.maxFragmentDualSrcAttachments
-        cStruct.maxFragmentCombinedOutputResources = self.maxFragmentCombinedOutputResources
-        cStruct.maxComputeSharedMemorySize = self.maxComputeSharedMemorySize
-        cStruct.maxComputeWorkGroupCount = self.maxComputeWorkGroupCount
-        cStruct.maxComputeWorkGroupInvocations = self.maxComputeWorkGroupInvocations
-        cStruct.maxComputeWorkGroupSize = self.maxComputeWorkGroupSize
-        cStruct.subPixelPrecisionBits = self.subPixelPrecisionBits
-        cStruct.subTexelPrecisionBits = self.subTexelPrecisionBits
-        cStruct.mipmapPrecisionBits = self.mipmapPrecisionBits
-        cStruct.maxDrawIndexedIndexValue = self.maxDrawIndexedIndexValue
-        cStruct.maxDrawIndirectCount = self.maxDrawIndirectCount
-        cStruct.maxSamplerLodBias = self.maxSamplerLodBias
-        cStruct.maxSamplerAnisotropy = self.maxSamplerAnisotropy
-        cStruct.maxViewports = self.maxViewports
-        cStruct.maxViewportDimensions = self.maxViewportDimensions
-        cStruct.viewportBoundsRange = self.viewportBoundsRange
-        cStruct.viewportSubPixelBits = self.viewportSubPixelBits
-        cStruct.minMemoryMapAlignment = self.minMemoryMapAlignment
-        cStruct.minTexelBufferOffsetAlignment = self.minTexelBufferOffsetAlignment
-        cStruct.minUniformBufferOffsetAlignment = self.minUniformBufferOffsetAlignment
-        cStruct.minStorageBufferOffsetAlignment = self.minStorageBufferOffsetAlignment
-        cStruct.minTexelOffset = self.minTexelOffset
-        cStruct.maxTexelOffset = self.maxTexelOffset
-        cStruct.minTexelGatherOffset = self.minTexelGatherOffset
-        cStruct.maxTexelGatherOffset = self.maxTexelGatherOffset
-        cStruct.minInterpolationOffset = self.minInterpolationOffset
-        cStruct.maxInterpolationOffset = self.maxInterpolationOffset
-        cStruct.subPixelInterpolationOffsetBits = self.subPixelInterpolationOffsetBits
-        cStruct.maxFramebufferWidth = self.maxFramebufferWidth
-        cStruct.maxFramebufferHeight = self.maxFramebufferHeight
-        cStruct.maxFramebufferLayers = self.maxFramebufferLayers
-        cStruct.framebufferColorSampleCounts = self.framebufferColorSampleCounts.rawValue
-        cStruct.framebufferDepthSampleCounts = self.framebufferDepthSampleCounts.rawValue
-        cStruct.framebufferStencilSampleCounts = self.framebufferStencilSampleCounts.rawValue
-        cStruct.framebufferNoAttachmentsSampleCounts = self.framebufferNoAttachmentsSampleCounts.rawValue
-        cStruct.maxColorAttachments = self.maxColorAttachments
-        cStruct.sampledImageColorSampleCounts = self.sampledImageColorSampleCounts.rawValue
-        cStruct.sampledImageIntegerSampleCounts = self.sampledImageIntegerSampleCounts.rawValue
-        cStruct.sampledImageDepthSampleCounts = self.sampledImageDepthSampleCounts.rawValue
-        cStruct.sampledImageStencilSampleCounts = self.sampledImageStencilSampleCounts.rawValue
-        cStruct.storageImageSampleCounts = self.storageImageSampleCounts.rawValue
-        cStruct.maxSampleMaskWords = self.maxSampleMaskWords
-        cStruct.timestampComputeAndGraphics = VkBool32(self.timestampComputeAndGraphics ? VK_TRUE : VK_FALSE)
-        cStruct.timestampPeriod = self.timestampPeriod
-        cStruct.maxClipDistances = self.maxClipDistances
-        cStruct.maxCullDistances = self.maxCullDistances
-        cStruct.maxCombinedClipAndCullDistances = self.maxCombinedClipAndCullDistances
-        cStruct.discreteQueuePriorities = self.discreteQueuePriorities
-        cStruct.pointSizeRange = self.pointSizeRange
-        cStruct.lineWidthRange = self.lineWidthRange
-        cStruct.pointSizeGranularity = self.pointSizeGranularity
-        cStruct.lineWidthGranularity = self.lineWidthGranularity
-        cStruct.strictLines = VkBool32(self.strictLines ? VK_TRUE : VK_FALSE)
-        cStruct.standardSampleLocations = VkBool32(self.standardSampleLocations ? VK_TRUE : VK_FALSE)
-        cStruct.optimalBufferCopyOffsetAlignment = self.optimalBufferCopyOffsetAlignment
-        cStruct.optimalBufferCopyRowPitchAlignment = self.optimalBufferCopyRowPitchAlignment
-        cStruct.nonCoherentAtomSize = self.nonCoherentAtomSize
-        return try body(&cStruct)
-    }
-}
-
 public struct SemaphoreCreateInfo: CStructConvertible {
     typealias CStruct = VkSemaphoreCreateInfo
 
@@ -5712,54 +5670,6 @@ public struct PhysicalDeviceDriverProperties: CStructConvertible {
     }
 }
 
-public struct PresentRegionsKHR: CStructConvertible {
-    typealias CStruct = VkPresentRegionsKHR
-
-    public let regions: Array<PresentRegionKHR>?
-
-    public init(regions: Array<PresentRegionKHR>?) {
-        self.regions = regions
-    }
-
-    init(cStruct: VkPresentRegionsKHR) {
-        self.regions = (cStruct.pRegions != nil) ? UnsafeBufferPointer(start: cStruct.pRegions, count: Int(cStruct.swapchainCount)).map{ PresentRegionKHR(cStruct: $0) } : nil
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionsKHR>) throws -> R) rethrows -> R {
-        try self.regions.withOptionalCStructBufferPointer { ptr_regions in
-            var cStruct = VkPresentRegionsKHR()
-            cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR
-            cStruct.pNext = nil
-            cStruct.swapchainCount = UInt32(ptr_regions.count)
-            cStruct.pRegions = ptr_regions.baseAddress
-            return try body(&cStruct)
-        }
-    }
-}
-
-public struct PresentRegionKHR: CStructConvertible {
-    typealias CStruct = VkPresentRegionKHR
-
-    public let rectangles: Array<RectLayerKHR>?
-
-    public init(rectangles: Array<RectLayerKHR>?) {
-        self.rectangles = rectangles
-    }
-
-    init(cStruct: VkPresentRegionKHR) {
-        self.rectangles = (cStruct.pRectangles != nil) ? UnsafeBufferPointer(start: cStruct.pRectangles, count: Int(cStruct.rectangleCount)).map{ RectLayerKHR(cStruct: $0) } : nil
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionKHR>) throws -> R) rethrows -> R {
-        try self.rectangles.withOptionalCStructBufferPointer { ptr_rectangles in
-            var cStruct = VkPresentRegionKHR()
-            cStruct.rectangleCount = UInt32(ptr_rectangles.count)
-            cStruct.pRectangles = ptr_rectangles.baseAddress
-            return try body(&cStruct)
-        }
-    }
-}
-
 public struct RectLayerKHR: CStructConvertible {
     typealias CStruct = VkRectLayerKHR
 
@@ -5788,6 +5698,54 @@ public struct RectLayerKHR: CStructConvertible {
                 cStruct.layer = self.layer
                 return try body(&cStruct)
             }
+        }
+    }
+}
+
+public struct PresentRegionKHR: CStructConvertible {
+    typealias CStruct = VkPresentRegionKHR
+
+    public let rectangles: Array<RectLayerKHR>?
+
+    public init(rectangles: Array<RectLayerKHR>?) {
+        self.rectangles = rectangles
+    }
+
+    init(cStruct: VkPresentRegionKHR) {
+        self.rectangles = (cStruct.pRectangles != nil) ? UnsafeBufferPointer(start: cStruct.pRectangles, count: Int(cStruct.rectangleCount)).map{ RectLayerKHR(cStruct: $0) } : nil
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionKHR>) throws -> R) rethrows -> R {
+        try self.rectangles.withOptionalCStructBufferPointer { ptr_rectangles in
+            var cStruct = VkPresentRegionKHR()
+            cStruct.rectangleCount = UInt32(ptr_rectangles.count)
+            cStruct.pRectangles = ptr_rectangles.baseAddress
+            return try body(&cStruct)
+        }
+    }
+}
+
+public struct PresentRegionsKHR: CStructConvertible {
+    typealias CStruct = VkPresentRegionsKHR
+
+    public let regions: Array<PresentRegionKHR>?
+
+    public init(regions: Array<PresentRegionKHR>?) {
+        self.regions = regions
+    }
+
+    init(cStruct: VkPresentRegionsKHR) {
+        self.regions = (cStruct.pRegions != nil) ? UnsafeBufferPointer(start: cStruct.pRegions, count: Int(cStruct.swapchainCount)).map{ PresentRegionKHR(cStruct: $0) } : nil
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentRegionsKHR>) throws -> R) rethrows -> R {
+        try self.regions.withOptionalCStructBufferPointer { ptr_regions in
+            var cStruct = VkPresentRegionsKHR()
+            cStruct.sType = VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR
+            cStruct.pNext = nil
+            cStruct.swapchainCount = UInt32(ptr_regions.count)
+            cStruct.pRegions = ptr_regions.baseAddress
+            return try body(&cStruct)
         }
     }
 }
@@ -6585,9 +6543,7 @@ public struct PhysicalDeviceGroupProperties: CStructConvertible {
     public let subsetAllocation: Bool
 
     init(cStruct: VkPhysicalDeviceGroupProperties) {
-        self.physicalDeviceCount = cStruct.physicalDeviceCount
-        self.physicalDevices = cStruct.physicalDevices
-        self.subsetAllocation = cStruct.subsetAllocation == VK_TRUE
+        fatalError("This initializer should be removed.")
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceGroupProperties>) throws -> R) rethrows -> R {
@@ -7283,6 +7239,30 @@ public struct PastPresentationTimingGOOGLE: CStructConvertible {
     }
 }
 
+public struct PresentTimeGOOGLE: CStructConvertible {
+    typealias CStruct = VkPresentTimeGOOGLE
+
+    public let presentID: UInt32
+    public let desiredPresentTime: UInt64
+
+    public init(presentID: UInt32, desiredPresentTime: UInt64) {
+        self.presentID = presentID
+        self.desiredPresentTime = desiredPresentTime
+    }
+
+    init(cStruct: VkPresentTimeGOOGLE) {
+        self.presentID = cStruct.presentID
+        self.desiredPresentTime = cStruct.desiredPresentTime
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkPresentTimeGOOGLE>) throws -> R) rethrows -> R {
+        var cStruct = VkPresentTimeGOOGLE()
+        cStruct.presentID = self.presentID
+        cStruct.desiredPresentTime = self.desiredPresentTime
+        return try body(&cStruct)
+    }
+}
+
 public struct PresentTimesInfoGOOGLE: CStructConvertible {
     typealias CStruct = VkPresentTimesInfoGOOGLE
 
@@ -7305,30 +7285,6 @@ public struct PresentTimesInfoGOOGLE: CStructConvertible {
             cStruct.pTimes = ptr_times.baseAddress
             return try body(&cStruct)
         }
-    }
-}
-
-public struct PresentTimeGOOGLE: CStructConvertible {
-    typealias CStruct = VkPresentTimeGOOGLE
-
-    public let presentID: UInt32
-    public let desiredPresentTime: UInt64
-
-    public init(presentID: UInt32, desiredPresentTime: UInt64) {
-        self.presentID = presentID
-        self.desiredPresentTime = desiredPresentTime
-    }
-
-    init(cStruct: VkPresentTimeGOOGLE) {
-        self.presentID = cStruct.presentID
-        self.desiredPresentTime = cStruct.desiredPresentTime
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkPresentTimeGOOGLE>) throws -> R) rethrows -> R {
-        var cStruct = VkPresentTimeGOOGLE()
-        cStruct.presentID = self.presentID
-        cStruct.desiredPresentTime = self.desiredPresentTime
-        return try body(&cStruct)
     }
 }
 
@@ -11678,27 +11634,6 @@ public struct PhysicalDeviceRayTracingPropertiesNV: CStructConvertible {
     }
 }
 
-public struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
-    typealias CStruct = VkDrmFormatModifierPropertiesListEXT
-
-    public let drmFormatModifierCount: UInt32
-    public let drmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
-
-    init(cStruct: VkDrmFormatModifierPropertiesListEXT) {
-        self.drmFormatModifierCount = cStruct.drmFormatModifierCount
-        self.drmFormatModifierProperties = cStruct.pDrmFormatModifierProperties
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkDrmFormatModifierPropertiesListEXT>) throws -> R) rethrows -> R {
-        var cStruct = VkDrmFormatModifierPropertiesListEXT()
-        cStruct.sType = VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT
-        cStruct.pNext = nil
-        cStruct.drmFormatModifierCount = self.drmFormatModifierCount
-        cStruct.pDrmFormatModifierProperties = self.drmFormatModifierProperties
-        return try body(&cStruct)
-    }
-}
-
 public struct DrmFormatModifierPropertiesEXT: CStructConvertible {
     typealias CStruct = VkDrmFormatModifierPropertiesEXT
 
@@ -11717,6 +11652,27 @@ public struct DrmFormatModifierPropertiesEXT: CStructConvertible {
         cStruct.drmFormatModifier = self.drmFormatModifier
         cStruct.drmFormatModifierPlaneCount = self.drmFormatModifierPlaneCount
         cStruct.drmFormatModifierTilingFeatures = self.drmFormatModifierTilingFeatures.rawValue
+        return try body(&cStruct)
+    }
+}
+
+public struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
+    typealias CStruct = VkDrmFormatModifierPropertiesListEXT
+
+    public let drmFormatModifierCount: UInt32
+    public let drmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
+
+    init(cStruct: VkDrmFormatModifierPropertiesListEXT) {
+        self.drmFormatModifierCount = cStruct.drmFormatModifierCount
+        self.drmFormatModifierProperties = cStruct.pDrmFormatModifierProperties
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkDrmFormatModifierPropertiesListEXT>) throws -> R) rethrows -> R {
+        var cStruct = VkDrmFormatModifierPropertiesListEXT()
+        cStruct.sType = VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT
+        cStruct.pNext = nil
+        cStruct.drmFormatModifierCount = self.drmFormatModifierCount
+        cStruct.pDrmFormatModifierProperties = self.drmFormatModifierProperties
         return try body(&cStruct)
     }
 }
@@ -12316,31 +12272,6 @@ public struct PhysicalDeviceImagelessFramebufferFeatures: CStructConvertible {
     }
 }
 
-public struct FramebufferAttachmentsCreateInfo: CStructConvertible {
-    typealias CStruct = VkFramebufferAttachmentsCreateInfo
-
-    public let attachmentImageInfos: Array<FramebufferAttachmentImageInfo>
-
-    public init(attachmentImageInfos: Array<FramebufferAttachmentImageInfo>) {
-        self.attachmentImageInfos = attachmentImageInfos
-    }
-
-    init(cStruct: VkFramebufferAttachmentsCreateInfo) {
-        self.attachmentImageInfos = UnsafeBufferPointer(start: cStruct.pAttachmentImageInfos, count: Int(cStruct.attachmentImageInfoCount)).map{ FramebufferAttachmentImageInfo(cStruct: $0) }
-    }
-
-    func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferAttachmentsCreateInfo>) throws -> R) rethrows -> R {
-        try self.attachmentImageInfos.withCStructBufferPointer { ptr_attachmentImageInfos in
-            var cStruct = VkFramebufferAttachmentsCreateInfo()
-            cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO
-            cStruct.pNext = nil
-            cStruct.attachmentImageInfoCount = UInt32(ptr_attachmentImageInfos.count)
-            cStruct.pAttachmentImageInfos = ptr_attachmentImageInfos.baseAddress
-            return try body(&cStruct)
-        }
-    }
-}
-
 public struct FramebufferAttachmentImageInfo: CStructConvertible {
     typealias CStruct = VkFramebufferAttachmentImageInfo
 
@@ -12381,6 +12312,31 @@ public struct FramebufferAttachmentImageInfo: CStructConvertible {
             cStruct.layerCount = self.layerCount
             cStruct.viewFormatCount = UInt32(ptr_viewFormats.count)
             cStruct.pViewFormats = ptr_viewFormats.baseAddress
+            return try body(&cStruct)
+        }
+    }
+}
+
+public struct FramebufferAttachmentsCreateInfo: CStructConvertible {
+    typealias CStruct = VkFramebufferAttachmentsCreateInfo
+
+    public let attachmentImageInfos: Array<FramebufferAttachmentImageInfo>
+
+    public init(attachmentImageInfos: Array<FramebufferAttachmentImageInfo>) {
+        self.attachmentImageInfos = attachmentImageInfos
+    }
+
+    init(cStruct: VkFramebufferAttachmentsCreateInfo) {
+        self.attachmentImageInfos = UnsafeBufferPointer(start: cStruct.pAttachmentImageInfos, count: Int(cStruct.attachmentImageInfoCount)).map{ FramebufferAttachmentImageInfo(cStruct: $0) }
+    }
+
+    func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferAttachmentsCreateInfo>) throws -> R) rethrows -> R {
+        try self.attachmentImageInfos.withCStructBufferPointer { ptr_attachmentImageInfos in
+            var cStruct = VkFramebufferAttachmentsCreateInfo()
+            cStruct.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO
+            cStruct.pNext = nil
+            cStruct.attachmentImageInfoCount = UInt32(ptr_attachmentImageInfos.count)
+            cStruct.pAttachmentImageInfos = ptr_attachmentImageInfos.baseAddress
             return try body(&cStruct)
         }
     }

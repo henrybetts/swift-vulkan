@@ -115,10 +115,11 @@ class Importer:
         self.imported_enums: Dict[str, str] = {}
         self.imported_option_sets: Dict[str, str] = {}
         self.imported_option_set_bits: Dict[str, str] = {}
-        self.imported_structs: Dict[str, str] = {}
+        self.imported_structs: Dict[str, SwiftStruct] = {}
         self.imported_classes: Dict[str, SwiftClass] = {}
         self.imported_aliases: Dict[str, SwiftAlias] = {}
         self.pointer_types = [handle.name for handle in c_context.handles] + [alias.name for alias in c_context.aliases]
+        self.c_structs = {c_struct.name: c_struct for c_struct in c_context.structs}
 
     def import_all(self) -> SwiftContext:
         for enum in self.c_context.enums:
@@ -136,10 +137,8 @@ class Importer:
                 self.import_alias(alias)
 
         for struct in self.c_context.structs:
-            self.import_struct_name(struct)
-
-        for struct in self.c_context.structs:
-            self.import_struct(struct)
+            if struct.name not in ('VkBaseInStructure', 'VkBaseOutStructure'):
+                self.import_struct(struct)
 
         for command in self.c_context.commands:
             self.import_command(command)
@@ -239,33 +238,31 @@ class Importer:
         self.imported_option_sets[c_bitmask.name] = option_set.name
         return option_set
 
-    def import_struct_name(self, c_struct) -> str:
-        name = remove_vk_prefix(c_struct.name)
-        self.imported_structs[c_struct.name] = name
-        return name
-
     def import_struct(self, c_struct: CStruct) -> SwiftStruct:
+        if c_struct.name in self.imported_structs:
+            return self.imported_structs[c_struct.name]
+
+        name = remove_vk_prefix(c_struct.name)
+
         convertible_from_c_struct = True
         for member in c_struct.members:
-            if member.type.name:
-                c_name = member.type.name
-            elif member.type.pointer_to and member.type.pointer_to.name:
-                c_name = member.type.pointer_to.name
-            else:
-                continue
-            if c_name in self.imported_aliases:
-                c_name = self.imported_aliases[c_name].c_alias.alias
-            if c_name in self.imported_classes:
-                convertible_from_c_struct = False
-                break
+            type_name = member.type.type_name
+            if type_name in self.c_structs:
+                self.import_struct(self.c_structs[type_name])
+            elif convertible_from_c_struct:
+                if type_name in self.imported_aliases:
+                    type_name = self.imported_aliases[type_name].c_alias.alias
+                if type_name in self.imported_classes:
+                    convertible_from_c_struct = False
 
         members, conversions = self.get_member_conversions(c_struct.members, c_struct=c_struct)
         struct = SwiftStruct(c_struct=c_struct,
-                             name=self.imported_structs.get(c_struct.name) or self.import_struct_name(c_struct),
+                             name=name,
                              members=members,
                              member_conversions=conversions,
                              convertible_from_c_struct=convertible_from_c_struct)
         self.swift_context.structs.append(struct)
+        self.imported_structs[c_struct.name] = struct
         return struct
 
     def import_entry(self) -> SwiftClass:
@@ -510,7 +507,7 @@ class Importer:
                     option_set = self.imported_option_set_bits[c_type.name]
                     return option_set, tc.option_set_bit_conversion(c_type.name, option_set)
                 if c_type.name in self.imported_structs:
-                    swift_struct = self.imported_structs[c_type.name]
+                    swift_struct = self.imported_structs[c_type.name].name
                     return swift_struct, tc.struct_conversion(swift_struct)
 
                 alias = self.imported_aliases.get(c_type.name)
@@ -555,7 +552,7 @@ class Importer:
                     return self.get_array_conversion(c_type, current_class=current_class)
 
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
-                    swift_struct = self.imported_structs[c_type.pointer_to.name]
+                    swift_struct = self.imported_structs[c_type.pointer_to.name].name
                     if c_type.optional:
                         return swift_struct + '?', tc.optional_struct_conversion(swift_struct)
                     else:
@@ -587,7 +584,7 @@ class Importer:
             return 'Array<String>', tc.string_array_conversion(c_type.length)
 
         if c_type.pointer_to.name and c_type.pointer_to.name in self.imported_structs:
-            swift_struct = self.imported_structs[c_type.pointer_to.name]
+            swift_struct = self.imported_structs[c_type.pointer_to.name].name
             if not c_type.optional or ignore_optional:
                 return f'Array<{swift_struct}>', \
                        tc.struct_array_conversion(swift_struct, c_type.length)

@@ -31,6 +31,14 @@ class CType:
         self.length = length
         self.optional = optional
 
+    @property
+    def type_name(self) -> str:
+        if self.pointer_to:
+            return self.pointer_to.type_name
+        if self.array_of:
+            return self.array_of.type_name
+        return self.name
+
 
 class CMember:
     def __init__(self, name: str, type_: CType, values: List[str] = None):
