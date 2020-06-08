@@ -29,12 +29,13 @@ class SwiftMember:
 class SwiftStruct:
     def __init__(self, c_struct: CStruct, name: str,
                  members: List[SwiftMember], member_conversions: tc.MemberConversions,
-                 convertible_from_c_struct: bool = True):
+                 convertible_from_c_struct: bool = True, parent_class: 'SwiftClass' = None):
         self.name = name
         self.members = members
         self.member_conversions: tc.MemberConversions = member_conversions
         self.c_struct = c_struct
         self.convertible_from_c_struct = convertible_from_c_struct
+        self.parent_class = parent_class
 
 
 class SwiftCommand:
@@ -245,14 +246,21 @@ class Importer:
         name = remove_vk_prefix(c_struct.name)
 
         convertible_from_c_struct = True
+        parent_class: SwiftClass = None
         for member in c_struct.members:
             type_name = member.type.type_name
             if type_name in self.c_structs:
-                self.import_struct(self.c_structs[type_name])
+                child_struct = self.import_struct(self.c_structs[type_name])
+                if convertible_from_c_struct:
+                    convertible_from_c_struct = child_struct.convertible_from_c_struct
+                    if child_struct.parent_class:
+                        parent_class = child_struct.parent_class
             elif convertible_from_c_struct:
                 if type_name in self.imported_aliases:
                     type_name = self.imported_aliases[type_name].c_alias.alias
-                if type_name in self.imported_classes:
+                if type_name in ('VkPhysicalDevice', 'VkDisplayKHR', 'VkDisplayModeKHR'):
+                    parent_class = self.imported_classes[type_name].parent
+                elif type_name in self.imported_classes:
                     convertible_from_c_struct = False
 
         members, conversions = self.get_member_conversions(c_struct.members, c_struct=c_struct)
@@ -260,7 +268,8 @@ class Importer:
                              name=name,
                              members=members,
                              member_conversions=conversions,
-                             convertible_from_c_struct=convertible_from_c_struct)
+                             convertible_from_c_struct=convertible_from_c_struct,
+                             parent_class=parent_class)
         self.swift_context.structs.append(struct)
         self.imported_structs[c_struct.name] = struct
         return struct
@@ -342,7 +351,7 @@ class Importer:
             throws = True
             c_return_type = CType(name='void')
 
-        return_type, return_conversion = self.get_type_conversion(c_return_type, current_class=current_class)
+        return_type, return_conversion = self.get_type_conversion(c_return_type)
         if self.is_pointer_type(c_return_type):
             return_type += '?'
 
@@ -375,8 +384,7 @@ class Importer:
             elif len(output_params) == 2 and output_params[1].type.length == output_params[0].name:
                 enumeration_pointer_param = output_params[1].name
                 enumeration_count_param = output_params[0].name
-                return_type, return_conversion = self.get_array_conversion(output_params[1].type, ignore_optional=True,
-                                                                           current_class=current_class)
+                return_type, return_conversion = self.get_array_conversion(output_params[1].type, ignore_optional=True)
 
         class_params = [param for param, _ in class_params_and_classes]
         output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
@@ -489,8 +497,7 @@ class Importer:
         return members, conversions
 
     def get_type_conversion(self, c_type: CType, members: List[CMember] = None, implicit_only: bool = False,
-                            convert_array_to_pointer: bool = False,
-                            current_class: SwiftClass = None) -> Tuple[str, tc.Conversion]:
+                            convert_array_to_pointer: bool = False) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.implicit_conversion
@@ -507,8 +514,9 @@ class Importer:
                     option_set = self.imported_option_set_bits[c_type.name]
                     return option_set, tc.option_set_bit_conversion(c_type.name, option_set)
                 if c_type.name in self.imported_structs:
-                    swift_struct = self.imported_structs[c_type.name].name
-                    return swift_struct, tc.struct_conversion(swift_struct)
+                    swift_struct = self.imported_structs[c_type.name]
+                    parent_name = swift_struct.parent_class.reference_name if swift_struct.parent_class else None
+                    return swift_struct.name, tc.struct_conversion(swift_struct.name, parent_name)
 
                 alias = self.imported_aliases.get(c_type.name)
                 c_name = alias.c_alias.alias if alias else c_type.name
@@ -517,20 +525,10 @@ class Importer:
                     cls = self.imported_classes[c_name]
                     cls_name = alias.name if alias else cls.name
                     parent_name = cls.parent.reference_name if cls.parent else None
-
-                    if cls.name == 'CommandBuffer':
-                        parent_value = 'allocateInfo.commandPool'
-                    elif cls.name == 'DescriptorSet':
-                        parent_value = 'allocateInfo.descriptorPool'
-                    elif current_class and cls.parent:
-                        parent_value = get_class_chain(current_class, cls.parent)
-                    else:
-                        parent_value = 'self'
-
                     if c_type.optional:
-                        return cls_name + '?', tc.optional_class_conversion(cls_name, parent_name, parent_value)
+                        return cls_name + '?', tc.optional_class_conversion(cls_name, parent_name)
                     else:
-                        return cls_name, tc.class_conversion(cls_name, parent_name, parent_value)
+                        return cls_name, tc.class_conversion(cls_name, parent_name)
 
             return c_type.name, tc.implicit_conversion
 
@@ -549,14 +547,15 @@ class Importer:
                         return 'String', tc.string_conversion
 
                 if is_array_convertible(c_type, members):
-                    return self.get_array_conversion(c_type, current_class=current_class)
+                    return self.get_array_conversion(c_type)
 
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
-                    swift_struct = self.imported_structs[c_type.pointer_to.name].name
+                    swift_struct = self.imported_structs[c_type.pointer_to.name]
+                    parent_name = swift_struct.parent_class.reference_name if swift_struct.parent_class else None
                     if c_type.optional:
-                        return swift_struct + '?', tc.optional_struct_conversion(swift_struct)
+                        return swift_struct.name + '?', tc.optional_struct_conversion(swift_struct.name, parent_name)
                     else:
-                        return swift_struct, tc.struct_pointer_conversion(swift_struct)
+                        return swift_struct.name, tc.struct_pointer_conversion(swift_struct.name, parent_name)
 
             to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
             if self.is_pointer_type(c_type.pointer_to):
@@ -578,22 +577,22 @@ class Importer:
             else:
                 return swift_type, tc.implicit_conversion
 
-    def get_array_conversion(self, c_type: CType, ignore_optional: bool = False,
-                             current_class: SwiftClass = None) -> Tuple[str, tc.ArrayConversion]:
+    def get_array_conversion(self, c_type: CType, ignore_optional: bool = False) -> Tuple[str, tc.ArrayConversion]:
         if is_string_convertible(c_type.pointer_to) and not (c_type.optional or ignore_optional):
             return 'Array<String>', tc.string_array_conversion(c_type.length)
 
         if c_type.pointer_to.name and c_type.pointer_to.name in self.imported_structs:
-            swift_struct = self.imported_structs[c_type.pointer_to.name].name
+            swift_struct = self.imported_structs[c_type.pointer_to.name]
+            parent_name = swift_struct.parent_class.reference_name if swift_struct.parent_class else None
             if not c_type.optional or ignore_optional:
-                return f'Array<{swift_struct}>', \
-                       tc.struct_array_conversion(swift_struct, c_type.length)
+                return f'Array<{swift_struct.name}>', \
+                       tc.struct_array_conversion(swift_struct.name, c_type.length, parent_name)
             else:
-                return f'Array<{swift_struct}>?', \
-                       tc.optional_struct_array_conversion(swift_struct, c_type.length)
+                return f'Array<{swift_struct.name}>?', \
+                       tc.optional_struct_array_conversion(swift_struct.name, c_type.length, parent_name)
 
         if c_type.pointer_to.name:
-            element_type, element_conversion = self.get_type_conversion(c_type.pointer_to, current_class=current_class)
+            element_type, element_conversion = self.get_type_conversion(c_type.pointer_to)
             if element_conversion != tc.implicit_conversion:
                 if not c_type.optional or ignore_optional:
                     return f'Array<{element_type}>', \
@@ -655,14 +654,6 @@ def snake_to_pascal(string: str) -> str:
 def snake_to_camel(string: str) -> str:
     pascal = snake_to_pascal(string)
     return pascal[0].lower() + pascal[1:]
-
-
-def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:
-    chain = 'self'
-    while current_class != target_class:
-        current_class = current_class.parent
-        chain += f'.{current_class.reference_name}'
-    return chain
 
 
 def get_member_name(c_name: str, c_type: CType) -> str:

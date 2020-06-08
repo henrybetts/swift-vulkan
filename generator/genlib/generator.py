@@ -1,7 +1,6 @@
 from contextlib import contextmanager
-from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, SwiftAlias, DispatchTable,\
-    get_class_chain
-from typing import TextIO, List, Tuple
+from .importer import SwiftEnum, SwiftOptionSet, SwiftStruct, SwiftClass, SwiftCommand, SwiftAlias, DispatchTable
+from typing import TextIO, List, Tuple, Dict
 from . import typeconversion as tc
 
 
@@ -73,7 +72,8 @@ class Generator(BaseGenerator):
             if not struct.c_struct.returned_only:
                 self.generate_struct_init(struct)
                 self.linebreak()
-            self.generate_struct_c_to_swift_method(struct)
+            if struct.convertible_from_c_struct:
+                self.generate_struct_c_to_swift_method(struct)
             self.linebreak()
             self.generate_struct_swift_to_c_method(struct)
         self.linebreak()
@@ -89,13 +89,15 @@ class Generator(BaseGenerator):
                 self << f'self.{member.name} = {member.name}'
 
     def generate_struct_c_to_swift_method(self, struct: SwiftStruct):
-        with self.indent(f'init(cStruct: {struct.c_struct.name}) {{', '}'):
-            if not struct.convertible_from_c_struct:
-                self << 'fatalError("This initializer should be removed.")'
-                return
-            
+        params = [f'cStruct: {struct.c_struct.name}']
+        parent_class = struct.parent_class
+        if parent_class:
+            params.append(f'{parent_class.reference_name}: {parent_class.name}')
+
+        with self.indent(f'init({", ".join(params)}) {{', '}'):
             c_values = {member.name: f'cStruct.{member.name}' for member in struct.c_struct.members}
-            swift_values = struct.member_conversions.get_swift_values(c_values)
+            classes = {parent_class.reference_name: parent_class.reference_name} if parent_class else None
+            swift_values = struct.member_conversions.get_swift_values(c_values, classes)
             for member in struct.members:
                 self << f'self.{member.name} = {swift_values[member.name]}'
 
@@ -162,6 +164,12 @@ class Generator(BaseGenerator):
         closures = command.param_conversions.get_c_closures(swift_values)
         c_values = command.param_conversions.get_c_values(swift_values)
 
+        classes = get_all_class_chains(cls)
+        if command.name == 'allocateCommandBuffers':
+            classes['commandPool'] = 'allocateInfo.commandPool'
+        elif command.name == 'allocateDescriptorSets':
+            classes['descriptorPool'] = 'allocateInfo.descriptorPool'
+
         param_string = ', '.join([f'{param.name}: {param.type}' for param in command.params])
         throws_string = ' throws' if command.throws else ''
 
@@ -188,8 +196,11 @@ class Generator(BaseGenerator):
                 if command.output_param:
                     if isinstance(command.return_conversion, tc.ArrayConversion):
                         conversion = command.return_conversion
-                        map_string = f'.map {{ {conversion.swift_map_template} }}' \
-                            if conversion.swift_map_template else ''
+                        if conversion.swift_element_template:
+                            element_value = conversion.get_swift_element_value('$0', classes=classes)
+                            map_string = f'.map {{ {element_value} }}'
+                        else:
+                            map_string = ''
                         length_path = conversion.length.split('::')
                         count_value = c_values[length_path[0]]
                         if len(length_path) > 1:
@@ -217,12 +228,16 @@ class Generator(BaseGenerator):
                                 self << call_string
                         else:
                             self << call_string
-                        self << f'return {command.return_conversion.get_swift_value("out")}'
+                        self << f'return {command.return_conversion.get_swift_value("out", classes=classes)}'
 
                 elif command.enumeration_pointer_param:
                     assert isinstance(command.return_conversion, tc.ArrayConversion)
                     conversion = command.return_conversion
-                    map_string = f'.map {{ {conversion.swift_map_template} }}' if conversion.swift_map_template else ''
+                    if conversion.swift_element_template:
+                        element_value = conversion.get_swift_element_value('$0', classes=classes)
+                        map_string = f'.map {{ {element_value} }}'
+                    else:
+                        map_string = ''
                     try_string = 'try ' if command.throws else ''
                     with self.indent(f'{try_string}enumerate {{ {command.enumeration_pointer_param}, '
                                      f'{command.enumeration_count_param} in', f'}}{map_string}'):
@@ -276,6 +291,23 @@ def safe_name(name: str) -> str:
     if name in ('repeat', 'default'):
         return f'`{name}`'
     return name
+
+
+def get_class_chain(current_class: SwiftClass, target_class: SwiftClass) -> str:
+    chain = 'self'
+    while current_class != target_class:
+        current_class = current_class.parent
+        chain += f'.{current_class.reference_name}'
+    return chain
+
+
+def get_all_class_chains(cls: SwiftClass) -> Dict[str, str]:
+    chain = 'self'
+    chains: Dict[str, str] = {cls.reference_name: chain}
+    for ancestor in cls.ancestors:
+        chain += f'.{ancestor.reference_name}'
+        chains[ancestor.reference_name] = chain
+    return chains
 
 
 def get_dispatch_table_path(cls: SwiftClass, dispatcher: SwiftClass):

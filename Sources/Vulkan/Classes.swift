@@ -100,7 +100,7 @@ public class Instance {
     public func getPhysicalDeviceGroups() throws -> Array<PhysicalDeviceGroupProperties> {
         try enumerate { pPhysicalDeviceGroupProperties, pPhysicalDeviceGroupCount in
             self.dispatchTable.vkEnumeratePhysicalDeviceGroups(self.handle, pPhysicalDeviceGroupCount, pPhysicalDeviceGroupProperties)
-        }.map { PhysicalDeviceGroupProperties(cStruct: $0) }
+        }.map { PhysicalDeviceGroupProperties(cStruct: $0, instance: self) }
     }
 
     public func createDebugUtilsMessengerEXT(createInfo: DebugUtilsMessengerCreateInfoEXT) throws -> DebugUtilsMessengerEXT {
@@ -210,13 +210,13 @@ public class PhysicalDevice {
     public func getDisplayPropertiesKHR() throws -> Array<DisplayPropertiesKHR> {
         try enumerate { pProperties, pPropertyCount in
             self.instance.dispatchTable.vkGetPhysicalDeviceDisplayPropertiesKHR(self.handle, pPropertyCount, pProperties)
-        }.map { DisplayPropertiesKHR(cStruct: $0) }
+        }.map { DisplayPropertiesKHR(cStruct: $0, physicalDevice: self) }
     }
 
     public func getDisplayPlanePropertiesKHR() throws -> Array<DisplayPlanePropertiesKHR> {
         try enumerate { pProperties, pPropertyCount in
             self.instance.dispatchTable.vkGetPhysicalDeviceDisplayPlanePropertiesKHR(self.handle, pPropertyCount, pProperties)
-        }.map { DisplayPlanePropertiesKHR(cStruct: $0) }
+        }.map { DisplayPlanePropertiesKHR(cStruct: $0, physicalDevice: self) }
     }
 
     public func getDisplayPlaneSupportedDisplaysKHR(planeIndex: UInt32) throws -> Array<DisplayKHR> {
@@ -374,13 +374,13 @@ public class PhysicalDevice {
     public func getDisplayProperties2KHR() throws -> Array<DisplayProperties2KHR> {
         try enumerate { pProperties, pPropertyCount in
             self.instance.dispatchTable.vkGetPhysicalDeviceDisplayProperties2KHR(self.handle, pPropertyCount, pProperties)
-        }.map { DisplayProperties2KHR(cStruct: $0) }
+        }.map { DisplayProperties2KHR(cStruct: $0, physicalDevice: self) }
     }
 
     public func getDisplayPlaneProperties2KHR() throws -> Array<DisplayPlaneProperties2KHR> {
         try enumerate { pProperties, pPropertyCount in
             self.instance.dispatchTable.vkGetPhysicalDeviceDisplayPlaneProperties2KHR(self.handle, pPropertyCount, pProperties)
-        }.map { DisplayPlaneProperties2KHR(cStruct: $0) }
+        }.map { DisplayPlaneProperties2KHR(cStruct: $0, physicalDevice: self) }
     }
 
     public func getDisplayPlaneCapabilities2KHR(displayPlaneInfo: DisplayPlaneInfo2KHR) throws -> DisplayPlaneCapabilities2KHR {
@@ -2306,7 +2306,7 @@ public class DisplayKHR {
     public func getModePropertiesKHR() throws -> Array<DisplayModePropertiesKHR> {
         try enumerate { pProperties, pPropertyCount in
             self.physicalDevice.instance.dispatchTable.vkGetDisplayModePropertiesKHR(self.physicalDevice.handle, self.handle, pPropertyCount, pProperties)
-        }.map { DisplayModePropertiesKHR(cStruct: $0) }
+        }.map { DisplayModePropertiesKHR(cStruct: $0, display: self) }
     }
 
     public func createModeKHR(createInfo: DisplayModeCreateInfoKHR) throws -> DisplayModeKHR {
@@ -2328,7 +2328,7 @@ public class DisplayKHR {
     public func getModeProperties2KHR() throws -> Array<DisplayModeProperties2KHR> {
         try enumerate { pProperties, pPropertyCount in
             self.physicalDevice.instance.dispatchTable.vkGetDisplayModeProperties2KHR(self.physicalDevice.handle, self.handle, pPropertyCount, pProperties)
-        }.map { DisplayModeProperties2KHR(cStruct: $0) }
+        }.map { DisplayModeProperties2KHR(cStruct: $0, display: self) }
     }
 }
 

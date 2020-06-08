@@ -1328,9 +1328,6 @@ public struct MappedMemoryRange: CStructConvertible {
         self.size = size
     }
 
-    init(cStruct: VkMappedMemoryRange) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkMappedMemoryRange>) throws -> R) rethrows -> R {
         var cStruct = VkMappedMemoryRange()
@@ -1408,9 +1405,6 @@ public struct DescriptorBufferInfo: CStructConvertible {
         self.range = range
     }
 
-    init(cStruct: VkDescriptorBufferInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorBufferInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorBufferInfo()
@@ -1434,9 +1428,6 @@ public struct DescriptorImageInfo: CStructConvertible {
         self.imageLayout = imageLayout
     }
 
-    init(cStruct: VkDescriptorImageInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorImageInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDescriptorImageInfo()
@@ -1468,9 +1459,6 @@ public struct WriteDescriptorSet: CStructConvertible {
         self.texelBufferView = texelBufferView
     }
 
-    init(cStruct: VkWriteDescriptorSet) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkWriteDescriptorSet>) throws -> R) rethrows -> R {
         try self.imageInfo.withCStructBufferPointer { ptr_imageInfo in
@@ -1515,9 +1503,6 @@ public struct CopyDescriptorSet: CStructConvertible {
         self.descriptorCount = descriptorCount
     }
 
-    init(cStruct: VkCopyDescriptorSet) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkCopyDescriptorSet>) throws -> R) rethrows -> R {
         var cStruct = VkCopyDescriptorSet()
@@ -1592,9 +1577,6 @@ public struct BufferViewCreateInfo: CStructConvertible {
         self.range = range
     }
 
-    init(cStruct: VkBufferViewCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBufferViewCreateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferViewCreateInfo()
@@ -1752,9 +1734,6 @@ public struct BufferMemoryBarrier: CStructConvertible {
         self.size = size
     }
 
-    init(cStruct: VkBufferMemoryBarrier) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBufferMemoryBarrier>) throws -> R) rethrows -> R {
         var cStruct = VkBufferMemoryBarrier()
@@ -1794,9 +1773,6 @@ public struct ImageMemoryBarrier: CStructConvertible {
         self.subresourceRange = subresourceRange
     }
 
-    init(cStruct: VkImageMemoryBarrier) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageMemoryBarrier>) throws -> R) rethrows -> R {
         try self.subresourceRange.withCStruct { ptr_subresourceRange in
@@ -1934,9 +1910,6 @@ public struct ImageViewCreateInfo: CStructConvertible {
         self.subresourceRange = subresourceRange
     }
 
-    init(cStruct: VkImageViewCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageViewCreateInfo>) throws -> R) rethrows -> R {
         try self.components.withCStruct { ptr_components in
@@ -2001,9 +1974,6 @@ public struct SparseMemoryBind: CStructConvertible {
         self.flags = flags
     }
 
-    init(cStruct: VkSparseMemoryBind) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseMemoryBind>) throws -> R) rethrows -> R {
         var cStruct = VkSparseMemoryBind()
@@ -2035,9 +2005,6 @@ public struct SparseImageMemoryBind: CStructConvertible {
         self.flags = flags
     }
 
-    init(cStruct: VkSparseImageMemoryBind) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryBind>) throws -> R) rethrows -> R {
         try self.subresource.withCStruct { ptr_subresource in
@@ -2068,9 +2035,6 @@ public struct SparseBufferMemoryBindInfo: CStructConvertible {
         self.binds = binds
     }
 
-    init(cStruct: VkSparseBufferMemoryBindInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseBufferMemoryBindInfo>) throws -> R) rethrows -> R {
         try self.binds.withCStructBufferPointer { ptr_binds in
@@ -2094,9 +2058,6 @@ public struct SparseImageOpaqueMemoryBindInfo: CStructConvertible {
         self.binds = binds
     }
 
-    init(cStruct: VkSparseImageOpaqueMemoryBindInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageOpaqueMemoryBindInfo>) throws -> R) rethrows -> R {
         try self.binds.withCStructBufferPointer { ptr_binds in
@@ -2120,9 +2081,6 @@ public struct SparseImageMemoryBindInfo: CStructConvertible {
         self.binds = binds
     }
 
-    init(cStruct: VkSparseImageMemoryBindInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSparseImageMemoryBindInfo>) throws -> R) rethrows -> R {
         try self.binds.withCStructBufferPointer { ptr_binds in
@@ -2152,9 +2110,6 @@ public struct BindSparseInfo: CStructConvertible {
         self.signalSemaphores = signalSemaphores
     }
 
-    init(cStruct: VkBindSparseInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindSparseInfo>) throws -> R) rethrows -> R {
         try self.waitSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_waitSemaphores in
@@ -2403,9 +2358,6 @@ public struct DescriptorSetLayoutBinding: CStructConvertible {
         self.immutableSamplers = immutableSamplers
     }
 
-    init(cStruct: VkDescriptorSetLayoutBinding) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutBinding>) throws -> R) rethrows -> R {
         try (self.immutableSamplers?.map{ $0.handle }).withOptionalUnsafeBufferPointer { ptr_immutableSamplers in
@@ -2431,10 +2383,6 @@ public struct DescriptorSetLayoutCreateInfo: CStructConvertible {
         self.bindings = bindings
     }
 
-    init(cStruct: VkDescriptorSetLayoutCreateInfo) {
-        self.flags = DescriptorSetLayoutCreateFlags(rawValue: cStruct.flags)
-        self.bindings = UnsafeBufferPointer(start: cStruct.pBindings, count: Int(cStruct.bindingCount)).map{ DescriptorSetLayoutBinding(cStruct: $0) }
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetLayoutCreateInfo>) throws -> R) rethrows -> R {
         try self.bindings.withCStructBufferPointer { ptr_bindings in
@@ -2517,9 +2465,6 @@ public struct DescriptorSetAllocateInfo: CStructConvertible {
         self.setLayouts = setLayouts
     }
 
-    init(cStruct: VkDescriptorSetAllocateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorSetAllocateInfo>) throws -> R) rethrows -> R {
         try self.setLayouts.map{ $0.handle }.withUnsafeBufferPointer { ptr_setLayouts in
@@ -2610,9 +2555,6 @@ public struct PipelineShaderStageCreateInfo: CStructConvertible {
         self.specializationInfo = specializationInfo
     }
 
-    init(cStruct: VkPipelineShaderStageCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineShaderStageCreateInfo>) throws -> R) rethrows -> R {
         try self.name.withCString { cString_name in
@@ -2648,9 +2590,6 @@ public struct ComputePipelineCreateInfo: CStructConvertible {
         self.basePipelineIndex = basePipelineIndex
     }
 
-    init(cStruct: VkComputePipelineCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkComputePipelineCreateInfo>) throws -> R) rethrows -> R {
         try self.stage.withCStruct { ptr_stage in
@@ -3226,9 +3165,6 @@ public struct GraphicsPipelineCreateInfo: CStructConvertible {
         self.basePipelineIndex = basePipelineIndex
     }
 
-    init(cStruct: VkGraphicsPipelineCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineCreateInfo>) throws -> R) rethrows -> R {
         try self.stages.withCStructBufferPointer { ptr_stages in
@@ -3346,9 +3282,6 @@ public struct PipelineLayoutCreateInfo: CStructConvertible {
         self.pushConstantRanges = pushConstantRanges
     }
 
-    init(cStruct: VkPipelineLayoutCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineLayoutCreateInfo>) throws -> R) rethrows -> R {
         try self.setLayouts.map{ $0.handle }.withUnsafeBufferPointer { ptr_setLayouts in
@@ -3488,9 +3421,6 @@ public struct CommandBufferAllocateInfo: CStructConvertible {
         self.commandBufferCount = commandBufferCount
     }
 
-    init(cStruct: VkCommandBufferAllocateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkCommandBufferAllocateInfo()
@@ -3522,9 +3452,6 @@ public struct CommandBufferInheritanceInfo: CStructConvertible {
         self.pipelineStatistics = pipelineStatistics
     }
 
-    init(cStruct: VkCommandBufferInheritanceInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferInheritanceInfo>) throws -> R) rethrows -> R {
         var cStruct = VkCommandBufferInheritanceInfo()
@@ -3551,10 +3478,6 @@ public struct CommandBufferBeginInfo: CStructConvertible {
         self.inheritanceInfo = inheritanceInfo
     }
 
-    init(cStruct: VkCommandBufferBeginInfo) {
-        self.flags = CommandBufferUsageFlags(rawValue: cStruct.flags)
-        self.inheritanceInfo = (cStruct.pInheritanceInfo != nil) ? CommandBufferInheritanceInfo(cStruct: cStruct.pInheritanceInfo.pointee) : nil
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkCommandBufferBeginInfo>) throws -> R) rethrows -> R {
         try self.inheritanceInfo.withOptionalCStruct { ptr_inheritanceInfo in
@@ -3583,9 +3506,6 @@ public struct RenderPassBeginInfo: CStructConvertible {
         self.clearValues = clearValues
     }
 
-    init(cStruct: VkRenderPassBeginInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassBeginInfo>) throws -> R) rethrows -> R {
         try self.renderArea.withCStruct { ptr_renderArea in
@@ -3995,9 +3915,6 @@ public struct FramebufferCreateInfo: CStructConvertible {
         self.layers = layers
     }
 
-    init(cStruct: VkFramebufferCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkFramebufferCreateInfo>) throws -> R) rethrows -> R {
         try self.attachments.map{ $0.handle }.withUnsafeBufferPointer { ptr_attachments in
@@ -4127,9 +4044,6 @@ public struct SubmitInfo: CStructConvertible {
         self.signalSemaphores = signalSemaphores
     }
 
-    init(cStruct: VkSubmitInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSubmitInfo>) throws -> R) rethrows -> R {
         try self.waitSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_waitSemaphores in
@@ -4165,8 +4079,14 @@ public struct DisplayPropertiesKHR: CStructConvertible {
     public let planeReorderPossible: Bool
     public let persistentContent: Bool
 
-    init(cStruct: VkDisplayPropertiesKHR) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkDisplayPropertiesKHR, physicalDevice: PhysicalDevice) {
+        self.display = DisplayKHR(handle: cStruct.display, physicalDevice: physicalDevice)
+        self.displayName = String(cString: cStruct.displayName)
+        self.physicalDimensions = Extent2D(cStruct: cStruct.physicalDimensions)
+        self.physicalResolution = Extent2D(cStruct: cStruct.physicalResolution)
+        self.supportedTransforms = SurfaceTransformFlagsKHR(rawValue: cStruct.supportedTransforms)
+        self.planeReorderPossible = cStruct.planeReorderPossible == VK_TRUE
+        self.persistentContent = cStruct.persistentContent == VK_TRUE
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPropertiesKHR>) throws -> R) rethrows -> R {
@@ -4194,8 +4114,9 @@ public struct DisplayPlanePropertiesKHR: CStructConvertible {
     public let currentDisplay: DisplayKHR
     public let currentStackIndex: UInt32
 
-    init(cStruct: VkDisplayPlanePropertiesKHR) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkDisplayPlanePropertiesKHR, physicalDevice: PhysicalDevice) {
+        self.currentDisplay = DisplayKHR(handle: cStruct.currentDisplay, physicalDevice: physicalDevice)
+        self.currentStackIndex = cStruct.currentStackIndex
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlanePropertiesKHR>) throws -> R) rethrows -> R {
@@ -4238,8 +4159,9 @@ public struct DisplayModePropertiesKHR: CStructConvertible {
     public let displayMode: DisplayModeKHR
     public let parameters: DisplayModeParametersKHR
 
-    init(cStruct: VkDisplayModePropertiesKHR) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkDisplayModePropertiesKHR, display: DisplayKHR) {
+        self.displayMode = DisplayModeKHR(handle: cStruct.displayMode, display: display)
+        self.parameters = DisplayModeParametersKHR(cStruct: cStruct.parameters)
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModePropertiesKHR>) throws -> R) rethrows -> R {
@@ -4359,8 +4281,15 @@ public struct DisplaySurfaceCreateInfoKHR: CStructConvertible {
         self.imageExtent = imageExtent
     }
 
-    init(cStruct: VkDisplaySurfaceCreateInfoKHR) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkDisplaySurfaceCreateInfoKHR, display: DisplayKHR) {
+        self.flags = DisplaySurfaceCreateFlagsKHR(rawValue: cStruct.flags)
+        self.displayMode = DisplayModeKHR(handle: cStruct.displayMode, display: display)
+        self.planeIndex = cStruct.planeIndex
+        self.planeStackIndex = cStruct.planeStackIndex
+        self.transform = SurfaceTransformFlagsKHR(rawValue: cStruct.transform.rawValue)
+        self.globalAlpha = cStruct.globalAlpha
+        self.alphaMode = DisplayPlaneAlphaFlagsKHR(rawValue: cStruct.alphaMode.rawValue)
+        self.imageExtent = Extent2D(cStruct: cStruct.imageExtent)
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplaySurfaceCreateInfoKHR>) throws -> R) rethrows -> R {
@@ -4520,9 +4449,6 @@ public struct SwapchainCreateInfoKHR: CStructConvertible {
         self.oldSwapchain = oldSwapchain
     }
 
-    init(cStruct: VkSwapchainCreateInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
         try self.imageExtent.withCStruct { ptr_imageExtent in
@@ -4567,9 +4493,6 @@ public struct PresentInfoKHR: CStructConvertible {
         self.results = results
     }
 
-    init(cStruct: VkPresentInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPresentInfoKHR>) throws -> R) rethrows -> R {
         try self.waitSemaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_waitSemaphores in
@@ -4853,9 +4776,6 @@ public struct DedicatedAllocationMemoryAllocateInfoNV: CStructConvertible {
         self.buffer = buffer
     }
 
-    init(cStruct: VkDedicatedAllocationMemoryAllocateInfoNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDedicatedAllocationMemoryAllocateInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkDedicatedAllocationMemoryAllocateInfoNV()
@@ -5015,11 +4935,6 @@ public struct GraphicsShaderGroupCreateInfoNV: CStructConvertible {
         self.tessellationState = tessellationState
     }
 
-    init(cStruct: VkGraphicsShaderGroupCreateInfoNV) {
-        self.stages = UnsafeBufferPointer(start: cStruct.pStages, count: Int(cStruct.stageCount)).map{ PipelineShaderStageCreateInfo(cStruct: $0) }
-        self.vertexInputState = (cStruct.pVertexInputState != nil) ? PipelineVertexInputStateCreateInfo(cStruct: cStruct.pVertexInputState.pointee) : nil
-        self.tessellationState = (cStruct.pTessellationState != nil) ? PipelineTessellationStateCreateInfo(cStruct: cStruct.pTessellationState.pointee) : nil
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsShaderGroupCreateInfoNV>) throws -> R) rethrows -> R {
         try self.stages.withCStructBufferPointer { ptr_stages in
@@ -5050,9 +4965,6 @@ public struct GraphicsPipelineShaderGroupsCreateInfoNV: CStructConvertible {
         self.pipelines = pipelines
     }
 
-    init(cStruct: VkGraphicsPipelineShaderGroupsCreateInfoNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGraphicsPipelineShaderGroupsCreateInfoNV>) throws -> R) rethrows -> R {
         try self.groups.withCStructBufferPointer { ptr_groups in
@@ -5177,9 +5089,6 @@ public struct IndirectCommandsStreamNV: CStructConvertible {
         self.offset = offset
     }
 
-    init(cStruct: VkIndirectCommandsStreamNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsStreamNV>) throws -> R) rethrows -> R {
         var cStruct = VkIndirectCommandsStreamNV()
@@ -5220,9 +5129,6 @@ public struct IndirectCommandsLayoutTokenNV: CStructConvertible {
         self.indexTypeValues = indexTypeValues
     }
 
-    init(cStruct: VkIndirectCommandsLayoutTokenNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutTokenNV>) throws -> R) rethrows -> R {
         try self.indexTypes.map{ VkIndexType(rawValue: $0.rawValue) }.withUnsafeBufferPointer { ptr_indexTypes in
@@ -5264,12 +5170,6 @@ public struct IndirectCommandsLayoutCreateInfoNV: CStructConvertible {
         self.streamStrides = streamStrides
     }
 
-    init(cStruct: VkIndirectCommandsLayoutCreateInfoNV) {
-        self.flags = IndirectCommandsLayoutUsageFlagsNV(rawValue: cStruct.flags)
-        self.pipelineBindPoint = PipelineBindPoint(rawValue: cStruct.pipelineBindPoint.rawValue)!
-        self.tokens = UnsafeBufferPointer(start: cStruct.pTokens, count: Int(cStruct.tokenCount)).map{ IndirectCommandsLayoutTokenNV(cStruct: $0) }
-        self.streamStrides = Array(UnsafeBufferPointer(start: cStruct.pStreamStrides, count: Int(cStruct.streamCount)))
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkIndirectCommandsLayoutCreateInfoNV>) throws -> R) rethrows -> R {
         try self.tokens.withCStructBufferPointer { ptr_tokens in
@@ -5320,9 +5220,6 @@ public struct GeneratedCommandsInfoNV: CStructConvertible {
         self.sequencesIndexOffset = sequencesIndexOffset
     }
 
-    init(cStruct: VkGeneratedCommandsInfoNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeneratedCommandsInfoNV>) throws -> R) rethrows -> R {
         try self.streams.withCStructBufferPointer { ptr_streams in
@@ -5355,9 +5252,6 @@ public struct GeneratedCommandsMemoryRequirementsInfoNV: CStructConvertible {
     public let indirectCommandsLayout: IndirectCommandsLayoutNV
     public let maxSequencesCount: UInt32
 
-    init(cStruct: VkGeneratedCommandsMemoryRequirementsInfoNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeneratedCommandsMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeneratedCommandsMemoryRequirementsInfoNV()
@@ -6041,9 +5935,6 @@ public struct MemoryGetFdInfoKHR: CStructConvertible {
         self.handleType = handleType
     }
 
-    init(cStruct: VkMemoryGetFdInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkMemoryGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryGetFdInfoKHR()
@@ -6138,9 +6029,6 @@ public struct ImportSemaphoreFdInfoKHR: CStructConvertible {
         self.fd = fd
     }
 
-    init(cStruct: VkImportSemaphoreFdInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImportSemaphoreFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImportSemaphoreFdInfoKHR()
@@ -6165,9 +6053,6 @@ public struct SemaphoreGetFdInfoKHR: CStructConvertible {
         self.handleType = handleType
     }
 
-    init(cStruct: VkSemaphoreGetFdInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreGetFdInfoKHR()
@@ -6262,9 +6147,6 @@ public struct ImportFenceFdInfoKHR: CStructConvertible {
         self.fd = fd
     }
 
-    init(cStruct: VkImportFenceFdInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImportFenceFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImportFenceFdInfoKHR()
@@ -6289,9 +6171,6 @@ public struct FenceGetFdInfoKHR: CStructConvertible {
         self.handleType = handleType
     }
 
-    init(cStruct: VkFenceGetFdInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkFenceGetFdInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkFenceGetFdInfoKHR()
@@ -6542,8 +6421,10 @@ public struct PhysicalDeviceGroupProperties: CStructConvertible {
     public let physicalDevices: (VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?)
     public let subsetAllocation: Bool
 
-    init(cStruct: VkPhysicalDeviceGroupProperties) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkPhysicalDeviceGroupProperties, instance: Instance) {
+        self.physicalDeviceCount = cStruct.physicalDeviceCount
+        self.physicalDevices = cStruct.physicalDevices
+        self.subsetAllocation = cStruct.subsetAllocation == VK_TRUE
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceGroupProperties>) throws -> R) rethrows -> R {
@@ -6596,9 +6477,6 @@ public struct BindBufferMemoryInfo: CStructConvertible {
         self.memoryOffset = memoryOffset
     }
 
-    init(cStruct: VkBindBufferMemoryInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindBufferMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindBufferMemoryInfo()
@@ -6649,9 +6527,6 @@ public struct BindImageMemoryInfo: CStructConvertible {
         self.memoryOffset = memoryOffset
     }
 
-    init(cStruct: VkBindImageMemoryInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemoryInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemoryInfo()
@@ -6842,9 +6717,6 @@ public struct ImageSwapchainCreateInfoKHR: CStructConvertible {
         self.swapchain = swapchain
     }
 
-    init(cStruct: VkImageSwapchainCreateInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageSwapchainCreateInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkImageSwapchainCreateInfoKHR()
@@ -6866,9 +6738,6 @@ public struct BindImageMemorySwapchainInfoKHR: CStructConvertible {
         self.imageIndex = imageIndex
     }
 
-    init(cStruct: VkBindImageMemorySwapchainInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBindImageMemorySwapchainInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkBindImageMemorySwapchainInfoKHR()
@@ -6897,9 +6766,6 @@ public struct AcquireNextImageInfoKHR: CStructConvertible {
         self.deviceMask = deviceMask
     }
 
-    init(cStruct: VkAcquireNextImageInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkAcquireNextImageInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkAcquireNextImageInfoKHR()
@@ -6952,8 +6818,8 @@ public struct DeviceGroupDeviceCreateInfo: CStructConvertible {
         self.physicalDevices = physicalDevices
     }
 
-    init(cStruct: VkDeviceGroupDeviceCreateInfo) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkDeviceGroupDeviceCreateInfo, instance: Instance) {
+        self.physicalDevices = UnsafeBufferPointer(start: cStruct.pPhysicalDevices, count: Int(cStruct.physicalDeviceCount)).map{ PhysicalDevice(handle: $0, instance: instance) }
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDeviceGroupDeviceCreateInfo>) throws -> R) rethrows -> R {
@@ -7051,9 +6917,6 @@ public struct DescriptorUpdateTemplateCreateInfo: CStructConvertible {
         self.set = set
     }
 
-    init(cStruct: VkDescriptorUpdateTemplateCreateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDescriptorUpdateTemplateCreateInfo>) throws -> R) rethrows -> R {
         try self.descriptorUpdateEntries.withCStructBufferPointer { ptr_descriptorUpdateEntries in
@@ -7533,9 +7396,6 @@ public struct PhysicalDeviceSurfaceInfo2KHR: CStructConvertible {
         self.surface = surface
     }
 
-    init(cStruct: VkPhysicalDeviceSurfaceInfo2KHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceSurfaceInfo2KHR>) throws -> R) rethrows -> R {
         var cStruct = VkPhysicalDeviceSurfaceInfo2KHR()
@@ -7591,8 +7451,8 @@ public struct DisplayProperties2KHR: CStructConvertible {
 
     public let displayProperties: DisplayPropertiesKHR
 
-    init(cStruct: VkDisplayProperties2KHR) {
-        self.displayProperties = DisplayPropertiesKHR(cStruct: cStruct.displayProperties)
+    init(cStruct: VkDisplayProperties2KHR, physicalDevice: PhysicalDevice) {
+        self.displayProperties = DisplayPropertiesKHR(cStruct: cStruct.displayProperties, physicalDevice: physicalDevice)
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayProperties2KHR>) throws -> R) rethrows -> R {
@@ -7611,8 +7471,8 @@ public struct DisplayPlaneProperties2KHR: CStructConvertible {
 
     public let displayPlaneProperties: DisplayPlanePropertiesKHR
 
-    init(cStruct: VkDisplayPlaneProperties2KHR) {
-        self.displayPlaneProperties = DisplayPlanePropertiesKHR(cStruct: cStruct.displayPlaneProperties)
+    init(cStruct: VkDisplayPlaneProperties2KHR, physicalDevice: PhysicalDevice) {
+        self.displayPlaneProperties = DisplayPlanePropertiesKHR(cStruct: cStruct.displayPlaneProperties, physicalDevice: physicalDevice)
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneProperties2KHR>) throws -> R) rethrows -> R {
@@ -7631,8 +7491,8 @@ public struct DisplayModeProperties2KHR: CStructConvertible {
 
     public let displayModeProperties: DisplayModePropertiesKHR
 
-    init(cStruct: VkDisplayModeProperties2KHR) {
-        self.displayModeProperties = DisplayModePropertiesKHR(cStruct: cStruct.displayModeProperties)
+    init(cStruct: VkDisplayModeProperties2KHR, display: DisplayKHR) {
+        self.displayModeProperties = DisplayModePropertiesKHR(cStruct: cStruct.displayModeProperties, display: display)
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayModeProperties2KHR>) throws -> R) rethrows -> R {
@@ -7657,8 +7517,9 @@ public struct DisplayPlaneInfo2KHR: CStructConvertible {
         self.planeIndex = planeIndex
     }
 
-    init(cStruct: VkDisplayPlaneInfo2KHR) {
-        fatalError("This initializer should be removed.")
+    init(cStruct: VkDisplayPlaneInfo2KHR, display: DisplayKHR) {
+        self.mode = DisplayModeKHR(handle: cStruct.mode, display: display)
+        self.planeIndex = cStruct.planeIndex
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDisplayPlaneInfo2KHR>) throws -> R) rethrows -> R {
@@ -7801,9 +7662,6 @@ public struct BufferMemoryRequirementsInfo2: CStructConvertible {
         self.buffer = buffer
     }
 
-    init(cStruct: VkBufferMemoryRequirementsInfo2) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBufferMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkBufferMemoryRequirementsInfo2()
@@ -7823,9 +7681,6 @@ public struct ImageMemoryRequirementsInfo2: CStructConvertible {
         self.image = image
     }
 
-    init(cStruct: VkImageMemoryRequirementsInfo2) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkImageMemoryRequirementsInfo2()
@@ -7845,9 +7700,6 @@ public struct ImageSparseMemoryRequirementsInfo2: CStructConvertible {
         self.image = image
     }
 
-    init(cStruct: VkImageSparseMemoryRequirementsInfo2) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageSparseMemoryRequirementsInfo2>) throws -> R) rethrows -> R {
         var cStruct = VkImageSparseMemoryRequirementsInfo2()
@@ -7948,9 +7800,6 @@ public struct MemoryDedicatedAllocateInfo: CStructConvertible {
         self.buffer = buffer
     }
 
-    init(cStruct: VkMemoryDedicatedAllocateInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkMemoryDedicatedAllocateInfo>) throws -> R) rethrows -> R {
         var cStruct = VkMemoryDedicatedAllocateInfo()
@@ -8015,9 +7864,6 @@ public struct SamplerYcbcrConversionInfo: CStructConvertible {
         self.conversion = conversion
     }
 
-    init(cStruct: VkSamplerYcbcrConversionInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSamplerYcbcrConversionInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSamplerYcbcrConversionInfo()
@@ -8195,9 +8041,6 @@ public struct ConditionalRenderingBeginInfoEXT: CStructConvertible {
         self.flags = flags
     }
 
-    init(cStruct: VkConditionalRenderingBeginInfoEXT) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkConditionalRenderingBeginInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkConditionalRenderingBeginInfoEXT()
@@ -8888,9 +8731,6 @@ public struct ShaderModuleValidationCacheCreateInfoEXT: CStructConvertible {
         self.validationCache = validationCache
     }
 
-    init(cStruct: VkShaderModuleValidationCacheCreateInfoEXT) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkShaderModuleValidationCacheCreateInfoEXT>) throws -> R) rethrows -> R {
         var cStruct = VkShaderModuleValidationCacheCreateInfoEXT()
@@ -10239,9 +10079,6 @@ public struct SemaphoreWaitInfo: CStructConvertible {
         self.values = values
     }
 
-    init(cStruct: VkSemaphoreWaitInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreWaitInfo>) throws -> R) rethrows -> R {
         try self.semaphores.map{ $0.handle }.withUnsafeBufferPointer { ptr_semaphores in
@@ -10270,9 +10107,6 @@ public struct SemaphoreSignalInfo: CStructConvertible {
         self.value = value
     }
 
-    init(cStruct: VkSemaphoreSignalInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkSemaphoreSignalInfo>) throws -> R) rethrows -> R {
         var cStruct = VkSemaphoreSignalInfo()
@@ -11337,9 +11171,6 @@ public struct RayTracingPipelineCreateInfoNV: CStructConvertible {
         self.basePipelineIndex = basePipelineIndex
     }
 
-    init(cStruct: VkRayTracingPipelineCreateInfoNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkRayTracingPipelineCreateInfoNV>) throws -> R) rethrows -> R {
         try self.stages.withCStructBufferPointer { ptr_stages in
@@ -11391,9 +11222,6 @@ public struct GeometryTrianglesNV: CStructConvertible {
         self.transformOffset = transformOffset
     }
 
-    init(cStruct: VkGeometryTrianglesNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeometryTrianglesNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeometryTrianglesNV()
@@ -11429,9 +11257,6 @@ public struct GeometryAABBNV: CStructConvertible {
         self.offset = offset
     }
 
-    init(cStruct: VkGeometryAABBNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeometryAABBNV>) throws -> R) rethrows -> R {
         var cStruct = VkGeometryAABBNV()
@@ -11456,10 +11281,6 @@ public struct GeometryDataNV: CStructConvertible {
         self.aabbs = aabbs
     }
 
-    init(cStruct: VkGeometryDataNV) {
-        self.triangles = GeometryTrianglesNV(cStruct: cStruct.triangles)
-        self.aabbs = GeometryAABBNV(cStruct: cStruct.aabbs)
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeometryDataNV>) throws -> R) rethrows -> R {
         try self.triangles.withCStruct { ptr_triangles in
@@ -11486,11 +11307,6 @@ public struct GeometryNV: CStructConvertible {
         self.flags = flags
     }
 
-    init(cStruct: VkGeometryNV) {
-        self.geometryType = cStruct.geometryType
-        self.geometry = GeometryDataNV(cStruct: cStruct.geometry)
-        self.flags = cStruct.flags
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkGeometryNV>) throws -> R) rethrows -> R {
         try self.geometry.withCStruct { ptr_geometry in
@@ -11520,12 +11336,6 @@ public struct AccelerationStructureInfoNV: CStructConvertible {
         self.geometries = geometries
     }
 
-    init(cStruct: VkAccelerationStructureInfoNV) {
-        self.type = cStruct.type
-        self.flags = cStruct.flags
-        self.instanceCount = cStruct.instanceCount
-        self.geometries = UnsafeBufferPointer(start: cStruct.pGeometries, count: Int(cStruct.geometryCount)).map{ GeometryNV(cStruct: $0) }
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureInfoNV>) throws -> R) rethrows -> R {
         try self.geometries.withCStructBufferPointer { ptr_geometries in
@@ -11553,10 +11363,6 @@ public struct AccelerationStructureCreateInfoNV: CStructConvertible {
         self.info = info
     }
 
-    init(cStruct: VkAccelerationStructureCreateInfoNV) {
-        self.compactedSize = cStruct.compactedSize
-        self.info = AccelerationStructureInfoNV(cStruct: cStruct.info)
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureCreateInfoNV>) throws -> R) rethrows -> R {
         try self.info.withCStruct { ptr_info in
@@ -11581,9 +11387,6 @@ public struct AccelerationStructureMemoryRequirementsInfoNV: CStructConvertible 
         self.accelerationStructure = accelerationStructure
     }
 
-    init(cStruct: VkAccelerationStructureMemoryRequirementsInfoNV) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkAccelerationStructureMemoryRequirementsInfoNV>) throws -> R) rethrows -> R {
         var cStruct = VkAccelerationStructureMemoryRequirementsInfoNV()
@@ -12150,9 +11953,6 @@ public struct BufferDeviceAddressInfo: CStructConvertible {
         self.buffer = buffer
     }
 
-    init(cStruct: VkBufferDeviceAddressInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkBufferDeviceAddressInfo>) throws -> R) rethrows -> R {
         var cStruct = VkBufferDeviceAddressInfo()
@@ -12351,9 +12151,6 @@ public struct RenderPassAttachmentBeginInfo: CStructConvertible {
         self.attachments = attachments
     }
 
-    init(cStruct: VkRenderPassAttachmentBeginInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkRenderPassAttachmentBeginInfo>) throws -> R) rethrows -> R {
         try self.attachments.map{ $0.handle }.withUnsafeBufferPointer { ptr_attachments in
@@ -12518,9 +12315,6 @@ public struct ImageViewHandleInfoNVX: CStructConvertible {
         self.sampler = sampler
     }
 
-    init(cStruct: VkImageViewHandleInfoNVX) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkImageViewHandleInfoNVX>) throws -> R) rethrows -> R {
         var cStruct = VkImageViewHandleInfoNVX()
@@ -13262,9 +13056,6 @@ public struct PipelineInfoKHR: CStructConvertible {
         self.pipeline = pipeline
     }
 
-    init(cStruct: VkPipelineInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineInfoKHR()
@@ -13313,9 +13104,6 @@ public struct PipelineExecutableInfoKHR: CStructConvertible {
         self.executableIndex = executableIndex
     }
 
-    init(cStruct: VkPipelineExecutableInfoKHR) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPipelineExecutableInfoKHR>) throws -> R) rethrows -> R {
         var cStruct = VkPipelineExecutableInfoKHR()
@@ -13557,9 +13345,6 @@ public struct DeviceMemoryOpaqueCaptureAddressInfo: CStructConvertible {
         self.memory = memory
     }
 
-    init(cStruct: VkDeviceMemoryOpaqueCaptureAddressInfo) {
-        fatalError("This initializer should be removed.")
-    }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkDeviceMemoryOpaqueCaptureAddressInfo>) throws -> R) rethrows -> R {
         var cStruct = VkDeviceMemoryOpaqueCaptureAddressInfo()
