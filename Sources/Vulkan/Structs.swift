@@ -1191,25 +1191,25 @@ public struct MemoryHeap: CStructConvertible {
 public struct PhysicalDeviceMemoryProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceMemoryProperties
 
-    public let memoryTypeCount: UInt32
-    public let memoryTypes: (VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType, VkMemoryType)
-    public let memoryHeapCount: UInt32
-    public let memoryHeaps: (VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap, VkMemoryHeap)
+    public let memoryTypes: Array<MemoryType>
+    public let memoryHeaps: Array<MemoryHeap>
 
     init(cStruct: VkPhysicalDeviceMemoryProperties) {
-        self.memoryTypeCount = cStruct.memoryTypeCount
-        self.memoryTypes = cStruct.memoryTypes
-        self.memoryHeapCount = cStruct.memoryHeapCount
-        self.memoryHeaps = cStruct.memoryHeaps
+        self.memoryTypes = withUnsafeBytes(of: cStruct.memoryTypes) { $0.bindMemory(to: VkMemoryType.self).prefix(Int(cStruct.memoryTypeCount)).map{ MemoryType(cStruct: $0) } }
+        self.memoryHeaps = withUnsafeBytes(of: cStruct.memoryHeaps) { $0.bindMemory(to: VkMemoryHeap.self).prefix(Int(cStruct.memoryHeapCount)).map{ MemoryHeap(cStruct: $0) } }
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceMemoryProperties>) throws -> R) rethrows -> R {
-        var cStruct = VkPhysicalDeviceMemoryProperties()
-        cStruct.memoryTypeCount = self.memoryTypeCount
-        cStruct.memoryTypes = self.memoryTypes
-        cStruct.memoryHeapCount = self.memoryHeapCount
-        cStruct.memoryHeaps = self.memoryHeaps
-        return try body(&cStruct)
+        try self.memoryTypes.withCStructBufferPointer { ptr_memoryTypes in
+            try self.memoryHeaps.withCStructBufferPointer { ptr_memoryHeaps in
+                var cStruct = VkPhysicalDeviceMemoryProperties()
+                cStruct.memoryTypeCount = min(UInt32(ptr_memoryTypes.count), 32)
+                cStruct.memoryTypes = ptr_memoryTypes.unsafeBytesCopy()
+                cStruct.memoryHeapCount = min(UInt32(ptr_memoryHeaps.count), 16)
+                cStruct.memoryHeaps = ptr_memoryHeaps.unsafeBytesCopy()
+                return try body(&cStruct)
+            }
+        }
     }
 }
 
@@ -6417,24 +6417,24 @@ public struct SwapchainCounterCreateInfoEXT: CStructConvertible {
 public struct PhysicalDeviceGroupProperties: CStructConvertible {
     typealias CStruct = VkPhysicalDeviceGroupProperties
 
-    public let physicalDeviceCount: UInt32
-    public let physicalDevices: (VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?, VkPhysicalDevice?)
+    public let physicalDevices: Array<PhysicalDevice>
     public let subsetAllocation: Bool
 
     init(cStruct: VkPhysicalDeviceGroupProperties, instance: Instance) {
-        self.physicalDeviceCount = cStruct.physicalDeviceCount
-        self.physicalDevices = cStruct.physicalDevices
+        self.physicalDevices = withUnsafeBytes(of: cStruct.physicalDevices) { $0.bindMemory(to: VkPhysicalDevice?.self).prefix(Int(cStruct.physicalDeviceCount)).map{ PhysicalDevice(handle: $0, instance: instance) } }
         self.subsetAllocation = cStruct.subsetAllocation == VK_TRUE
     }
 
     func withCStruct<R>(_ body: (UnsafePointer<VkPhysicalDeviceGroupProperties>) throws -> R) rethrows -> R {
-        var cStruct = VkPhysicalDeviceGroupProperties()
-        cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GROUP_PROPERTIES
-        cStruct.pNext = nil
-        cStruct.physicalDeviceCount = self.physicalDeviceCount
-        cStruct.physicalDevices = self.physicalDevices
-        cStruct.subsetAllocation = VkBool32(self.subsetAllocation ? VK_TRUE : VK_FALSE)
-        return try body(&cStruct)
+        try self.physicalDevices.map{ $0.handle }.withUnsafeBufferPointer { ptr_physicalDevices in
+            var cStruct = VkPhysicalDeviceGroupProperties()
+            cStruct.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GROUP_PROPERTIES
+            cStruct.pNext = nil
+            cStruct.physicalDeviceCount = min(UInt32(ptr_physicalDevices.count), 32)
+            cStruct.physicalDevices = ptr_physicalDevices.unsafeBytesCopy()
+            cStruct.subsetAllocation = VkBool32(self.subsetAllocation ? VK_TRUE : VK_FALSE)
+            return try body(&cStruct)
+        }
     }
 }
 

@@ -322,3 +322,15 @@ version_conversion = Conversion(
     swift_value_template='Version(rawValue: $value)',
     c_value_template='$value.rawValue'
 )
+
+
+def tuple_array_conversion(conversion: ArrayConversion, c_type: str, capacity: int) -> ArrayConversion:
+    swift_element = conversion.get_swift_element_value('$$0', safe=True)
+    return ArrayConversion(
+        length=conversion.length,
+        swift_value_template=f'withUnsafeBytes(of: $value) {{ $$0.bindMemory(to: {c_type}.self).prefix(Int($length))'
+                             f'.map{{ {swift_element} }} }}',
+        c_closure_template=conversion.c_closure_template,
+        c_value_template='ptr_$name.unsafeBytesCopy()',
+        c_length_template=f'min({conversion.c_length_template}, {capacity})'
+    )

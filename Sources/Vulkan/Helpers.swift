@@ -36,11 +36,11 @@ extension String {
     func unsafeBytesCopy<T>() -> T {
         let size = MemoryLayout<T>.size
         let ptr = UnsafeMutableBufferPointer<CChar>.allocate(capacity: size)
+        defer { ptr.deallocate() }
         ptr.initialize(repeating: 0)
-        UnsafeMutableRawBufferPointer(ptr).copyBytes(from: utf8.prefix(size-1))
-        return ptr.withMemoryRebound(to: T.self) { ptr2 in
-            ptr2.baseAddress!.pointee
-        }
+        let rawPtr = UnsafeMutableRawBufferPointer(ptr)
+        rawPtr.copyBytes(from: utf8.prefix(size-1))
+        return rawPtr.bindMemory(to: T.self).baseAddress!.pointee
     }
 }
 
@@ -98,6 +98,16 @@ extension Optional {
     func withOptionalUnsafeBufferPointer<T, R>(_ body: (UnsafeBufferPointer<T>) throws -> R) rethrows -> R where Wrapped == Array<T> {
         guard let array = self else { return try body(UnsafeBufferPointer(start: nil, count: 0)) }
         return try array.withUnsafeBufferPointer(body)
+    }
+}
+
+extension Sequence {
+    func unsafeBytesCopy<T>() -> T {
+        let capacity = MemoryLayout<T>.stride / MemoryLayout<Element>.stride
+        let ptr = UnsafeMutableBufferPointer<Element>.allocate(capacity: capacity)
+        defer { ptr.deallocate() }
+        _ = ptr.initialize(from: self.prefix(capacity))
+        return UnsafeMutableRawBufferPointer(ptr).bindMemory(to: T.self).baseAddress!.pointee
     }
 }
 

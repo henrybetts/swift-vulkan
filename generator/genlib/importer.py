@@ -460,6 +460,12 @@ class Importer:
         for c_member in c_members:
             if is_array_convertible(c_member.type, c_members):
                 lengths.append(c_member.type.length)
+        if c_struct:
+            # why aren't these specified in the Vulkan spec?
+            if c_struct.name == 'VkPhysicalDeviceMemoryProperties':
+                lengths += ['memoryTypeCount', 'memoryHeapCount']
+            elif c_struct.name == 'VkPhysicalDeviceGroupProperties':
+                lengths.append('physicalDeviceCount')
 
         for c_member in c_members:
             if c_member.name in lengths:
@@ -483,6 +489,22 @@ class Importer:
                 or (c_struct.name == 'VkLayerProperties' and c_member.name == 'specVersion')
             )):
                 swift_type, conversion = 'Version', tc.version_conversion
+
+            elif c_struct and c_struct.name == 'VkPhysicalDeviceMemoryProperties' and c_member.name == 'memoryTypes':
+                swift_type, conversion = 'Array<MemoryType>', tc.tuple_array_conversion(
+                    tc.struct_array_conversion('MemoryType', 'memoryTypeCount'), 'VkMemoryType', c_member.type.length)
+
+            elif c_struct and c_struct.name == 'VkPhysicalDeviceMemoryProperties' and c_member.name == 'memoryHeaps':
+                swift_type, conversion = 'Array<MemoryHeap>', tc.tuple_array_conversion(
+                    tc.struct_array_conversion('MemoryHeap', 'memoryHeapCount'), 'VkMemoryHeap', c_member.type.length)
+
+            elif c_struct and c_struct.name == 'VkPhysicalDeviceGroupProperties' and c_member.name == 'physicalDevices':
+                swift_type, conversion = 'Array<PhysicalDevice>', tc.tuple_array_conversion(
+                    tc.array_mapped_conversion(
+                        tc.class_conversion('PhysicalDevice', 'instance'), 'physicalDeviceCount'
+                    ), 'VkPhysicalDevice?', c_member.type.length
+                )
+
             else:
                 swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
                                                                   convert_array_to_pointer=c_command is not None)
