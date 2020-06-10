@@ -23,5 +23,8 @@ let package = Package(
         .target(
             name: "Vulkan",
             dependencies: ["CVulkan"]),
+        .target(
+            name: "DemoInfo",
+            dependencies: ["Vulkan"])
     ]
 )
