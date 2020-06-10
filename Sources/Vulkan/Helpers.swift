@@ -158,3 +158,15 @@ extension StringConvertibleOptionSet {
         return "[\(descriptions.joined(separator: ", "))]"
     }
 }
+
+
+protocol HandleContainer: Equatable {
+    associatedtype HandleType: Equatable
+    var handle: HandleType {get}
+}
+
+extension HandleContainer {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.handle == rhs.handle
+    }
+}

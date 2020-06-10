@@ -117,9 +117,11 @@ class Generator(BaseGenerator):
                 self << 'return try body(&cStruct)'
 
     def generate_class(self, cls: SwiftClass):
-        with self.indent(f'public class {cls.name} {{', '}'):
+        protocol_string = ': HandleContainer' if cls.c_handle else ''
+        with self.indent(f'public class {cls.name}{protocol_string} {{', '}'):
             if cls.c_handle:
-                self << f'let handle: {cls.c_handle.name}!'
+                self << f'typealias HandleType = {cls.c_handle.name}?'
+                self << f'let handle: {cls.c_handle.name}?'
             if cls.parent:
                 self << f'public let {cls.parent.reference_name}: {cls.parent.name}'
             if cls.dispatch_table:

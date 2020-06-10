@@ -48,8 +48,9 @@ public class Entry {
     }
 }
 
-public class Instance {
-    let handle: VkInstance!
+public class Instance: HandleContainer {
+    typealias HandleType = VkInstance?
+    let handle: VkInstance?
     public let entry: Entry
     let dispatchTable: InstanceDispatchTable
 
@@ -130,8 +131,9 @@ public class Instance {
     }
 }
 
-public class PhysicalDevice {
-    let handle: VkPhysicalDevice!
+public class PhysicalDevice: HandleContainer {
+    typealias HandleType = VkPhysicalDevice?
+    let handle: VkPhysicalDevice?
     public let instance: Instance
 
     init(handle: VkPhysicalDevice!, instance: Instance) {
@@ -432,8 +434,9 @@ public class PhysicalDevice {
     }
 }
 
-public class Device {
-    let handle: VkDevice!
+public class Device: HandleContainer {
+    typealias HandleType = VkDevice?
+    let handle: VkDevice?
     public let physicalDevice: PhysicalDevice
     let dispatchTable: DeviceDispatchTable
 
@@ -1164,8 +1167,9 @@ public class Device {
     }
 }
 
-public class Queue {
-    let handle: VkQueue!
+public class Queue: HandleContainer {
+    typealias HandleType = VkQueue?
+    let handle: VkQueue?
     public let device: Device
 
     init(handle: VkQueue!, device: Device) {
@@ -1232,8 +1236,9 @@ public class Queue {
     }
 }
 
-public class CommandPool {
-    let handle: VkCommandPool!
+public class CommandPool: HandleContainer {
+    typealias HandleType = VkCommandPool?
+    let handle: VkCommandPool?
     public let device: Device
 
     init(handle: VkCommandPool!, device: Device) {
@@ -1262,8 +1267,9 @@ public class CommandPool {
     }
 }
 
-public class CommandBuffer {
-    let handle: VkCommandBuffer!
+public class CommandBuffer: HandleContainer {
+    typealias HandleType = VkCommandBuffer?
+    let handle: VkCommandBuffer?
     public let commandPool: CommandPool
 
     init(handle: VkCommandBuffer!, commandPool: CommandPool) {
@@ -1768,8 +1774,9 @@ public class CommandBuffer {
     }
 }
 
-public class DeviceMemory {
-    let handle: VkDeviceMemory!
+public class DeviceMemory: HandleContainer {
+    typealias HandleType = VkDeviceMemory?
+    let handle: VkDeviceMemory?
     public let device: Device
 
     init(handle: VkDeviceMemory!, device: Device) {
@@ -1800,8 +1807,9 @@ public class DeviceMemory {
     }
 }
 
-public class Buffer {
-    let handle: VkBuffer!
+public class Buffer: HandleContainer {
+    typealias HandleType = VkBuffer?
+    let handle: VkBuffer?
     public let device: Device
 
     init(handle: VkBuffer!, device: Device) {
@@ -1826,8 +1834,9 @@ public class Buffer {
     }
 }
 
-public class BufferView {
-    let handle: VkBufferView!
+public class BufferView: HandleContainer {
+    typealias HandleType = VkBufferView?
+    let handle: VkBufferView?
     public let device: Device
 
     init(handle: VkBufferView!, device: Device) {
@@ -1840,8 +1849,9 @@ public class BufferView {
     }
 }
 
-public class Image {
-    let handle: VkImage!
+public class Image: HandleContainer {
+    typealias HandleType = VkImage?
+    let handle: VkImage?
     public let device: Device
 
     init(handle: VkImage!, device: Device) {
@@ -1888,8 +1898,9 @@ public class Image {
     }
 }
 
-public class ImageView {
-    let handle: VkImageView!
+public class ImageView: HandleContainer {
+    typealias HandleType = VkImageView?
+    let handle: VkImageView?
     public let device: Device
 
     init(handle: VkImageView!, device: Device) {
@@ -1902,8 +1913,9 @@ public class ImageView {
     }
 }
 
-public class ShaderModule {
-    let handle: VkShaderModule!
+public class ShaderModule: HandleContainer {
+    typealias HandleType = VkShaderModule?
+    let handle: VkShaderModule?
     public let device: Device
 
     init(handle: VkShaderModule!, device: Device) {
@@ -1916,8 +1928,9 @@ public class ShaderModule {
     }
 }
 
-public class Pipeline {
-    let handle: VkPipeline!
+public class Pipeline: HandleContainer {
+    typealias HandleType = VkPipeline?
+    let handle: VkPipeline?
     public let device: Device
 
     init(handle: VkPipeline!, device: Device) {
@@ -1944,8 +1957,9 @@ public class Pipeline {
     }
 }
 
-public class PipelineLayout {
-    let handle: VkPipelineLayout!
+public class PipelineLayout: HandleContainer {
+    typealias HandleType = VkPipelineLayout?
+    let handle: VkPipelineLayout?
     public let device: Device
 
     init(handle: VkPipelineLayout!, device: Device) {
@@ -1958,8 +1972,9 @@ public class PipelineLayout {
     }
 }
 
-public class Sampler {
-    let handle: VkSampler!
+public class Sampler: HandleContainer {
+    typealias HandleType = VkSampler?
+    let handle: VkSampler?
     public let device: Device
 
     init(handle: VkSampler!, device: Device) {
@@ -1972,8 +1987,9 @@ public class Sampler {
     }
 }
 
-public class DescriptorPool {
-    let handle: VkDescriptorPool!
+public class DescriptorPool: HandleContainer {
+    typealias HandleType = VkDescriptorPool?
+    let handle: VkDescriptorPool?
     public let device: Device
 
     init(handle: VkDescriptorPool!, device: Device) {
@@ -2000,8 +2016,9 @@ public class DescriptorPool {
     }
 }
 
-public class DescriptorSet {
-    let handle: VkDescriptorSet!
+public class DescriptorSet: HandleContainer {
+    typealias HandleType = VkDescriptorSet?
+    let handle: VkDescriptorSet?
     public let descriptorPool: DescriptorPool
 
     init(handle: VkDescriptorSet!, descriptorPool: DescriptorPool) {
@@ -2014,8 +2031,9 @@ public class DescriptorSet {
     }
 }
 
-public class DescriptorSetLayout {
-    let handle: VkDescriptorSetLayout!
+public class DescriptorSetLayout: HandleContainer {
+    typealias HandleType = VkDescriptorSetLayout?
+    let handle: VkDescriptorSetLayout?
     public let device: Device
 
     init(handle: VkDescriptorSetLayout!, device: Device) {
@@ -2028,8 +2046,9 @@ public class DescriptorSetLayout {
     }
 }
 
-public class Fence {
-    let handle: VkFence!
+public class Fence: HandleContainer {
+    typealias HandleType = VkFence?
+    let handle: VkFence?
     public let device: Device
 
     init(handle: VkFence!, device: Device) {
@@ -2048,8 +2067,9 @@ public class Fence {
     }
 }
 
-public class Semaphore {
-    let handle: VkSemaphore!
+public class Semaphore: HandleContainer {
+    typealias HandleType = VkSemaphore?
+    let handle: VkSemaphore?
     public let device: Device
 
     init(handle: VkSemaphore!, device: Device) {
@@ -2070,8 +2090,9 @@ public class Semaphore {
     }
 }
 
-public class Event {
-    let handle: VkEvent!
+public class Event: HandleContainer {
+    typealias HandleType = VkEvent?
+    let handle: VkEvent?
     public let device: Device
 
     init(handle: VkEvent!, device: Device) {
@@ -2102,8 +2123,9 @@ public class Event {
     }
 }
 
-public class QueryPool {
-    let handle: VkQueryPool!
+public class QueryPool: HandleContainer {
+    typealias HandleType = VkQueryPool?
+    let handle: VkQueryPool?
     public let device: Device
 
     init(handle: VkQueryPool!, device: Device) {
@@ -2126,8 +2148,9 @@ public class QueryPool {
     }
 }
 
-public class Framebuffer {
-    let handle: VkFramebuffer!
+public class Framebuffer: HandleContainer {
+    typealias HandleType = VkFramebuffer?
+    let handle: VkFramebuffer?
     public let device: Device
 
     init(handle: VkFramebuffer!, device: Device) {
@@ -2140,8 +2163,9 @@ public class Framebuffer {
     }
 }
 
-public class RenderPass {
-    let handle: VkRenderPass!
+public class RenderPass: HandleContainer {
+    typealias HandleType = VkRenderPass?
+    let handle: VkRenderPass?
     public let device: Device
 
     init(handle: VkRenderPass!, device: Device) {
@@ -2160,8 +2184,9 @@ public class RenderPass {
     }
 }
 
-public class PipelineCache {
-    let handle: VkPipelineCache!
+public class PipelineCache: HandleContainer {
+    typealias HandleType = VkPipelineCache?
+    let handle: VkPipelineCache?
     public let device: Device
 
     init(handle: VkPipelineCache!, device: Device) {
@@ -2190,8 +2215,9 @@ public class PipelineCache {
     }
 }
 
-public class IndirectCommandsLayoutNV {
-    let handle: VkIndirectCommandsLayoutNV!
+public class IndirectCommandsLayoutNV: HandleContainer {
+    typealias HandleType = VkIndirectCommandsLayoutNV?
+    let handle: VkIndirectCommandsLayoutNV?
     public let device: Device
 
     init(handle: VkIndirectCommandsLayoutNV!, device: Device) {
@@ -2204,8 +2230,9 @@ public class IndirectCommandsLayoutNV {
     }
 }
 
-public class DescriptorUpdateTemplate {
-    let handle: VkDescriptorUpdateTemplate!
+public class DescriptorUpdateTemplate: HandleContainer {
+    typealias HandleType = VkDescriptorUpdateTemplate?
+    let handle: VkDescriptorUpdateTemplate?
     public let device: Device
 
     init(handle: VkDescriptorUpdateTemplate!, device: Device) {
@@ -2218,8 +2245,9 @@ public class DescriptorUpdateTemplate {
     }
 }
 
-public class SamplerYcbcrConversion {
-    let handle: VkSamplerYcbcrConversion!
+public class SamplerYcbcrConversion: HandleContainer {
+    typealias HandleType = VkSamplerYcbcrConversion?
+    let handle: VkSamplerYcbcrConversion?
     public let device: Device
 
     init(handle: VkSamplerYcbcrConversion!, device: Device) {
@@ -2232,8 +2260,9 @@ public class SamplerYcbcrConversion {
     }
 }
 
-public class ValidationCacheEXT {
-    let handle: VkValidationCacheEXT!
+public class ValidationCacheEXT: HandleContainer {
+    typealias HandleType = VkValidationCacheEXT?
+    let handle: VkValidationCacheEXT?
     public let device: Device
 
     init(handle: VkValidationCacheEXT!, device: Device) {
@@ -2262,8 +2291,9 @@ public class ValidationCacheEXT {
     }
 }
 
-public class AccelerationStructureKHR {
-    let handle: VkAccelerationStructureKHR!
+public class AccelerationStructureKHR: HandleContainer {
+    typealias HandleType = VkAccelerationStructureKHR?
+    let handle: VkAccelerationStructureKHR?
     public let device: Device
 
     init(handle: VkAccelerationStructureKHR!, device: Device) {
@@ -2278,8 +2308,9 @@ public class AccelerationStructureKHR {
     }
 }
 
-public class PerformanceConfigurationINTEL {
-    let handle: VkPerformanceConfigurationINTEL!
+public class PerformanceConfigurationINTEL: HandleContainer {
+    typealias HandleType = VkPerformanceConfigurationINTEL?
+    let handle: VkPerformanceConfigurationINTEL?
     public let device: Device
 
     init(handle: VkPerformanceConfigurationINTEL!, device: Device) {
@@ -2294,8 +2325,9 @@ public class PerformanceConfigurationINTEL {
     }
 }
 
-public class DisplayKHR {
-    let handle: VkDisplayKHR!
+public class DisplayKHR: HandleContainer {
+    typealias HandleType = VkDisplayKHR?
+    let handle: VkDisplayKHR?
     public let physicalDevice: PhysicalDevice
 
     init(handle: VkDisplayKHR!, physicalDevice: PhysicalDevice) {
@@ -2332,8 +2364,9 @@ public class DisplayKHR {
     }
 }
 
-public class DisplayModeKHR {
-    let handle: VkDisplayModeKHR!
+public class DisplayModeKHR: HandleContainer {
+    typealias HandleType = VkDisplayModeKHR?
+    let handle: VkDisplayModeKHR?
     public let display: DisplayKHR
 
     init(handle: VkDisplayModeKHR!, display: DisplayKHR) {
@@ -2350,8 +2383,9 @@ public class DisplayModeKHR {
     }
 }
 
-public class SurfaceKHR {
-    let handle: VkSurfaceKHR!
+public class SurfaceKHR: HandleContainer {
+    typealias HandleType = VkSurfaceKHR?
+    let handle: VkSurfaceKHR?
     public let instance: Instance
 
     init(handle: VkSurfaceKHR!, instance: Instance) {
@@ -2364,8 +2398,9 @@ public class SurfaceKHR {
     }
 }
 
-public class SwapchainKHR {
-    let handle: VkSwapchainKHR!
+public class SwapchainKHR: HandleContainer {
+    typealias HandleType = VkSwapchainKHR?
+    let handle: VkSwapchainKHR?
     public let device: Device
 
     init(handle: VkSwapchainKHR!, device: Device) {
@@ -2424,8 +2459,9 @@ public class SwapchainKHR {
     }
 }
 
-public class DebugReportCallbackEXT {
-    let handle: VkDebugReportCallbackEXT!
+public class DebugReportCallbackEXT: HandleContainer {
+    typealias HandleType = VkDebugReportCallbackEXT?
+    let handle: VkDebugReportCallbackEXT?
     public let instance: Instance
 
     init(handle: VkDebugReportCallbackEXT!, instance: Instance) {
@@ -2438,8 +2474,9 @@ public class DebugReportCallbackEXT {
     }
 }
 
-public class DebugUtilsMessengerEXT {
-    let handle: VkDebugUtilsMessengerEXT!
+public class DebugUtilsMessengerEXT: HandleContainer {
+    typealias HandleType = VkDebugUtilsMessengerEXT?
+    let handle: VkDebugUtilsMessengerEXT?
     public let instance: Instance
 
     init(handle: VkDebugUtilsMessengerEXT!, instance: Instance) {
