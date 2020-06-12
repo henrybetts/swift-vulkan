@@ -160,13 +160,20 @@ extension StringConvertibleOptionSet {
 }
 
 
-protocol HandleContainer: Equatable {
-    associatedtype HandleType: Equatable
-    var handle: HandleType {get}
+public protocol HandleContainer {
+    func withHandle<R>(_ body: (OpaquePointer?) throws -> R) rethrows -> R
 }
 
-extension HandleContainer {
+protocol _HandleContainer: HandleContainer, Equatable {
+    var handle: OpaquePointer? {get}
+}
+
+extension _HandleContainer {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.handle == rhs.handle
+    }
+
+    public func withHandle<R>(_ body: (OpaquePointer?) throws -> R) rethrows -> R {
+        return try body(handle)
     }
 }
