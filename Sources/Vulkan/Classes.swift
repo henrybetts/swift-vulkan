@@ -613,6 +613,7 @@ public class Device: _HandleContainer {
                 try checkResult(
                     self.dispatchTable.vkCreateGraphicsPipelines(self.handle, pipelineCache?.handle, UInt32(ptr_createInfos.count), ptr_createInfos.baseAddress, nil, out.baseAddress)
                 )
+                initializedCount = out.count
             }.map { Pipeline(handle: $0, device: self) }
         }
     }
@@ -623,6 +624,7 @@ public class Device: _HandleContainer {
                 try checkResult(
                     self.dispatchTable.vkCreateComputePipelines(self.handle, pipelineCache?.handle, UInt32(ptr_createInfos.count), ptr_createInfos.baseAddress, nil, out.baseAddress)
                 )
+                initializedCount = out.count
             }.map { Pipeline(handle: $0, device: self) }
         }
     }
@@ -673,6 +675,7 @@ public class Device: _HandleContainer {
                 try checkResult(
                     self.dispatchTable.vkAllocateDescriptorSets(self.handle, ptr_allocateInfo, out.baseAddress)
                 )
+                initializedCount = out.count
             }.map { DescriptorSet(handle: $0, descriptorPool: allocateInfo.descriptorPool) }
         }
     }
@@ -721,6 +724,7 @@ public class Device: _HandleContainer {
                 try checkResult(
                     self.dispatchTable.vkAllocateCommandBuffers(self.handle, ptr_allocateInfo, out.baseAddress)
                 )
+                initializedCount = out.count
             }.map { CommandBuffer(handle: $0, commandPool: allocateInfo.commandPool) }
         }
     }
@@ -731,6 +735,7 @@ public class Device: _HandleContainer {
                 try checkResult(
                     self.dispatchTable.vkCreateSharedSwapchainsKHR(self.handle, UInt32(ptr_createInfos.count), ptr_createInfos.baseAddress, nil, out.baseAddress)
                 )
+                initializedCount = out.count
             }.map { SwapchainKHR(handle: $0, device: self) }
         }
     }
@@ -1069,6 +1074,7 @@ public class Device: _HandleContainer {
                 try checkResult(
                     self.dispatchTable.vkCreateRayTracingPipelinesNV(self.handle, pipelineCache?.handle, UInt32(ptr_createInfos.count), ptr_createInfos.baseAddress, nil, out.baseAddress)
                 )
+                initializedCount = out.count
             }.map { Pipeline(handle: $0, device: self) }
         }
     }

@@ -217,6 +217,7 @@ class Generator(BaseGenerator):
                                     self << call_string
                             else:
                                 self << call_string
+                            self << 'initializedCount = out.count'
                     else:
                         if command.unwrap_output_param:
                             self << f'var out: {command.output_param_implicit_type}!'
