@@ -23,8 +23,13 @@ let package = Package(
         .target(
             name: "Vulkan",
             dependencies: ["CVulkan"]),
+        .systemLibrary(
+            name: "CGLFW"),
         .target(
             name: "DemoInfo",
-            dependencies: ["Vulkan"])
+            dependencies: ["Vulkan"]),
+        .target(
+            name: "DemoClearColor",
+            dependencies: ["Vulkan", "CGLFW"]),
     ]
 )
