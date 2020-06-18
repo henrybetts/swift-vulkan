@@ -29,21 +29,46 @@ class App {
     /// A Vulkan instance.
     var instance: Instance!
     
+    /// A Vulkan debug messenger
+    var debugMessenger: DebugUtilsMessengerEXT!
+    
     /// Creates a Vulkan instance with the extensions required by GLFW.
     func createInstance() throws {
         var count: UInt32 = 0
         let extensionsPtr = glfwGetRequiredInstanceExtensions(&count)
-        let extensions = UnsafeBufferPointer(start: extensionsPtr, count: Int(count)).map{ String(cString: $0!) }
+        var extensions = UnsafeBufferPointer(start: extensionsPtr, count: Int(count)).map{ String(cString: $0!) }
+        var layers: [String] = []
+        
+        #if DEBUG
+        extensions.append(VK_EXT_DEBUG_UTILS_EXTENSION_NAME)
+        layers.append("VK_LAYER_KHRONOS_validation")
+        #endif
         
         let entry = try Entry()
         instance = try entry.createInstance(
             createInfo: .init(
                 flags: [],
                 applicationInfo: nil,
-                enabledLayerNames: [],
+                enabledLayerNames: layers,
                 enabledExtensionNames: extensions
             )
         )
+        
+        #if DEBUG
+        debugMessenger = try instance.createDebugUtilsMessengerEXT(
+            createInfo: .init(
+                flags: [],
+                messageSeverity: [.warning, .error],
+                messageType: [.general, .performance, .validation],
+                pfnUserCallback: { severity, type, callbackData, userData in
+                    print(String(cString: callbackData!.pointee.pMessage))
+                    return 0
+                },
+                userData: nil
+            )
+        )
+        #endif
+        
     }
 
     /// A Vulkan surface.
@@ -124,22 +149,20 @@ class App {
     
     /// Creates a logical device and retrieves its queues.
     func createDevice() throws {
-        let graphicsQueueInfo = DeviceQueueCreateInfo(
-            flags: [],
-            queueFamilyIndex: graphicsFamilyIndex,
-            queuePriorities: [1.0]
-        )
+        let families: Set = [graphicsFamilyIndex!, presentationFamilyIndex!]
         
-        let presentationQueueInfo = DeviceQueueCreateInfo(
-            flags: [],
-            queueFamilyIndex: presentationFamilyIndex,
-            queuePriorities: [1.0]
-        )
+        let queueInfos = families.map {
+            DeviceQueueCreateInfo(
+                flags: [],
+                queueFamilyIndex: $0,
+                queuePriorities: [1.0]
+            )
+        }
         
         device = try physicalDevice.createDevice(
             createInfo: .init(
                 flags: [],
-                queueCreateInfos: [graphicsQueueInfo, presentationQueueInfo],
+                queueCreateInfos: queueInfos,
                 enabledLayerNames: [],
                 enabledExtensionNames: [VK_KHR_SWAPCHAIN_EXTENSION_NAME],
                 enabledFeatures: nil
@@ -183,7 +206,7 @@ class App {
                 imageColorSpace: .srgbNonlinear,
                 imageExtent: extent,
                 imageArrayLayers: 1,
-                imageUsage: .colorAttachment,
+                imageUsage: .transferDst,
                 imageSharingMode: graphicsFamilyIndex == presentationFamilyIndex ? .exclusive : .concurrent,
                 queueFamilyIndices: [graphicsFamilyIndex, presentationFamilyIndex],
                 preTransform: capabilities.currentTransform,
@@ -204,7 +227,7 @@ class App {
     func createCommandPool() throws {
         commandPool = try device.createCommandPool(
             createInfo: .init(
-                flags: [],
+                flags: .resetCommandBuffer,
                 queueFamilyIndex: graphicsFamilyIndex
             )
         )
@@ -243,22 +266,63 @@ class App {
     func recordCommandBuffer(image: Image) throws {
         try commandBuffer.begin(beginInfo: .init(flags: [], inheritanceInfo: nil))
         
-        hue = (hue + 0.5).truncatingRemainder(dividingBy: 360)
-        let rgb = hsvToRgb(h: hue, s: 0.9, v: 0.9)
-        var color = VkClearColorValue.init(float32: (rgb.r, rgb.g, rgb.b, 1.0))
-        
         let range = ImageSubresourceRange(
             aspectMask: .color,
             baseMipLevel: 0,
             levelCount: 1,
             baseArrayLayer: 0,
-            layerCount: 1)
+            layerCount: 1
+        )
+        
+        commandBuffer.cmdPipelineBarrier(
+            srcStageMask: .topOfPipe,
+            dstStageMask: .transfer,
+            dependencyFlags: [],
+            memoryBarriers: [],
+            bufferMemoryBarriers: [],
+            imageMemoryBarriers: [
+                ImageMemoryBarrier(
+                    srcAccessMask: [],
+                    dstAccessMask: .transferWrite,
+                    oldLayout: .undefined,
+                    newLayout: .transferDstOptimal,
+                    srcQueueFamilyIndex: graphicsFamilyIndex,
+                    dstQueueFamilyIndex: graphicsFamilyIndex,
+                    image: image,
+                    subresourceRange: range
+                )
+            ]
+        )
+        
+        hue = (hue + 0.5).truncatingRemainder(dividingBy: 360)
+        let rgb = hsvToRgb(h: hue, s: 0.9, v: 0.9)
+        var color = VkClearColorValue.init(float32: (rgb.r, rgb.g, rgb.b, 1.0))
         
         commandBuffer.cmdClearColorImage(
             image: image,
-            imageLayout: .general,
+            imageLayout: .transferDstOptimal,
             color: &color,
             ranges: [range]
+        )
+
+        commandBuffer.cmdPipelineBarrier(
+            srcStageMask: .transfer,
+            dstStageMask: .bottomOfPipe,
+            dependencyFlags: [],
+            memoryBarriers: [],
+            bufferMemoryBarriers: [],
+            imageMemoryBarriers: [
+                ImageMemoryBarrier(
+                    srcAccessMask: .transferWrite,
+                    dstAccessMask: [],
+                    oldLayout: .transferDstOptimal,
+                    newLayout: .presentSrcKHR,
+                    srcQueueFamilyIndex: graphicsFamilyIndex,
+                    dstQueueFamilyIndex: graphicsFamilyIndex,
+                    image: image,
+                    subresourceRange: range
+                )
+            ]
         )
         
         try commandBuffer.end()
@@ -272,19 +336,18 @@ class App {
         
         let graphicsSubmit = SubmitInfo(
             waitSemaphores: [imageAvailable],
-            waitDstStageMask: [],
+            waitDstStageMask: [.transfer],
             commandBuffers: [commandBuffer],
             signalSemaphores: [renderComplete]
         )
         try graphicsQueue.submit(submits: [graphicsSubmit], fence: nil)
         
-        var result = VkResult(rawValue: 0)
         try presentationQueue.presentKHR(
             presentInfo: .init(
                 waitSemaphores: [renderComplete],
                 swapchains: [swapchain],
                 imageIndices: [index],
-                results: &result
+                results: nil
             )
         )
         
@@ -329,6 +392,7 @@ class App {
         swapchain?.destroyKHR()
         device?.destroy()
         surface?.destroyKHR()
+        debugMessenger?.destroyEXT()
         instance?.destroy()
         glfwDestroyWindow(window)
         glfwTerminate()
