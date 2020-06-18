@@ -31,5 +31,8 @@ let package = Package(
         .target(
             name: "DemoClearColor",
             dependencies: ["Vulkan", "CGLFW"]),
+        .target(
+            name: "DemoTriangle",
+            dependencies: ["Vulkan", "CGLFW"])
     ]
 )
