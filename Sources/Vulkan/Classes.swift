@@ -405,7 +405,7 @@ public class PhysicalDevice: _HandleContainer {
         }.map { CooperativeMatrixPropertiesNV(cStruct: $0) }
     }
 
-    public func getQueueFamilyPerformanceQueryCountersKHR(queueFamilyIndex: UInt32, counterCount: UnsafeMutablePointer<UInt32>, counters: UnsafeMutablePointer<VkPerformanceCounterKHR>, counterDescriptions: UnsafeMutablePointer<VkPerformanceCounterDescriptionKHR>) throws -> Void {
+    public func getQueueFamilyPerformanceQueryCountersKHR(queueFamilyIndex: UInt32, counterCount: UnsafeMutablePointer<UInt32>, counters: UnsafeMutablePointer<VkPerformanceCounterKHR>?, counterDescriptions: UnsafeMutablePointer<VkPerformanceCounterDescriptionKHR>?) throws -> Void {
         try checkResult(
             self.instance.dispatchTable.vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(self.handle, queueFamilyIndex, counterCount, counters, counterDescriptions)
         )
@@ -1935,7 +1935,7 @@ public class Pipeline: _HandleContainer {
         self.device.dispatchTable.vkDestroyPipeline(self.device.handle, self.handle, nil)
     }
 
-    public func getShaderInfoAMD(shaderStage: ShaderStageFlags, infoType: ShaderInfoTypeAMD, info: UnsafeMutableRawPointer) throws -> Int {
+    public func getShaderInfoAMD(shaderStage: ShaderStageFlags, infoType: ShaderInfoTypeAMD, info: UnsafeMutableRawPointer?) throws -> Int {
         var out = Int()
         try checkResult(
             self.device.dispatchTable.vkGetShaderInfoAMD(self.device.handle, self.handle, VkShaderStageFlagBits(rawValue: shaderStage.rawValue), VkShaderInfoTypeAMD(rawValue: infoType.rawValue), &out, info)
@@ -2179,7 +2179,7 @@ public class PipelineCache: _HandleContainer {
         self.device.dispatchTable.vkDestroyPipelineCache(self.device.handle, self.handle, nil)
     }
 
-    public func getData(data: UnsafeMutableRawPointer) throws -> Int {
+    public func getData(data: UnsafeMutableRawPointer?) throws -> Int {
         var out = Int()
         try checkResult(
             self.device.dispatchTable.vkGetPipelineCacheData(self.device.handle, self.handle, &out, data)
@@ -2251,7 +2251,7 @@ public class ValidationCacheEXT: _HandleContainer {
         self.device.dispatchTable.vkDestroyValidationCacheEXT(self.device.handle, self.handle, nil)
     }
 
-    public func getDataEXT(data: UnsafeMutableRawPointer) throws -> Int {
+    public func getDataEXT(data: UnsafeMutableRawPointer?) throws -> Int {
         var out = Int()
         try checkResult(
             self.device.dispatchTable.vkGetValidationCacheDataEXT(self.device.handle, self.handle, &out, data)

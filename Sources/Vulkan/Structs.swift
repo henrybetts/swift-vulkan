@@ -726,14 +726,14 @@ public struct ApplicationInfo: CStructConvertible {
 public struct AllocationCallbacks: CStructConvertible {
     typealias CStruct = VkAllocationCallbacks
 
-    public let userData: UnsafeMutableRawPointer
+    public let userData: UnsafeMutableRawPointer?
     public let pfnAllocation: PFN_vkAllocationFunction
     public let pfnReallocation: PFN_vkReallocationFunction
     public let pfnFree: PFN_vkFreeFunction
-    public let pfnInternalAllocation: PFN_vkInternalAllocationNotification
-    public let pfnInternalFree: PFN_vkInternalFreeNotification
+    public let pfnInternalAllocation: PFN_vkInternalAllocationNotification?
+    public let pfnInternalFree: PFN_vkInternalFreeNotification?
 
-    public init(userData: UnsafeMutableRawPointer, pfnAllocation: @escaping PFN_vkAllocationFunction, pfnReallocation: @escaping PFN_vkReallocationFunction, pfnFree: @escaping PFN_vkFreeFunction, pfnInternalAllocation: @escaping PFN_vkInternalAllocationNotification, pfnInternalFree: @escaping PFN_vkInternalFreeNotification) {
+    public init(userData: UnsafeMutableRawPointer?, pfnAllocation: @escaping PFN_vkAllocationFunction, pfnReallocation: @escaping PFN_vkReallocationFunction, pfnFree: @escaping PFN_vkFreeFunction, pfnInternalAllocation: PFN_vkInternalAllocationNotification?, pfnInternalFree: PFN_vkInternalFreeNotification?) {
         self.userData = userData
         self.pfnAllocation = pfnAllocation
         self.pfnReallocation = pfnReallocation
@@ -2863,11 +2863,11 @@ public struct PipelineMultisampleStateCreateInfo: CStructConvertible {
     public let rasterizationSamples: SampleCountFlags
     public let sampleShadingEnable: Bool
     public let minSampleShading: Float
-    public let sampleMask: UnsafePointer<VkSampleMask>
+    public let sampleMask: UnsafePointer<VkSampleMask>?
     public let alphaToCoverageEnable: Bool
     public let alphaToOneEnable: Bool
 
-    public init(flags: PipelineMultisampleStateCreateFlags, rasterizationSamples: SampleCountFlags, sampleShadingEnable: Bool, minSampleShading: Float, sampleMask: UnsafePointer<VkSampleMask>, alphaToCoverageEnable: Bool, alphaToOneEnable: Bool) {
+    public init(flags: PipelineMultisampleStateCreateFlags, rasterizationSamples: SampleCountFlags, sampleShadingEnable: Bool, minSampleShading: Float, sampleMask: UnsafePointer<VkSampleMask>?, alphaToCoverageEnable: Bool, alphaToOneEnable: Bool) {
         self.flags = flags
         self.rasterizationSamples = rasterizationSamples
         self.sampleShadingEnable = sampleShadingEnable
@@ -4484,9 +4484,9 @@ public struct PresentInfoKHR: CStructConvertible {
     public let waitSemaphores: Array<Semaphore>
     public let swapchains: Array<SwapchainKHR>
     public let imageIndices: Array<UInt32>
-    public let results: UnsafeMutablePointer<VkResult>
+    public let results: UnsafeMutablePointer<VkResult>?
 
-    public init(waitSemaphores: Array<Semaphore>, swapchains: Array<SwapchainKHR>, imageIndices: Array<UInt32>, results: UnsafeMutablePointer<VkResult>) {
+    public init(waitSemaphores: Array<Semaphore>, swapchains: Array<SwapchainKHR>, imageIndices: Array<UInt32>, results: UnsafeMutablePointer<VkResult>?) {
         self.waitSemaphores = waitSemaphores
         self.swapchains = swapchains
         self.imageIndices = imageIndices
@@ -4519,9 +4519,9 @@ public struct DebugReportCallbackCreateInfoEXT: CStructConvertible {
 
     public let flags: DebugReportFlagsEXT
     public let pfnCallback: PFN_vkDebugReportCallbackEXT
-    public let userData: UnsafeMutableRawPointer
+    public let userData: UnsafeMutableRawPointer?
 
-    public init(flags: DebugReportFlagsEXT, pfnCallback: @escaping PFN_vkDebugReportCallbackEXT, userData: UnsafeMutableRawPointer) {
+    public init(flags: DebugReportFlagsEXT, pfnCallback: @escaping PFN_vkDebugReportCallbackEXT, userData: UnsafeMutableRawPointer?) {
         self.flags = flags
         self.pfnCallback = pfnCallback
         self.userData = userData
@@ -9107,9 +9107,9 @@ public struct DebugUtilsMessengerCreateInfoEXT: CStructConvertible {
     public let messageSeverity: DebugUtilsMessageSeverityFlagsEXT
     public let messageType: DebugUtilsMessageTypeFlagsEXT
     public let pfnUserCallback: PFN_vkDebugUtilsMessengerCallbackEXT
-    public let userData: UnsafeMutableRawPointer
+    public let userData: UnsafeMutableRawPointer?
 
-    public init(flags: DebugUtilsMessengerCreateFlagsEXT, messageSeverity: DebugUtilsMessageSeverityFlagsEXT, messageType: DebugUtilsMessageTypeFlagsEXT, pfnUserCallback: @escaping PFN_vkDebugUtilsMessengerCallbackEXT, userData: UnsafeMutableRawPointer) {
+    public init(flags: DebugUtilsMessengerCreateFlagsEXT, messageSeverity: DebugUtilsMessageSeverityFlagsEXT, messageType: DebugUtilsMessageTypeFlagsEXT, pfnUserCallback: @escaping PFN_vkDebugUtilsMessengerCallbackEXT, userData: UnsafeMutableRawPointer?) {
         self.flags = flags
         self.messageSeverity = messageSeverity
         self.messageType = messageType
@@ -11463,7 +11463,7 @@ public struct DrmFormatModifierPropertiesListEXT: CStructConvertible {
     typealias CStruct = VkDrmFormatModifierPropertiesListEXT
 
     public let drmFormatModifierCount: UInt32
-    public let drmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>
+    public let drmFormatModifierProperties: UnsafeMutablePointer<VkDrmFormatModifierPropertiesEXT>?
 
     init(cStruct: VkDrmFormatModifierPropertiesListEXT) {
         self.drmFormatModifierCount = cStruct.drmFormatModifierCount
@@ -13149,7 +13149,7 @@ public struct PipelineExecutableInternalRepresentationKHR: CStructConvertible {
     public let description: String
     public let isText: Bool
     public let dataSize: Int
-    public let data: UnsafeMutableRawPointer
+    public let data: UnsafeMutableRawPointer?
 
     init(cStruct: VkPipelineExecutableInternalRepresentationKHR) {
         self.name = String(unsafeBytesOf: cStruct.name)

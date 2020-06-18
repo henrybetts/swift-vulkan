@@ -351,9 +351,7 @@ class Importer:
             throws = True
             c_return_type = CType(name='void')
 
-        return_type, return_conversion = self.get_type_conversion(c_return_type)
-        if self.is_pointer_type(c_return_type):
-            return_type += '?'
+        return_type, return_conversion = self.get_type_conversion(c_return_type, force_optional=True)
 
         output_param: str = None
         output_param_implicit_type: str = None
@@ -371,20 +369,19 @@ class Importer:
                     output_param = output_params[0].name
                     return_type, return_conversion = self.get_array_conversion(output_params[0].type)
                     output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
-                                                                             implicit_only=True)
-                    if self.is_pointer_type(output_params[0].type.pointer_to):
-                        output_param_implicit_type += '?'
+                                                                             implicit_only=True, force_optional=True)
                 elif not output_params[0].type.length:
                     output_param = output_params[0].name
-                    return_type, return_conversion = self.get_type_conversion(output_params[0].type.pointer_to)
+                    return_type, return_conversion = self.get_type_conversion(output_params[0].type.pointer_to,
+                                                                              force_optional=False)
                     output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
-                                                                             implicit_only=True)
+                                                                             implicit_only=True, force_optional=False)
                     unwrap_output_param = self.is_pointer_type(output_params[0].type.pointer_to)
 
             elif len(output_params) == 2 and output_params[1].type.length == output_params[0].name:
                 enumeration_pointer_param = output_params[1].name
                 enumeration_count_param = output_params[0].name
-                return_type, return_conversion = self.get_array_conversion(output_params[1].type, ignore_optional=True)
+                return_type, return_conversion = self.get_array_conversion(output_params[1].type, force_optional=False)
 
         class_params = [param for param, _ in class_params_and_classes]
         output_params = (output_param, enumeration_pointer_param, enumeration_count_param)
@@ -510,7 +507,7 @@ class Importer:
                                                                   convert_array_to_pointer=c_command is not None)
 
             swift_name = get_member_name(c_member.name, c_member.type)
-            is_closure = c_member.type.name and c_member.type.name.startswith('PFN_')
+            is_closure = c_member.type.name and c_member.type.name.startswith('PFN_') and not c_member.type.optional
 
             member = SwiftMember(name=swift_name, type_=swift_type, is_closure=is_closure)
             members.append(member)
@@ -518,8 +515,9 @@ class Importer:
 
         return members, conversions
 
-    def get_type_conversion(self, c_type: CType, implicit_only: bool = False,
+    def get_type_conversion(self, c_type: CType, implicit_only: bool = False, force_optional: bool = None,
                             convert_array_to_pointer: bool = False) -> Tuple[str, tc.Conversion]:
+        optional = force_optional if force_optional is not None else c_type.optional
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
                 return tc.IMPLICIT_TYPE_MAP[c_type.name], tc.implicit_conversion
@@ -547,23 +545,26 @@ class Importer:
                     cls = self.imported_classes[c_name]
                     cls_name = alias.name if alias else cls.name
                     parent_name = cls.parent.reference_name if cls.parent else None
-                    if c_type.optional:
+                    if optional:
                         return cls_name + '?', tc.optional_class_conversion(cls_name, parent_name)
                     else:
                         return cls_name, tc.class_conversion(cls_name, parent_name)
 
-            return c_type.name, tc.implicit_conversion
+            swift_type = c_type.name
+            if self.is_pointer_type(c_type) and optional:
+                swift_type += '?'
+            return swift_type, tc.implicit_conversion
 
         elif c_type.pointer_to:
             if c_type.pointer_to.name == 'void':
-                if c_type.pointer_to.const:
-                    return 'UnsafeRawPointer', tc.implicit_conversion
-                else:
-                    return 'UnsafeMutableRawPointer', tc.implicit_conversion
+                swift_type = 'UnsafeRawPointer' if c_type.pointer_to.const else 'UnsafeMutableRawPointer'
+                if optional:
+                    swift_type += '?'
+                return swift_type, tc.implicit_conversion
 
             if not implicit_only and c_type.pointer_to.const:
                 if is_string_convertible(c_type):
-                    if c_type.optional:
+                    if optional:
                         return 'String?', tc.optional_string_conversion
                     else:
                         return 'String', tc.string_conversion
@@ -574,39 +575,37 @@ class Importer:
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
                     swift_struct = self.imported_structs[c_type.pointer_to.name]
                     parent_name = swift_struct.parent_class.reference_name if swift_struct.parent_class else None
-                    if c_type.optional:
+                    if optional:
                         return swift_struct.name + '?', tc.optional_struct_conversion(swift_struct.name, parent_name)
                     else:
                         return swift_struct.name, tc.struct_pointer_conversion(swift_struct.name, parent_name)
 
-            to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
-            if self.is_pointer_type(c_type.pointer_to):
-                to_type += '?'
-            if c_type.pointer_to.const:
-                return f'UnsafePointer<{to_type}>', tc.implicit_conversion
-            else:
-                return f'UnsafeMutablePointer<{to_type}>', tc.implicit_conversion
+            to_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True, force_optional=True)
+            swift_type = f'UnsafePointer<{to_type}>' if c_type.pointer_to.const else f'UnsafeMutablePointer<{to_type}>'
+            if optional:
+                swift_type += '?'
+            return swift_type, tc.implicit_conversion
 
         elif c_type.array_of:
             if c_type.array_of.name == 'char':
                 return 'String', tc.char_array_conversion
-            of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True)
-            if self.is_pointer_type(c_type.array_of):
-                of_type += '?'
+            of_type, _ = self.get_type_conversion(c_type.array_of, implicit_only=True, force_optional=True)
             swift_type = f'({", ".join([of_type] * c_type.length)})'
             if convert_array_to_pointer:
                 return swift_type, tc.tuple_pointer_conversion(of_type)
             else:
                 return swift_type, tc.implicit_conversion
 
-    def get_array_conversion(self, c_type: CType, ignore_optional: bool = False) -> Tuple[str, tc.ArrayConversion]:
-        if is_string_convertible(c_type.pointer_to) and not (c_type.optional or ignore_optional):
+    def get_array_conversion(self, c_type: CType, force_optional: bool = None) -> Tuple[str, tc.ArrayConversion]:
+        optional = force_optional if force_optional is not None else c_type.optional
+
+        if is_string_convertible(c_type.pointer_to) and not optional:
             return 'Array<String>', tc.string_array_conversion(c_type.length)
 
         if c_type.pointer_to.name and c_type.pointer_to.name in self.imported_structs:
             swift_struct = self.imported_structs[c_type.pointer_to.name]
             parent_name = swift_struct.parent_class.reference_name if swift_struct.parent_class else None
-            if not c_type.optional or ignore_optional:
+            if not optional:
                 return f'Array<{swift_struct.name}>', \
                        tc.struct_array_conversion(swift_struct.name, c_type.length, parent_name)
             else:
@@ -616,17 +615,15 @@ class Importer:
         if c_type.pointer_to.name:
             element_type, element_conversion = self.get_type_conversion(c_type.pointer_to)
             if element_conversion != tc.implicit_conversion:
-                if not c_type.optional or ignore_optional:
+                if not optional:
                     return f'Array<{element_type}>', \
                            tc.array_mapped_conversion(element_conversion, c_type.length)
                 else:
                     return f'Array<{element_type}>?', \
                        tc.optional_array_mapped_conversion(element_conversion, c_type.length)
 
-        element_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True)
-        if self.is_pointer_type(c_type.pointer_to):
-            element_type += '?'
-        if not c_type.optional or ignore_optional:
+        element_type, _ = self.get_type_conversion(c_type.pointer_to, implicit_only=True, force_optional=True)
+        if not optional:
             return f'Array<{element_type}>', tc.array_conversion(c_type.length)
         else:
             return f'Array<{element_type}>?', tc.optional_array_conversion(c_type.length)
