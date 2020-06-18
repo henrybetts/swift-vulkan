@@ -367,7 +367,7 @@ class Importer:
                     output_param = output_params[0].name
                     return_type, return_conversion = 'Version', tc.version_conversion
                     output_param_implicit_type = 'UInt32'
-                elif is_array_convertible(output_params[0].type, c_command.params, ignore_const=True):
+                elif is_array_convertible(output_params[0].type, ignore_const=True):
                     output_param = output_params[0].name
                     return_type, return_conversion = self.get_array_conversion(output_params[0].type)
                     output_param_implicit_type, _ = self.get_type_conversion(output_params[0].type.pointer_to,
@@ -458,7 +458,7 @@ class Importer:
         lengths: List[str] = []
 
         for c_member in c_members:
-            if is_array_convertible(c_member.type, c_members):
+            if is_array_convertible(c_member.type):
                 lengths.append(c_member.type.length)
         if c_struct:
             # why aren't these specified in the Vulkan spec?
@@ -506,7 +506,7 @@ class Importer:
                 )
 
             else:
-                swift_type, conversion = self.get_type_conversion(c_member.type, members=c_members,
+                swift_type, conversion = self.get_type_conversion(c_member.type,
                                                                   convert_array_to_pointer=c_command is not None)
 
             swift_name = get_member_name(c_member.name, c_member.type)
@@ -518,7 +518,7 @@ class Importer:
 
         return members, conversions
 
-    def get_type_conversion(self, c_type: CType, members: List[CMember] = None, implicit_only: bool = False,
+    def get_type_conversion(self, c_type: CType, implicit_only: bool = False,
                             convert_array_to_pointer: bool = False) -> Tuple[str, tc.Conversion]:
         if c_type.name:
             if c_type.name in tc.IMPLICIT_TYPE_MAP:
@@ -568,7 +568,7 @@ class Importer:
                     else:
                         return 'String', tc.string_conversion
 
-                if is_array_convertible(c_type, members):
+                if is_array_convertible(c_type):
                     return self.get_array_conversion(c_type)
 
                 if c_type.pointer_to.name and not c_type.length and c_type.pointer_to.name in self.imported_structs:
@@ -655,8 +655,8 @@ def is_string_convertible(type_: CType) -> bool:
             and type_.pointer_to.const)
 
 
-def is_array_convertible(type_: CType, members: List[CMember] = None, ignore_const: bool = False) -> bool:
-    return (members and type_.pointer_to and (type_.pointer_to.const or ignore_const)
+def is_array_convertible(type_: CType, ignore_const: bool = False) -> bool:
+    return (type_.pointer_to and (type_.pointer_to.const or ignore_const)
             and type_.length and type_.length != 'null-terminated' and 'latexmath' not in type_.length
             and type_.pointer_to.name != 'void')
 
