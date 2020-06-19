@@ -2,7 +2,7 @@
 
 A natural Swift interface for Vulkan.
 
-It’s aim is to be a lightweight wrapper around Vulkan, yet remove many of the complexities of using the C API directly.
+Its aim is to be a lightweight wrapper around Vulkan, yet remove many of the complexities of using the C API directly.
 
 ## Overview
 - Generated from vk.xml
